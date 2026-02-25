@@ -1,0 +1,561 @@
+<!-- ============================================================
+     INFRAFORMA — Empowering Every Stakeholder Section
+     WEBFLOW EMBED — paste entire block into an HTML Embed element
+     ============================================================ -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap');
+
+.esk-root {
+  --bg:       #1C1F23;
+  --surface:  #0d1a24;
+  --blue:     #0B3C5D;
+  --accent:   #47B5FF;
+  --text:     #F4F6F8;
+  --muted:    #7a9bb5;
+  --border:   rgba(71,181,255,0.14);
+
+  width: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Grid texture */
+.esk-root::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(71,181,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(71,181,255,0.025) 1px, transparent 1px);
+  background-size: 52px 52px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── 2-col grid ── */
+.esk-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 88vh;
+  align-items: center;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 80px 5% 80px 4%;
+  gap: 64px;
+  box-sizing: border-box;
+}
+
+/* ════════════════════════
+   LEFT — IMAGE
+════════════════════════ */
+.esk-img-col {
+  position: relative;
+}
+
+/* Outer frame — decorative border that animates in */
+.esk-img-frame {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(-32px);
+  transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22,1,0.36,1);
+}
+.esk-img-frame.esk-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Corner accents */
+.esk-img-frame::before,
+.esk-img-frame::after {
+  content: '';
+  position: absolute;
+  width: 28px; height: 28px;
+  z-index: 3;
+  pointer-events: none;
+}
+.esk-img-frame::before {
+  top: 0; left: 0;
+  border-top: 2px solid var(--accent);
+  border-left: 2px solid var(--accent);
+}
+.esk-img-frame::after {
+  bottom: 0; right: 0;
+  border-bottom: 2px solid var(--accent);
+  border-right: 2px solid var(--accent);
+}
+
+/* Corner accents other 2 corners via inner div */
+.esk-img-corners::before,
+.esk-img-corners::after {
+  content: '';
+  position: absolute;
+  width: 28px; height: 28px;
+  z-index: 3;
+  pointer-events: none;
+}
+.esk-img-corners::before {
+  top: 0; right: 0;
+  border-top: 2px solid var(--accent);
+  border-right: 2px solid var(--accent);
+}
+.esk-img-corners::after {
+  bottom: 0; left: 0;
+  border-bottom: 2px solid var(--accent);
+  border-left: 2px solid var(--accent);
+}
+.esk-img-corners {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* The image itself */
+.esk-img-frame img {
+  width: 100%;
+  display: block;
+  border-radius: 3px;
+  filter: saturate(0.9) contrast(1.05);
+  transition: filter 0.6s ease, transform 0.6s ease;
+}
+.esk-img-frame:hover img {
+  filter: saturate(1.1) contrast(1.08);
+  transform: scale(1.015);
+}
+
+/* Blue tint overlay bottom */
+.esk-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(11,60,93,0.55) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+  z-index: 2;
+  border-radius: 3px;
+}
+
+/* Floating tag on image */
+.esk-img-tag {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(13,26,36,0.88);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 8px 14px;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease 1.1s, transform 0.5s ease 1.1s;
+}
+.esk-img-frame.esk-visible .esk-img-tag {
+  opacity: 1;
+  transform: translateY(0);
+}
+.esk-img-tag-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: esk-blink 2s ease-in-out infinite;
+}
+@keyframes esk-blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* ════════════════════════
+   RIGHT — CONTENT
+════════════════════════ */
+.esk-content-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Eyebrow */
+.esk-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin: 0 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
+}
+.esk-eyebrow.esk-visible { opacity: 1; transform: translateY(0); }
+.esk-eyebrow::before {
+  content: '';
+  display: block;
+  width: 24px; height: 1px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+/* Headline */
+.esk-headline {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(36px, 4vw, 66px);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  margin: 0 0 28px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s ease 0.35s, transform 0.7s ease 0.35s;
+}
+.esk-headline.esk-visible { opacity: 1; transform: translateY(0); }
+
+/* Lead paragraph */
+.esk-lead {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(14px, 1.3vw, 18px);
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.55;
+  margin: 0 0 20px;
+  max-width: 520px;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.7s ease 0.5s, transform 0.7s ease 0.5s;
+}
+.esk-lead.esk-visible { opacity: 1; transform: translateY(0); }
+
+/* Body paragraph */
+.esk-body {
+  font-size: 13px;
+  color: rgba(244,246,248,0.65);
+  line-height: 1.85;
+  margin: 0 0 40px;
+  max-width: 500px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.7s ease 0.65s, transform 0.7s ease 0.65s;
+}
+.esk-body.esk-visible { opacity: 1; transform: translateY(0); }
+
+/* Divider */
+.esk-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 32px;
+  opacity: 0;
+  transition: opacity 0.5s ease 0.75s;
+}
+.esk-divider.esk-visible { opacity: 1; }
+
+/* ── Stakeholder grid ── */
+.esk-stakeholders {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.6s ease 0.85s, transform 0.6s ease 0.85s;
+}
+.esk-stakeholders.esk-visible { opacity: 1; transform: translateY(0); }
+
+/* Each stakeholder link */
+.esk-slink {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  group: true;
+  transition: padding-left 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+/* Odd items (left col) get a right border */
+.esk-slink:nth-child(odd) {
+  padding-right: 28px;
+  border-right: 1px solid var(--border);
+}
+.esk-slink:nth-child(even) {
+  padding-left: 28px;
+}
+
+/* Remove bottom border from last 2 */
+.esk-slink:nth-last-child(1),
+.esk-slink:nth-last-child(2) {
+  border-bottom: none;
+}
+
+/* Animated fill bar on hover */
+.esk-slink::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(71,181,255,0.06) 0%, transparent 100%);
+  transform: translateX(-101%);
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.esk-slink:hover::before { transform: translateX(0); }
+
+/* Left accent bar */
+.esk-slink-bar {
+  width: 2px;
+  height: 0;
+  background: var(--accent);
+  border-radius: 2px;
+  margin-right: 0;
+  flex-shrink: 0;
+  transition: height 0.3s cubic-bezier(0.34,1.56,0.64,1), margin-right 0.3s ease;
+}
+.esk-slink:hover .esk-slink-bar {
+  height: 18px;
+  margin-right: 12px;
+}
+
+/* Label */
+.esk-slink-label {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(13px, 1.1vw, 16px);
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  transition: color 0.3s ease, transform 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+.esk-slink:hover .esk-slink-label {
+  color: var(--text);
+  transform: translateX(2px);
+}
+
+/* Arrow icon — slides in from left on hover */
+.esk-slink-arrow {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+.esk-slink:nth-child(odd) .esk-slink-arrow { margin-right: 0; }
+.esk-slink:nth-child(even) .esk-slink-arrow { }
+.esk-slink:hover .esk-slink-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Number badge — shows on hover */
+.esk-slink-num {
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.25s ease 0.05s, transform 0.25s ease 0.05s;
+  margin-left: 10px;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+.esk-slink:hover .esk-slink-num {
+  opacity: 0.7;
+  transform: translateY(0);
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .esk-grid {
+    grid-template-columns: 1fr;
+    padding: 60px 6%;
+    gap: 48px;
+    min-height: auto;
+  }
+  .esk-headline { font-size: clamp(32px, 8vw, 52px); }
+}
+
+@media (max-width: 600px) {
+  .esk-grid { padding: 48px 24px; gap: 40px; }
+  .esk-headline { font-size: clamp(30px, 9vw, 44px); }
+  .esk-stakeholders { grid-template-columns: 1fr; }
+  .esk-slink:nth-child(odd) { border-right: none; padding-right: 0; }
+  .esk-slink:nth-child(even) { padding-left: 0; }
+  .esk-slink:nth-last-child(1) { border-bottom: 1px solid var(--border); }
+  .esk-slink:nth-last-child(2) { border-bottom: 1px solid var(--border); }
+  .esk-slink:last-child { border-bottom: none; }
+}
+
+/* Large screens */
+@media (min-width: 1800px) {
+  .esk-grid { padding: 100px 5% 100px 4%; gap: 80px; }
+  .esk-lead { font-size: clamp(16px, 1.2vw, 20px); }
+  .esk-body { font-size: 15px; }
+  .esk-slink-label { font-size: clamp(15px, 1vw, 18px); }
+}
+</style>
+
+<!-- HTML -->
+<section class="esk-root">
+  <div class="esk-grid">
+
+    <!-- ── LEFT: Image ── -->
+    <div class="esk-img-col">
+      <div class="esk-img-frame" id="eskImgFrame">
+        <div class="esk-img-corners"></div>
+        <img
+          src="https://cdn.prod.website-files.com/6990d6b6d02a54ec489cbf03/6998860d404b9b66b412044c_ChatGPT%20Image%20Feb%2020%2C%202026%2C%2009_35_45%20AM.png"
+          alt="Digital BIM twin to physical construction"
+        />
+        <div class="esk-img-overlay"></div>
+        <div class="esk-img-tag">
+          <div class="esk-img-tag-dot"></div>
+          Digital Delivery Intelligence
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RIGHT: Content ── -->
+    <div class="esk-content-col">
+
+      <p class="esk-eyebrow" id="eskEyebrow">Who We Serve</p>
+
+      <h2 class="esk-headline" id="eskHeadline">
+        Empowering Every<br/>Stakeholder
+      </h2>
+
+      <p class="esk-lead" id="eskLead">
+        From planning to post-construction, we align teams with data-driven clarity and integrated workflows.
+      </p>
+
+      <p class="esk-body" id="eskBody">
+        Our expertise supports a broad spectrum of industry professionals. Collaborative processes include a wide variety of decision makers — we provide the digital and field-ready tools to streamline collaboration, ensure information integrity, and deliver measurable results.
+      </p>
+
+      <div class="esk-divider" id="eskDivider"></div>
+
+      <div class="esk-stakeholders" id="eskStakeholders">
+
+        <a href="#" class="esk-slink">
+          <div class="esk-slink-bar"></div>
+          <span class="esk-slink-label">Contractors</span>
+          <span class="esk-slink-num">01</span>
+          <span class="esk-slink-arrow">→</span>
+        </a>
+
+        <a href="#" class="esk-slink">
+          <div class="esk-slink-bar"></div>
+          <span class="esk-slink-label">Consultants &amp; PMs</span>
+          <span class="esk-slink-num">02</span>
+          <span class="esk-slink-arrow">→</span>
+        </a>
+
+        <a href="#" class="esk-slink">
+          <div class="esk-slink-bar"></div>
+          <span class="esk-slink-label">Architects</span>
+          <span class="esk-slink-num">03</span>
+          <span class="esk-slink-arrow">→</span>
+        </a>
+
+        <a href="#" class="esk-slink">
+          <div class="esk-slink-bar"></div>
+          <span class="esk-slink-label">Engineers</span>
+          <span class="esk-slink-num">04</span>
+          <span class="esk-slink-arrow">→</span>
+        </a>
+
+        <a href="#" class="esk-slink">
+          <div class="esk-slink-bar"></div>
+          <span class="esk-slink-label">Government Agencies</span>
+          <span class="esk-slink-num">05</span>
+          <span class="esk-slink-arrow">→</span>
+        </a>
+
+        <a href="#" class="esk-slink">
+          <div class="esk-slink-bar"></div>
+          <span class="esk-slink-label">Owners &amp; Developers</span>
+          <span class="esk-slink-num">06</span>
+          <span class="esk-slink-arrow">→</span>
+        </a>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function(){
+  'use strict';
+
+  /* Intersection Observer — triggers entrance animations when section scrolls into view */
+  var targets = [
+    { id: 'eskImgFrame',      cls: 'esk-visible', delay: 0    },
+    { id: 'eskEyebrow',       cls: 'esk-visible', delay: 150  },
+    { id: 'eskHeadline',      cls: 'esk-visible', delay: 280  },
+    { id: 'eskLead',          cls: 'esk-visible', delay: 420  },
+    { id: 'eskBody',          cls: 'esk-visible', delay: 540  },
+    { id: 'eskDivider',       cls: 'esk-visible', delay: 650  },
+    { id: 'eskStakeholders',  cls: 'esk-visible', delay: 760  },
+  ];
+
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        targets.forEach(function(t){
+          setTimeout(function(){
+            var el = document.getElementById(t.id);
+            if(el) el.classList.add(t.cls);
+          }, t.delay);
+        });
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.15 });
+
+  var section = document.querySelector('.esk-root');
+  if(section) observer.observe(section);
+
+  /* Staggered stakeholder link animations on first hover into the grid */
+  var linksAnimated = false;
+  var grid = document.getElementById('eskStakeholders');
+  if(grid){
+    grid.addEventListener('mouseenter', function(){
+      if(linksAnimated) return;
+      linksAnimated = true;
+      var links = grid.querySelectorAll('.esk-slink');
+      links.forEach(function(link, i){
+        link.style.opacity = '0';
+        link.style.transform = 'translateY(8px)';
+        link.style.transition = 'opacity 0.35s ease '+(i*60)+'ms, transform 0.35s ease '+(i*60)+'ms';
+        requestAnimationFrame(function(){
+          link.style.opacity = '1';
+          link.style.transform = 'translateY(0)';
+        });
+      });
+    });
+  }
+
+}());
+</script>

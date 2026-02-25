@@ -1,0 +1,522 @@
+import HtmlSection from '@/components/ui/HtmlSection'
+
+const html = `<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,700;0,900;1,700&family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap');
+
+.sdf *, .sdf *::before, .sdf *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+.sdf {
+  --accent: #47B5FF;
+  --navy:   #0B3C5D;
+  --bg:     #F2F5F8;
+  --white:  #ffffff;
+  --muted:  #5a7a96;
+  --border: rgba(11,60,93,0.09);
+  --mono:   'DM Mono', monospace;
+
+  background: var(--bg);
+  font-family: 'Inter', sans-serif;
+  padding: 80px clamp(32px, 5%, 96px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Faint grid */
+.sdf::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+
+/* ── Top: eyebrow above title, stacked ── */
+.sdf-top {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 1;
+}
+
+.sdf-eyebrow {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.sdf-eyebrow::before { content:''; width:20px; height:1px; background:var(--accent); }
+
+.sdf-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(38px, 4.2vw, 66px);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--navy);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+/* ── Sub-header: left col paragraphs + right statement ── */
+.sdf-sub {
+  display: grid;
+  grid-template-columns: minmax(auto, 580px) 1fr;
+  gap: 0 64px;
+  align-items: center;
+  margin-bottom: 56px;
+  position: relative;
+  z-index: 1;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sdf-sub-text {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sdf-sub-p {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.78;
+}
+
+/* Statement — big standalone */
+.sdf-sub-statement {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding-left: 32px;
+  border-left: 2px solid var(--accent);
+}
+.sdf-sub-statement-label {
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(71,181,255,0.5);
+}
+.sdf-sub-strong {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(26px, 2.4vw, 38px);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--navy);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+}
+
+/* ── Timeline track ── */
+.sdf-track {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 52px;
+}
+
+/* Horizontal line */
+.sdf-line-wrap {
+  position: relative;
+  height: 2px;
+  background: var(--border);
+  overflow: visible;
+}
+.sdf-line-fill {
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  width: 0%;
+  background: rgba(71,181,255,0.2);
+  transition: none;
+}
+.sdf-line-dot {
+  position: absolute;
+  top: 50%; left: 0%;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px rgba(71,181,255,0.2), 0 0 12px rgba(71,181,255,0.5);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+
+/* 4-col steps */
+.sdf-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+
+.sdf-step {
+  padding: 0 36px 0 0;
+  opacity: 0;
+  transform: translateY(18px);
+  border-radius: 3px;
+  transition:
+    opacity   0.6s ease,
+    transform 0.6s cubic-bezier(0.22,1,0.36,1),
+    background 0.25s ease;
+  cursor: default;
+}
+.sdf-step.vis           { opacity: 1; transform: translateY(0); }
+.sdf-step.vis:hover     { background: rgba(71,181,255,0.04); }
+.sdf-step.vis:hover .sdf-step-name { color: var(--accent); }
+.sdf-step.vis:hover .sdf-step-body { color: #3d5a6e; }
+.sdf-step.vis:hover .sdf-num       { background: var(--accent); }
+
+.sdf-step + .sdf-step {
+  border-left: 1px solid var(--border);
+  padding-left: 36px;
+  padding-right: 36px;
+}
+.sdf-step:last-child { padding-right: 0; }
+
+/* Step head */
+.sdf-step-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 0 20px;
+  position: relative;
+}
+
+/* Dot indicator on line */
+.sdf-step-head::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 17px;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s 0.1s;
+}
+.sdf-step.vis .sdf-step-head::before { opacity: 1; }
+
+/* Top accent line on hover */
+.sdf-step-head::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.sdf-step.vis:hover .sdf-step-head::after { transform: scaleX(1); }
+
+/* Number badge */
+.sdf-num {
+  width: 34px; height: 34px;
+  background: var(--navy);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  font-weight: 500;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  transition: background 0.3s;
+}
+
+@keyframes sdf-pulse {
+  0%   { box-shadow: 0 0 0 0    rgba(71,181,255,0.7); background: var(--accent); transform: scale(1.15); }
+  40%  { box-shadow: 0 0 0 10px rgba(71,181,255,0);   background: var(--accent); transform: scale(1); }
+  100% { box-shadow: 0 0 0 10px rgba(71,181,255,0);   background: var(--navy);   transform: scale(1); }
+}
+.sdf-num.pulse { animation: sdf-pulse 0.7s cubic-bezier(0.22,1,0.36,1) forwards; }
+
+.sdf-step-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(20px, 1.8vw, 26px);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--navy);
+  letter-spacing: -0.01em;
+  line-height: 1;
+  transition: color 0.25s ease;
+}
+
+.sdf-step-body {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.78;
+  transition: color 0.25s ease;
+}
+
+/* ── Bottom ── */
+.sdf-bottom {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
+
+.sdf-bottom-text {
+  max-width: 600px;
+}
+.sdf-bottom-p {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.sdf-bottom-p + .sdf-bottom-p { margin-top: 8px; }
+.sdf-bottom-strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-top: 12px;
+}
+
+/* ── Animated CTA ── */
+.sdf-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--navy);
+  text-decoration: none;
+  padding: 18px 32px;
+  border: 1px solid var(--navy);
+  background: transparent;
+  overflow: hidden;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color 0.4s ease;
+}
+.sdf-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--navy);
+  transform: translateX(-101%);
+  transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
+  z-index: 0;
+}
+.sdf-cta:hover::before { transform: translateX(0); }
+.sdf-cta:hover { color: white; }
+
+.sdf-cta-text { position: relative; z-index: 1; }
+.sdf-cta-arr {
+  position: relative; z-index: 1;
+  display: flex; align-items: center;
+  overflow: hidden; width: 20px;
+}
+.sdf-cta-arr-inner {
+  display: flex; align-items: center;
+  gap: 20px;
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+.sdf-cta:hover .sdf-cta-arr-inner { transform: translateX(-20px); }
+
+.sdf-cta-ring {
+  position: absolute;
+  inset: -6px;
+  border: 1px solid rgba(71,181,255,0.3);
+  pointer-events: none;
+  animation: sdf-ring 2.5s ease-in-out infinite;
+}
+@keyframes sdf-ring {
+  0%   { opacity: 0; transform: scale(0.96); }
+  40%  { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.04); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  .sdf-title { font-size: clamp(32px, 5vw, 52px); white-space: normal; }
+  .sdf-sub   { grid-template-columns: 1fr; gap: 28px; }
+  .sdf-sub-statement { border-left: none; border-top: 2px solid var(--accent); padding-left: 0; padding-top: 20px; }
+}
+@media (max-width: 768px) {
+  .sdf-sub   { grid-template-columns: 1fr; }
+  .sdf-steps { grid-template-columns: repeat(2, 1fr); }
+  .sdf-step + .sdf-step { border-left: none; padding-left: 0; }
+  .sdf-step:nth-child(n+3) { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 28px; }
+  .sdf-bottom { flex-direction: column; align-items: flex-start; gap: 28px; }
+}
+@media (max-width: 480px) {
+  .sdf { padding: 56px 24px; }
+  .sdf-steps { grid-template-columns: 1fr; }
+  .sdf-step:nth-child(n+2) { border-top: 1px solid var(--border); border-left: none; padding-left: 0; padding-top: 28px; margin-top: 28px; }
+}
+</style>
+
+<section class="sdf" id="sdfRoot" aria-labelledby="sdfTitle">
+
+  <!-- ── Title row ── -->
+  <div class="sdf-top">
+    <div class="sdf-eyebrow">Structured Delivery Framework</div>
+    <h2 class="sdf-title" id="sdfTitle">How We Bring Control To Infrastructure Projects</h2>
+  </div>
+
+  <!-- ── Paragraph row ── -->
+  <div class="sdf-sub">
+    <div class="sdf-sub-text">
+      <p class="sdf-sub-p">Infrastructure projects are complex systems involving: contractual, technical, operational, and human. Alignment between systems ensures project clarity is obtained and that silos are eliminated.</p>
+      <p class="sdf-sub-p">Across design, construction, and operations, we apply a disciplined four-step framework that aligns information, teams, and systems around what truly matters.</p>
+    </div>
+    <div class="sdf-sub-statement">
+      <span class="sdf-sub-statement-label">Key Principle</span>
+      <span class="sdf-sub-strong">Digital Tools Alone Do Not Solve Issues.</span>
+    </div>
+  </div>
+
+  <!-- ── Timeline ── -->
+  <div class="sdf-track">
+    <div class="sdf-line-wrap" id="sdfLineWrap">
+      <div class="sdf-line-fill" id="sdfLineFill"></div>
+      <div class="sdf-line-dot"  id="sdfLineDot"></div>
+    </div>
+    <div class="sdf-steps">
+
+      <div class="sdf-step">
+        <div class="sdf-step-head">
+          <div class="sdf-num">01</div>
+          <div class="sdf-step-name">Assess</div>
+        </div>
+        <p class="sdf-step-body">We review contractual requirements, stakeholder objectives, and existing information maturity. Gaps, risks, and delivery constraints are identified before systems are deployed.</p>
+      </div>
+
+      <div class="sdf-step">
+        <div class="sdf-step-head">
+          <div class="sdf-num">02</div>
+          <div class="sdf-step-name">Define</div>
+        </div>
+        <p class="sdf-step-body">We translate project goals into clear information requirements, modeling standards, and data structures aligned with scale and risk. Scope and governance are established early.</p>
+      </div>
+
+      <div class="sdf-step">
+        <div class="sdf-step-head">
+          <div class="sdf-num">03</div>
+          <div class="sdf-step-name">Implement</div>
+        </div>
+        <p class="sdf-step-body">Structured digital workflows are deployed with discipline — CDE environments, validation protocols, coordination processes, and reporting frameworks. Only what adds measurable value is implemented.</p>
+      </div>
+
+      <div class="sdf-step">
+        <div class="sdf-step-head">
+          <div class="sdf-num">04</div>
+          <div class="sdf-step-name">Control</div>
+        </div>
+        <p class="sdf-step-body">Ongoing validation and oversight ensure model integrity, data consistency, and contractual alignment through delivery and handover. Control continues beyond construction.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Bottom ── -->
+  <div class="sdf-bottom">
+    <div class="sdf-bottom-text">
+      <p class="sdf-bottom-p">Our Structured Delivery Framework defines how information is assessed, governed, deployed, and controlled across the full lifecycle.</p>
+      <span class="sdf-bottom-strong">Digital delivery must be engineered and planned.</span>
+    </div>
+    <a href="/process/" class="sdf-cta">
+      <div class="sdf-cta-ring"></div>
+      <span class="sdf-cta-text">Discover The Process</span>
+      <span class="sdf-cta-arr">
+        <span class="sdf-cta-arr-inner"><span>→</span><span>→</span></span>
+      </span>
+    </a>
+  </div>
+
+</section>
+
+<script>
+(function(){
+  var section  = document.getElementById('sdfRoot');
+  var lineFill = document.getElementById('sdfLineFill');
+  var lineDot  = document.getElementById('sdfLineDot');
+  var steps    = Array.from(document.querySelectorAll('.sdf-step'));
+  var nums     = Array.from(document.querySelectorAll('.sdf-num'));
+  var fired    = false;
+
+  function easeInOut(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
+
+  function runSequence() {
+    var stepDuration = 680;
+    var pauseAt      = 160;
+
+    lineDot.style.opacity = '1';
+    lineDot.style.left    = '0%';
+    lineFill.style.width  = '0%';
+
+    function animateToStop(idx, startPct, endPct, onDone) {
+      var start = null;
+      function frame(ts) {
+        if (!start) start = ts;
+        var t   = Math.min((ts - start) / stepDuration, 1);
+        var cur = startPct + (endPct - startPct) * easeInOut(t);
+        lineDot.style.left   = cur + '%';
+        lineFill.style.width = cur + '%';
+        if (t < 1) { requestAnimationFrame(frame); return; }
+        // Arrived
+        setTimeout(function() {
+          var num = nums[idx - 1];
+          num.classList.remove('pulse');
+          void num.offsetWidth;
+          num.classList.add('pulse');
+          steps[idx - 1].classList.add('vis');
+          setTimeout(onDone, pauseAt);
+        }, 60);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    animateToStop(1, 0, 25, function(){
+      animateToStop(2, 25, 50, function(){
+        animateToStop(3, 50, 75, function(){
+          animateToStop(4, 75, 100, function(){
+            lineDot.style.transition = 'opacity 0.4s ease';
+            lineDot.style.opacity    = '0';
+            lineFill.style.width     = '100%';
+          });
+        });
+      });
+    });
+  }
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting && !fired) {
+        fired = true;
+        io.disconnect();
+        setTimeout(runSequence, 300);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  if (section) io.observe(section);
+}());
+</script>`
+
+export default function ProcessSection() {
+  return <HtmlSection html={html} />
+}
