@@ -5,88 +5,141 @@ import { useEffect, useRef } from 'react';
 const html = `
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&amp;family=Inter+Tight:ital,wght@0,100..900;1,100..900&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet" />
 <style>
-.sh{position:relative;min-height:100vh;display:flex;align-items:center;background:#1C1F23;overflow:hidden}
-.sh .bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 68% 45%,rgba(11,60,93,0.5) 0%,transparent 65%),radial-gradient(ellipse 50% 45% at 22% 55%,rgba(11,60,93,0.3) 0%,transparent 60%),radial-gradient(ellipse 35% 35% at 60% 25%,rgba(71,181,255,0.06) 0%,transparent 50%);pointer-events:none;z-index:1}
-.sh .vig{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 35%,rgba(28,31,35,0.65) 100%);pointer-events:none;z-index:1}
-.sh .scn{position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(71,181,255,0.45),transparent);opacity:.15;animation:scn 8s linear infinite;pointer-events:none;z-index:3}
+.sh{
+  position:relative;min-height:100vh;display:flex;align-items:center;
+  justify-content:center;background:#1C1F23;overflow:hidden;
+  padding:140px 32px 80px;
+}
+
+/* Background — rich branded gradients, no grid */
+.sh .bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 40%,rgba(11,60,93,0.45) 0%,transparent 65%),
+    radial-gradient(ellipse 40% 40% at 20% 70%,rgba(11,60,93,0.2) 0%,transparent 55%),
+    radial-gradient(ellipse 35% 30% at 80% 25%,rgba(71,181,255,0.05) 0%,transparent 50%);
+  pointer-events:none;z-index:1;
+}
+.sh .vig{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at center,transparent 40%,rgba(28,31,35,0.6) 100%);
+  pointer-events:none;z-index:1;
+}
+.sh .scn{
+  position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(71,181,255,0.4),transparent);
+  opacity:.15;animation:scn 8s linear infinite;pointer-events:none;z-index:3;
+}
 @keyframes scn{0%{top:0}100%{top:100%}}
-.sh .btl{position:absolute;top:100px;left:40px;width:44px;height:44px;border-top:1px solid rgba(71,181,255,0.25);border-left:1px solid rgba(71,181,255,0.25);z-index:4}
-.sh .bbr{position:absolute;bottom:80px;right:40px;width:44px;height:44px;border-bottom:1px solid rgba(71,181,255,0.25);border-right:1px solid rgba(71,181,255,0.25);z-index:4}
-.sh .slbl{position:absolute;right:44px;top:50%;transform:translateY(-50%) rotate(90deg);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#7a9bb5;opacity:.25;z-index:4;white-space:nowrap}
 
-.sh-inner{position:relative;z-index:5;max-width:1200px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;gap:48px;width:100%}
-.sh-left{max-width:540px;flex-shrink:0}
+/* Corner brackets */
+.sh .btl{position:absolute;top:100px;left:40px;width:40px;height:40px;border-top:1px solid rgba(71,181,255,0.2);border-left:1px solid rgba(71,181,255,0.2);z-index:4}
+.sh .bbr{position:absolute;bottom:60px;right:40px;width:40px;height:40px;border-bottom:1px solid rgba(71,181,255,0.2);border-right:1px solid rgba(71,181,255,0.2);z-index:4}
 
-.sh .ey{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#47B5FF;display:flex;align-items:center;gap:12px;margin-bottom:24px}
+/* ── Center content ── */
+.sh-inner{
+  position:relative;z-index:5;max-width:1000px;width:100%;
+  text-align:center;
+}
+
+.sh .ey{
+  font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.22em;
+  text-transform:uppercase;color:#47B5FF;display:inline-flex;align-items:center;
+  gap:12px;margin-bottom:28px;
+}
 .sh .ey::before{content:'';width:20px;height:1px;background:#47B5FF;flex-shrink:0}
-.sh h1{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:clamp(40px,5vw,64px);line-height:1.04;text-transform:uppercase;letter-spacing:-.02em;color:#F4F6F8;margin-bottom:24px}
+
+.sh h1{
+  font-family:'Inter Tight',sans-serif;font-weight:900;
+  font-size:clamp(38px,5.5vw,68px);line-height:1.04;
+  text-transform:uppercase;letter-spacing:-.025em;
+  color:#F4F6F8;margin-bottom:20px;
+}
 .sh h1 em{font-style:italic;color:#47B5FF}
-.sh .sub{font-family:'Inter',sans-serif;font-size:17px;line-height:1.75;color:#7a9bb5;max-width:490px;margin-bottom:32px}
-.sh .tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
-.sh .tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:6px 14px;border:1px solid rgba(71,181,255,0.18);color:#7a9bb5;transition:all .3s ease}
-.sh .tag:hover{border-color:#47B5FF;color:#47B5FF}
-.sh .tag span{color:#47B5FF;margin-right:6px;opacity:.5}
-.sh .ctas{display:flex;gap:16px;flex-wrap:wrap}
-.sh .ba{display:inline-flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:14px 28px;border:none;color:#fff;background:#47B5FF;cursor:pointer;transition:all .35s ease;text-decoration:none}
+
+.sh .sub{
+  font-family:'Inter',sans-serif;font-size:17px;line-height:1.7;
+  color:#7a9bb5;max-width:580px;margin:0 auto 48px;
+}
+
+/* ── Solution cards grid ── */
+.sh-cards{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:2px;
+  margin-bottom:48px;text-align:left;
+  background:rgba(71,181,255,0.06);border:1px solid rgba(71,181,255,0.08);
+}
+.sh-card{
+  background:rgba(28,31,35,0.7);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  padding:28px 24px;position:relative;transition:all .4s cubic-bezier(.22,1,.36,1);
+  text-decoration:none;display:block;overflow:hidden;
+}
+.sh-card:hover{background:rgba(11,60,93,0.25)}
+.sh-card::after{
+  content:'';position:absolute;bottom:0;left:0;width:0;height:2px;
+  background:#47B5FF;transition:width .5s cubic-bezier(.22,1,.36,1);
+}
+.sh-card:hover::after{width:100%}
+
+.sh-card .sc-num{
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;
+  color:#47B5FF;opacity:.6;margin-bottom:10px;display:block;
+}
+.sh-card h4{
+  font-family:'Inter Tight',sans-serif;font-weight:800;font-size:17px;
+  text-transform:uppercase;letter-spacing:-.01em;color:#F4F6F8;
+  margin-bottom:8px;transition:color .3s ease;
+}
+.sh-card:hover h4{color:#47B5FF}
+.sh-card .sc-desc{
+  font-family:'Inter',sans-serif;font-size:13px;line-height:1.6;
+  color:#7a9bb5;margin-bottom:14px;
+}
+.sh-card .sc-arrow{
+  font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:#47B5FF;opacity:0;
+  transform:translateX(-8px);transition:all .35s ease;
+}
+.sh-card:hover .sc-arrow{opacity:1;transform:translateX(0)}
+
+/* ── Bottom CTAs ── */
+.sh-ctas{
+  display:flex;gap:16px;justify-content:center;flex-wrap:wrap;
+}
+.sh .ba{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.08em;
+  text-transform:uppercase;padding:14px 28px;border:none;color:#fff;
+  background:#47B5FF;cursor:pointer;transition:all .35s ease;text-decoration:none;
+}
 .sh .ba:hover{background:#3aa0e6;transform:translateY(-1px)}
-.sh .bp{display:inline-flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:14px 28px;border:1px solid rgba(71,181,255,0.18);color:#F4F6F8;background:transparent;cursor:pointer;transition:all .4s ease;text-decoration:none}
+.sh .bp{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.08em;
+  text-transform:uppercase;padding:14px 28px;border:1px solid rgba(71,181,255,0.18);
+  color:#F4F6F8;background:transparent;cursor:pointer;transition:all .4s ease;text-decoration:none;
+}
 .sh .bp:hover{background:#0B3C5D;border-color:#47B5FF;color:#fff}
 
-/* ── Right: Abstract brand mark ── */
-.sh-right{flex-shrink:0;width:460px;height:460px;position:relative;display:flex;align-items:center;justify-content:center}
-
-/* Ambient glow */
-.sh-right .glow{position:absolute;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(71,181,255,0.08) 0%,rgba(11,60,93,0.06) 40%,transparent 70%);pointer-events:none}
-
-/* Hexagonal rings */
-.hex-ring{position:absolute;top:50%;left:50%;transform-origin:center center}
-.hex-ring svg{display:block}
-
-.hr1{width:280px;height:280px;margin-left:-140px;margin-top:-140px;animation:hRot1 50s linear infinite}
-.hr2{width:200px;height:200px;margin-left:-100px;margin-top:-100px;animation:hRot2 35s linear infinite reverse}
-.hr3{width:130px;height:130px;margin-left:-65px;margin-top:-65px;animation:hRot3 25s linear infinite}
-.hr4{width:360px;height:360px;margin-left:-180px;margin-top:-180px;animation:hRot4 70s linear infinite reverse}
-
-@keyframes hRot1{to{transform:rotate(360deg)}}
-@keyframes hRot2{to{transform:rotate(360deg)}}
-@keyframes hRot3{to{transform:rotate(360deg)}}
-@keyframes hRot4{to{transform:rotate(360deg)}}
-
-/* Center core */
-.core{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;text-align:center}
-.core-circle{width:90px;height:90px;border-radius:50%;background:rgba(28,31,35,0.9);border:1px solid rgba(71,181,255,0.2);display:flex;align-items:center;justify-content:center;position:relative;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-.core-circle::before{content:'';position:absolute;inset:-8px;border-radius:50%;border:1px solid rgba(71,181,255,0.08);animation:corePulse 3s ease-in-out infinite}
-.core-circle::after{content:'';position:absolute;inset:-18px;border-radius:50%;border:1px solid rgba(71,181,255,0.04);animation:corePulse 3s ease-in-out .5s infinite}
-@keyframes corePulse{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:1;transform:scale(1.03)}}
-.core-text{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#F4F6F8;line-height:1.3}
-.core-sub{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:.12em;color:#47B5FF;opacity:.7;margin-top:2px;text-transform:uppercase}
-
-/* Floating dots */
-.fdot{position:absolute;border-radius:50%;background:#47B5FF;pointer-events:none}
-.fd1{width:3px;height:3px;top:18%;left:22%;opacity:.15;animation:fdFloat 6s ease-in-out infinite}
-.fd2{width:2px;height:2px;top:72%;left:15%;opacity:.1;animation:fdFloat 8s ease-in-out 1s infinite}
-.fd3{width:4px;height:4px;top:25%;right:18%;opacity:.12;animation:fdFloat 7s ease-in-out 2s infinite}
-.fd4{width:2px;height:2px;top:68%;right:22%;opacity:.15;animation:fdFloat 5s ease-in-out .5s infinite}
-.fd5{width:3px;height:3px;top:45%;left:8%;opacity:.08;animation:fdFloat 9s ease-in-out 3s infinite}
-.fd6{width:2px;height:2px;bottom:20%;right:30%;opacity:.1;animation:fdFloat 6s ease-in-out 1.5s infinite}
-@keyframes fdFloat{0%,100%{transform:translateY(0) scale(1);opacity:.1}50%{transform:translateY(-12px) scale(1.3);opacity:.25}}
-
-/* Scroll indicator */
-.sh .sci{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;z-index:5}
-.sh .sci span{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#7a9bb5;opacity:.5}
-.sh .scl{width:1px;height:32px;background:#47B5FF;opacity:.3;animation:scp 2s ease-in-out infinite}
+/* Scroll */
+.sh .sci{
+  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;z-index:5;
+}
+.sh .sci span{
+  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.2em;
+  text-transform:uppercase;color:#7a9bb5;opacity:.5;
+}
+.sh .scl{width:1px;height:28px;background:#47B5FF;opacity:.3;animation:scp 2s ease-in-out infinite}
 @keyframes scp{0%,100%{opacity:.15;transform:scaleY(.6)}50%{opacity:.4;transform:scaleY(1)}}
 
-@media(max-width:1100px){
-  .sh .slbl{display:none}
-  .sh-inner{flex-direction:column;text-align:left;padding-top:130px;padding-bottom:100px}
-  .sh-right{width:350px;height:350px}
+/* ── Responsive ── */
+@media(max-width:900px){
+  .sh-cards{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:640px){
-  .sh-inner{padding:130px 20px 100px}
-  .sh-right{width:280px;height:280px}
+  .sh{padding:120px 20px 80px}
+  .sh-cards{grid-template-columns:1fr}
   .sh h1{font-size:clamp(32px,8vw,48px)}
-  .core-circle{width:70px;height:70px}
 }
 </style>
 
@@ -96,75 +149,54 @@ const html = `
   <div class="scn"></div>
   <div class="btl"></div>
   <div class="bbr"></div>
-  <div class="slbl">Solutions · Six Layers of Control</div>
 
   <div class="sh-inner">
-    <div class="sh-left">
-      <div class="ey">Six-Layer Solutions Framework</div>
-      <h1>Structured<br/>Digital <em>Delivery.</em></h1>
-      <p class="sub">Six integrated layers that take your project from strategic planning through to operational intelligence. Each layer compounds on the last — building a controlled digital ecosystem across your entire programme lifecycle.</p>
-      <div class="tags">
-        <div class="tag"><span>01</span> Strategy</div>
-        <div class="tag"><span>02</span> Structure</div>
-        <div class="tag"><span>03</span> Intelligence</div>
-        <div class="tag"><span>04</span> Execution</div>
-        <div class="tag"><span>05</span> Project Twin</div>
-        <div class="tag"><span>06</span> Insights</div>
-      </div>
-      <div class="ctas">
-        <a href="/contact/" class="ba">Schedule a Discovery Call</a>
-        <a href="/process/" class="bp">Our Process →</a>
-      </div>
+    <div class="ey">Our Solutions</div>
+    <h1>Six Layers of<br/><em>Digital</em> Control</h1>
+    <p class="sub">End-to-end digital delivery across the full project lifecycle — from BIM strategy on day one to digital twin handover. Structured around how infrastructure actually gets built.</p>
+
+    <div class="sh-cards">
+      <a href="/solutions/strategy/" class="sh-card">
+        <span class="sc-num">01</span>
+        <h4>Strategy</h4>
+        <p class="sc-desc">BIM execution plans, EIR development, and digital delivery roadmaps.</p>
+        <span class="sc-arrow">Explore →</span>
+      </a>
+      <a href="/solutions/structure/" class="sh-card">
+        <span class="sc-num">02</span>
+        <h4>Structure</h4>
+        <p class="sc-desc">CDE setup, naming conventions, LOD frameworks, and data architecture.</p>
+        <span class="sc-arrow">Explore →</span>
+      </a>
+      <a href="/solutions/intelligence/" class="sh-card">
+        <span class="sc-num">03</span>
+        <h4>Intelligence</h4>
+        <p class="sc-desc">BIM modelling, clash detection, scan-to-BIM, and quantity verification.</p>
+        <span class="sc-arrow">Explore →</span>
+      </a>
+      <a href="/solutions/execution/" class="sh-card">
+        <span class="sc-num">04</span>
+        <h4>Execution</h4>
+        <p class="sc-desc">4D scheduling, digital work packaging, and construction BIM compliance.</p>
+        <span class="sc-arrow">Explore →</span>
+      </a>
+      <a href="/solutions/project-twin/" class="sh-card">
+        <span class="sc-num">05</span>
+        <h4>Project Twin</h4>
+        <p class="sc-desc">As-built models, COBie handover, and operations-ready digital twins.</p>
+        <span class="sc-arrow">Explore →</span>
+      </a>
+      <a href="/solutions/insights/" class="sh-card">
+        <span class="sc-num">06</span>
+        <h4>Insights</h4>
+        <p class="sc-desc">Project dashboards, BIM auditing, 5D analytics, and progress tracking.</p>
+        <span class="sc-arrow">Explore →</span>
+      </a>
     </div>
 
-    <div class="sh-right">
-      <div class="glow"></div>
-
-      <!-- Outer ring -->
-      <div class="hex-ring hr4">
-        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="50,2 93,27 93,73 50,98 7,73 7,27" stroke="rgba(71,181,255,0.06)" stroke-width="0.3" fill="none"/>
-        </svg>
-      </div>
-
-      <!-- Large ring -->
-      <div class="hex-ring hr1">
-        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="50,2 93,27 93,73 50,98 7,73 7,27" stroke="rgba(71,181,255,0.15)" stroke-width="0.4" fill="none" stroke-dasharray="2 3"/>
-        </svg>
-      </div>
-
-      <!-- Medium ring -->
-      <div class="hex-ring hr2">
-        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="50,2 93,27 93,73 50,98 7,73 7,27" stroke="rgba(71,181,255,0.2)" stroke-width="0.5" fill="none"/>
-        </svg>
-      </div>
-
-      <!-- Inner ring -->
-      <div class="hex-ring hr3">
-        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <polygon points="50,5 90,28 90,72 50,95 10,72 10,28" stroke="rgba(71,181,255,0.25)" stroke-width="0.6" fill="rgba(71,181,255,0.02)"/>
-        </svg>
-      </div>
-
-      <!-- Core -->
-      <div class="core">
-        <div class="core-circle">
-          <div>
-            <div class="core-text">Infraforma</div>
-            <div class="core-sub">Solutions</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Floating particles -->
-      <div class="fdot fd1"></div>
-      <div class="fdot fd2"></div>
-      <div class="fdot fd3"></div>
-      <div class="fdot fd4"></div>
-      <div class="fdot fd5"></div>
-      <div class="fdot fd6"></div>
+    <div class="sh-ctas">
+      <a href="/contact/" class="ba">Schedule a Discovery Call</a>
+      <a href="/process/" class="bp">Our Process →</a>
     </div>
   </div>
 
