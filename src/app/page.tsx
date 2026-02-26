@@ -6,6 +6,7 @@ import Section4   from '@/components/sections/Section4'
 import Section5   from '@/components/sections/Section5'
 import Section6   from '@/components/sections/Section6'
 import Section7   from '@/components/sections/Section7'
+import Section8   from '@/components/sections/Section8'
 import PageLoader  from '@/components/layout/PageLoader'
 
 export default function HomePage() {
@@ -21,6 +22,7 @@ export default function HomePage() {
         <Section5 />
         <Section6 />
         <Section7 />
+        <Section8 />
       </main>
     </>
   )
