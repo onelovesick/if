@@ -1,6 +1,5 @@
 import SolutionsHero from '@/components/sections/solutions/SolutionsHero';
 import SolutionsOverview from '@/components/sections/solutions/SolutionsOverview';
-import SolutionsDeepDive from '@/components/sections/solutions/SolutionsDeepDive';
 import SolutionsLifecycle from '@/components/sections/solutions/SolutionsLifecycle';
 import SolutionsDifferentiators from '@/components/sections/solutions/SolutionsDifferentiators';
 import SolutionsStandards from '@/components/sections/solutions/SolutionsStandards';
@@ -17,7 +16,6 @@ export default function SolutionsPage() {
     <main>
       <SolutionsHero />
       <SolutionsOverview />
-      <SolutionsDeepDive />
       <SolutionsLifecycle />
       <SolutionsDifferentiators />
       <SolutionsStandards />
