@@ -14,44 +14,36 @@ const html = `
   overflow: hidden;
 }
 
-/* Blueprint grid */
-.sol-hero .grid-overlay {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(71,181,255,0.14) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(71,181,255,0.14) 1px, transparent 1px);
-  background-size: 48px 48px;
-  opacity: 0.4;
-}
-
-/* Depth gradients */
-.sol-hero .gradient-layer {
+/* ── Rich gradient background instead of grid ── */
+.sol-hero .bg-gradient {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 60% 50% at 15% 50%, rgba(11,60,93,0.4) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 60% at 80% 40%, rgba(71,181,255,0.05) 0%, transparent 60%),
-    radial-gradient(ellipse 80% 40% at 50% 100%, rgba(11,60,93,0.25) 0%, transparent 50%);
+    radial-gradient(ellipse 80% 60% at 70% 45%, rgba(11,60,93,0.55) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 45% at 25% 55%, rgba(11,60,93,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 35% 35% at 65% 30%, rgba(71,181,255,0.07) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 50% at 50% 85%, rgba(11,60,93,0.3) 0%, transparent 50%);
   pointer-events: none;
   z-index: 1;
 }
 
-/* Vignette */
+/* Subtle noise texture overlay */
+.sol-hero .noise-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  pointer-events: none;
+  z-index: 1;
+}
+
 .sol-hero .vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 30%, rgba(28,31,35,0.75) 100%);
+  background: radial-gradient(ellipse at center, transparent 35%, rgba(28,31,35,0.6) 100%);
   pointer-events: none;
   z-index: 1;
-}
-
-/* Network canvas */
-.sol-hero #networkCanvas {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
 }
 
 /* Scan line */
@@ -59,13 +51,13 @@ const html = `
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, #47B5FF, transparent);
-  opacity: 0.2;
-  animation: solScanDown 8s linear infinite;
+  background: linear-gradient(90deg, transparent, rgba(71,181,255,0.5), transparent);
+  opacity: 0.15;
+  animation: heroScan 8s linear infinite;
   pointer-events: none;
   z-index: 3;
 }
-@keyframes solScanDown {
+@keyframes heroScan {
   0% { top: 0; }
   100% { top: 100%; }
 }
@@ -75,22 +67,18 @@ const html = `
   position: absolute;
   top: 100px; left: 40px;
   width: 44px; height: 44px;
-  border-top: 1px solid rgba(71,181,255,0.3);
-  border-left: 1px solid rgba(71,181,255,0.3);
-  opacity: 0.5;
+  border-top: 1px solid rgba(71,181,255,0.25);
+  border-left: 1px solid rgba(71,181,255,0.25);
   z-index: 4;
 }
 .sol-hero .bracket-br {
   position: absolute;
   bottom: 80px; right: 40px;
   width: 44px; height: 44px;
-  border-bottom: 1px solid rgba(71,181,255,0.3);
-  border-right: 1px solid rgba(71,181,255,0.3);
-  opacity: 0.5;
+  border-bottom: 1px solid rgba(71,181,255,0.25);
+  border-right: 1px solid rgba(71,181,255,0.25);
   z-index: 4;
 }
-
-/* Side label */
 .sol-hero .side-label {
   position: absolute;
   right: 44px;
@@ -101,12 +89,12 @@ const html = `
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: #7a9bb5;
-  opacity: 0.3;
+  opacity: 0.25;
   z-index: 4;
   white-space: nowrap;
 }
 
-/* ───── Content ───── */
+/* ── Content layout ── */
 .sol-hero-content {
   position: relative;
   z-index: 5;
@@ -116,15 +104,13 @@ const html = `
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 60px;
+  gap: 48px;
   width: 100%;
 }
 .sol-hero-left {
-  max-width: 600px;
+  max-width: 540px;
   flex-shrink: 0;
 }
-
-/* Eyebrow */
 .sol-hero .eyebrow {
   font-family: 'DM Mono', monospace;
   font-size: 11px;
@@ -143,34 +129,25 @@ const html = `
   background: #47B5FF;
   flex-shrink: 0;
 }
-
-/* Heading */
 .sol-hero h1 {
   font-family: 'Inter Tight', sans-serif;
   font-weight: 900;
-  font-size: clamp(40px, 5vw, 68px);
-  line-height: 1.02;
+  font-size: clamp(40px, 5vw, 66px);
+  line-height: 1.04;
   text-transform: uppercase;
   letter-spacing: -0.02em;
   color: #F4F6F8;
   margin-bottom: 24px;
 }
-.sol-hero h1 em {
-  font-style: italic;
-  color: #47B5FF;
-}
-
-/* Sub text */
+.sol-hero h1 em { font-style: italic; color: #47B5FF; }
 .sol-hero .hero-sub {
   font-family: 'Inter', sans-serif;
   font-size: 17px;
   line-height: 1.75;
   color: #7a9bb5;
-  max-width: 520px;
+  max-width: 480px;
   margin-bottom: 36px;
 }
-
-/* Meta tags */
 .sol-hero .hero-meta {
   font-family: 'DM Mono', monospace;
   font-size: 11px;
@@ -178,219 +155,266 @@ const html = `
   color: #7a9bb5;
   text-transform: uppercase;
   margin-bottom: 16px;
-  opacity: 0.6;
+  opacity: 0.55;
 }
-
-/* CTAs */
 .sol-hero .hero-ctas {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
 }
 .sol-hero .btn-accent {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'DM Mono', monospace;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 14px 28px;
-  border: none;
-  color: #fff;
-  background: #47B5FF;
-  cursor: pointer;
-  transition: all 0.35s ease;
-  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 14px 28px; border: none; color: #fff;
+  background: #47B5FF; cursor: pointer;
+  transition: all 0.35s ease; text-decoration: none;
 }
-.sol-hero .btn-accent:hover {
-  background: #3aa0e6;
-  transform: translateY(-1px);
-}
+.sol-hero .btn-accent:hover { background: #3aa0e6; transform: translateY(-1px); }
 .sol-hero .btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'DM Mono', monospace;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 14px 28px;
-  border: 1px solid rgba(71,181,255,0.14);
-  color: #F4F6F8;
-  background: transparent;
-  cursor: pointer;
-  transition: all 0.4s ease;
-  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'DM Mono', monospace; font-size: 12px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 14px 28px; border: 1px solid rgba(71,181,255,0.18);
+  color: #F4F6F8; background: transparent; cursor: pointer;
+  transition: all 0.4s ease; text-decoration: none;
 }
-.sol-hero .btn-primary:hover {
-  background: #0B3C5D;
-  border-color: #47B5FF;
-  color: #fff;
-}
+.sol-hero .btn-primary:hover { background: #0B3C5D; border-color: #47B5FF; color: #fff; }
 
-/* ───── Network Legend (right side) ───── */
+/* ════════════════════════════════════════
+   ORBITAL RING — right side
+   ════════════════════════════════════════ */
 .sol-hero-right {
-  position: relative;
   flex-shrink: 0;
-  width: 380px;
-  height: 380px;
+  width: 480px;
+  height: 480px;
+  position: relative;
 }
-.network-legend {
+.orbit-wrapper {
   position: absolute;
   inset: 0;
-  pointer-events: none;
 }
-.net-node-label {
+
+/* Central logo */
+.orbit-center {
   position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  text-align: center;
+}
+.orbit-logo-ring {
+  width: 110px; height: 110px;
+  border-radius: 50%;
+  border: 1px solid rgba(71,181,255,0.25);
   display: flex;
   align-items: center;
-  gap: 10px;
-  pointer-events: auto;
-  cursor: default;
-  transition: all 0.4s ease;
-}
-.net-node-label:hover .net-dot {
-  box-shadow: 0 0 0 8px rgba(71,181,255,0.12), 0 0 24px rgba(71,181,255,0.2);
-  transform: scale(1.15);
-}
-.net-node-label:hover .net-label {
-  color: #F4F6F8;
-}
-.net-dot {
-  width: 12px; height: 12px;
-  border-radius: 50%;
-  background: #47B5FF;
-  flex-shrink: 0;
+  justify-content: center;
+  background: rgba(28,31,35,0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   position: relative;
-  transition: all 0.4s ease;
 }
-.net-dot::after {
+.orbit-logo-ring::before {
   content: '';
   position: absolute;
-  inset: -4px;
+  inset: -12px;
   border-radius: 50%;
-  border: 1px solid rgba(71,181,255,0.3);
+  border: 1px solid rgba(71,181,255,0.08);
 }
-.net-dot.large {
-  width: 18px; height: 18px;
+.orbit-logo-ring::after {
+  content: '';
+  position: absolute;
+  inset: -24px;
+  border-radius: 50%;
+  border: 1px solid rgba(71,181,255,0.04);
 }
-.net-dot.large::after { inset: -6px; }
-.net-dot.accent-dim {
-  background: rgba(71,181,255,0.5);
-}
-.net-num {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.15em;
-  color: #47B5FF;
-  opacity: 0.6;
-}
-.net-label {
+.orbit-logo-text {
   font-family: 'Inter Tight', sans-serif;
-  font-weight: 700;
+  font-weight: 900;
   font-size: 12px;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: #7a9bb5;
-  transition: color 0.4s ease;
-  white-space: nowrap;
+  color: #F4F6F8;
 }
-.net-sublabel {
+.orbit-logo-sub {
   font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  color: #7a9bb5;
-  opacity: 0.4;
-  letter-spacing: 0.08em;
-  margin-top: 2px;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: #47B5FF;
+  opacity: 0.7;
+  margin-top: 3px;
+  text-transform: uppercase;
 }
 
-/* SVG network lines */
-.network-svg {
+/* Orbit rings (CSS only) */
+.orbit-ring {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  border-radius: 50%;
+  border: 1px solid rgba(71,181,255,0.08);
+  top: 50%; left: 50%;
+}
+.orbit-ring-1 {
+  width: 260px; height: 260px;
+  margin-top: -130px; margin-left: -130px;
+  animation: orbitSpin1 45s linear infinite;
+}
+.orbit-ring-2 {
+  width: 380px; height: 380px;
+  margin-top: -190px; margin-left: -190px;
+  border-style: dashed;
+  border-color: rgba(71,181,255,0.06);
+  animation: orbitSpin2 60s linear infinite reverse;
+}
+.orbit-ring-3 {
+  width: 460px; height: 460px;
+  margin-top: -230px; margin-left: -230px;
+  border-color: rgba(71,181,255,0.04);
+  animation: orbitSpin3 80s linear infinite;
+}
+
+@keyframes orbitSpin1 { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes orbitSpin2 { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes orbitSpin3 { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* Tech icons on orbits */
+.orbit-node {
+  position: absolute;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: rgba(28,31,35,0.85);
+  border: 1px solid rgba(71,181,255,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: all 0.4s ease;
+  /* counter-rotate to stay upright */
+}
+.orbit-ring-1 .orbit-node { animation: counterSpin1 45s linear infinite; }
+.orbit-ring-2 .orbit-node { animation: counterSpin2 60s linear infinite reverse; }
+.orbit-ring-3 .orbit-node { animation: counterSpin3 80s linear infinite; }
+
+@keyframes counterSpin1 { 0% { transform: rotate(0deg); } 100% { transform: rotate(-360deg); } }
+@keyframes counterSpin2 { 0% { transform: rotate(0deg); } 100% { transform: rotate(-360deg); } }
+@keyframes counterSpin3 { 0% { transform: rotate(0deg); } 100% { transform: rotate(-360deg); } }
+
+.orbit-node:hover {
+  border-color: rgba(71,181,255,0.5);
+  box-shadow: 0 0 20px rgba(71,181,255,0.15);
+  transform: scale(1.1) !important;
+}
+.orbit-node .node-text {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 800;
+  font-size: 9px;
+  color: #F4F6F8;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-align: center;
+  line-height: 1.1;
+}
+.orbit-node .node-text.accent { color: #47B5FF; }
+.orbit-node .node-text.small { font-size: 7px; font-family: 'DM Mono', monospace; font-weight: 400; letter-spacing: 0.06em; }
+
+/* Large nodes */
+.orbit-node.lg {
+  width: 56px; height: 56px;
+}
+
+/* Ambient glow behind orbit */
+.orbit-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px; height: 350px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(71,181,255,0.06) 0%, rgba(11,60,93,0.08) 40%, transparent 70%);
+  pointer-events: none;
   z-index: 0;
 }
-.network-svg line {
-  stroke: rgba(71,181,255,0.12);
-  stroke-width: 1;
-}
-.network-svg .pulse-line {
-  stroke: rgba(71,181,255,0.35);
-  stroke-width: 1;
-  stroke-dasharray: 4 8;
-  animation: dashFlow 3s linear infinite;
-}
-@keyframes dashFlow {
-  0% { stroke-dashoffset: 0; }
-  100% { stroke-dashoffset: -24; }
-}
+
+/* Positioning nodes around the rings using top/left + translate */
+/* Ring 1 (r=130): 4 nodes */
+.orbit-ring-1 .n1 { top: 0; left: 50%; transform: translate(-50%, -50%); }
+.orbit-ring-1 .n2 { top: 50%; right: 0; transform: translate(50%, -50%); }
+.orbit-ring-1 .n3 { bottom: 0; left: 50%; transform: translate(-50%, 50%); }
+.orbit-ring-1 .n4 { top: 50%; left: 0; transform: translate(-50%, -50%); }
+
+/* Ring 2 (r=190): 4 nodes */
+.orbit-ring-2 .n5 { top: 10%; right: 5%; transform: translate(50%, -50%); }
+.orbit-ring-2 .n6 { bottom: 10%; right: 5%; transform: translate(50%, 50%); }
+.orbit-ring-2 .n7 { bottom: 10%; left: 5%; transform: translate(-50%, 50%); }
+.orbit-ring-2 .n8 { top: 10%; left: 5%; transform: translate(-50%, -50%); }
+
+/* Ring 3 (r=230): 4 nodes */
+.orbit-ring-3 .n9 { top: 3%; left: 50%; transform: translate(-50%, -50%); }
+.orbit-ring-3 .n10 { top: 50%; right: 0; transform: translate(50%, -50%); }
+.orbit-ring-3 .n11 { bottom: 3%; left: 50%; transform: translate(-50%, 50%); }
+.orbit-ring-3 .n12 { top: 50%; left: 0; transform: translate(-50%, -50%); }
 
 /* Scroll indicator */
 .sol-hero .scroll-indicator {
   position: absolute;
-  bottom: 36px;
-  left: 50%;
+  bottom: 36px; left: 50%;
   transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
   z-index: 5;
 }
 .sol-hero .scroll-indicator span {
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #7a9bb5;
-  opacity: 0.5;
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: #7a9bb5; opacity: 0.5;
 }
 .sol-hero .scroll-line {
-  width: 1px;
-  height: 32px;
-  background: #47B5FF;
-  opacity: 0.3;
-  animation: solScrollPulse 2s ease-in-out infinite;
+  width: 1px; height: 32px;
+  background: #47B5FF; opacity: 0.3;
+  animation: scrollP 2s ease-in-out infinite;
 }
-@keyframes solScrollPulse {
+@keyframes scrollP {
   0%, 100% { opacity: 0.15; transform: scaleY(0.6); }
   50% { opacity: 0.4; transform: scaleY(1); }
 }
 
-/* ───── Responsive ───── */
-@media (max-width: 1024px) {
+/* ── Responsive ── */
+@media (max-width: 1100px) {
   .sol-hero .side-label { display: none; }
-  .sol-hero-content { flex-direction: column; text-align: left; padding-top: 120px; }
-  .sol-hero-right { width: 320px; height: 320px; margin: 0 auto; }
+  .sol-hero-content {
+    flex-direction: column; text-align: left;
+    padding-top: 130px; padding-bottom: 100px;
+  }
+  .sol-hero-right { width: 400px; height: 400px; margin: 0 auto; }
 }
 @media (max-width: 640px) {
-  .sol-hero-content { padding: 120px 20px 80px; }
-  .sol-hero-right { width: 280px; height: 280px; }
+  .sol-hero-content { padding: 130px 20px 100px; }
+  .sol-hero-right { width: 320px; height: 320px; }
   .sol-hero h1 { font-size: clamp(32px, 8vw, 48px); }
+  .orbit-node { width: 38px; height: 38px; }
+  .orbit-node.lg { width: 44px; height: 44px; }
+  .orbit-node .node-text { font-size: 7px; }
+  .orbit-node .node-text.small { font-size: 6px; }
+  .orbit-logo-ring { width: 90px; height: 90px; }
 }
 </style>
 
 <section class="sol-hero">
-  <div class="grid-overlay"></div>
-  <div class="gradient-layer"></div>
-  <canvas id="networkCanvas"></canvas>
+  <div class="bg-gradient"></div>
+  <div class="noise-overlay"></div>
   <div class="vignette"></div>
   <div class="scan-line"></div>
   <div class="bracket-tl"></div>
   <div class="bracket-br"></div>
-  <div class="side-label">Solutions · Interconnected Digital Delivery</div>
+  <div class="side-label">Solutions · Digital Infrastructure</div>
 
   <div class="sol-hero-content">
     <div class="sol-hero-left">
       <div class="eyebrow">End-to-End Digital Delivery</div>
-      <h1>Six Layers.<br/>One <em>Connected</em><br/>System.</h1>
+      <h1>Digital Tools.<br/><em>Structured</em><br/>Outcomes.</h1>
       <p class="hero-sub">
-        Every solution we deliver is interconnected — strategy informs structure, intelligence drives execution, and data flows from model to twin. No silos. One controlled outcome.
+        Platform-agnostic by design. We connect the industry's best technology around one controlled framework — so every tool in your ecosystem works harder, together.
       </p>
-      <div class="hero-meta">Strategy · Structure · Intelligence · Execution · Project Twin · Insights</div>
+      <div class="hero-meta">ISO 19650 · BIM · CDE · Digital Twin · 4D/5D</div>
       <div class="hero-ctas">
         <a href="/contact/" class="btn-accent">Schedule a Discovery Call</a>
         <a href="/process/" class="btn-primary">Our Process →</a>
@@ -398,77 +422,67 @@ const html = `
     </div>
 
     <div class="sol-hero-right">
-      <!-- SVG connection lines -->
-      <svg class="network-svg" viewBox="0 0 380 380">
-        <!-- Connections: Strategy→Structure, Strategy→Intelligence, Structure→Execution, Intelligence→Execution, Execution→Twin, Twin→Insights, Strategy→Insights (cross) -->
-        <line x1="90" y1="48" x2="280" y2="68" />
-        <line x1="90" y1="48" x2="50" y2="175" class="pulse-line" />
-        <line x1="280" y1="68" x2="320" y2="195" />
-        <line x1="50" y1="175" x2="320" y2="195" class="pulse-line" />
-        <line x1="320" y1="195" x2="265" y2="310" />
-        <line x1="265" y1="310" x2="100" y2="295" class="pulse-line" />
-        <line x1="90" y1="48" x2="100" y2="295" />
-        <line x1="50" y1="175" x2="265" y2="310" />
-        <line x1="280" y1="68" x2="100" y2="295" />
-        <line x1="50" y1="175" x2="100" y2="295" />
-        <line x1="280" y1="68" x2="320" y2="195" class="pulse-line" />
-      </svg>
+      <div class="orbit-wrapper">
+        <div class="orbit-glow"></div>
 
-      <!-- Node labels -->
-      <div class="network-legend">
-        <div class="net-node-label" style="top: 30px; left: 52px;">
-          <div class="net-dot large"></div>
-          <div>
-            <div class="net-num">01</div>
-            <div class="net-label">Strategy</div>
-            <div class="net-sublabel">BEP · EIR · Roadmaps</div>
+        <!-- Center logo -->
+        <div class="orbit-center">
+          <div class="orbit-logo-ring">
+            <div>
+              <div class="orbit-logo-text">Infraforma</div>
+              <div class="orbit-logo-sub">Solutions</div>
+            </div>
           </div>
         </div>
 
-        <div class="net-node-label" style="top: 48px; right: 62px;">
-          <div class="net-dot"></div>
-          <div>
-            <div class="net-num">02</div>
-            <div class="net-label">Structure</div>
-            <div class="net-sublabel">CDE · LOD · Naming</div>
+        <!-- Ring 1: Inner — Core platforms -->
+        <div class="orbit-ring orbit-ring-1">
+          <div class="orbit-node lg n1">
+            <span class="node-text">Revit</span>
+          </div>
+          <div class="orbit-node n2">
+            <span class="node-text small">ACC</span>
+          </div>
+          <div class="orbit-node lg n3">
+            <span class="node-text">Procore</span>
+          </div>
+          <div class="orbit-node n4">
+            <span class="node-text small">iTwin</span>
           </div>
         </div>
 
-        <div class="net-node-label" style="top: 158px; left: 10px;">
-          <div class="net-dot large"></div>
-          <div>
-            <div class="net-num">03</div>
-            <div class="net-label">Intelligence</div>
-            <div class="net-sublabel">BIM · Clash · Scan</div>
+        <!-- Ring 2: Mid — Secondary tools -->
+        <div class="orbit-ring orbit-ring-2">
+          <div class="orbit-node n5">
+            <span class="node-text">Navis</span>
+          </div>
+          <div class="orbit-node lg n6">
+            <span class="node-text accent">Power<br/>BI</span>
+          </div>
+          <div class="orbit-node n7">
+            <span class="node-text">Solibri</span>
+          </div>
+          <div class="orbit-node lg n8">
+            <span class="node-text">Tandem</span>
           </div>
         </div>
 
-        <div class="net-node-label" style="top: 178px; right: 18px;">
-          <div class="net-dot"></div>
-          <div>
-            <div class="net-num">04</div>
-            <div class="net-label">Execution</div>
-            <div class="net-sublabel">4D · Field · QA</div>
+        <!-- Ring 3: Outer — Specialty -->
+        <div class="orbit-ring orbit-ring-3">
+          <div class="orbit-node n9">
+            <span class="node-text small">Civil 3D</span>
+          </div>
+          <div class="orbit-node n10">
+            <span class="node-text small">ArcGIS</span>
+          </div>
+          <div class="orbit-node n11">
+            <span class="node-text accent small">ISO<br/>19650</span>
+          </div>
+          <div class="orbit-node n12">
+            <span class="node-text small">Dalux</span>
           </div>
         </div>
 
-        <div class="net-node-label" style="bottom: 52px; right: 72px;">
-          <div class="net-dot large"></div>
-          <div>
-            <div class="net-num">05</div>
-            <div class="net-label">Project Twin</div>
-            <div class="net-sublabel">As-Built · COBie · FM</div>
-          </div>
-        </div>
-
-        <div class="net-node-label" style="bottom: 68px; left: 46px;">
-          <div class="net-dot accent-dim"></div>
-          <div>
-            <div class="net-num">06</div>
-            <div class="net-label">Insights</div>
-            <div class="net-sublabel">Dashboards · 5D · Audit</div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -480,142 +494,12 @@ const html = `
 </section>
 `;
 
-const script = `
-(function() {
-  var canvas = document.getElementById('networkCanvas');
-  if (!canvas) return;
-  var ctx = canvas.getContext('2d');
-  var w, h, particles, mouse;
-
-  mouse = { x: -1000, y: -1000 };
-
-  function resize() {
-    var rect = canvas.parentElement.getBoundingClientRect();
-    w = canvas.width = rect.width;
-    h = canvas.height = rect.height;
-  }
-
-  function createParticles() {
-    particles = [];
-    var count = Math.floor((w * h) / 18000);
-    if (count > 80) count = 80;
-    if (count < 25) count = 25;
-    for (var i = 0; i < count; i++) {
-      particles.push({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.35,
-        vy: (Math.random() - 0.5) * 0.35,
-        r: Math.random() * 2 + 1,
-        pulse: Math.random() * Math.PI * 2,
-        pulseSpeed: 0.008 + Math.random() * 0.015
-      });
-    }
-  }
-
-  function drawFrame(time) {
-    ctx.clearRect(0, 0, w, h);
-
-    // Update + draw connections
-    for (var i = 0; i < particles.length; i++) {
-      var p = particles[i];
-      p.x += p.vx;
-      p.y += p.vy;
-      p.pulse += p.pulseSpeed;
-
-      // Bounce off edges
-      if (p.x < 0 || p.x > w) p.vx *= -1;
-      if (p.y < 0 || p.y > h) p.vy *= -1;
-
-      // Mouse repulsion
-      var dx = p.x - mouse.x;
-      var dy = p.y - mouse.y;
-      var md = Math.sqrt(dx * dx + dy * dy);
-      if (md < 150) {
-        var force = (150 - md) / 150 * 0.5;
-        p.vx += (dx / md) * force;
-        p.vy += (dy / md) * force;
-      }
-
-      // Speed limit
-      var speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-      if (speed > 0.8) {
-        p.vx = (p.vx / speed) * 0.8;
-        p.vy = (p.vy / speed) * 0.8;
-      }
-
-      // Draw connections
-      for (var j = i + 1; j < particles.length; j++) {
-        var p2 = particles[j];
-        var ddx = p.x - p2.x;
-        var ddy = p.y - p2.y;
-        var dist = Math.sqrt(ddx * ddx + ddy * ddy);
-        if (dist < 160) {
-          var alpha = (1 - dist / 160) * 0.12;
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = 'rgba(71,181,255,' + alpha + ')';
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-        }
-      }
-    }
-
-    // Draw particles
-    for (var k = 0; k < particles.length; k++) {
-      var pk = particles[k];
-      var pulseAlpha = 0.25 + Math.sin(pk.pulse) * 0.15;
-      var pulseR = pk.r + Math.sin(pk.pulse) * 0.5;
-
-      // Outer glow
-      ctx.beginPath();
-      ctx.arc(pk.x, pk.y, pulseR + 4, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(71,181,255,' + (pulseAlpha * 0.15) + ')';
-      ctx.fill();
-
-      // Core
-      ctx.beginPath();
-      ctx.arc(pk.x, pk.y, pulseR, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(71,181,255,' + pulseAlpha + ')';
-      ctx.fill();
-    }
-
-    requestAnimationFrame(drawFrame);
-  }
-
-  function handleMouse(e) {
-    var rect = canvas.getBoundingClientRect();
-    mouse.x = e.clientX - rect.left;
-    mouse.y = e.clientY - rect.top;
-  }
-
-  function handleMouseLeave() {
-    mouse.x = -1000;
-    mouse.y = -1000;
-  }
-
-  resize();
-  createParticles();
-  requestAnimationFrame(drawFrame);
-
-  window.addEventListener('resize', function() {
-    resize();
-    createParticles();
-  });
-
-  canvas.parentElement.addEventListener('mousemove', handleMouse);
-  canvas.parentElement.addEventListener('mouseleave', handleMouseLeave);
-})();
-`;
-
 export default function SolutionsHero() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -628,20 +512,7 @@ export default function SolutionsHero() {
       { threshold: 0.05 }
     );
     observer.observe(el);
-
-    // Run canvas script with delay
-    const timer = setTimeout(() => {
-      try {
-        new Function(script)();
-      } catch (e) {
-        console.error('SolutionsHero script error:', e);
-      }
-    }, 300);
-
-    return () => {
-      observer.disconnect();
-      clearTimeout(timer);
-    };
+    return () => observer.disconnect();
   }, []);
 
   return (
