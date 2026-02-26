@@ -1,5 +1,3 @@
-import Header     from '@/components/layout/Header'
-import Footer     from '@/components/layout/Footer'
 import HeroSlider from '@/components/sections/HeroSlider'
 import Section1   from '@/components/sections/Section1'
 import Section2   from '@/components/sections/Section2'
@@ -16,7 +14,6 @@ export default function HomePage() {
   return (
     <>
       <PageLoader />
-      <Header />
       <main style={{ margin: 0, padding: 0 }}>
         <HeroSlider />
         <Section1 />
@@ -29,7 +26,6 @@ export default function HomePage() {
         <Section8 />
         <Section10 />
       </main>
-      <Footer />
     </>
   )
 }
