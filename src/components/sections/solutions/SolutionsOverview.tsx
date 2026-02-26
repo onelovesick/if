@@ -6,19 +6,11 @@ const html = `
 <style>
 .ss{position:relative}
 
-.ss-hdr{background:#0B3C5D;padding:48px 0;opacity:0;transform:translateY(28px);transition:opacity .85s cubic-bezier(.22,1,.36,1),transform .85s cubic-bezier(.22,1,.36,1)}
-.ss-hdr.vis{opacity:1;transform:translateY(0)}
-.ss-hdr-c{max-width:1200px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;gap:32px}
-.ss-hdr-left{display:flex;align-items:center;gap:20px}
-.ss-hdr-ey{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#47B5FF}
-.ss-hdr-h{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:clamp(20px,2vw,26px);text-transform:uppercase;letter-spacing:-.01em;color:#F4F6F8;margin:0;line-height:1.2}
-.ss-hdr-line{flex:1;height:1px;background:rgba(71,181,255,.15)}
-.ss-hdr-stats{display:flex;gap:40px}
-.ss-hdr-stat{text-align:center}
-.ss-hdr-stat-val{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:22px;color:#47B5FF;line-height:1}
-.ss-hdr-stat-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:rgba(244,246,248,.35);margin-top:6px}
-@media(max-width:1024px){.ss-hdr-c{flex-direction:column;text-align:center}.ss-hdr-line{display:none}.ss-hdr-stats{gap:28px}}
-@media(max-width:640px){.ss-hdr{padding:36px 0}.ss-hdr-c{padding:0 20px}.ss-hdr-stats{gap:20px}.ss-hdr-stat-val{font-size:18px}}
+.ss-intro{max-width:1200px;margin:0 auto;padding:0 32px 56px;display:flex;align-items:center;gap:24px}
+.ss-intro-ey{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#47B5FF;white-space:nowrap}
+.ss-intro-h{font-family:'Inter Tight',sans-serif;font-weight:900;font-size:clamp(18px,2vw,24px);text-transform:uppercase;letter-spacing:-.01em;color:#0B3C5D;margin:0;line-height:1.2;white-space:nowrap}
+.ss-intro-line{flex:1;height:1px;background:rgba(11,60,93,.1)}
+@media(max-width:640px){.ss-intro{padding:0 20px 40px;flex-wrap:wrap;gap:12px}.ss-intro-line{display:none}}
 
 .sb{position:relative;padding:110px 0;overflow:hidden;opacity:0;transform:translateY(28px);transition:opacity .85s cubic-bezier(.22,1,.36,1),transform .85s cubic-bezier(.22,1,.36,1)}
 .sb.vis{opacity:1;transform:translateY(0)}
@@ -97,22 +89,7 @@ const html = `
 </style>
 
 <div class="ss">
-<div class="ss-hdr" data-reveal>
-<div class="ss-hdr-c">
-<div class="ss-hdr-left">
-<div class="ss-hdr-ey">— Deep Dive</div>
-<h2 class="ss-hdr-h">What each layer delivers</h2>
-</div>
-<div class="ss-hdr-line"></div>
-<div class="ss-hdr-stats">
-<div class="ss-hdr-stat"><div class="ss-hdr-stat-val">6</div><div class="ss-hdr-stat-label">Layers</div></div>
-<div class="ss-hdr-stat"><div class="ss-hdr-stat-val">30+</div><div class="ss-hdr-stat-label">Services</div></div>
-<div class="ss-hdr-stat"><div class="ss-hdr-stat-val">5</div><div class="ss-hdr-stat-label">Phases</div></div>
-<div class="ss-hdr-stat"><div class="ss-hdr-stat-val">ISO</div><div class="ss-hdr-stat-label">19650</div></div>
-</div>
-</div>
-</div>
-<div class="sb lt" data-reveal><div class="sb-wm">01</div><div class="sb-c"><div class="sb-grid"><div class="sb-txt"><div class="ey">Layer 01 — Foundation</div><h3>Strategy &amp;<br/><em>Planning</em></h3><p class="sb-p">We define how digital delivery will work before a single model is opened. BIM Execution Plans, Employer's Information Requirements, and strategic roadmaps — aligned to your contract, programme, and risk profile.</p><div class="sb-tags"><span class="sb-tg">BEP Development</span><span class="sb-tg">EIR Authoring</span><span class="sb-tg">Digital Roadmaps</span><span class="sb-tg">Risk Assessment</span></div><a href="/solutions/strategy/" class="sb-lk">Explore Strategy →</a></div><div class="sb-vis"><div class="sb-card"><div class="sb-card-hd"><div class="sb-card-num">01</div><div class="sb-card-label">Strategy<br/>Layer</div></div><div class="sb-stat"><div class="sb-stat-val">100%</div><div class="sb-stat-desc">of projects begin with a structured BEP &amp; EIR framework</div></div><div class="sb-del"><div class="sb-del-title">Key Deliverables</div><ul class="sb-del-list"><li><span class="sb-del-dot"></span>BIM Execution Plan (BEP)</li><li><span class="sb-del-dot"></span>Employer's Information Requirements</li><li><span class="sb-del-dot"></span>Digital Delivery Roadmap</li><li><span class="sb-del-dot"></span>Risk &amp; Maturity Assessment</li></ul></div><div class="sb-card-ft"><span class="sb-card-ft-phase">Phase: Inception</span><span class="sb-card-ft-std">ISO 19650-1</span></div></div></div></div></div></div>
+<div class="sb lt" data-reveal><div class="sb-wm">01</div><div class="sb-c"><div class="ss-intro"><div class="ss-intro-ey">— Deep Dive</div><h2 class="ss-intro-h">What each layer delivers</h2><div class="ss-intro-line"></div></div><div class="sb-grid"><div class="sb-txt"><div class="ey">Layer 01 — Foundation</div><h3>Strategy &amp;<br/><em>Planning</em></h3><p class="sb-p">We define how digital delivery will work before a single model is opened. BIM Execution Plans, Employer's Information Requirements, and strategic roadmaps — aligned to your contract, programme, and risk profile.</p><div class="sb-tags"><span class="sb-tg">BEP Development</span><span class="sb-tg">EIR Authoring</span><span class="sb-tg">Digital Roadmaps</span><span class="sb-tg">Risk Assessment</span></div><a href="/solutions/strategy/" class="sb-lk">Explore Strategy →</a></div><div class="sb-vis"><div class="sb-card"><div class="sb-card-hd"><div class="sb-card-num">01</div><div class="sb-card-label">Strategy<br/>Layer</div></div><div class="sb-stat"><div class="sb-stat-val">100%</div><div class="sb-stat-desc">of projects begin with a structured BEP &amp; EIR framework</div></div><div class="sb-del"><div class="sb-del-title">Key Deliverables</div><ul class="sb-del-list"><li><span class="sb-del-dot"></span>BIM Execution Plan (BEP)</li><li><span class="sb-del-dot"></span>Employer's Information Requirements</li><li><span class="sb-del-dot"></span>Digital Delivery Roadmap</li><li><span class="sb-del-dot"></span>Risk &amp; Maturity Assessment</li></ul></div><div class="sb-card-ft"><span class="sb-card-ft-phase">Phase: Inception</span><span class="sb-card-ft-std">ISO 19650-1</span></div></div></div></div></div></div>
 
 <div class="sb dk flip" data-reveal><div class="sb-wm">02</div><div class="sb-c"><div class="sb-grid"><div class="sb-txt"><div class="ey">Layer 02 — Architecture</div><h3>Information<br/><em>Structure</em></h3><p class="sb-p">We build the information architecture your project runs on. CDE environments, naming standards, LOD frameworks, and governance protocols that keep data clean, discoverable, and aligned across every discipline.</p><div class="sb-tags"><span class="sb-tg">CDE Setup</span><span class="sb-tg">Naming Standards</span><span class="sb-tg">LOD Frameworks</span><span class="sb-tg">Data Architecture</span></div><a href="/solutions/structure/" class="sb-lk">Explore Structure →</a></div><div class="sb-vis"><div class="sb-card"><div class="sb-card-hd"><div class="sb-card-num">02</div><div class="sb-card-label">Structure<br/>Layer</div></div><div class="sb-del"><div class="sb-del-title">Key Deliverables</div><ul class="sb-del-list"><li><span class="sb-del-dot"></span>Common Data Environment (CDE)</li><li><span class="sb-del-dot"></span>File Naming Convention Matrix</li><li><span class="sb-del-dot"></span>LOD Specification per Discipline</li><li><span class="sb-del-dot"></span>Information Governance Protocol</li></ul></div><div class="sb-flow"><div class="sb-flow-step"><div class="sb-flow-num">A</div><div class="sb-flow-name">Define</div></div><div class="sb-flow-step"><div class="sb-flow-num">B</div><div class="sb-flow-name">Configure</div></div><div class="sb-flow-step"><div class="sb-flow-num">C</div><div class="sb-flow-name">Govern</div></div><div class="sb-flow-step"><div class="sb-flow-num">D</div><div class="sb-flow-name">Validate</div></div></div><div class="sb-card-ft"><span class="sb-card-ft-phase">Phase: Design</span><span class="sb-card-ft-std">ISO 19650-2</span></div></div></div></div></div></div>
 
