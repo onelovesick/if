@@ -78,10 +78,7 @@ const html = `
     margin: 0 0 20px 0;
   }
 
-  .str-services h2 em {
-    font-style: italic;
-    color: #47B5FF;
-  }
+  .str-services h2 em { font-style: italic; color: #47B5FF; }
 
   .str-services-subtitle {
     font-family: 'Inter', sans-serif;
@@ -94,7 +91,7 @@ const html = `
   }
 
   /* ═══════════════════════════════════
-     4 PILLAR CARDS — 2x2 Grid
+     PILLAR CARDS
      ═══════════════════════════════════ */
   .str-services-grid {
     display: grid;
@@ -111,13 +108,11 @@ const html = `
     transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
     backdrop-filter: blur(4px);
     overflow: visible;
-    cursor: default;
   }
 
   .str-svc-card::before {
     content: '';
-    position: absolute;
-    top: 0; left: 0;
+    position: absolute; top: 0; left: 0;
     width: 18px; height: 18px;
     border-top: 1px solid rgba(71,181,255,0.25);
     border-left: 1px solid rgba(71,181,255,0.25);
@@ -126,8 +121,7 @@ const html = `
 
   .str-svc-card::after {
     content: '';
-    position: absolute;
-    bottom: 0; right: 0;
+    position: absolute; bottom: 0; right: 0;
     width: 18px; height: 18px;
     border-bottom: 1px solid rgba(71,181,255,0.25);
     border-right: 1px solid rgba(71,181,255,0.25);
@@ -145,16 +139,13 @@ const html = `
   }
 
   .str-svc-accent {
-    position: absolute;
-    top: 0; left: 0;
+    position: absolute; top: 0; left: 0;
     width: 0; height: 2px;
     background: linear-gradient(90deg, #47B5FF, rgba(71,181,255,0.2));
     transition: width 0.5s cubic-bezier(0.22,1,0.36,1);
   }
 
-  .str-svc-card:hover .str-svc-accent {
-    width: 100%;
-  }
+  .str-svc-card:hover .str-svc-accent { width: 100%; }
 
   .str-svc-card-header {
     display: flex;
@@ -165,8 +156,7 @@ const html = `
 
   .str-svc-card-label {
     font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    font-weight: 500;
+    font-size: 10px; font-weight: 500;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: #47B5FF;
@@ -174,8 +164,7 @@ const html = `
 
   .str-svc-card-count {
     font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.12em;
+    font-size: 10px; letter-spacing: 0.12em;
     color: rgba(122,155,181,0.4);
     border: 1px solid rgba(71,181,255,0.1);
     padding: 3px 10px;
@@ -183,29 +172,23 @@ const html = `
 
   .str-svc-card h3 {
     font-family: 'Inter Tight', sans-serif;
-    font-weight: 800;
-    font-size: 20px;
+    font-weight: 800; font-size: 20px;
     letter-spacing: -0.01em;
-    color: #F4F6F8;
-    margin: 0 0 12px 0;
+    color: #F4F6F8; margin: 0 0 12px 0;
     text-transform: uppercase;
     transition: color 0.3s ease;
   }
 
-  .str-svc-card:hover h3 {
-    color: #47B5FF;
-  }
+  .str-svc-card:hover h3 { color: #47B5FF; }
 
   .str-svc-card-desc {
     font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    font-weight: 400;
-    line-height: 1.75;
-    color: #7a9bb5;
+    font-size: 15px; font-weight: 400;
+    line-height: 1.75; color: #7a9bb5;
     margin: 0 0 28px 0;
   }
 
-  /* ── Service items with tooltips ── */
+  /* ── Service items + tooltips ── */
   .str-svc-items {
     display: flex;
     flex-direction: column;
@@ -221,8 +204,7 @@ const html = `
     padding: 12px 0;
     border-bottom: 1px solid rgba(71,181,255,0.05);
     font-family: 'Inter', sans-serif;
-    font-size: 13.5px;
-    font-weight: 400;
+    font-size: 13.5px; font-weight: 400;
     color: rgba(244,246,248,0.7);
     transition: color 0.2s ease, padding-left 0.2s ease;
     cursor: default;
@@ -242,35 +224,31 @@ const html = `
     transition: opacity 0.2s ease;
   }
 
-  .str-svc-item:hover::before {
-    opacity: 1;
-  }
+  .str-svc-item:hover::before { opacity: 1; }
 
-  /* Info icon */
   .str-svc-item-info {
+    position: relative;
     margin-left: auto;
     flex-shrink: 0;
-    width: 16px;
-    height: 16px;
+    width: 20px; height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    font-weight: 500;
-    color: rgba(71,181,255,0.3);
-    border: 1px solid rgba(71,181,255,0.15);
+    font-size: 10px; font-weight: 500;
+    color: rgba(71,181,255,0.55);
+    border: 1px solid rgba(71,181,255,0.3);
     border-radius: 50%;
     transition: all 0.2s ease;
     cursor: help;
   }
 
-  .str-svc-item:hover .str-svc-item-info {
+  .str-svc-item-info:hover {
     color: #47B5FF;
-    border-color: rgba(71,181,255,0.4);
+    border-color: #47B5FF;
+    background: rgba(71,181,255,0.08);
   }
 
-  /* Tooltip */
   .str-svc-tooltip {
     position: absolute;
     bottom: calc(100% + 10px);
@@ -286,18 +264,15 @@ const html = `
     transition: opacity 0.25s ease, transform 0.25s ease;
   }
 
-  .str-svc-item:hover .str-svc-tooltip {
+  .str-svc-item.str-tip-visible .str-svc-tooltip {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
     pointer-events: auto;
   }
 
-  /* Tooltip arrow */
   .str-svc-tooltip::after {
     content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
+    position: absolute; top: 100%; left: 50%;
     transform: translateX(-50%);
     border: 6px solid transparent;
     border-top-color: #0B3C5D;
@@ -305,8 +280,7 @@ const html = `
 
   .str-svc-tooltip p {
     font-family: 'Inter', sans-serif;
-    font-size: 12.5px;
-    font-weight: 400;
+    font-size: 12.5px; font-weight: 400;
     line-height: 1.7;
     color: rgba(244,246,248,0.85);
     margin: 0;
@@ -314,8 +288,7 @@ const html = `
 
   .str-svc-tooltip-title {
     font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    font-weight: 500;
+    font-size: 9px; font-weight: 500;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: #47B5FF;
@@ -323,27 +296,30 @@ const html = `
     display: block;
   }
 
-  /* + More note per card */
   .str-svc-more {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-top: 16px;
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    color: rgba(122,155,181,0.4);
-    transition: color 0.2s ease;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px dashed rgba(71,181,255,0.1);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(122,155,181,0.5);
+    letter-spacing: 0.01em;
   }
 
   .str-svc-more::before {
     content: '+';
-    color: rgba(71,181,255,0.3);
-    font-size: 13px;
+    color: rgba(71,181,255,0.4);
+    font-family: 'DM Mono', monospace;
+    font-size: 15px;
+    font-weight: 500;
   }
 
   /* ═══════════════════════════════════
-     DELIVERABLES TAG STRIP
+     DELIVERABLES STRIP
      ═══════════════════════════════════ */
   .str-deliverables {
     padding-top: 48px;
@@ -352,8 +328,7 @@ const html = `
 
   .str-deliverables-label {
     font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.22em;
+    font-size: 10px; letter-spacing: 0.22em;
     text-transform: uppercase;
     color: rgba(71,181,255,0.4);
     margin-bottom: 20px;
@@ -369,8 +344,7 @@ const html = `
 
   .str-del-tag {
     font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
+    font-size: 10px; letter-spacing: 0.1em;
     text-transform: uppercase;
     color: rgba(244,246,248,0.45);
     border: 1px solid rgba(71,181,255,0.1);
@@ -385,7 +359,7 @@ const html = `
   }
 
   /* ═══════════════════════════════════
-     CTA STRIP — "Don't see what you need?"
+     CTA STRIP
      ═══════════════════════════════════ */
   .str-services-cta-strip {
     margin-top: 56px;
@@ -401,8 +375,7 @@ const html = `
 
   .str-services-cta-text {
     font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    font-weight: 400;
+    font-size: 16px; font-weight: 400;
     color: #7a9bb5;
   }
 
@@ -413,8 +386,7 @@ const html = `
 
   .str-services-cta-btn {
     font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 12px; font-weight: 500;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #1C1F23;
@@ -432,7 +404,6 @@ const html = `
     box-shadow: 0 8px 24px rgba(71,181,255,0.2);
   }
 
-  /* ISO footer */
   .str-services-iso {
     text-align: center;
     margin-top: 40px;
@@ -440,8 +411,7 @@ const html = `
 
   .str-services-iso span {
     font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.18em;
+    font-size: 11px; letter-spacing: 0.18em;
     text-transform: uppercase;
     color: rgba(122,155,181,0.35);
   }
@@ -450,16 +420,9 @@ const html = `
      Responsive
      ═══════════════════════════════════ */
   @media (max-width: 900px) {
-    .str-services-grid {
-      grid-template-columns: 1fr;
-    }
-    .str-services {
-      padding: 80px 20px;
-    }
-    .str-svc-tooltip {
-      width: 240px;
-      left: 20%;
-    }
+    .str-services-grid { grid-template-columns: 1fr; }
+    .str-services { padding: 80px 20px; }
+    .str-svc-tooltip { width: 240px; left: 20%; }
     .str-services-cta-strip {
       flex-direction: column;
       text-align: center;
@@ -467,12 +430,9 @@ const html = `
     }
   }
 
-  /* Touch devices — tooltip on tap */
   @media (hover: none) {
-    .str-svc-tooltip {
-      display: none;
-    }
-    .str-svc-item.str-tooltip-active .str-svc-tooltip {
+    .str-svc-tooltip { display: none; }
+    .str-svc-item.str-tip-visible .str-svc-tooltip {
       display: block;
       opacity: 1;
       transform: translateX(-50%) translateY(0);
@@ -494,207 +454,212 @@ const html = `
 
     <div class="str-services-grid">
 
-      <!-- PILLAR 01 — Information Requirements -->
+      <!-- ═══ PILLAR 01 — Information Requirements ═══ -->
       <div class="str-svc-card" data-svc>
         <div class="str-svc-accent"></div>
         <div class="str-svc-card-header">
           <span class="str-svc-card-label">Pillar 01</span>
-          <span class="str-svc-card-count">8 Services</span>
+          <span class="str-svc-card-count">ISO 19650-1</span>
         </div>
         <h3>Information Requirements</h3>
         <p class="str-svc-card-desc">Define what information is needed, by whom, at what stage, and to what standard — from organisational objectives down to exchange-level specifics.</p>
         <div class="str-svc-items">
+
           <div class="str-svc-item" data-tip>
             OIR — Organisational Information Requirements
-            <span class="str-svc-item-info">i</span>
-            <div class="str-svc-tooltip">
-              <span class="str-svc-tooltip-title">OIR</span>
-              <p>High-level information needs aligned to your organisation's strategic objectives, asset management policies, and operational goals.</p>
-            </div>
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">OIR</span><p>The highest-level information needs of your organisation — aligned to strategic objectives, asset management policies, and long-term operational goals. Everything flows from here.</p></div>
           </div>
+
           <div class="str-svc-item" data-tip>
             PIR — Project Information Requirements
-            <span class="str-svc-item-info">i</span>
-            <div class="str-svc-tooltip">
-              <span class="str-svc-tooltip-title">PIR</span>
-              <p>Project-specific information needs derived from OIR, defining what data is required to support key decision points throughout delivery.</p>
-            </div>
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">PIR</span><p>Project-specific information needs derived from OIR. Defines what data is required at each key decision point — from feasibility through to handover.</p></div>
           </div>
+
           <div class="str-svc-item" data-tip>
             AIR — Asset Information Requirements
-            <span class="str-svc-item-info">i</span>
-            <div class="str-svc-tooltip">
-              <span class="str-svc-tooltip-title">AIR</span>
-              <p>Defines the information needed to operate, maintain, and manage the asset post-handover — the bridge between construction and facilities management.</p>
-            </div>
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">AIR</span><p>What information is needed to operate, maintain, and manage the asset after construction is complete. If this isn't defined early, handover data is useless to the operations team.</p></div>
           </div>
+
           <div class="str-svc-item" data-tip>
             EIR — Exchange Information Requirements
-            <span class="str-svc-item-info">i</span>
-            <div class="str-svc-tooltip">
-              <span class="str-svc-tooltip-title">EIR</span>
-              <p>Contractually enforceable requirements specifying what information each appointed party must deliver, when, in what format, and to what standard.</p>
-            </div>
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">EIR</span><p>The contractually enforceable document that tells each party what information they must deliver, in what format, when, and to what level of detail. This is what holds teams accountable.</p></div>
           </div>
+
           <div class="str-svc-item" data-tip>
             Level of Information Need (LOD / LOI)
-            <span class="str-svc-item-info">i</span>
-            <div class="str-svc-tooltip">
-              <span class="str-svc-tooltip-title">LOD / LOI</span>
-              <p>Frameworks defining the required geometric detail (LOD) and non-geometric data (LOI) for every element at each project stage — preventing over- and under-modelling.</p>
-            </div>
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">LOD / LOI</span><p>LOD is how detailed the 3D geometry needs to be. LOI is what data (properties, specs, costs) must be attached to each element. Together they prevent over-modelling and under-delivering.</p></div>
           </div>
-          <div class="str-svc-item">Information Delivery Milestone Planning</div>
+
+          <div class="str-svc-item" data-tip>
+            Information Delivery Milestone Planning
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">Milestones</span><p>Mapping exactly when information packages must be delivered — tied to project stages, gate reviews, and decision points. Prevents last-minute data scrambles.</p></div>
+          </div>
+
           <div class="str-svc-item" data-tip>
             PIM to AIM Transition Strategy
-            <span class="str-svc-item-info">i</span>
-            <div class="str-svc-tooltip">
-              <span class="str-svc-tooltip-title">PIM → AIM</span>
-              <p>Planning what data survives construction, in what format, for whose use — so the Project Information Model transitions cleanly into an Asset Information Model.</p>
-            </div>
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">PIM → AIM</span><p>Planning how the Project Information Model (used during construction) transforms into the Asset Information Model (used during operations). Without this plan, the owner gets files — not a managed asset.</p></div>
           </div>
-          <div class="str-svc-item">Contractual BIM Requirement Embedding</div>
+
+          <div class="str-svc-item" data-tip>
+            Contractual BIM Requirement Embedding
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">Contractual BIM</span><p>Writing BIM and information requirements directly into contracts, RFPs, and tender documents — so digital delivery is legally enforceable, not just aspirational.</p></div>
+          </div>
+
         </div>
         <div class="str-svc-more">Additional services tailored to project scope</div>
       </div>
 
-      <!-- PILLAR 02 — Execution Planning -->
+      <!-- ═══ PILLAR 02 — BIM Execution Planning ═══ -->
       <div class="str-svc-card" data-svc>
         <div class="str-svc-accent"></div>
         <div class="str-svc-card-header">
           <span class="str-svc-card-label">Pillar 02</span>
-          <span class="str-svc-card-count">8 Services</span>
+          <span class="str-svc-card-count">ISO 19650-2</span>
         </div>
         <h3>BIM Execution Planning</h3>
         <p class="str-svc-card-desc">Author BEPs that teams actually follow — governance documents that map responsibilities, exchanges, and coordination protocols to how your project really operates.</p>
         <div class="str-svc-items">
+
           <div class="str-svc-item" data-tip>
             Pre-Appointment BEP Development
-            <span class="str-svc-item-info">i</span>
-            <div class="str-svc-tooltip">
-              <span class="str-svc-tooltip-title">Pre-Appointment BEP</span>
-              <p>Developed during tender to demonstrate capability, capacity, and proposed approach to meeting the appointing party's EIR.</p>
-            </div>
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">Pre-Appointment BEP</span><p>Written during the tender phase. Demonstrates your team's proposed approach, capability, and capacity to meet the client's information requirements before the contract is awarded.</p></div>
           </div>
+
           <div class="str-svc-item" data-tip>
             Post-Appointment BEP Development
-            <span class="str-svc-item-info">i</span>
-            <div class="str-svc-tooltip">
-              <span class="str-svc-tooltip-title">Post-Appointment BEP</span>
-              <p>The confirmed execution plan developed after contract award — detailed schedules, confirmed responsibilities, and agreed protocols for the delivery team.</p>
-            </div>
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">Post-Appointment BEP</span><p>The confirmed plan developed after contract award. Detailed schedules, confirmed responsibilities, agreed software, naming conventions, and coordination protocols for the full delivery team.</p></div>
           </div>
+
           <div class="str-svc-item" data-tip>
             Responsibility Matrices (RACI)
-            <span class="str-svc-item-info">i</span>
-            <div class="str-svc-tooltip">
-              <span class="str-svc-tooltip-title">RACI</span>
-              <p>Clarifies who is Responsible, Accountable, Consulted, and Informed for every information deliverable across all appointed parties.</p>
-            </div>
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">RACI</span><p>A clear chart showing who is Responsible, Accountable, Consulted, and Informed for every information deliverable. Eliminates finger-pointing when deadlines are missed.</p></div>
           </div>
+
           <div class="str-svc-item" data-tip>
             Task Information Delivery Plans (TIDP)
-            <span class="str-svc-item-info">i</span>
-            <div class="str-svc-tooltip">
-              <span class="str-svc-tooltip-title">TIDP</span>
-              <p>Task-level plans from each appointed party detailing what information they will produce, when, and the resources required.</p>
-            </div>
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">TIDP</span><p>Each team's individual plan detailing what information they will produce, in what format, and when — including the time and resources needed. Think of it as each team's homework schedule.</p></div>
           </div>
+
           <div class="str-svc-item" data-tip>
             Master Information Delivery Plans (MIDP)
-            <span class="str-svc-item-info">i</span>
-            <div class="str-svc-tooltip">
-              <span class="str-svc-tooltip-title">MIDP</span>
-              <p>Compiled from all TIDPs — a single schedule of every information deliverable, its sequence, and when it must be exchanged across the full delivery team.</p>
-            </div>
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">MIDP</span><p>All TIDPs compiled into one master schedule. Shows every information deliverable across all teams, the sequence they're produced, and when they're exchanged. The single source of truth for delivery.</p></div>
           </div>
-          <div class="str-svc-item">Model Production Scheduling</div>
-          <div class="str-svc-item">BIM Use Case Identification & Mapping</div>
-          <div class="str-svc-item">Information Protocol & Legal Frameworks</div>
+
+          <div class="str-svc-item" data-tip>
+            Model Production Scheduling
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">Model Scheduling</span><p>Planning when each model or model component will be created, federated, reviewed, and published — synchronised with the project schedule and design milestones.</p></div>
+          </div>
+
+          <div class="str-svc-item" data-tip>
+            BIM Use Case Identification & Mapping
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">BIM Use Cases</span><p>Defining exactly how BIM will be used on this project — clash detection, quantity takeoff, 4D sequencing, energy analysis, etc. — and mapping each use case to a responsible team and phase.</p></div>
+          </div>
+
+          <div class="str-svc-item" data-tip>
+            Information Protocol & Legal Frameworks
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">Info Protocol</span><p>The legal agreement governing information ownership, liability, intellectual property, and usage rights between all parties. Without this, model data is a legal grey zone.</p></div>
+          </div>
+
         </div>
         <div class="str-svc-more">Additional services tailored to project scope</div>
       </div>
 
-      <!-- PILLAR 03 — Digital Roadmaps & Maturity -->
+      <!-- ═══ PILLAR 03 — Digital Roadmaps & Maturity ═══ -->
       <div class="str-svc-card" data-svc>
         <div class="str-svc-accent"></div>
         <div class="str-svc-card-header">
           <span class="str-svc-card-label">Pillar 03</span>
-          <span class="str-svc-card-count">7 Services</span>
+          <span class="str-svc-card-count">Phased Delivery</span>
         </div>
         <h3>Digital Roadmaps & Maturity</h3>
-        <p class="str-svc-card-desc">Phased implementation plans that match digital ambition to organisational readiness — technology stack, workflows, training, and adoption sequenced without over-engineering.</p>
+        <p class="str-svc-card-desc">Phased implementation plans that match digital ambition to organisational readiness — technology, workflows, training, and adoption sequenced without over-engineering.</p>
         <div class="str-svc-items">
+
           <div class="str-svc-item" data-tip>
             Digital Maturity Assessment
-            <span class="str-svc-item-info">i</span>
-            <div class="str-svc-tooltip">
-              <span class="str-svc-tooltip-title">Maturity Assessment</span>
-              <p>Benchmarks your organisation's current digital capability across people, process, and technology — identifying gaps and realistic next steps.</p>
-            </div>
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">Maturity Assessment</span><p>A structured evaluation of where your organisation stands today across people, process, and technology — benchmarked against industry standards to identify realistic next steps.</p></div>
           </div>
-          <div class="str-svc-item">Phased Implementation Roadmaps</div>
+
+          <div class="str-svc-item" data-tip>
+            Phased Implementation Roadmaps
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">Roadmaps</span><p>A step-by-step plan that takes you from current state to target state — broken into achievable phases with clear milestones, so you're not trying to do everything at once.</p></div>
+          </div>
+
           <div class="str-svc-item" data-tip>
             Technology Stack Evaluation & Selection
-            <span class="str-svc-item-info">i</span>
-            <div class="str-svc-tooltip">
-              <span class="str-svc-tooltip-title">Tech Stack</span>
-              <p>Platform-agnostic evaluation — Autodesk, Bentley, Procore, or others. We recommend what fits your programme, not what fits a vendor relationship.</p>
-            </div>
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">Tech Stack</span><p>Platform-agnostic evaluation — Autodesk, Bentley, Procore, or others. We recommend what fits your programme's needs, not what fits a vendor relationship.</p></div>
           </div>
+
           <div class="str-svc-item" data-tip>
             CDE Strategy & Platform Selection
-            <span class="str-svc-item-info">i</span>
-            <div class="str-svc-tooltip">
-              <span class="str-svc-tooltip-title">CDE Strategy</span>
-              <p>Selecting and structuring the Common Data Environment — workflows, access controls, naming conventions, and approval gates before any platform is deployed.</p>
-            </div>
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">CDE Strategy</span><p>A Common Data Environment is the single place where all project information lives. We define the workflows, folder structures, access controls, naming conventions, and approval gates before any platform is deployed.</p></div>
           </div>
-          <div class="str-svc-item">Training & Capability Development Planning</div>
-          <div class="str-svc-item">Change Management & Adoption Strategy</div>
-          <div class="str-svc-item">Digital Delivery KPI Frameworks</div>
+
+          <div class="str-svc-item" data-tip>
+            Training & Capability Development Planning
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">Training</span><p>Identifying skill gaps across your team and building a training programme that gets people confident with new tools and processes — not just trained, but actually capable.</p></div>
+          </div>
+
+          <div class="str-svc-item" data-tip>
+            Change Management & Adoption Strategy
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">Change Management</span><p>New technology fails without buy-in. We plan how to bring your teams along — communication, champions, quick wins, and feedback loops that make adoption stick.</p></div>
+          </div>
+
+          <div class="str-svc-item" data-tip>
+            Digital Delivery KPI Frameworks
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">KPIs</span><p>Measurable indicators that tell you if your digital delivery is actually working — model quality scores, information exchange compliance, adoption rates, and time savings tracked over time.</p></div>
+          </div>
+
         </div>
         <div class="str-svc-more">Additional services tailored to project scope</div>
       </div>
 
-      <!-- PILLAR 04 — Risk & Governance -->
+      <!-- ═══ PILLAR 04 — Risk & Governance ═══ -->
       <div class="str-svc-card" data-svc>
         <div class="str-svc-accent"></div>
         <div class="str-svc-card-header">
           <span class="str-svc-card-label">Pillar 04</span>
-          <span class="str-svc-card-count">7 Services</span>
+          <span class="str-svc-card-count">ISO 19650-5</span>
         </div>
         <h3>Risk Assessment & Governance</h3>
         <p class="str-svc-card-desc">Identify information risk before it becomes project risk. Gap analyses, compliance reviews, and governance frameworks that surface vulnerabilities early and maintain control.</p>
         <div class="str-svc-items">
-          <div class="str-svc-item">Information Risk Registers</div>
+
+          <div class="str-svc-item" data-tip>
+            Information Risk Registers
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">Risk Register</span><p>A living document that logs every information-related risk — missing data, unclear responsibilities, platform gaps — along with likelihood, impact, and mitigation actions.</p></div>
+          </div>
+
           <div class="str-svc-item" data-tip>
             Gap Analysis & Compliance Audits
-            <span class="str-svc-item-info">i</span>
-            <div class="str-svc-tooltip">
-              <span class="str-svc-tooltip-title">Gap Analysis</span>
-              <p>Assessing current information management practices against ISO 19650 requirements — identifying where processes, technologies, and competencies fall short.</p>
-            </div>
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">Gap Analysis</span><p>Comparing your current information management practices against ISO 19650 requirements — identifying where processes, technologies, and competencies fall short and what needs to change.</p></div>
           </div>
-          <div class="str-svc-item">Contractual BIM Alignment Review</div>
+
+          <div class="str-svc-item" data-tip>
+            Contractual BIM Alignment Review
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">Alignment Review</span><p>Reviewing existing contracts to check if BIM and information requirements are clearly stated, enforceable, and consistent across all parties — before disputes arise.</p></div>
+          </div>
+
           <div class="str-svc-item" data-tip>
             Stakeholder Readiness Assessment
-            <span class="str-svc-item-info">i</span>
-            <div class="str-svc-tooltip">
-              <span class="str-svc-tooltip-title">Readiness</span>
-              <p>Evaluates whether key stakeholders — owners, contractors, design teams — have the capability, tools, and understanding to deliver on BIM requirements.</p>
-            </div>
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">Readiness</span><p>Evaluating whether owners, contractors, and design teams have the capability, tools, and understanding to actually deliver on BIM requirements — and what support they need.</p></div>
           </div>
+
           <div class="str-svc-item" data-tip>
             Information Security Planning (ISO 19650-5)
-            <span class="str-svc-item-info">i</span>
-            <div class="str-svc-tooltip">
-              <span class="str-svc-tooltip-title">ISO 19650-5</span>
-              <p>Security-minded approach to information management — classifying sensitive data, defining access controls, and mitigating information security risks.</p>
-            </div>
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">ISO 19650-5</span><p>Classifying sensitive project information, defining who can access what, and mitigating security risks — especially critical on government, defence, and critical infrastructure projects.</p></div>
           </div>
-          <div class="str-svc-item">Procurement & Tender BIM Support</div>
-          <div class="str-svc-item">RFP / RFQ BIM Specification Writing</div>
+
+          <div class="str-svc-item" data-tip>
+            Procurement & Tender BIM Support
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">Tender Support</span><p>Helping owners write BIM requirements into procurement documents — and helping bidders respond with credible, compliant tender submissions that actually reflect their capability.</p></div>
+          </div>
+
+          <div class="str-svc-item" data-tip>
+            RFP / RFQ BIM Specification Writing
+            <span class="str-svc-item-info">i</span><div class="str-svc-tooltip"><span class="str-svc-tooltip-title">RFP / RFQ Specs</span><p>Authoring the BIM-specific sections of Requests for Proposals and Qualifications — clear, measurable, and aligned to ISO 19650 so responses can be objectively evaluated.</p></div>
+          </div>
+
         </div>
         <div class="str-svc-more">Additional services tailored to project scope</div>
       </div>
@@ -736,7 +701,6 @@ const html = `
 `;
 
 const script = `(function(){
-  /* Card stagger */
   var cards = document.querySelectorAll('[data-svc]');
   cards.forEach(function(card, i) {
     card.style.opacity = '0';
@@ -756,7 +720,6 @@ const script = `(function(){
     obs.observe(card);
   });
 
-  /* Tag stagger */
   var tags = document.querySelectorAll('.str-del-tag');
   tags.forEach(function(tag, i) {
     tag.style.opacity = '0';
@@ -776,22 +739,35 @@ const script = `(function(){
     obs.observe(tag);
   });
 
-  /* Touch device tooltip toggle */
-  var tipItems = document.querySelectorAll('[data-tip]');
-  tipItems.forEach(function(item) {
-    item.addEventListener('click', function(e) {
-      var wasActive = item.classList.contains('str-tooltip-active');
-      tipItems.forEach(function(ti) { ti.classList.remove('str-tooltip-active'); });
-      if (!wasActive) {
-        item.classList.add('str-tooltip-active');
-      }
+  /* Icon hover: show tooltip on parent row */
+  var icons = document.querySelectorAll('.str-svc-item-info');
+  icons.forEach(function(icon) {
+    var row = icon.closest('.str-svc-item');
+    icon.addEventListener('mouseenter', function() {
+      document.querySelectorAll('.str-tip-visible').forEach(function(el) { el.classList.remove('str-tip-visible'); });
+      if (row) row.classList.add('str-tip-visible');
+    });
+    icon.addEventListener('mouseleave', function() {
+      if (row) row.classList.remove('str-tip-visible');
     });
   });
 
-  /* Close tooltips on outside click */
+  /* Click anywhere on the row or icon: toggle tooltip */
+  var tipRows = document.querySelectorAll('[data-tip]');
+  tipRows.forEach(function(row) {
+    row.addEventListener('click', function(e) {
+      if (e.target.closest('.str-svc-tooltip')) return;
+      e.stopPropagation();
+      var wasActive = row.classList.contains('str-tip-visible');
+      document.querySelectorAll('.str-tip-visible').forEach(function(el) { el.classList.remove('str-tip-visible'); });
+      if (!wasActive) row.classList.add('str-tip-visible');
+    });
+    row.style.cursor = 'pointer';
+  });
+
   document.addEventListener('click', function(e) {
     if (!e.target.closest('[data-tip]')) {
-      tipItems.forEach(function(ti) { ti.classList.remove('str-tooltip-active'); });
+      document.querySelectorAll('.str-tip-visible').forEach(function(el) { el.classList.remove('str-tip-visible'); });
     }
   });
 })();`;
