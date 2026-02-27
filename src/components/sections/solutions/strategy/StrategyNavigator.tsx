@@ -2,390 +2,259 @@
 import { useEffect, useRef } from 'react';
 
 const html = `
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@800;900&amp;family=Inter:wght@300;400;500;600&amp;family=DM+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@700;800;900&amp;family=Inter:wght@300;400;500;600&amp;family=DM+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet">
 <style>
   .str-nav {
     position: relative;
     background: #F2F5F8;
-    padding: 120px 32px;
+    padding: 100px 32px 110px;
     overflow: hidden;
   }
 
+  .str-nav::before {
+    content: '';
+    position: absolute; inset: 0;
+    opacity: 0.018;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    pointer-events: none;
+  }
+
   .str-nav-inner {
+    position: relative;
     max-width: 1200px;
     margin: 0 auto;
   }
 
   .str-nav-header {
-    text-align: center;
-    margin-bottom: 64px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 36px;
   }
+
+  .str-nav-left {}
 
   .str-nav-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 14px;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    font-weight: 400;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: #47B5FF;
-    margin-bottom: 24px;
+    display: inline-flex; align-items: center; gap: 14px;
+    font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 400;
+    letter-spacing: 0.22em; text-transform: uppercase; color: #47B5FF;
+    margin-bottom: 16px;
   }
-
-  .str-nav-eyebrow::before {
-    content: '';
-    display: block;
-    width: 20px;
-    height: 1px;
-    background: #47B5FF;
-  }
+  .str-nav-eyebrow::before { content: ''; display: block; width: 20px; height: 1px; background: #47B5FF; }
 
   .str-nav h2 {
-    font-family: 'Inter Tight', sans-serif;
-    font-weight: 900;
-    font-size: clamp(30px, 3.5vw, 44px);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    color: #0B3C5D;
-    margin: 0;
+    font-family: 'Inter Tight', sans-serif; font-weight: 900;
+    font-size: clamp(24px, 2.8vw, 34px); line-height: 1.1;
+    letter-spacing: -0.02em; text-transform: uppercase;
+    color: #0B3C5D; margin: 0;
   }
+  .str-nav h2 em { font-style: italic; color: #47B5FF; }
 
-  .str-nav h2 em {
-    font-style: italic;
-    color: #47B5FF;
+  .str-nav-hub {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    text-decoration: none; color: #47B5FF;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: gap 0.2s ease;
+    flex-shrink: 0;
   }
+  .str-nav-hub:hover { gap: 14px; }
 
-  /* Six solution layer strip */
-  .str-nav-layers {
+  /* ═══ 6-column grid ═══ */
+  .str-nav-grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 12px;
-    margin-bottom: 48px;
+    gap: 14px;
   }
 
-  .str-nav-layer {
+  .str-nav-card {
     position: relative;
-    padding: 28px 16px 24px;
     background: #fff;
-    border: 1px solid rgba(11,60,93,0.09);
+    border: 1px solid rgba(11,60,93,0.07);
+    padding: 24px 20px 22px;
     text-decoration: none;
-    text-align: center;
-    transition: all 0.35s ease;
+    display: block;
+    transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
+    overflow: hidden;
   }
 
-  /* Corner brackets */
-  .str-nav-layer::before {
+  .str-nav-card::before {
     content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 12px;
-    height: 12px;
-    border-top: 1px solid rgba(71,181,255,0.2);
-    border-left: 1px solid rgba(71,181,255,0.2);
+    position: absolute; top: 0; left: 0;
+    width: 0; height: 3px;
+    background: #47B5FF;
+    transition: width 0.4s cubic-bezier(0.22,1,0.36,1);
   }
 
-  .str-nav-layer::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 12px;
-    height: 12px;
-    border-bottom: 1px solid rgba(71,181,255,0.2);
-    border-right: 1px solid rgba(71,181,255,0.2);
-  }
+  .str-nav-card:hover::before { width: 100%; }
 
-  .str-nav-layer:hover {
-    border-color: rgba(71,181,255,0.25);
+  .str-nav-card:hover {
+    border-color: rgba(71,181,255,0.15);
     transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(11,60,93,0.08);
+    box-shadow: 0 10px 32px rgba(11,60,93,0.07);
   }
 
-  .str-nav-layer.str-nav-layer-active {
+  /* Active card */
+  .str-nav-card.str-nav-active {
     background: #0B3C5D;
-    border-color: rgba(71,181,255,0.3);
+    border-color: rgba(71,181,255,0.2);
+  }
+  .str-nav-card.str-nav-active::before { width: 100%; }
+
+  .str-nav-card.str-nav-active .str-nav-num { color: rgba(71,181,255,0.6); }
+  .str-nav-card.str-nav-active .str-nav-name { color: #F4F6F8; }
+  .str-nav-card.str-nav-active .str-nav-tag { color: #7a9bb5; }
+
+  .str-nav-card.str-nav-active:hover {
+    transform: none;
+    box-shadow: none;
+    cursor: default;
   }
 
-  .str-nav-layer.str-nav-layer-active::before,
-  .str-nav-layer.str-nav-layer-active::after {
-    border-color: rgba(71,181,255,0.5);
-  }
-
-  .str-nav-layer-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: rgba(71,181,255,0.4);
+  .str-nav-num {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.16em; color: rgba(71,181,255,0.5);
     margin-bottom: 10px;
   }
 
-  .str-nav-layer.str-nav-layer-active .str-nav-layer-num {
-    color: rgba(71,181,255,0.7);
-  }
-
-  .str-nav-layer-name {
-    font-family: 'Inter Tight', sans-serif;
-    font-weight: 800;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    color: #0B3C5D;
-    margin-bottom: 6px;
-  }
-
-  .str-nav-layer.str-nav-layer-active .str-nav-layer-name {
-    color: #F4F6F8;
-  }
-
-  .str-nav-layer:hover .str-nav-layer-name {
-    color: #47B5FF;
-  }
-
-  .str-nav-layer-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.12em;
-    color: #5a7a96;
-  }
-
-  .str-nav-layer.str-nav-layer-active .str-nav-layer-tag {
-    color: #7a9bb5;
-  }
-
-  /* Prev/Next navigation */
-  .str-nav-prevnext {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-  }
-
-  .str-nav-link {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    padding: 36px 32px;
-    background: #fff;
-    border: 1px solid rgba(11,60,93,0.09);
-    text-decoration: none;
-    transition: all 0.35s ease;
-  }
-
-  .str-nav-link::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 16px;
-    height: 16px;
-    border-top: 1px solid rgba(71,181,255,0.3);
-    border-left: 1px solid rgba(71,181,255,0.3);
-  }
-
-  .str-nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 16px;
-    height: 16px;
-    border-bottom: 1px solid rgba(71,181,255,0.3);
-    border-right: 1px solid rgba(71,181,255,0.3);
-  }
-
-  .str-nav-link:hover {
-    border-color: rgba(71,181,255,0.2);
-    box-shadow: 0 8px 32px rgba(11,60,93,0.06);
-    transform: translateY(-2px);
-  }
-
-  .str-nav-link-direction {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: rgba(71,181,255,0.5);
-    margin-bottom: 12px;
-  }
-
-  .str-nav-link-name {
-    font-family: 'Inter Tight', sans-serif;
-    font-weight: 800;
-    font-size: 22px;
-    text-transform: uppercase;
-    color: #0B3C5D;
-    margin-bottom: 8px;
+  .str-nav-name {
+    font-family: 'Inter Tight', sans-serif; font-weight: 800;
+    font-size: 15px; text-transform: uppercase;
+    color: #0B3C5D; margin-bottom: 6px;
     transition: color 0.3s ease;
+    line-height: 1.2;
+  }
+  .str-nav-card:hover .str-nav-name { color: #47B5FF; }
+  .str-nav-card.str-nav-active:hover .str-nav-name { color: #F4F6F8; }
+
+  .str-nav-tag {
+    font-family: 'Inter', sans-serif; font-size: 12px;
+    font-weight: 400; line-height: 1.5; color: #5a7a96;
   }
 
-  .str-nav-link:hover .str-nav-link-name {
+  .str-nav-current {
+    display: inline-block;
+    margin-top: 12px;
+    font-family: 'DM Mono', monospace; font-size: 8px;
+    letter-spacing: 0.2em; text-transform: uppercase;
     color: #47B5FF;
+    padding: 3px 10px;
+    border: 1px solid rgba(71,181,255,0.3);
   }
 
-  .str-nav-link-desc {
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    font-weight: 300;
-    line-height: 1.7;
-    color: #5a7a96;
+  .str-nav-arrow {
+    display: inline-flex; align-items: center; gap: 5px;
+    margin-top: 12px;
+    font-family: 'DM Mono', monospace; font-size: 9px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(71,181,255,0.5);
+    transition: color 0.2s ease, gap 0.2s ease;
   }
+  .str-nav-card:hover .str-nav-arrow { color: #47B5FF; gap: 8px; }
 
-  .str-nav-link-arrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #47B5FF;
-    margin-top: 20px;
-    transition: gap 0.3s ease;
-  }
-
-  .str-nav-link:hover .str-nav-link-arrow {
-    gap: 14px;
-  }
-
-  .str-nav-link.str-nav-prev {
-    text-align: left;
-  }
-
-  .str-nav-link.str-nav-next {
-    text-align: right;
-  }
-
-  .str-nav-link.str-nav-prev .str-nav-link-arrow {
-    justify-content: flex-start;
-  }
-
-  .str-nav-link.str-nav-next .str-nav-link-arrow {
-    justify-content: flex-end;
-  }
-
-  /* All solutions link */
-  .str-nav-all {
-    display: block;
-    text-align: center;
-    margin-top: 40px;
-  }
-
-  .str-nav-all a {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #47B5FF;
-    text-decoration: none;
-    transition: gap 0.3s ease;
-  }
-
-  .str-nav-all a:hover {
-    gap: 14px;
-  }
-
-  @media (max-width: 900px) {
-    .str-nav-layers {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    .str-nav-prevnext {
-      grid-template-columns: 1fr;
-    }
+  /* ═══ Responsive ═══ */
+  @media (max-width: 1080px) {
+    .str-nav-grid { grid-template-columns: repeat(3, 1fr); }
   }
 
   @media (max-width: 600px) {
-    .str-nav-layers {
-      grid-template-columns: repeat(2, 1fr);
-    }
+    .str-nav { padding: 80px 20px 90px; }
+    .str-nav-grid { grid-template-columns: repeat(2, 1fr); }
+    .str-nav-header { flex-direction: column; align-items: flex-start; gap: 16px; }
   }
 </style>
 
 <section class="str-nav">
   <div class="str-nav-inner">
-    <div class="str-nav-header">
-      <div class="str-nav-eyebrow">Six Integrated Layers</div>
-      <h2>Explore All <em>Solutions</em></h2>
-    </div>
 
-    <div class="str-nav-layers">
-      <div class="str-nav-layer str-nav-layer-active" style="cursor:default;">
-        <div class="str-nav-layer-num">01</div>
-        <div class="str-nav-layer-name">Strategy</div>
-        <div class="str-nav-layer-tag">Current</div>
+    <div class="str-nav-header" id="str-nav-header">
+      <div class="str-nav-left">
+        <div class="str-nav-eyebrow">Explore Solutions</div>
+        <h2>Six Integrated <em>Layers</em></h2>
       </div>
-      <a href="/solutions/structure/" class="str-nav-layer">
-        <div class="str-nav-layer-num">02</div>
-        <div class="str-nav-layer-name">Structure</div>
-        <div class="str-nav-layer-tag">CDE · Data</div>
+      <a href="/solutions/" class="str-nav-hub">All Solutions →</a>
+    </div>
+
+    <div class="str-nav-grid">
+      <a href="/solutions/strategy/" class="str-nav-card str-nav-active">
+        <div class="str-nav-num">01</div>
+        <div class="str-nav-name">Strategy</div>
+        <div class="str-nav-tag">BIM plans, EIR, digital roadmaps</div>
+        <div class="str-nav-current">You Are Here</div>
       </a>
-      <a href="/solutions/intelligence/" class="str-nav-layer">
-        <div class="str-nav-layer-num">03</div>
-        <div class="str-nav-layer-name">Intelligence</div>
-        <div class="str-nav-layer-tag">Modelling</div>
+      <a href="/solutions/structure/" class="str-nav-card" data-nav>
+        <div class="str-nav-num">02</div>
+        <div class="str-nav-name">Structure</div>
+        <div class="str-nav-tag">CDE, naming, LOD frameworks</div>
+        <div class="str-nav-arrow">Explore →</div>
       </a>
-      <a href="/solutions/execution/" class="str-nav-layer">
-        <div class="str-nav-layer-num">04</div>
-        <div class="str-nav-layer-name">Execution</div>
-        <div class="str-nav-layer-tag">4D · Field</div>
+      <a href="/solutions/intelligence/" class="str-nav-card" data-nav>
+        <div class="str-nav-num">03</div>
+        <div class="str-nav-name">Intelligence</div>
+        <div class="str-nav-tag">Modelling, clash, scan-to-BIM</div>
+        <div class="str-nav-arrow">Explore →</div>
       </a>
-      <a href="/solutions/project-twin/" class="str-nav-layer">
-        <div class="str-nav-layer-num">05</div>
-        <div class="str-nav-layer-name">Project Twin</div>
-        <div class="str-nav-layer-tag">Handover</div>
+      <a href="/solutions/execution/" class="str-nav-card" data-nav>
+        <div class="str-nav-num">04</div>
+        <div class="str-nav-name">Execution</div>
+        <div class="str-nav-tag">4D scheduling, work packaging</div>
+        <div class="str-nav-arrow">Explore →</div>
       </a>
-      <a href="/solutions/insights/" class="str-nav-layer">
-        <div class="str-nav-layer-num">06</div>
-        <div class="str-nav-layer-name">Insights</div>
-        <div class="str-nav-layer-tag">Dashboards</div>
+      <a href="/solutions/project-twin/" class="str-nav-card" data-nav>
+        <div class="str-nav-num">05</div>
+        <div class="str-nav-name">Project Twin</div>
+        <div class="str-nav-tag">As-built, COBie, digital handover</div>
+        <div class="str-nav-arrow">Explore →</div>
+      </a>
+      <a href="/solutions/insights/" class="str-nav-card" data-nav>
+        <div class="str-nav-num">06</div>
+        <div class="str-nav-name">Insights</div>
+        <div class="str-nav-tag">Dashboards, auditing, analytics</div>
+        <div class="str-nav-arrow">Explore →</div>
       </a>
     </div>
 
-    <div class="str-nav-prevnext">
-      <div class="str-nav-link str-nav-prev" style="opacity:0.35; pointer-events:none;">
-        <div class="str-nav-link-direction">← Previous Layer</div>
-        <div class="str-nav-link-name">—</div>
-        <div class="str-nav-link-desc">Strategy is the first layer in the framework.</div>
-      </div>
-      <a href="/solutions/structure/" class="str-nav-link str-nav-next">
-        <div class="str-nav-link-direction">Next Layer →</div>
-        <div class="str-nav-link-name">02 · Structure</div>
-        <div class="str-nav-link-desc">CDE setup, naming conventions, LOD frameworks, and data architecture.</div>
-        <div class="str-nav-link-arrow">Explore Structure <span>→</span></div>
-      </a>
-    </div>
-
-    <div class="str-nav-all">
-      <a href="/solutions/">View All Solutions <span>→</span></a>
-    </div>
   </div>
 </section>
 `;
 
 const script = `(function(){
-  const layers = document.querySelectorAll('.str-nav-layer');
-  layers.forEach((layer, i) => {
-    layer.style.opacity = '0';
-    layer.style.transform = 'translateY(16px)';
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
+  var header = document.getElementById('str-nav-header');
+  if (header) {
+    header.style.opacity = '0';
+    header.style.transform = 'translateY(16px)';
+    var obsH = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
         if (e.isIntersecting) {
-          setTimeout(() => {
-            layer.style.transition = 'opacity 0.5s ease, transform 0.5s ease, background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease';
-            layer.style.opacity = '1';
-            layer.style.transform = 'translateY(0)';
+          header.style.transition = 'opacity 0.5s cubic-bezier(0.22,1,0.36,1), transform 0.5s cubic-bezier(0.22,1,0.36,1)';
+          header.style.opacity = '1';
+          header.style.transform = 'translateY(0)';
+          obsH.disconnect();
+        }
+      });
+    }, { threshold: 0.05 });
+    obsH.observe(header);
+  }
+
+  var cards = document.querySelectorAll('[data-nav]');
+  cards.forEach(function(c, i) {
+    c.style.opacity = '0';
+    c.style.transform = 'translateY(14px)';
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          setTimeout(function() {
+            c.style.transition = 'opacity 0.45s ease, transform 0.45s ease, border-color 0.35s ease, box-shadow 0.35s ease';
+            c.style.opacity = '1';
+            c.style.transform = 'translateY(0)';
           }, i * 80);
           obs.disconnect();
         }
       });
     }, { threshold: 0.1 });
-    obs.observe(layer);
+    obs.observe(c);
   });
 })();`;
 
