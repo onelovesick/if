@@ -355,13 +355,6 @@ const html = `
           </div>
         </div>
         <div class="str-stat-block">
-          <div class="str-stat-number">1<span>%</span></div>
-          <div class="str-stat-content">
-            <div class="str-stat-label">Annual productivity growth in construction over 20 years — vs. 3.6% in manufacturing.</div>
-            <a href="https://www.mckinsey.com/capabilities/operations/our-insights/reinventing-construction-through-a-productivity-revolution" target="_blank" rel="noopener" class="str-stat-source">McKinsey Global Institute — Reinventing Construction (2017)</a>
-          </div>
-        </div>
-        <div class="str-stat-block">
           <div class="str-stat-number">80<span>%</span></div>
           <div class="str-stat-content">
             <div class="str-stat-label">Of large construction projects exceed budgets by 20% or more — driven by poor data, not poor labour.</div>
