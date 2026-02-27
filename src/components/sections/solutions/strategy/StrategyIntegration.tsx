@@ -61,158 +61,112 @@ const html = `
     margin-bottom: 40px;
   }
 
-  .str-lc-wrap {
-    position: relative;
-    overflow-x: auto;
-    overflow-y: visible;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .str-lc-wrap::-webkit-scrollbar { display: none; }
-
-  .str-lc-track {
-    position: relative;
-    min-width: 980px;
-  }
-
-  /* Lines */
-  .str-lc-line-grey,
-  .str-lc-line-blue {
-    position: absolute;
-    top: 9px;
-    height: 2px;
-    left: 9px;
-    z-index: 0;
-  }
-  .str-lc-line-grey {
-    right: 9px;
-    background: rgba(71,181,255,0.10);
-  }
-  .str-lc-line-blue {
-    width: 0;
-    background: #47B5FF;
-    z-index: 1;
-    transition: width 0.8s cubic-bezier(0.22,1,0.36,1);
-  }
-
-  /* Grid — always 7 columns */
+  /* Card grid */
   .str-lc-grid {
-    position: relative;
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 0;
-    z-index: 2;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
   }
 
-  /* Phase cell */
-  .str-phase {
+  .str-phase-card {
     position: relative;
-    padding-right: 14px;
+    background: #fff;
+    border: 1px solid rgba(11,60,93,0.07);
+    padding: 28px 24px 24px;
+    transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
+    overflow: hidden;
   }
 
-  /* ── Row 1: Dots ── */
-  .str-phase-dot {
-    width: 16px; height: 16px;
-    border-radius: 50%;
-    background: #F2F5F8;
-    border: 2px solid rgba(71,181,255,0.3);
-    margin-bottom: 16px;
-    transition: all 0.3s ease;
-    position: relative;
-    z-index: 3;
+  /* Left accent bar — present on all, coloured on best/ideal */
+  .str-phase-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 3px;
+    background: transparent;
+    transition: background 0.3s ease;
   }
 
-  .str-phase:hover .str-phase-dot {
-    border-color: #47B5FF;
-    box-shadow: 0 0 0 4px rgba(71,181,255,0.1);
+  .str-phase-card.str-card-best::before { background: #47B5FF; }
+  .str-phase-card.str-card-ideal::before { background: rgba(71,181,255,0.5); }
+
+  .str-phase-card:hover {
+    border-color: rgba(71,181,255,0.15);
+    box-shadow: 0 8px 28px rgba(11,60,93,0.06);
+    transform: translateY(-2px);
   }
 
-  .str-phase-best .str-phase-dot {
-    background: #47B5FF;
-    border-color: #47B5FF;
-    box-shadow: 0 0 0 5px rgba(71,181,255,0.16);
-    width: 18px; height: 18px;
-    margin-top: -1px;
+  .str-phase-card:hover::before { background: #47B5FF; }
+
+  /* Phase number */
+  .str-pc-phase {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #47B5FF;
+    margin-bottom: 10px;
   }
 
-  .str-phase-ideal .str-phase-dot {
-    background: rgba(71,181,255,0.55);
-    border-color: #47B5FF;
-    box-shadow: 0 0 0 4px rgba(71,181,255,0.12);
-    width: 17px; height: 17px;
-    margin-top: -0.5px;
-  }
-
-  /* ── Row 2: Name ── */
-  .str-phase-name {
+  .str-pc-name {
     font-family: 'Inter Tight', sans-serif;
     font-weight: 800;
-    font-size: 12.5px;
-    letter-spacing: 0.02em;
+    font-size: 15px;
+    letter-spacing: 0.01em;
     text-transform: uppercase;
     color: #0B3C5D;
-    line-height: 1.35;
-    height: 34px;
-    display: flex;
-    align-items: flex-start;
+    line-height: 1.3;
+    margin-bottom: 10px;
+    min-height: 40px;
     transition: color 0.3s ease;
   }
-  .str-phase:hover .str-phase-name { color: #47B5FF; }
 
-  /* ── Row 3: Desc ── */
-  .str-phase-desc {
+  .str-phase-card:hover .str-pc-name { color: #47B5FF; }
+
+  .str-pc-desc {
     font-family: 'Inter', sans-serif;
-    font-size: 12.5px;
+    font-size: 13.5px;
     font-weight: 400;
-    line-height: 1.6;
+    line-height: 1.65;
     color: #5a7a96;
-    height: 42px;
-    margin-top: 6px;
+    min-height: 46px;
   }
 
-  /* ── Row 4: Badge ── */
-  .str-phase-badge-wrap {
-    margin-top: 14px;
-    height: 30px;
+  /* Badge row — sits at bottom */
+  .str-pc-badge {
+    margin-top: 18px;
+    height: 28px;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
   }
 
   .str-best-badge {
     display: inline-flex; align-items: center; gap: 6px;
-    padding: 5px 12px;
-    background: rgba(71,181,255,0.12);
-    border: 1px solid rgba(71,181,255,0.3);
+    padding: 5px 14px;
+    background: #47B5FF;
     font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 500;
-    letter-spacing: 0.16em; text-transform: uppercase; color: #47B5FF;
-    animation: idealPulse 3s ease-in-out infinite;
-  }
-
-  @keyframes idealPulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(71,181,255,0); }
-    50% { box-shadow: 0 0 0 5px rgba(71,181,255,0.06); }
+    letter-spacing: 0.16em; text-transform: uppercase; color: #fff;
   }
 
   .str-ideal-badge {
     display: inline-flex; align-items: center; gap: 6px;
-    padding: 5px 12px;
-    background: rgba(71,181,255,0.06);
-    border: 1px solid rgba(71,181,255,0.18);
+    padding: 5px 14px;
+    background: rgba(71,181,255,0.1);
+    border: 1px solid rgba(71,181,255,0.25);
     font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 500;
     letter-spacing: 0.16em; text-transform: uppercase;
-    color: rgba(71,181,255,0.75);
+    color: #47B5FF;
   }
 
-  .str-integ-badge {
+  .str-integ-text-badge {
     display: inline-flex; align-items: center; gap: 6px;
-    font-family: 'DM Mono', monospace; font-size: 9px;
-    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 5px 14px;
+    background: rgba(71,181,255,0.05);
+    border: 1px solid rgba(71,181,255,0.15);
+    font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
     color: rgba(71,181,255,0.6);
-  }
-  .str-integ-badge::before {
-    content: ''; width: 6px; height: 6px; border-radius: 50%;
-    background: rgba(71,181,255,0.4);
-    flex-shrink: 0;
   }
 
   /* ═══ LOWER ═══ */
@@ -311,44 +265,18 @@ const html = `
 
   /* ═══ Responsive ═══ */
   @media (max-width: 1080px) {
-    .str-lc-wrap { overflow: visible; }
-    .str-lc-track { min-width: 0; }
-    .str-lc-line-grey,
-    .str-lc-line-blue { display: none; }
-
     .str-lc-grid {
-      grid-template-columns: repeat(12, 1fr);
-      row-gap: 48px;
+      grid-template-columns: repeat(2, 1fr);
     }
+  }
 
-    /* Row 1: 3 phases spanning full width */
-    .str-phase:nth-child(1) { grid-column: 1 / 5; grid-row: 1; }
-    .str-phase:nth-child(2) { grid-column: 5 / 9; grid-row: 1; }
-    .str-phase:nth-child(3) { grid-column: 9 / 13; grid-row: 1; }
-    /* Row 2: 4 phases spanning full width */
-    .str-phase:nth-child(4) { grid-column: 1 / 4; grid-row: 2; }
-    .str-phase:nth-child(5) { grid-column: 4 / 7; grid-row: 2; }
-    .str-phase:nth-child(6) { grid-column: 7 / 10; grid-row: 2; }
-    .str-phase:nth-child(7) { grid-column: 10 / 13; grid-row: 2; }
-
-    .str-phase-badge-wrap { margin-top: 16px; }
-
+  @media (max-width: 960px) {
     .str-lower { grid-template-columns: 1fr; gap: 56px; }
   }
 
   @media (max-width: 600px) {
     .str-integ { padding: 80px 20px 100px; }
-    .str-lc-grid {
-      grid-template-columns: repeat(2, 1fr);
-      row-gap: 36px;
-    }
-    .str-phase:nth-child(1) { grid-column: 1; grid-row: 1; }
-    .str-phase:nth-child(2) { grid-column: 2; grid-row: 1; }
-    .str-phase:nth-child(3) { grid-column: 1; grid-row: 2; }
-    .str-phase:nth-child(4) { grid-column: 2; grid-row: 2; }
-    .str-phase:nth-child(5) { grid-column: 1; grid-row: 3; }
-    .str-phase:nth-child(6) { grid-column: 2; grid-row: 3; }
-    .str-phase:nth-child(7) { grid-column: 1; grid-row: 4; }
+    .str-lc-grid { grid-template-columns: 1fr; }
   }
 </style>
 
@@ -365,63 +293,36 @@ const html = `
 
     <div class="str-lifecycle">
       <div class="str-lifecycle-label">Project Lifecycle · Typical Construction Phases</div>
-      <div class="str-lc-wrap">
-        <div class="str-lc-track" id="str-lc-track">
-          <div class="str-lc-line-grey"></div>
-          <div class="str-lc-line-blue" id="str-lc-line-blue"></div>
-          <div class="str-lc-grid" id="str-lc-grid">
+      <div class="str-lc-grid">
 
-            <div class="str-phase str-phase-best" data-phase>
-              <div class="str-phase-dot"></div>
-              <div class="str-phase-name">Concept &amp;<br>Feasibility</div>
-              <div class="str-phase-desc">Needs assessment, business case, scope definition</div>
-              <div class="str-phase-badge-wrap"><span class="str-best-badge">◆ Best Entry</span></div>
-            </div>
-
-            <div class="str-phase str-phase-best" data-phase>
-              <div class="str-phase-dot"></div>
-              <div class="str-phase-name">Preliminary<br>Design</div>
-              <div class="str-phase-desc">Schematic design, environmental studies, approvals</div>
-              <div class="str-phase-badge-wrap"><span class="str-best-badge">◆ Best Entry</span></div>
-            </div>
-
-            <div class="str-phase str-phase-ideal" data-phase>
-              <div class="str-phase-dot"></div>
-              <div class="str-phase-name">Detailed<br>Design</div>
-              <div class="str-phase-desc">Engineering drawings, specifications, coordination</div>
-              <div class="str-phase-badge-wrap"><span class="str-ideal-badge">◆ Ideal Entry</span></div>
-            </div>
-
-            <div class="str-phase" data-phase>
-              <div class="str-phase-dot"></div>
-              <div class="str-phase-name">Procurement<br>&amp; Tender</div>
-              <div class="str-phase-desc">RFP/RFQ, bid evaluation, contract award</div>
-              <div class="str-phase-badge-wrap"><span class="str-integ-badge">Integration possible</span></div>
-            </div>
-
-            <div class="str-phase" data-phase>
-              <div class="str-phase-dot"></div>
-              <div class="str-phase-name">Construction</div>
-              <div class="str-phase-desc">Site execution, progress tracking, quality assurance</div>
-              <div class="str-phase-badge-wrap"><span class="str-integ-badge">Integration possible</span></div>
-            </div>
-
-            <div class="str-phase" data-phase>
-              <div class="str-phase-dot"></div>
-              <div class="str-phase-name">Commissioning<br>&amp; Handover</div>
-              <div class="str-phase-desc">Testing, PIM→AIM transition, asset data transfer</div>
-              <div class="str-phase-badge-wrap"><span class="str-integ-badge">Integration possible</span></div>
-            </div>
-
-            <div class="str-phase" data-phase>
-              <div class="str-phase-dot"></div>
-              <div class="str-phase-name">Operations &amp;<br>Maintenance</div>
-              <div class="str-phase-desc">Asset management, facility operations, lifecycle data</div>
-              <div class="str-phase-badge-wrap"><span class="str-integ-badge">Integration possible</span></div>
-            </div>
-
-          </div>
+        <div class="str-phase-card str-card-best" data-phase>
+          <div class="str-pc-phase">Phase 01</div>
+          <div class="str-pc-name">Concept &amp; Design</div>
+          <div class="str-pc-desc">Maximum influence. Define requirements before commitments are locked.</div>
+          <div class="str-pc-badge"><span class="str-best-badge">Best Entry</span></div>
         </div>
+
+        <div class="str-phase-card str-card-ideal" data-phase>
+          <div class="str-pc-phase">Phase 02</div>
+          <div class="str-pc-name">Detailed Design</div>
+          <div class="str-pc-desc">Governance still shapeable. BEP and EIR can redirect modelling efforts.</div>
+          <div class="str-pc-badge"><span class="str-ideal-badge">Ideal Entry</span></div>
+        </div>
+
+        <div class="str-phase-card" data-phase>
+          <div class="str-pc-phase">Phase 03</div>
+          <div class="str-pc-name">Construction</div>
+          <div class="str-pc-desc">Strategy becomes triage. Focus on handover requirements and data structure.</div>
+          <div class="str-pc-badge"><span class="str-integ-text-badge">Integration Possible</span></div>
+        </div>
+
+        <div class="str-phase-card" data-phase>
+          <div class="str-pc-phase">Phase 04</div>
+          <div class="str-pc-name">Operations</div>
+          <div class="str-pc-desc">Retroactive. AIR definition and FM data structuring for existing assets.</div>
+          <div class="str-pc-badge"><span class="str-integ-text-badge">Integration Possible</span></div>
+        </div>
+
       </div>
     </div>
 
@@ -508,22 +409,6 @@ const html = `
 `;
 
 const script = `(function(){
-  /* ── Measure blue line to center of 3rd dot ── */
-  function measureLine() {
-    var track = document.getElementById('str-lc-track');
-    var blueLine = document.getElementById('str-lc-line-blue');
-    var grid = document.getElementById('str-lc-grid');
-    if (!track || !blueLine || !grid) return;
-    var dots = grid.querySelectorAll('.str-phase-dot');
-    if (dots.length < 3) return;
-    var trackRect = track.getBoundingClientRect();
-    var dot3 = dots[2].getBoundingClientRect();
-    var end = (dot3.left + dot3.width / 2) - trackRect.left;
-    blueLine.style.width = end + 'px';
-  }
-  setTimeout(measureLine, 500);
-  window.addEventListener('resize', measureLine);
-
   /* Statement entrance */
   var stmt = document.getElementById('str-integ-statement');
   if (stmt) {
@@ -542,7 +427,7 @@ const script = `(function(){
     obsS.observe(stmt);
   }
 
-  /* Phases stagger */
+  /* Phase cards stagger */
   var phases = document.querySelectorAll('[data-phase]');
   phases.forEach(function(p, i) {
     p.style.opacity = '0';
@@ -551,11 +436,10 @@ const script = `(function(){
       entries.forEach(function(e) {
         if (e.isIntersecting) {
           setTimeout(function() {
-            p.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            p.style.transition = 'opacity 0.5s ease, transform 0.5s ease, border-color 0.35s ease, box-shadow 0.35s ease';
             p.style.opacity = '1';
             p.style.transform = 'translateY(0)';
-            setTimeout(measureLine, 600);
-          }, i * 80);
+          }, i * 120);
           obs.disconnect();
         }
       });
