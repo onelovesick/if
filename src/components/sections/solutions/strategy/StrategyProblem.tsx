@@ -258,9 +258,10 @@ const html = `
   .str-fc-number {
     font-family: 'DM Mono', monospace;
     font-size: 10px;
+    font-weight: 500;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: rgba(71,181,255,0.5);
+    color: #47B5FF;
   }
 
   .str-fc-tag {
@@ -371,10 +372,10 @@ const html = `
         <div class="str-fc-side"></div>
         <div class="str-fc-header">
           <span class="str-fc-number">Failure Mode 01</span>
-          <span class="str-fc-tag">Governance</span>
+          <span class="str-fc-tag">Requirements</span>
         </div>
-        <h3>Undefined Information Requirements</h3>
-        <p>No EIR means no measurable expectations. Teams model what they assume is needed — not what the contract, the owner, or operations actually demand. The result is misaligned deliverables, scope disputes, and handover rejection.</p>
+        <h3>No Defined Information Requirements</h3>
+        <p>Without OIR, PIR, AIR, and EIR defined upfront, teams model what they assume is needed — not what the contract, the owner, or operations actually demand. No Level of Information Need framework means every discipline delivers to a different standard. Handover becomes a guessing game.</p>
       </div>
 
       <div class="str-failure-card" data-fc>
@@ -382,10 +383,10 @@ const html = `
         <div class="str-fc-side"></div>
         <div class="str-fc-header">
           <span class="str-fc-number">Failure Mode 02</span>
-          <span class="str-fc-tag">Documentation</span>
+          <span class="str-fc-tag">Execution Plan</span>
         </div>
-        <h3>BEP As a Filing Exercise</h3>
-        <p>Most BIM execution plans are copied templates that no one follows. A functional BEP is a live governance document that reflects how your team actually works — responsibilities, exchanges, LOD, and coordination protocols defined with precision.</p>
+        <h3>BEP As a Copied Template</h3>
+        <p>Most BIM execution plans are generic documents pulled from a previous project and filed away. Without a project-specific BEP — with RACI matrices, TIDP, MIDP, and defined information exchanges — no one knows who delivers what, when, or how. Coordination fails silently.</p>
       </div>
 
       <div class="str-failure-card" data-fc>
@@ -393,10 +394,10 @@ const html = `
         <div class="str-fc-side"></div>
         <div class="str-fc-header">
           <span class="str-fc-number">Failure Mode 03</span>
-          <span class="str-fc-tag">Adoption</span>
+          <span class="str-fc-tag">Roadmap</span>
         </div>
-        <h3>Digital Tools Without a Mandate</h3>
-        <p>Software gets procured. Platforms get deployed. But without a strategic framework linking tools to project outcomes, adoption stalls and data fragments. The $177B loss isn't from missing technology — it's from ungoverned technology.</p>
+        <h3>Technology Without a Roadmap</h3>
+        <p>Software gets procured. Platforms get deployed. But without a digital maturity assessment, a phased implementation plan, or a CDE strategy — adoption stalls, data fragments, and the $177B annual loss continues. The problem was never missing tools. It was missing governance.</p>
       </div>
 
       <div class="str-failure-card" data-fc>
@@ -404,10 +405,10 @@ const html = `
         <div class="str-fc-side"></div>
         <div class="str-fc-header">
           <span class="str-fc-number">Failure Mode 04</span>
-          <span class="str-fc-tag">Handover</span>
+          <span class="str-fc-tag">Governance</span>
         </div>
-        <h3>Handover As an Afterthought</h3>
-        <p>If asset information requirements aren't defined at inception, handover becomes a frantic data-gathering exercise instead of a structured delivery milestone. Operations teams inherit chaos — not an asset they can manage.</p>
+        <h3>Unassessed Risk & No Compliance</h3>
+        <p>If no gap analysis is conducted, no information risk register exists, and no contractual BIM alignment review is performed — vulnerabilities surface during construction, not before. Disputes multiply. Change orders compound. The digital mandate has no enforceability.</p>
       </div>
 
       <div class="str-failure-card" data-fc>
@@ -415,10 +416,10 @@ const html = `
         <div class="str-fc-side"></div>
         <div class="str-fc-header">
           <span class="str-fc-number">Failure Mode 05</span>
-          <span class="str-fc-tag">Alignment</span>
+          <span class="str-fc-tag">Handover</span>
         </div>
-        <h3>Misaligned Contracts & Expectations</h3>
-        <p>When BIM requirements aren't embedded in contracts from day one, information delivery becomes voluntary. Disputes multiply, change orders compound, and the digital mandate loses all enforceability.</p>
+        <h3>PIM to AIM With No Plan</h3>
+        <p>If the transition from Project Information Model to Asset Information Model isn't planned at inception — defining what data survives construction, in what format, for whose use — operations teams inherit a disconnected archive instead of a managed digital asset.</p>
       </div>
     </div>
 
