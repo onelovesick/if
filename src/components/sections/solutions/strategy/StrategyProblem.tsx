@@ -8,10 +8,9 @@ const html = `
     position: relative;
     background: #F2F5F8;
     padding: 120px 32px 140px;
-    overflow: hidden;
+    overflow: visible;
   }
 
-  /* Subtle texture */
   .str-problem::before {
     content: '';
     position: absolute;
@@ -29,15 +28,16 @@ const html = `
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 72px;
+    gap: 64px;
     align-items: start;
   }
 
-  /* ── LEFT COLUMN — Sticky ── */
+  /* ═══════════════════════════════════
+     LEFT COLUMN — Sticky within section
+     ═══════════════════════════════════ */
   .str-problem-left {
     position: sticky;
-    top: 120px;
-    align-self: start;
+    top: 110px;
   }
 
   .str-problem-eyebrow {
@@ -103,7 +103,7 @@ const html = `
     padding: 28px 0;
     border-bottom: 1px solid rgba(11,60,93,0.08);
     display: grid;
-    grid-template-columns: 100px 1fr;
+    grid-template-columns: 110px 1fr;
     gap: 20px;
     align-items: start;
   }
@@ -111,14 +111,14 @@ const html = `
   .str-stat-number {
     font-family: 'Inter Tight', sans-serif;
     font-weight: 900;
-    font-size: 38px;
+    font-size: 40px;
     line-height: 1;
     letter-spacing: -0.03em;
     color: #0B3C5D;
   }
 
   .str-stat-number span {
-    font-size: 20px;
+    font-size: 22px;
     color: #47B5FF;
     font-weight: 800;
   }
@@ -126,7 +126,7 @@ const html = `
   .str-stat-content {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
   }
 
   .str-stat-label {
@@ -134,27 +134,40 @@ const html = `
     font-size: 15px;
     font-weight: 500;
     color: #0B3C5D;
-    line-height: 1.4;
+    line-height: 1.5;
   }
 
   .str-stat-source {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    color: rgba(90,122,150,0.6);
-  }
-
-  .str-stat-source a {
-    color: rgba(71,181,255,0.7);
+    font-size: 11px;
+    letter-spacing: 0.06em;
     text-decoration: none;
-    transition: color 0.2s ease;
+    color: #5a7a96;
+    transition: color 0.25s ease;
   }
 
-  .str-stat-source a:hover {
+  .str-stat-source:hover {
     color: #47B5FF;
   }
 
-  /* ── RIGHT COLUMN — Scrolling failure cards ── */
+  .str-stat-source::before {
+    content: '↗';
+    font-size: 11px;
+    color: #47B5FF;
+    opacity: 0.6;
+    transition: opacity 0.25s ease;
+  }
+
+  .str-stat-source:hover::before {
+    opacity: 1;
+  }
+
+  /* ═══════════════════════════════════
+     RIGHT COLUMN — Scrolling cards
+     ═══════════════════════════════════ */
   .str-problem-right {
     display: flex;
     flex-direction: column;
@@ -165,12 +178,11 @@ const html = `
     position: relative;
     background: #fff;
     border: 1px solid rgba(11,60,93,0.07);
-    padding: 36px 32px 32px 36px;
+    padding: 36px 36px 34px;
     transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
     overflow: hidden;
   }
 
-  /* Corner brackets */
   .str-failure-card::before {
     content: '';
     position: absolute;
@@ -221,7 +233,7 @@ const html = `
     width: 100%;
   }
 
-  /* Left border accent — alive state */
+  /* Left border accent */
   .str-fc-side {
     position: absolute;
     top: 0;
@@ -240,7 +252,7 @@ const html = `
     display: flex;
     align-items: center;
     gap: 14px;
-    margin-bottom: 14px;
+    margin-bottom: 16px;
   }
 
   .str-fc-number {
@@ -248,7 +260,7 @@ const html = `
     font-size: 10px;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: rgba(71,181,255,0.45);
+    color: rgba(71,181,255,0.5);
   }
 
   .str-fc-tag {
@@ -257,18 +269,17 @@ const html = `
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #5a7a96;
-    border: 1px solid rgba(11,60,93,0.1);
-    padding: 2px 10px;
-    border-radius: 0;
+    border: 1px solid rgba(11,60,93,0.12);
+    padding: 3px 12px;
   }
 
   .str-failure-card h3 {
     font-family: 'Inter Tight', sans-serif;
     font-weight: 800;
-    font-size: 18px;
+    font-size: 19px;
     letter-spacing: -0.01em;
     color: #0B3C5D;
-    margin: 0 0 12px 0;
+    margin: 0 0 14px 0;
     text-transform: uppercase;
     transition: color 0.3s ease;
   }
@@ -279,14 +290,16 @@ const html = `
 
   .str-failure-card p {
     font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 1.75;
-    color: #5a7a96;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #3d5a73;
     margin: 0;
   }
 
-  /* ── Responsive ── */
+  /* ═══════════════════════════════════
+     Responsive
+     ═══════════════════════════════════ */
   @media (max-width: 960px) {
     .str-problem-inner {
       grid-template-columns: 1fr;
@@ -295,9 +308,6 @@ const html = `
     .str-problem-left {
       position: relative;
       top: auto;
-    }
-    .str-stat-block {
-      grid-template-columns: 80px 1fr;
     }
   }
 
@@ -310,7 +320,7 @@ const html = `
       gap: 8px;
     }
     .str-stat-number {
-      font-size: 32px;
+      font-size: 34px;
     }
   }
 </style>
@@ -331,28 +341,28 @@ const html = `
           <div class="str-stat-number">$177<span>B</span></div>
           <div class="str-stat-content">
             <div class="str-stat-label">Lost annually in the U.S. to rework, conflict resolution, and searching for project data.</div>
-            <div class="str-stat-source">FMI / Autodesk — "Construction Disconnected" (2018)</div>
+            <a href="https://www.forconstructionpros.com/business/business-services/financing-insurance-leasing/press-release/21015974/plangrid-poor-communication-rework-bad-data-management-cost-construction-industry-177b-annually" target="_blank" rel="noopener" class="str-stat-source">FMI / Autodesk — Construction Disconnected (2018)</a>
           </div>
         </div>
         <div class="str-stat-block">
           <div class="str-stat-number">52<span>%</span></div>
           <div class="str-stat-content">
             <div class="str-stat-label">Of all construction rework is caused by poor project data and miscommunication — not field errors.</div>
-            <div class="str-stat-source">FMI / Autodesk — "Construction Disconnected" (2018)</div>
+            <a href="https://www.forconstructionpros.com/business/business-services/financing-insurance-leasing/press-release/21015974/plangrid-poor-communication-rework-bad-data-management-cost-construction-industry-177b-annually" target="_blank" rel="noopener" class="str-stat-source">FMI / Autodesk — Construction Disconnected (2018)</a>
           </div>
         </div>
         <div class="str-stat-block">
           <div class="str-stat-number">1<span>%</span></div>
           <div class="str-stat-content">
             <div class="str-stat-label">Annual productivity growth in construction over 20 years — vs. 3.6% in manufacturing.</div>
-            <div class="str-stat-source">McKinsey Global Institute — "Reinventing Construction" (2017)</div>
+            <a href="https://www.mckinsey.com/capabilities/operations/our-insights/reinventing-construction-through-a-productivity-revolution" target="_blank" rel="noopener" class="str-stat-source">McKinsey Global Institute — Reinventing Construction (2017)</a>
           </div>
         </div>
         <div class="str-stat-block">
           <div class="str-stat-number">80<span>%</span></div>
           <div class="str-stat-content">
             <div class="str-stat-label">Of large construction projects exceed budgets by 20% or more — driven by poor data, not poor labour.</div>
-            <div class="str-stat-source">McKinsey Global Institute (2017)</div>
+            <a href="https://www.mckinsey.com/capabilities/operations/our-insights/reinventing-construction-through-a-productivity-revolution" target="_blank" rel="noopener" class="str-stat-source">McKinsey Global Institute (2017)</a>
           </div>
         </div>
       </div>
@@ -421,7 +431,6 @@ const html = `
 `;
 
 const script = `(function(){
-  /* Staggered card entrance */
   var cards = document.querySelectorAll('[data-fc]');
   cards.forEach(function(card, i) {
     card.style.opacity = '0';
@@ -441,7 +450,6 @@ const script = `(function(){
     obs.observe(card);
   });
 
-  /* Stat number count-up animation */
   var stats = document.querySelectorAll('.str-stat-block');
   stats.forEach(function(stat, i) {
     stat.style.opacity = '0';
