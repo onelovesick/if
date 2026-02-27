@@ -33,11 +33,12 @@ const html = `
   }
 
   /* ═══════════════════════════════════
-     LEFT COLUMN — Sticky within section
+     LEFT COLUMN — Starts higher, sticky
      ═══════════════════════════════════ */
   .str-problem-left {
     position: sticky;
     top: 110px;
+    padding-top: 0;
   }
 
   .str-problem-eyebrow {
@@ -166,12 +167,13 @@ const html = `
   }
 
   /* ═══════════════════════════════════
-     RIGHT COLUMN — Scrolling cards
+     RIGHT COLUMN — Starts lower with top pad
      ═══════════════════════════════════ */
   .str-problem-right {
     display: flex;
     flex-direction: column;
     gap: 24px;
+    padding-top: 52px;
   }
 
   .str-failure-card {
@@ -218,7 +220,6 @@ const html = `
     border-color: rgba(71,181,255,0.5);
   }
 
-  /* Accent top line draw */
   .str-fc-accent {
     position: absolute;
     top: 0;
@@ -233,7 +234,6 @@ const html = `
     width: 100%;
   }
 
-  /* Left border accent */
   .str-fc-side {
     position: absolute;
     top: 0;
@@ -309,6 +309,9 @@ const html = `
       position: relative;
       top: auto;
     }
+    .str-problem-right {
+      padding-top: 0;
+    }
   }
 
   @media (max-width: 480px) {
@@ -328,8 +331,8 @@ const html = `
 <section class="str-problem">
   <div class="str-problem-inner">
 
-    <!-- LEFT — Sticky column -->
-    <div class="str-problem-left">
+    <!-- LEFT — Sticky column (starts higher) -->
+    <div class="str-problem-left" id="str-problem-left">
       <div class="str-problem-eyebrow">The Cost of No Strategy</div>
       <h2>Projects Don't Fail<br>From Lack Of <em>Tools</em></h2>
       <p class="str-problem-text">
@@ -368,7 +371,7 @@ const html = `
       </div>
     </div>
 
-    <!-- RIGHT — Scrolling failure cards -->
+    <!-- RIGHT — Scrolling failure cards (starts lower) -->
     <div class="str-problem-right">
       <div class="str-failure-card" data-fc>
         <div class="str-fc-accent"></div>
@@ -431,6 +434,25 @@ const html = `
 `;
 
 const script = `(function(){
+  /* Left column — fast entrance */
+  var left = document.getElementById('str-problem-left');
+  if (left) {
+    left.style.opacity = '0';
+    left.style.transform = 'translateY(20px)';
+    var obsL = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          left.style.transition = 'opacity 0.5s cubic-bezier(0.22,1,0.36,1), transform 0.5s cubic-bezier(0.22,1,0.36,1)';
+          left.style.opacity = '1';
+          left.style.transform = 'translateY(0)';
+          obsL.disconnect();
+        }
+      });
+    }, { threshold: 0.05 });
+    obsL.observe(left);
+  }
+
+  /* Right cards — staggered */
   var cards = document.querySelectorAll('[data-fc]');
   cards.forEach(function(card, i) {
     card.style.opacity = '0';
@@ -442,7 +464,7 @@ const script = `(function(){
             card.style.transition = 'opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1)';
             card.style.opacity = '1';
             card.style.transform = 'translateY(0)';
-          }, i * 120);
+          }, 200 + (i * 120));
           obs.disconnect();
         }
       });
@@ -450,6 +472,7 @@ const script = `(function(){
     obs.observe(card);
   });
 
+  /* Stat blocks — staggered slide-in */
   var stats = document.querySelectorAll('.str-stat-block');
   stats.forEach(function(stat, i) {
     stat.style.opacity = '0';
