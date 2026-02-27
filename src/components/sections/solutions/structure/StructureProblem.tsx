@@ -2,34 +2,59 @@
 import { useEffect, useRef } from 'react';
 
 const html = `
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@900&amp;family=Inter:wght@300;400;500;600&amp;family=DM+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@800;900&amp;family=Inter:wght@300;400;500;600&amp;family=DM+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet">
 <style>
-  .str-problem {
+  .stru-problem {
     position: relative;
     background: #F2F5F8;
-    padding: 120px 32px;
-    overflow: hidden;
+    padding: 120px 32px 140px;
+    overflow: visible;
   }
 
-  .str-problem__container {
+  .stru-problem::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.018;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+    pointer-events: none;
+  }
+
+  .stru-problem-inner {
+    position: relative;
     max-width: 1200px;
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
   }
 
-  .str-problem__eyebrow {
+  /* ═══════════════════════════════════
+     LEFT COLUMN — Starts higher, sticky
+     ═══════════════════════════════════ */
+  .stru-problem-left {
+    position: sticky;
+    top: 110px;
+    padding-top: 0;
+  }
+
+  .stru-problem-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
     font-family: 'DM Mono', monospace;
     font-size: 11px;
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: #47B5FF;
-    margin-bottom: 20px;
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
+    margin-bottom: 28px;
   }
 
-  .str-problem__eyebrow::before {
+  .stru-problem-eyebrow::before {
     content: '';
     display: block;
     width: 20px;
@@ -37,400 +62,429 @@ const html = `
     background: #47B5FF;
   }
 
-  .str-problem__heading {
+  .stru-problem h2 {
     font-family: 'Inter Tight', sans-serif;
     font-weight: 900;
-    font-size: clamp(28px, 3.4vw, 42px);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+    font-size: clamp(32px, 3.8vw, 50px);
+    line-height: 1.06;
+    letter-spacing: -0.025em;
     text-transform: uppercase;
     color: #0B3C5D;
-    margin: 0 0 16px;
-    max-width: 700px;
+    margin: 0 0 28px 0;
   }
 
-  .str-problem__heading em {
+  .stru-problem h2 em {
     font-style: italic;
     color: #47B5FF;
   }
 
-  .str-problem__intro {
+  .stru-problem-text {
     font-family: 'Inter', sans-serif;
     font-size: 16px;
     font-weight: 300;
-    line-height: 1.75;
+    line-height: 1.85;
     color: #5a7a96;
-    max-width: 660px;
-    margin: 0 0 56px;
+    margin-bottom: 48px;
   }
 
-  .str-problem__intro strong {
+  .stru-problem-text strong {
     font-weight: 600;
     color: #0B3C5D;
   }
 
-  .str-problem__grid {
+  /* ── Stat blocks ── */
+  .stru-problem-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid rgba(11,60,93,0.1);
+  }
+
+  .stru-stat-block {
+    padding: 28px 0;
+    border-bottom: 1px solid rgba(11,60,93,0.08);
     display: grid;
-    grid-template-columns: 340px 1fr;
-    gap: 64px;
+    grid-template-columns: 110px 1fr;
+    gap: 20px;
     align-items: start;
   }
 
-  /* ── Left column — sticky stats ── */
-  .str-problem__left {
-    position: sticky;
-    top: 120px;
+  .stru-stat-number {
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 900;
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: #0B3C5D;
   }
 
-  .str-problem__stats {
+  .stru-stat-number span {
+    font-size: 22px;
+    color: #47B5FF;
+    font-weight: 800;
+  }
+
+  .stru-stat-content {
     display: flex;
     flex-direction: column;
-    gap: 28px;
+    gap: 8px;
   }
 
-  .str-problem__stat {
+  .stru-stat-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #0B3C5D;
+    line-height: 1.5;
+  }
+
+  .stru-stat-source {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    color: #5a7a96;
+    transition: color 0.25s ease;
+  }
+
+  .stru-stat-source:hover {
+    color: #47B5FF;
+  }
+
+  .stru-stat-source::before {
+    content: '↗';
+    font-size: 11px;
+    color: #47B5FF;
+    opacity: 0.6;
+    transition: opacity 0.25s ease;
+  }
+
+  .stru-stat-source:hover::before {
+    opacity: 1;
+  }
+
+  /* ═══════════════════════════════════
+     RIGHT COLUMN — Starts lower with top pad
+     ═══════════════════════════════════ */
+  .stru-problem-right {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-top: 52px;
+  }
+
+  .stru-failure-card {
     position: relative;
-    padding: 28px 24px;
     background: #fff;
-    border: 1px solid rgba(11,60,93,0.09);
+    border: 1px solid rgba(11,60,93,0.07);
+    padding: 36px 36px 34px;
+    transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
+    overflow: hidden;
   }
 
-  .str-problem__stat::before {
+  .stru-failure-card::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 16px;
     height: 16px;
-    border-top: 2px solid rgba(71,181,255,0.3);
-    border-left: 2px solid rgba(71,181,255,0.3);
+    border-top: 1px solid rgba(71,181,255,0.25);
+    border-left: 1px solid rgba(71,181,255,0.25);
+    transition: border-color 0.3s ease;
   }
 
-  .str-problem__stat::after {
+  .stru-failure-card::after {
     content: '';
     position: absolute;
     bottom: 0;
     right: 0;
     width: 16px;
     height: 16px;
-    border-bottom: 2px solid rgba(71,181,255,0.3);
-    border-right: 2px solid rgba(71,181,255,0.3);
+    border-bottom: 1px solid rgba(71,181,255,0.25);
+    border-right: 1px solid rgba(71,181,255,0.25);
+    transition: border-color 0.3s ease;
   }
 
-  .str-problem__stat-number {
-    font-family: 'Inter Tight', sans-serif;
-    font-weight: 900;
-    font-size: 42px;
-    color: #0B3C5D;
-    line-height: 1;
-    margin-bottom: 10px;
+  .stru-failure-card:hover {
+    border-color: rgba(71,181,255,0.2);
+    box-shadow: 0 12px 40px rgba(11,60,93,0.08);
+    transform: translateY(-3px);
   }
 
-  .str-problem__stat-label {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    color: #5a7a96;
-    line-height: 1.55;
-    margin-bottom: 12px;
+  .stru-failure-card:hover::before,
+  .stru-failure-card:hover::after {
+    border-color: rgba(71,181,255,0.5);
   }
 
-  .str-problem__stat-source {
-    display: block;
-  }
-
-  .str-problem__stat-source a {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    font-weight: 300;
-    letter-spacing: 0.06em;
-    color: rgba(90,122,150,0.55);
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-
-  .str-problem__stat-source a:hover {
-    color: #47B5FF;
-  }
-
-  /* ── Right column — failure cards ── */
-  .str-problem__right {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .str-problem__card {
-    position: relative;
-    background: #fff;
-    border: 1px solid rgba(11,60,93,0.09);
-    padding: 32px 28px;
-    transition: all 0.35s cubic-bezier(0.22,1,0.36,1);
-    cursor: default;
-  }
-
-  .str-problem__card::before {
-    content: '';
+  .stru-fc-accent {
     position: absolute;
     top: 0;
     left: 0;
     width: 0;
     height: 2px;
-    background: #47B5FF;
-    transition: width 0.45s cubic-bezier(0.22,1,0.36,1);
+    background: linear-gradient(90deg, #47B5FF, rgba(71,181,255,0.2));
+    transition: width 0.5s cubic-bezier(0.22,1,0.36,1);
   }
 
-  .str-problem__card:hover::before {
+  .stru-failure-card:hover .stru-fc-accent {
     width: 100%;
   }
 
-  .str-problem__card:hover {
-    box-shadow: 0 8px 32px rgba(11,60,93,0.08);
-    transform: translateY(-2px);
+  .stru-fc-side {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 0;
+    background: linear-gradient(180deg, #47B5FF, rgba(71,181,255,0.1));
+    transition: height 0.6s cubic-bezier(0.22,1,0.36,1);
   }
 
-  .str-problem__card-top {
+  .stru-failure-card:hover .stru-fc-side {
+    height: 100%;
+  }
+
+  .stru-fc-header {
     display: flex;
     align-items: center;
     gap: 14px;
-    margin-bottom: 4px;
+    margin-bottom: 16px;
   }
 
-  .str-problem__card-label {
+  .stru-fc-number {
     font-family: 'DM Mono', monospace;
     font-size: 10px;
-    font-weight: 400;
-    letter-spacing: 0.18em;
+    font-weight: 500;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     color: #47B5FF;
   }
 
-  .str-problem__card-tag {
+  .stru-fc-tag {
     font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    font-weight: 300;
-    letter-spacing: 0.1em;
+    font-size: 9px;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: rgba(90,122,150,0.6);
+    color: #5a7a96;
+    border: 1px solid rgba(11,60,93,0.12);
+    padding: 3px 12px;
   }
 
-  .str-problem__card h3 {
+  .stru-failure-card h3 {
     font-family: 'Inter Tight', sans-serif;
-    font-weight: 900;
-    font-size: 18px;
+    font-weight: 800;
+    font-size: 19px;
     letter-spacing: -0.01em;
-    text-transform: uppercase;
     color: #0B3C5D;
-    line-height: 1.25;
-    margin: 12px 0 14px;
+    margin: 0 0 14px 0;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
   }
 
-  .str-problem__card-body {
+  .stru-failure-card:hover h3 {
+    color: #47B5FF;
+  }
+
+  .stru-failure-card p {
     font-family: 'Inter', sans-serif;
     font-size: 15px;
-    font-weight: 300;
-    line-height: 1.7;
-    color: #5a7a96;
+    font-weight: 400;
+    line-height: 1.8;
+    color: #3d5a73;
+    margin: 0;
   }
 
+  /* ═══════════════════════════════════
+     Responsive
+     ═══════════════════════════════════ */
   @media (max-width: 960px) {
-    .str-problem__grid {
+    .stru-problem-inner {
       grid-template-columns: 1fr;
-      gap: 40px;
+      gap: 56px;
     }
-
-    .str-problem__left {
-      position: static;
+    .stru-problem-left {
+      position: relative;
+      top: auto;
     }
-
-    .str-problem__stats {
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .str-problem__stat {
-      flex: 1;
-      min-width: 240px;
+    .stru-problem-right {
+      padding-top: 0;
     }
   }
 
-  @media (max-width: 768px) {
-    .str-problem {
-      padding: 80px 20px;
+  @media (max-width: 480px) {
+    .stru-problem {
+      padding: 80px 20px 100px;
     }
-
-    .str-problem__stat-number {
-      font-size: 32px;
+    .stru-stat-block {
+      grid-template-columns: 1fr;
+      gap: 8px;
     }
-
-    .str-problem__card {
-      padding: 24px 20px;
-    }
-
-    .str-problem__stats {
-      flex-direction: column;
-    }
-
-    .str-problem__stat {
-      min-width: unset;
+    .stru-stat-number {
+      font-size: 34px;
     }
   }
 </style>
 
-<section class="str-problem">
-  <div class="str-problem__container">
-    <div class="str-problem__eyebrow">The Cost of No Structure</div>
-    <h2 class="str-problem__heading">
-      Models Don't Fail From Lack Of <em>Software</em>
-    </h2>
-    <p class="str-problem__intro">
-      They fail from lack of organisation. When teams skip the structural layer — deploying a CDE without governance, modelling without naming conventions, exchanging files without classification — every downstream coordination is built on sand. <strong>The data is unambiguous.</strong>
-    </p>
+<section class="stru-problem">
+  <div class="stru-problem-inner">
 
-    <div class="str-problem__grid">
-      <div class="str-problem__left">
-        <div class="str-problem__stats" id="str-stats">
-          <div class="str-problem__stat">
-            <div class="str-problem__stat-number" data-target="35" data-suffix="%">0%</div>
-            <div class="str-problem__stat-label">Of project time is spent searching for information rather than using it — driven by poor naming and folder structures.</div>
-            <span class="str-problem__stat-source"><a href="https://www.mckinsey.com/capabilities/operations/our-insights/reinventing-construction-through-a-productivity-revolution" target="_blank" rel="noopener">McKinsey Global Institute (2017)</a></span>
-          </div>
-          <div class="str-problem__stat">
-            <div class="str-problem__stat-number" data-target="50" data-suffix="%">0%</div>
-            <div class="str-problem__stat-label">Of BIM data is lost or degraded during exchange between platforms due to undefined IFC mapping and export standards.</div>
-            <span class="str-problem__stat-source"><a href="https://www.buildingsmart.org/standards/bsi-standards/industry-foundation-classes/" target="_blank" rel="noopener">buildingSMART / IFC Implementation Studies</a></span>
-          </div>
-          <div class="str-problem__stat">
-            <div class="str-problem__stat-number" data-target="98" data-suffix="%">0%</div>
-            <div class="str-problem__stat-label">Of large projects exceed their budgets — poor data structure compounds rework, miscommunication, and handover failure.</div>
-            <span class="str-problem__stat-source"><a href="https://www.mckinsey.com/capabilities/operations/our-insights/reinventing-construction-through-a-productivity-revolution" target="_blank" rel="noopener">McKinsey Global Institute (2017)</a></span>
+    <!-- LEFT — Sticky column (starts higher) -->
+    <div class="stru-problem-left" id="stru-problem-left">
+      <div class="stru-problem-eyebrow">The Cost of No Structure</div>
+      <h2>Models Don't Fail<br>From Lack Of <em>Software</em></h2>
+      <p class="stru-problem-text">
+        They fail from lack of organisation. When teams deploy a CDE without governance, model without naming conventions, and exchange files without classification — every coordination effort is built on sand. <strong>The data is unambiguous.</strong>
+      </p>
+
+      <div class="stru-problem-stats">
+        <div class="stru-stat-block">
+          <div class="stru-stat-number">35<span>%</span></div>
+          <div class="stru-stat-content">
+            <div class="stru-stat-label">Of construction professionals' time is spent searching for project information rather than using it.</div>
+            <a href="https://www.mckinsey.com/capabilities/operations/our-insights/reinventing-construction-through-a-productivity-revolution" target="_blank" rel="noopener" class="stru-stat-source">McKinsey Global Institute (2017)</a>
           </div>
         </div>
-      </div>
-
-      <div class="str-problem__right" id="str-failures">
-        <div class="str-problem__card">
-          <div class="str-problem__card-top">
-            <span class="str-problem__card-label">Failure Mode 01</span>
-            <span class="str-problem__card-tag">Naming</span>
-          </div>
-          <h3>File Naming Anarchy</h3>
-          <div class="str-problem__card-body">
-            Hundreds of models across dozens of contributors, no naming convention enforced. Files are renamed on download, duplicated across folders, impossible to locate by anyone but their author. Versioning becomes guesswork. Contractual submissions fail audit because nobody can prove which file is current.
+        <div class="stru-stat-block">
+          <div class="stru-stat-number">48<span>%</span></div>
+          <div class="stru-stat-content">
+            <div class="stru-stat-label">Of BIM model data is lost or degraded during exchange due to undefined IFC mapping and export standards.</div>
+            <a href="https://technical.buildingsmart.org/standards/ifc/" target="_blank" rel="noopener" class="stru-stat-source">buildingSMART — IFC Implementation Studies</a>
           </div>
         </div>
-
-        <div class="str-problem__card">
-          <div class="str-problem__card-top">
-            <span class="str-problem__card-label">Failure Mode 02</span>
-            <span class="str-problem__card-tag">CDE</span>
-          </div>
-          <h3>CDE Without Governance</h3>
-          <div class="str-problem__card-body">
-            The platform is deployed — ACC, ProjectWise, Procore — but without status codes, approval workflows, or folder structure logic. It becomes an expensive file dump. Teams revert to email and shared drives because the CDE creates friction instead of removing it. The tool was never the problem — the missing governance was.
-          </div>
-        </div>
-
-        <div class="str-problem__card">
-          <div class="str-problem__card-top">
-            <span class="str-problem__card-label">Failure Mode 03</span>
-            <span class="str-problem__card-tag">LOD / LOI</span>
-          </div>
-          <h3>LOD/LOI With No Project Definition</h3>
-          <div class="str-problem__card-body">
-            Contracts reference LOD 300 or LOD 350 with no project-specific matrix. The architect models door hardware at LOD 400 while the structural engineer delivers foundation piles at LOD 200. Nobody agrees on what level of detail or information is required at which milestone — coordination collapses at every review gate.
-          </div>
-        </div>
-
-        <div class="str-problem__card">
-          <div class="str-problem__card-top">
-            <span class="str-problem__card-label">Failure Mode 04</span>
-            <span class="str-problem__card-tag">Classification</span>
-          </div>
-          <h3>No Consistent Classification System</h3>
-          <div class="str-problem__card-body">
-            The mechanical engineer uses a proprietary element taxonomy, the architect classifies by Revit category, the civil team uses a spreadsheet. Data doesn't map between models, quantity take-offs require manual reconciliation, and nothing aligns with the owner's asset register or CMMS. Classification was never agreed — so interoperability was never possible.
-          </div>
-        </div>
-
-        <div class="str-problem__card">
-          <div class="str-problem__card-top">
-            <span class="str-problem__card-label">Failure Mode 05</span>
-            <span class="str-problem__card-tag">Exchange</span>
-          </div>
-          <h3>Exchange Format Chaos</h3>
-          <div class="str-problem__card-body">
-            IFC exports that strip parameters, proprietary formats that lock data inside one platform, MVDs that nobody defined. Interoperability is promised in the contract but never engineered. Models arrive in formats the coordination team can't read, and data fidelity degrades with every exchange cycle. The handover inherits every upstream format failure.
+        <div class="stru-stat-block">
+          <div class="stru-stat-number">73<span>%</span></div>
+          <div class="stru-stat-content">
+            <div class="stru-stat-label">Of projects have no enforced naming convention — making file retrieval, version control, and audits unreliable.</div>
+            <a href="https://www.thenbs.com/digital-construction-report" target="_blank" rel="noopener" class="stru-stat-source">NBS — Digital Construction Report</a>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- RIGHT — Scrolling failure cards (starts lower) -->
+    <div class="stru-problem-right">
+      <div class="stru-failure-card" data-stru-fc>
+        <div class="stru-fc-accent"></div>
+        <div class="stru-fc-side"></div>
+        <div class="stru-fc-header">
+          <span class="stru-fc-number">Failure Mode 01</span>
+          <span class="stru-fc-tag">Naming</span>
+        </div>
+        <h3>File Naming Anarchy</h3>
+        <p>Hundreds of models across dozens of contributors, no naming convention enforced. Files are renamed on download, duplicated across folders, impossible to locate by anyone but their author. Versioning becomes guesswork. Contractual submissions fail audit because nobody can prove which file is current.</p>
+      </div>
+
+      <div class="stru-failure-card" data-stru-fc>
+        <div class="stru-fc-accent"></div>
+        <div class="stru-fc-side"></div>
+        <div class="stru-fc-header">
+          <span class="stru-fc-number">Failure Mode 02</span>
+          <span class="stru-fc-tag">CDE</span>
+        </div>
+        <h3>CDE Without Governance</h3>
+        <p>The platform is deployed — ACC, ProjectWise, Procore — but without status codes, approval workflows, or folder structure logic. It becomes an expensive file dump. Teams revert to email and shared drives because the CDE creates friction instead of removing it. The tool was never the problem. The missing governance was.</p>
+      </div>
+
+      <div class="stru-failure-card" data-stru-fc>
+        <div class="stru-fc-accent"></div>
+        <div class="stru-fc-side"></div>
+        <div class="stru-fc-header">
+          <span class="stru-fc-number">Failure Mode 03</span>
+          <span class="stru-fc-tag">LOD / LOI</span>
+        </div>
+        <h3>LOD/LOI With No Project Definition</h3>
+        <p>Contracts reference LOD 300 or LOD 350 with no project-specific matrix. The architect models door hardware at LOD 400 while the structural engineer delivers foundation piles at LOD 200. Nobody agrees on what level of detail or information is required at which milestone — coordination collapses at every review gate.</p>
+      </div>
+
+      <div class="stru-failure-card" data-stru-fc>
+        <div class="stru-fc-accent"></div>
+        <div class="stru-fc-side"></div>
+        <div class="stru-fc-header">
+          <span class="stru-fc-number">Failure Mode 04</span>
+          <span class="stru-fc-tag">Classification</span>
+        </div>
+        <h3>No Consistent Classification System</h3>
+        <p>The mechanical engineer uses a proprietary element taxonomy, the architect classifies by Revit category, the civil team uses a spreadsheet. Data doesn't map between models, quantity take-offs require manual reconciliation, and nothing aligns with the owner's asset register or CMMS. Classification was never agreed — so interoperability was never possible.</p>
+      </div>
+
+      <div class="stru-failure-card" data-stru-fc>
+        <div class="stru-fc-accent"></div>
+        <div class="stru-fc-side"></div>
+        <div class="stru-fc-header">
+          <span class="stru-fc-number">Failure Mode 05</span>
+          <span class="stru-fc-tag">Exchange</span>
+        </div>
+        <h3>Exchange Format Chaos</h3>
+        <p>IFC exports that strip parameters, proprietary formats that lock data inside one platform, MVDs that nobody defined. Interoperability is promised in the contract but never engineered. Models arrive in formats the coordination team can't read, and data fidelity degrades with every exchange cycle. The handover inherits every upstream format failure.</p>
+      </div>
+    </div>
+
   </div>
 </section>
 `;
 
 const script = `(function(){
-  /* ── Stat counter animation ── */
-  var stats = document.querySelectorAll('.str-problem__stat-number');
-  if (!stats.length) return;
-  var animated = false;
-
-  function animateStats() {
-    if (animated) return;
-    animated = true;
-    stats.forEach(function(stat) {
-      var target = parseInt(stat.getAttribute('data-target'));
-      var suffix = stat.getAttribute('data-suffix') || '';
-      var duration = 1600;
-      var startTime = null;
-
-      function step(ts) {
-        if (!startTime) startTime = ts;
-        var progress = Math.min((ts - startTime) / duration, 1);
-        var eased = 1 - Math.pow(1 - progress, 3);
-        var current = Math.round(target * eased);
-        stat.textContent = current + suffix;
-        if (progress < 1) requestAnimationFrame(step);
-      }
-      requestAnimationFrame(step);
-    });
-  }
-
-  var statsSection = document.getElementById('str-stats');
-  if (statsSection) {
-    var obs = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) {
-        if (e.isIntersecting) { animateStats(); obs.disconnect(); }
-      });
-    }, { threshold: 0.3 });
-    obs.observe(statsSection);
-  }
-
-  /* ── Staggered card entrance ── */
-  var cards = document.querySelectorAll('#str-failures .str-problem__card');
-  cards.forEach(function(card, i) {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(24px)';
-    card.style.transition = 'opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1)';
-    card.style.transitionDelay = (i * 120) + 'ms';
-  });
-
-  var failSection = document.getElementById('str-failures');
-  if (failSection) {
-    var obs2 = new IntersectionObserver(function(entries) {
+  /* Left column — fast entrance */
+  var left = document.getElementById('stru-problem-left');
+  if (left) {
+    left.style.opacity = '0';
+    left.style.transform = 'translateY(20px)';
+    var obsL = new IntersectionObserver(function(entries) {
       entries.forEach(function(e) {
         if (e.isIntersecting) {
-          cards.forEach(function(card) {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-          });
-          obs2.disconnect();
+          left.style.transition = 'opacity 0.5s cubic-bezier(0.22,1,0.36,1), transform 0.5s cubic-bezier(0.22,1,0.36,1)';
+          left.style.opacity = '1';
+          left.style.transform = 'translateY(0)';
+          obsL.disconnect();
         }
       });
-    }, { threshold: 0.1 });
-    obs2.observe(failSection);
+    }, { threshold: 0.05 });
+    obsL.observe(left);
   }
+
+  /* Right cards — staggered */
+  var cards = document.querySelectorAll('[data-stru-fc]');
+  cards.forEach(function(card, i) {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(28px)';
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          setTimeout(function() {
+            card.style.transition = 'opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1)';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          }, 200 + (i * 120));
+          obs.disconnect();
+        }
+      });
+    }, { threshold: 0.08 });
+    obs.observe(card);
+  });
+
+  /* Stat blocks — staggered slide-in */
+  var stats = document.querySelectorAll('.stru-stat-block');
+  stats.forEach(function(stat, i) {
+    stat.style.opacity = '0';
+    stat.style.transform = 'translateX(-16px)';
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          setTimeout(function() {
+            stat.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            stat.style.opacity = '1';
+            stat.style.transform = 'translateX(0)';
+          }, i * 150);
+          obs.disconnect();
+        }
+      });
+    }, { threshold: 0.2 });
+    obs.observe(stat);
+  });
 })();`;
 
 export default function StructureProblem() {
