@@ -4,6 +4,7 @@ import IntelligenceHero from '@/components/sections/solutions/intelligence/Intel
 // import IntelligenceServices from '@/components/sections/solutions/intelligence/IntelligenceServices';
 // import IntelligenceBridge from '@/components/sections/solutions/intelligence/IntelligenceBridge';
 // import IntelligenceMII from '@/components/sections/solutions/intelligence/IntelligenceMII';
+// import IntelligencePIM from '@/components/sections/solutions/intelligence/IntelligencePIM';
 // import IntelligenceIntegration from '@/components/sections/solutions/intelligence/IntelligenceIntegration';
 // import IntelligenceMatrix from '@/components/sections/solutions/intelligence/IntelligenceMatrix';
 // import IntelligenceNavigator from '@/components/sections/solutions/intelligence/IntelligenceNavigator';
@@ -31,6 +32,7 @@ export default function IntelligencePage() {
       {/* <IntelligenceServices /> */}
       {/* <IntelligenceBridge /> */}
       {/* <IntelligenceMII /> */}
+      {/* <IntelligencePIM /> */}
       {/* <IntelligenceIntegration /> */}
       {/* <IntelligenceMatrix /> */}
       {/* <IntelligenceNavigator /> */}

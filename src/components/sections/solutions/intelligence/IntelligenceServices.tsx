@@ -174,7 +174,7 @@ const html = `
     <div class="intel-services-header">
       <div class="intel-services-eyebrow">What We Deliver</div>
       <h2>Intelligence Layer <em>Services</em></h2>
-      <p class="intel-services-subtitle">The intelligence layer transforms project data \u2014 graphical and non-graphical \u2014 into verified, queryable, decision-ready information. Four pillars covering model production through compliance verification, each engineered so your teams act on facts, not assumptions.</p>
+      <p class="intel-services-subtitle">The intelligence layer transforms project data \u2014 graphical and non-graphical \u2014 into verified, queryable, decision-ready information. Four pillars covering model production, design validation, reality integration, and data verification.</p>
     </div>
 
     <div class="intel-services-grid">
@@ -207,11 +207,12 @@ const html = `
           <span class="intel-svc-card-label">Pillar 02</span>
           <span class="intel-svc-card-count">Navisworks \u00b7 Solibri \u00b7 BIMcollab</span>
         </div>
-        <h3>Coordination &amp; Clash Detection</h3>
-        <p class="intel-svc-card-desc">Federated model assembly, automated clash detection, and structured resolution workflows. Not just finding conflicts \u2014 tracking them to closure with clear ownership, priority, and decision timelines so coordination meetings produce outcomes, not lists.</p>
+        <h3>Coordination &amp; Design Validation</h3>
+        <p class="intel-svc-card-desc">Federated model assembly, automated clash detection, rule-based design validation, and structured resolution workflows. Not just finding spatial conflicts \u2014 validating that the design is coordinated, compliant, and buildable across every discipline before it leaves the screen.</p>
         <div class="intel-svc-items">
           <div class="intel-svc-item" data-intel-tip>Model Federation &amp; Assembly<span class="intel-svc-item-info">i</span><div class="intel-svc-tooltip"><span class="intel-svc-tooltip-title">Federation</span><p>Combining discipline models into a single federated assembly with consistent origins, correct positioning, and verified file versions. The foundation for every downstream clash test and coordination review.</p></div></div>
-          <div class="intel-svc-item" data-intel-tip>Automated Clash Detection<span class="intel-svc-item-info">i</span><div class="intel-svc-tooltip"><span class="intel-svc-tooltip-title">Clash Detection</span><p>Rule-based clash testing across all discipline pairs \u2014 hard clashes, soft clashes, and clearance violations. Automated grouping and filtering so teams focus on critical conflicts, not noise.</p></div></div>
+          <div class="intel-svc-item" data-intel-tip>Automated Clash Detection<span class="intel-svc-item-info">i</span><div class="intel-svc-tooltip"><span class="intel-svc-tooltip-title">Clash Detection</span><p>Rule-based clash testing across all discipline pairs \u2014 hard clashes, soft clashes, and clearance violations. Automated grouping and filtering so teams focus on critical conflicts, not noise. One layer of a broader design validation process.</p></div></div>
+          <div class="intel-svc-item" data-intel-tip>Interdisciplinary Design Validation<span class="intel-svc-item-info">i</span><div class="intel-svc-tooltip"><span class="intel-svc-tooltip-title">Design Validation</span><p>Rule-based checks that go beyond spatial clashes \u2014 verifying code compliance, clearance requirements, accessibility standards, and design intent across disciplines. Validating that the design works, not just that it fits.</p></div></div>
           <div class="intel-svc-item" data-intel-tip>Clash Resolution Workflows<span class="intel-svc-item-info">i</span><div class="intel-svc-tooltip"><span class="intel-svc-tooltip-title">Resolution</span><p>Structured workflows that assign every clash to an owner, set a resolution deadline, and track status through to sign-off. Clashes don\u2019t disappear into spreadsheets \u2014 they get closed.</p></div></div>
           <div class="intel-svc-item" data-intel-tip>Design Review &amp; Visualisation<span class="intel-svc-item-info">i</span><div class="intel-svc-tooltip"><span class="intel-svc-tooltip-title">Design Review</span><p>Walkthrough visualisations, section cuts, and annotated viewpoints that give non-BIM stakeholders clear visibility into model status, spatial conflicts, and design intent without opening authoring tools.</p></div></div>
           <div class="intel-svc-item" data-intel-tip>Coordination Matrix Development<span class="intel-svc-item-info">i</span><div class="intel-svc-tooltip"><span class="intel-svc-tooltip-title">Coordination Matrix</span><p>Defining which discipline pairs are tested, at what frequency, with what tolerance, and who owns the resolution. The governance document that turns ad-hoc coordination into a managed process.</p></div></div>
@@ -228,8 +229,8 @@ const html = `
           <span class="intel-svc-card-label">Pillar 03</span>
           <span class="intel-svc-card-count">Faro \u00b7 ReCap \u00b7 CloudCompare</span>
         </div>
-        <h3>Reality Capture &amp; Scan-to-BIM</h3>
-        <p class="intel-svc-card-desc">Laser scanning, drone photogrammetry, point cloud registration, and scan-to-BIM modelling. Verifying design against field conditions so the model reflects what\u2019s actually built \u2014 not what was assumed.</p>
+        <h3>Reality Capture &amp; Integration</h3>
+        <p class="intel-svc-card-desc">Laser scanning, drone photogrammetry, point cloud registration, and scan-to-BIM modelling \u2014 integrated into the project\u2019s coordination and verification workflows. Not just capturing reality, but embedding it into the model so design, field, and data stay aligned throughout delivery.</p>
         <div class="intel-svc-items">
           <div class="intel-svc-item" data-intel-tip>Terrestrial Laser Scanning<span class="intel-svc-item-info">i</span><div class="intel-svc-tooltip"><span class="intel-svc-tooltip-title">Laser Scanning</span><p>High-density 3D point cloud capture of existing conditions using terrestrial scanners. Millimetre-accuracy data for as-existing documentation, renovation design, and field-to-model verification.</p></div></div>
           <div class="intel-svc-item" data-intel-tip>Drone / UAV Photogrammetry<span class="intel-svc-item-info">i</span><div class="intel-svc-tooltip"><span class="intel-svc-tooltip-title">Photogrammetry</span><p>Aerial capture for large sites, corridors, and inaccessible areas. Orthomosaics, digital elevation models, and 3D meshes that provide site context, volumetric data, and progress baselines.</p></div></div>
