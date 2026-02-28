@@ -3,10 +3,10 @@ import StructureProblem from '@/components/sections/solutions/structure/Structur
 import StructureServices from '@/components/sections/solutions/structure/StructureServices';
 import StructurePDSBridge from '@/components/sections/solutions/structure/StructurePDSBridge';
 import StructurePDS from '@/components/sections/solutions/structure/StructurePDS';
-// import StructureIntegration from '@/components/sections/solutions/structure/StructureIntegration';
-// import StructureMatrix from '@/components/sections/solutions/structure/StructureMatrix';
-// import StructureNavigator from '@/components/sections/solutions/structure/StructureNavigator';
-// import StructureCTA from '@/components/sections/solutions/structure/StructureCTA';
+import StructureIntegration from '@/components/sections/solutions/structure/StructureIntegration';
+import StructureMatrix from '@/components/sections/solutions/structure/StructureMatrix';
+import StructureNavigator from '@/components/sections/solutions/structure/StructureNavigator';
+import StructureCTA from '@/components/sections/solutions/structure/StructureCTA';
 
 export const metadata = {
   title: 'Structure — CDE, Naming, LOD Frameworks & Data Architecture | Infraforma',
@@ -21,10 +21,10 @@ export default function StructurePage() {
       <StructureServices />
       <StructurePDSBridge />
       <StructurePDS />
-      {/* <StructureIntegration /> */}
-      {/* <StructureMatrix /> */}
-      {/* <StructureNavigator /> */}
-      {/* <StructureCTA /> */}
+      <StructureIntegration />
+      <StructureMatrix />
+      <StructureNavigator />
+      <StructureCTA />
     </main>
   );
 }
