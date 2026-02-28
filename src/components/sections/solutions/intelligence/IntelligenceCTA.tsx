@@ -224,10 +224,11 @@ const html = `
       <a href="/solutions/" class="intel-cta-btn-secondary">All Solutions →</a>
     </div>
     <div class="intel-cta-trust">
-      <div class="intel-cta-trust-item"><span>55+</span> Years Experience</div>
-      <div class="intel-cta-trust-item"><span>$50B+</span> Assets Delivered</div>
-      <div class="intel-cta-trust-item"><span>ISO 19650</span> Aligned</div>
-      <div class="intel-cta-trust-item"><span>3</span> Countries</div>
+      <div class="intel-cta-trust-item"><span>Autodesk</span> Ecosystem</div>
+      <div class="intel-cta-trust-item"><span>Bentley</span> Ecosystem</div>
+      <div class="intel-cta-trust-item"><span>Trimble</span> Ecosystem</div>
+      <div class="intel-cta-trust-item"><span>ISO 19650</span> Compliant</div>
+      <div class="intel-cta-trust-item"><span>Platform</span> Agnostic</div>
     </div>
   </div>
 </section>

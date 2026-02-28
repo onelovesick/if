@@ -349,6 +349,16 @@ const html = `
     border-top: 1px solid rgba(71,181,255,0.08);
   }
 
+  .intel-converge-eyebrow {
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(122,155,181,0.35);
+    margin-bottom: 32px;
+  }
+
   .intel-converge-field {
     position: relative;
     width: 100%;
@@ -747,6 +757,8 @@ const html = `
 
       <!-- ═══ CONVERGENCE ANIMATION ═══ -->
       <div class="intel-converge" id="intel-converge">
+
+        <div class="intel-converge-eyebrow">All Disciplines · One Verified Asset</div>
 
         <div class="intel-converge-field">
           <!-- Central PIM node -->
