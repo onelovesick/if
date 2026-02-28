@@ -236,38 +236,40 @@ const html = `
 
   .pds-nexus-tag {
     font-family: 'DM Mono', monospace;
-    font-size: 9px; font-weight: 500;
+    font-size: 10px; font-weight: 500;
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: rgba(71,181,255,0.45);
-    margin-bottom: 4px;
+    color: rgba(71,181,255,0.65);
+    margin-bottom: 6px;
   }
 
   .pds-nexus-code {
     font-family: 'DM Mono', monospace;
-    font-size: 15px; font-weight: 500;
-    letter-spacing: 0.18em;
+    font-size: 16px; font-weight: 500;
+    letter-spacing: 0.22em;
     color: #47B5FF;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
+    text-shadow: 0 0 12px rgba(71,181,255,0.3);
   }
 
   .pds-nexus-label {
     font-family: 'Inter Tight', sans-serif;
     font-weight: 800;
     font-size: 11px;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: rgba(244,246,248,0.7);
-    margin-top: 6px;
+    color: rgba(244,246,248,0.85);
+    margin-top: 8px;
+    white-space: nowrap;
   }
 
   .pds-nexus-sub {
     font-family: 'DM Mono', monospace;
-    font-size: 7px; font-weight: 400;
-    letter-spacing: 0.18em;
+    font-size: 8px; font-weight: 400;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: rgba(122,155,181,0.35);
-    margin-top: 2px;
+    color: rgba(71,181,255,0.4);
+    margin-top: 3px;
   }
 
   /* ── SVG CONNECTIONS ── */
@@ -941,26 +943,83 @@ const html = `
   }
 
   /* ═══ Responsive ═══ */
+
+  /* Tablet */
   @media (max-width: 960px) {
     .pds-context { grid-template-columns: 1fr; gap: 24px; }
     .pds-metrics { grid-template-columns: repeat(2, 1fr); }
     .pds-orbital { max-width: 560px; }
     .pds-nd-desc { display: none; }
-    .pds-nd-circle { width: 44px; height: 44px; }
+    .pds-nd-circle { width: 46px; height: 46px; }
+    .pds-nd-circle::after { inset: -4px; }
     .pds-nd-icon { font-size: 12px; }
+    .pds-nd-name { font-size: 11px; }
+    .pds-nexus { width: 160px; height: 160px; }
+    .pds-nexus-tag { font-size: 9px; }
+    .pds-nexus-code { font-size: 14px; }
+    .pds-nexus-label { font-size: 11px; }
+    .pds-nexus-sub { font-size: 7px; }
   }
 
-  @media (max-width: 600px) {
+  /* Small tablet */
+  @media (max-width: 768px) {
     .pds-section { padding: 90px 20px 80px; }
-    .pds-orbital { max-width: 380px; }
+    .pds-orbital { max-width: 480px; }
+    .pds-nd-circle { width: 42px; height: 42px; }
+    .pds-nd-icon { font-size: 11px; }
     .pds-nd-name { font-size: 10px; }
+    .pds-nexus { width: 140px; height: 140px; }
+    .pds-nexus-outer { inset: -16px; }
+    .pds-nexus-glow { inset: -28px; }
+    .pds-nexus-tag { font-size: 8px; letter-spacing: 0.2em; }
+    .pds-nexus-code { font-size: 12px; }
+    .pds-nexus-label { font-size: 10px; letter-spacing: 0.08em; }
+    .pds-nexus-sub { font-size: 7px; }
+    .pds-context-block { padding: 28px 22px 24px; }
+    /* Pull labels closer on smaller screens */
+    .pds-l2 { left: 96%; }
+    .pds-l3 { left: 99%; }
+    .pds-l4 { left: 72%; }
+    .pds-l5 { right: 72%; }
+    .pds-l6 { right: 99%; }
+    .pds-l7 { right: 96%; }
+  }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    .pds-section { padding: 72px 16px 64px; }
+    .pds-orbital { max-width: 360px; }
     .pds-nd-circle { width: 36px; height: 36px; }
     .pds-nd-circle::after { display: none; }
     .pds-nd-icon { font-size: 10px; }
-    .pds-nexus { width: 130px; height: 130px; }
-    .pds-nexus-code { font-size: 12px; }
+    .pds-nd-name { font-size: 9px; letter-spacing: 0.02em; }
+    .pds-nd-label { display: none; }
+    .pds-nexus { width: 120px; height: 120px; }
+    .pds-nexus-outer { inset: -12px; }
+    .pds-nexus-glow { inset: -20px; }
+    .pds-nexus-tag { font-size: 7px; letter-spacing: 0.18em; margin-bottom: 3px; }
+    .pds-nexus-code { font-size: 11px; letter-spacing: 0.14em; }
+    .pds-nexus-label { font-size: 9px; letter-spacing: 0.06em; margin-top: 5px; }
+    .pds-nexus-sub { font-size: 6px; }
     .pds-metrics { grid-template-columns: 1fr 1fr; }
-    .pds-context-block { padding: 28px 22px 24px; }
+    .pds-context-block { padding: 24px 18px 20px; }
+    .pds-h2 { font-size: 28px; }
+    .pds-sub { font-size: 14px; }
+  }
+
+  /* Small mobile */
+  @media (max-width: 420px) {
+    .pds-orbital { max-width: 300px; }
+    .pds-nd-circle { width: 30px; height: 30px; }
+    .pds-nd-icon { font-size: 9px; }
+    .pds-nexus { width: 100px; height: 100px; }
+    .pds-nexus-outer { inset: -8px; }
+    .pds-nexus-glow { inset: -14px; }
+    .pds-nexus-tag { font-size: 6px; }
+    .pds-nexus-code { font-size: 9px; }
+    .pds-nexus-label { font-size: 8px; }
+    .pds-nexus-sub { display: none; }
+    .pds-metrics { grid-template-columns: 1fr; }
   }
 </style>
 
