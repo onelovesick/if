@@ -57,7 +57,7 @@ const html = `
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0;
-    margin-bottom: 0;
+    margin-bottom: 80px;
   }
 
   .intel-pim-col {
@@ -188,7 +188,7 @@ const html = `
   .intel-pim-exploded {
     position: relative;
     background: #1C1F23;
-    margin-top: 80px;
+    margin: 0;
     padding: 80px 32px 100px;
     overflow: hidden;
   }
@@ -339,26 +339,191 @@ const html = `
     display: none;
   }
 
-  /* Connector line between the two sections */
-  .intel-pim-connector {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px 0 0;
-    margin-top: 40px;
+  /* ═══════════════════════════════════════════════
+     CONVERGENCE ANIMATION
+     ═══════════════════════════════════════════════ */
+  .intel-converge {
+    position: relative;
+    margin-top: 64px;
+    padding-top: 48px;
     border-top: 1px solid rgba(71,181,255,0.08);
   }
 
-  .intel-pim-connector-text {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px; letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: rgba(71,181,255,0.35);
+  .intel-converge-field {
+    position: relative;
+    width: 100%;
+    height: 520px;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
-  .intel-pim-connector-text em {
+  /* Central PIM node */
+  .intel-converge-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .intel-core-ring {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 1px solid rgba(71,181,255,0.12);
+  }
+
+  .intel-core-ring-1 {
+    width: 90px; height: 90px;
+    border-color: rgba(71,181,255,0.3);
+    background: rgba(71,181,255,0.05);
+    animation: corePulse 5s ease-in-out infinite;
+  }
+
+  .intel-core-ring-2 {
+    width: 140px; height: 140px;
+    border-color: rgba(71,181,255,0.12);
+    animation: corePulse 5s ease-in-out infinite 0.8s;
+  }
+
+  .intel-core-ring-3 {
+    width: 190px; height: 190px;
+    border-color: rgba(71,181,255,0.05);
+    animation: corePulse 5s ease-in-out infinite 1.6s;
+  }
+
+  @keyframes corePulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    50% { transform: translate(-50%, -50%) scale(1.05); opacity: 0.7; }
+  }
+
+  .intel-core-label {
+    position: relative;
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 900; font-size: 26px;
+    letter-spacing: 0.12em;
     color: #47B5FF;
-    font-style: normal;
+    z-index: 2;
+  }
+
+  .intel-core-fullname {
+    position: absolute;
+    top: calc(50% + 110px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(71,181,255,0.3);
+    white-space: nowrap;
+    z-index: 10;
+  }
+
+  /* SVG connector lines */
+  .intel-converge-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .intel-converge-svg path {
+    fill: none;
+    stroke-width: 1;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .intel-converge-svg path.intel-line-visible {
+    opacity: 1;
+  }
+
+  /* Data stream nodes */
+  .intel-stream {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .intel-stream.intel-stream-visible {
+    opacity: 1;
+    transform: translateX(0) !important;
+  }
+
+  .intel-stream-left {
+    left: 0;
+    transform: translateX(-30px);
+  }
+
+  .intel-stream-right {
+    right: 0;
+    transform: translateX(30px);
+  }
+
+  .intel-stream-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #47B5FF;
+    box-shadow: 0 0 12px rgba(71,181,255,0.5), 0 0 24px rgba(71,181,255,0.2);
+    flex-shrink: 0;
+    animation: dotPulse 4s ease-in-out infinite;
+    animation-delay: inherit;
+  }
+
+  @keyframes dotPulse {
+    0%, 100% { box-shadow: 0 0 8px rgba(71,181,255,0.4), 0 0 16px rgba(71,181,255,0.15); }
+    50% { box-shadow: 0 0 16px rgba(71,181,255,0.7), 0 0 32px rgba(71,181,255,0.3); }
+  }
+
+  .intel-stream-name {
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 700; font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #F4F6F8;
+    line-height: 1.2;
+    margin-bottom: 2px;
+  }
+
+  .intel-stream-data {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.08em;
+    color: rgba(122,155,181,0.5);
+    text-transform: uppercase;
+  }
+
+  .intel-stream-right .intel-stream-info { text-align: right; }
+
+  /* Particle canvas */
+  .intel-converge-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  /* Verdict */
+  .intel-converge-verdict {
+    text-align: center;
+    margin-top: 48px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(122,155,181,0.35);
+  }
+
+  .intel-converge-verdict-num {
+    color: #47B5FF;
     font-weight: 500;
   }
 
@@ -368,7 +533,15 @@ const html = `
     .intel-pim-col { border-right: 1px solid rgba(11,60,93,0.07); border-bottom: none; }
     .intel-pim-col:last-child { border-bottom: 1px solid rgba(11,60,93,0.07); }
     .intel-pim-exploded-grid { grid-template-columns: 1fr; gap: 48px; }
-    .intel-pim-exploded { margin-top: 56px; padding: 56px 20px 72px; }
+    .intel-pim-exploded { padding: 56px 20px 72px; }
+    .intel-converge-field { height: auto; min-height: 400px; }
+    .intel-converge-svg { display: none; }
+    .intel-converge-canvas { display: none; }
+    .intel-converge-core { position: relative; top: auto; left: auto; transform: none; margin: 40px auto; }
+    .intel-stream { position: relative; top: auto !important; left: auto; right: auto; transform: none !important; opacity: 1; margin-bottom: 16px; }
+    .intel-stream-left, .intel-stream-right { justify-content: flex-start; }
+    .intel-stream-right .intel-stream-info { text-align: left; }
+    .intel-converge-field { display: flex; flex-direction: column; }
   }
 
   @media (max-width: 480px) {
@@ -445,8 +618,10 @@ const html = `
     </div>
   </div>
 
-  <!-- ═══ SECTION B: EXPLODED PIM ═══ -->
-  <div class="intel-pim-exploded">
+</section>
+
+<!-- ═══ SECTION B: EXPLODED PIM ═══ -->
+<section class="intel-pim-exploded">
     <div class="intel-pim-exploded-glow"></div>
     <div class="intel-pim-exploded-inner">
 
@@ -570,18 +745,130 @@ const html = `
 
       </div>
 
-      <div class="intel-pim-connector">
-        <span class="intel-pim-connector-text">Graphical + Non-Graphical = <em>Decision-Ready Intelligence</em></span>
+      <!-- ═══ CONVERGENCE ANIMATION ═══ -->
+      <div class="intel-converge" id="intel-converge">
+
+        <div class="intel-converge-field">
+          <!-- Central PIM node -->
+          <div class="intel-converge-core" id="intel-core">
+            <div class="intel-core-ring intel-core-ring-3"></div>
+            <div class="intel-core-ring intel-core-ring-2"></div>
+            <div class="intel-core-ring intel-core-ring-1"></div>
+            <div class="intel-core-label">PIM</div>
+          </div>
+          <div class="intel-core-fullname">Project Information Model</div>
+
+          <!-- SVG lines drawn from streams to core -->
+          <svg class="intel-converge-svg" id="intel-converge-svg" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <linearGradient id="stream-grad-l" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="rgba(71,181,255,0)" />
+                <stop offset="100%" stop-color="rgba(71,181,255,0.4)" />
+              </linearGradient>
+              <linearGradient id="stream-grad-r" x1="1" y1="0" x2="0" y2="0">
+                <stop offset="0%" stop-color="rgba(71,181,255,0)" />
+                <stop offset="100%" stop-color="rgba(71,181,255,0.4)" />
+              </linearGradient>
+              <filter id="stream-glow">
+                <feGaussianBlur stdDeviation="2" result="blur" />
+                <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+              </filter>
+            </defs>
+            <!-- Lines drawn by JS -->
+          </svg>
+
+          <!-- Left streams (Graphical) -->
+          <div class="intel-stream intel-stream-left" data-stream data-stream-idx="0" style="top: 30px;">
+            <div class="intel-stream-dot"></div>
+            <div class="intel-stream-info">
+              <div class="intel-stream-name">Architectural</div>
+              <div class="intel-stream-data">Spatial layout · Room data · Finishes</div>
+            </div>
+          </div>
+          <div class="intel-stream intel-stream-left" data-stream data-stream-idx="1" style="top: 120px;">
+            <div class="intel-stream-dot"></div>
+            <div class="intel-stream-info">
+              <div class="intel-stream-name">Structural</div>
+              <div class="intel-stream-data">Framing · Foundations · Load paths</div>
+            </div>
+          </div>
+          <div class="intel-stream intel-stream-left" data-stream data-stream-idx="2" style="top: 210px;">
+            <div class="intel-stream-dot"></div>
+            <div class="intel-stream-info">
+              <div class="intel-stream-name">MEP / Building Services</div>
+              <div class="intel-stream-data">HVAC · Electrical · Plumbing · Fire</div>
+            </div>
+          </div>
+          <div class="intel-stream intel-stream-left" data-stream data-stream-idx="3" style="top: 300px;">
+            <div class="intel-stream-dot"></div>
+            <div class="intel-stream-info">
+              <div class="intel-stream-name">Civil &amp; Infrastructure</div>
+              <div class="intel-stream-data">Grading · Utilities · Corridors</div>
+            </div>
+          </div>
+          <div class="intel-stream intel-stream-left" data-stream data-stream-idx="4" style="top: 390px;">
+            <div class="intel-stream-dot"></div>
+            <div class="intel-stream-info">
+              <div class="intel-stream-name">Survey &amp; Reality Capture</div>
+              <div class="intel-stream-data">Point clouds · Drone data · As-existing</div>
+            </div>
+          </div>
+
+          <!-- Right streams (Non-Graphical) -->
+          <div class="intel-stream intel-stream-right" data-stream data-stream-idx="5" style="top: 30px;">
+            <div class="intel-stream-info">
+              <div class="intel-stream-name">Classification &amp; Naming</div>
+              <div class="intel-stream-data">Uniclass · OmniClass · File codes</div>
+            </div>
+            <div class="intel-stream-dot"></div>
+          </div>
+          <div class="intel-stream intel-stream-right" data-stream data-stream-idx="6" style="top: 120px;">
+            <div class="intel-stream-info">
+              <div class="intel-stream-name">Parameters &amp; Properties</div>
+              <div class="intel-stream-data">Materials · Specs · Fire ratings</div>
+            </div>
+            <div class="intel-stream-dot"></div>
+          </div>
+          <div class="intel-stream intel-stream-right" data-stream data-stream-idx="7" style="top: 210px;">
+            <div class="intel-stream-info">
+              <div class="intel-stream-name">Coordination Records</div>
+              <div class="intel-stream-data">Clash reports · BCF issues · RFIs</div>
+            </div>
+            <div class="intel-stream-dot"></div>
+          </div>
+          <div class="intel-stream intel-stream-right" data-stream data-stream-idx="8" style="top: 300px;">
+            <div class="intel-stream-info">
+              <div class="intel-stream-name">Quantities &amp; Verification</div>
+              <div class="intel-stream-data">QTO · Audit reports · LOD compliance</div>
+            </div>
+            <div class="intel-stream-dot"></div>
+          </div>
+          <div class="intel-stream intel-stream-right" data-stream data-stream-idx="9" style="top: 390px;">
+            <div class="intel-stream-info">
+              <div class="intel-stream-name">CDE &amp; Governance</div>
+              <div class="intel-stream-data">Status codes · Approvals · Audit trail</div>
+            </div>
+            <div class="intel-stream-dot"></div>
+          </div>
+
+          <!-- Particle canvas -->
+          <canvas class="intel-converge-canvas" id="intel-converge-canvas"></canvas>
+
+        </div>
+
+        <div class="intel-converge-verdict">
+          <span class="intel-converge-verdict-num">10</span> discipline streams &middot; <span class="intel-converge-verdict-num">1</span> verified, decision-ready asset
+        </div>
+
       </div>
 
     </div>
-  </div>
-
 </section>
 `;
 
+
 const script = `(function(){
-  /* Header A */
+  /* ═══ SECTION A ANIMATIONS ═══ */
   var hdr = document.getElementById('intel-pim-header');
   if (hdr) {
     hdr.style.opacity = '0';
@@ -599,7 +886,6 @@ const script = `(function(){
     obsH.observe(hdr);
   }
 
-  /* Columns */
   var cols = document.querySelectorAll('[data-intel-pc]');
   cols.forEach(function(col, i) {
     col.style.opacity = '0';
@@ -619,7 +905,7 @@ const script = `(function(){
     obs.observe(col);
   });
 
-  /* Header B */
+  /* ═══ SECTION B ANIMATIONS ═══ */
   var hdr2 = document.getElementById('intel-pim-exploded-header');
   if (hdr2) {
     hdr2.style.opacity = '0';
@@ -637,7 +923,6 @@ const script = `(function(){
     obsH2.observe(hdr2);
   }
 
-  /* Halves */
   var halves = document.querySelectorAll('[data-intel-ph]');
   halves.forEach(function(half, i) {
     half.style.opacity = '0';
@@ -657,7 +942,6 @@ const script = `(function(){
     obs.observe(half);
   });
 
-  /* Feed items \u2014 stagger within each half */
   var feeds = document.querySelectorAll('.intel-pim-feed-item');
   feeds.forEach(function(fi, i) {
     fi.style.opacity = '0';
@@ -675,6 +959,148 @@ const script = `(function(){
       });
     }, { threshold: 0.1 });
     obs.observe(fi);
+  });
+
+  /* ═══ CONVERGENCE ANIMATION ═══ */
+  var converge = document.getElementById('intel-converge');
+  var canvas = document.getElementById('intel-converge-canvas');
+  var svg = document.getElementById('intel-converge-svg');
+  if (!converge || !canvas || !svg) return;
+
+  var ctx = canvas.getContext('2d');
+  var streams = document.querySelectorAll('[data-stream]');
+  var particles = [];
+  var animating = false;
+
+  function resizeCanvas() {
+    var field = converge.querySelector('.intel-converge-field');
+    if (!field) return;
+    canvas.width = field.offsetWidth;
+    canvas.height = field.offsetHeight;
+  }
+
+  function getCoreCenter() {
+    var core = document.getElementById('intel-core');
+    var field = converge.querySelector('.intel-converge-field');
+    if (!core || !field) return { x: 600, y: 260 };
+    var cR = core.getBoundingClientRect();
+    var fR = field.getBoundingClientRect();
+    return {
+      x: (cR.left + cR.width / 2) - fR.left,
+      y: (cR.top + cR.height / 2) - fR.top
+    };
+  }
+
+  function getStreamPos(el) {
+    var field = converge.querySelector('.intel-converge-field');
+    var dot = el.querySelector('.intel-stream-dot');
+    if (!dot || !field) return { x: 0, y: 0 };
+    var dR = dot.getBoundingClientRect();
+    var fR = field.getBoundingClientRect();
+    return {
+      x: (dR.left + dR.width / 2) - fR.left,
+      y: (dR.top + dR.height / 2) - fR.top
+    };
+  }
+
+  function drawSVGLines() {
+    var core = getCoreCenter();
+    svg.setAttribute('viewBox', '0 0 ' + canvas.width + ' ' + canvas.height);
+    var old = svg.querySelectorAll('path');
+    old.forEach(function(p) { p.remove(); });
+
+    streams.forEach(function(s, i) {
+      var pos = getStreamPos(s);
+      var isLeft = s.classList.contains('intel-stream-left');
+      var cpX1 = isLeft ? pos.x + (core.x - pos.x) * 0.5 : pos.x - (pos.x - core.x) * 0.5;
+      var cpY1 = pos.y;
+      var cpX2 = core.x;
+      var cpY2 = core.y + (pos.y - core.y) * 0.3;
+      var d = 'M' + pos.x + ',' + pos.y + ' C' + cpX1 + ',' + cpY1 + ' ' + cpX2 + ',' + cpY2 + ' ' + core.x + ',' + core.y;
+      var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', d);
+      path.setAttribute('stroke', isLeft ? 'url(#stream-grad-l)' : 'url(#stream-grad-r)');
+      path.setAttribute('filter', 'url(#stream-glow)');
+      svg.appendChild(path);
+      setTimeout(function() { path.classList.add('intel-line-visible'); }, i * 120 + 600);
+    });
+  }
+
+  function bezier(t, p0, p1, p2, p3) {
+    var u = 1 - t;
+    return u*u*u*p0 + 3*u*u*t*p1 + 3*u*t*t*p2 + t*t*t*p3;
+  }
+
+  function spawnParticle() {
+    if (!animating) return;
+    var core = getCoreCenter();
+    var idx = Math.floor(Math.random() * streams.length);
+    var s = streams[idx];
+    if (!s) return;
+    var pos = getStreamPos(s);
+    var isLeft = s.classList.contains('intel-stream-left');
+    particles.push({
+      x: pos.x, y: pos.y, tx: core.x, ty: core.y,
+      progress: 0,
+      speed: 0.003 + Math.random() * 0.005,
+      size: 1.5 + Math.random() * 2,
+      alpha: 0.4 + Math.random() * 0.5,
+      cpX1: isLeft ? pos.x + (core.x - pos.x) * 0.5 : pos.x - (pos.x - core.x) * 0.5,
+      cpY1: pos.y,
+      cpX2: core.x,
+      cpY2: core.y + (pos.y - core.y) * 0.3
+    });
+  }
+
+  function animate() {
+    if (!animating) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (var i = particles.length - 1; i >= 0; i--) {
+      var p = particles[i];
+      p.progress += p.speed;
+      if (p.progress >= 1) { particles.splice(i, 1); continue; }
+      var t = p.progress;
+      var px = bezier(t, p.x, p.cpX1, p.cpX2, p.tx);
+      var py = bezier(t, p.y, p.cpY1, p.cpY2, p.ty);
+      var fade = t < 0.1 ? t / 0.1 : t > 0.85 ? (1 - t) / 0.15 : 1;
+
+      ctx.beginPath();
+      ctx.arc(px, py, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(71,181,255,' + (p.alpha * fade).toFixed(2) + ')';
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(px, py, p.size * 3, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(71,181,255,' + (p.alpha * fade * 0.12).toFixed(3) + ')';
+      ctx.fill();
+    }
+
+    if (Math.random() < 0.18) spawnParticle();
+    requestAnimationFrame(animate);
+  }
+
+  function startConvergence() {
+    resizeCanvas();
+    animating = true;
+    streams.forEach(function(s, i) {
+      setTimeout(function() { s.classList.add('intel-stream-visible'); }, i * 100);
+    });
+    setTimeout(function() { drawSVGLines(); }, 400);
+    setTimeout(function() { animate(); }, 800);
+  }
+
+  var obsC = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { startConvergence(); obsC.disconnect(); }
+    });
+  }, { threshold: 0.1 });
+  obsC.observe(converge);
+
+  var rt;
+  window.addEventListener('resize', function() {
+    clearTimeout(rt);
+    rt = setTimeout(function() { resizeCanvas(); drawSVGLines(); }, 200);
   });
 })();`;
 
