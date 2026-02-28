@@ -287,7 +287,7 @@ const html = `
       <div class="intel-integ-eyebrow">Integration Points</div>
       <h2>Best During Design.<br><em>Essential</em> During Construction.</h2>
       <p class="intel-integ-text">
-        Model intelligence is <strong>exponentially harder to retrofit</strong> than to embed from the start. The earlier coordination, classification, and verification workflows are established, the less rework every downstream team inherits \u2014 and the faster every decision gets made.
+        Project intelligence is <strong>exponentially harder to retrofit</strong> than to embed from the start. The earlier coordination workflows, CDE reporting, issue tracking, and verification protocols are established, the less rework every downstream team inherits \u2014 and the faster every decision gets made.
       </p>
     </div>
 
@@ -334,28 +334,28 @@ const html = `
             <div class="intel-ps-num">01</div>
             <div class="intel-ps-content">
               <div class="intel-ps-name"><a href="/process/assess/">Assess</a></div>
-              <p class="intel-ps-desc">Audit existing models for data quality, parameter completeness, classification accuracy, and coordination status. Map current model intelligence against EIR and BEP requirements.</p>
+              <p class="intel-ps-desc">Audit existing models, CDE configuration, issue tracking workflows, and reporting pipelines. Map current data quality, parameter completeness, and coordination status against EIR and BEP requirements.</p>
             </div>
           </div>
           <div class="intel-ps" data-intel-ps>
             <div class="intel-ps-num">02</div>
             <div class="intel-ps-content">
               <div class="intel-ps-name"><a href="/process/define/">Define</a></div>
-              <p class="intel-ps-desc">Establish modelling standards, coordination matrices, clash detection rules, LOD/LOI targets, and verification protocols. Define the MII benchmark every model must meet.</p>
+              <p class="intel-ps-desc">Establish modelling standards, coordination matrices, clash detection rules, LOD/LOI targets, CDE reporting requirements, and verification protocols. Define the MII benchmark the project must meet.</p>
             </div>
           </div>
           <div class="intel-ps" data-intel-ps>
             <div class="intel-ps-num">03</div>
             <div class="intel-ps-content">
               <div class="intel-ps-name"><a href="/process/implement/">Implement</a></div>
-              <p class="intel-ps-desc">Author and federate models to standard, run automated clash detection, integrate reality capture data, and execute QTO extraction and parameter auditing workflows.</p>
+              <p class="intel-ps-desc">Author and federate models to standard, run automated clash detection, integrate reality capture data, execute QTO extraction, and establish issue tracking and CDE compliance reporting workflows.</p>
             </div>
           </div>
           <div class="intel-ps" data-intel-ps>
             <div class="intel-ps-num">04</div>
             <div class="intel-ps-content">
               <div class="intel-ps-name"><a href="/process/control/">Control</a></div>
-              <p class="intel-ps-desc">Ongoing model health scoring, data completeness reporting, LOD compliance checks, and deliverable verification at every milestone. Intelligence doesn\u2019t stop at setup \u2014 it\u2019s continuous.</p>
+              <p class="intel-ps-desc">Ongoing data completeness reporting, model health scoring, LOD compliance checks, CDE status audits, issue resolution tracking, and deliverable verification at every milestone. Intelligence doesn\u2019t stop at setup \u2014 it\u2019s continuous.</p>
             </div>
           </div>
         </div>

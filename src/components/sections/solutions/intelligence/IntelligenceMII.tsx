@@ -419,7 +419,7 @@ const html = `
     <div class="intel-mii-header" id="intel-mii-header">
       <div class="intel-mii-eyebrow">Our Differentiator</div>
       <h2>The Model <em>Intelligence</em> Index</h2>
-      <p class="intel-mii-subtitle">Most teams measure model progress by geometry. We measure it by intelligence \u2014 five cumulative layers that define whether a model is a file or a decision-ready asset.</p>
+      <p class="intel-mii-subtitle">Most teams measure progress by geometry. We measure it by intelligence \u2014 five cumulative layers that define whether your project data is just files or a decision-ready ecosystem of models, reports, and verified information.</p>
     </div>
 
     <div class="intel-mii-visual-zone">
@@ -521,7 +521,7 @@ const html = `
       <div class="intel-mii-card" data-intel-mc>
         <div class="intel-mii-card-icon">Why It Matters</div>
         <h3>Intelligence Enables Decisions</h3>
-        <p>A model at Layer 1 is a visual. A model at Layer 5 is an asset that drives procurement, validates quantities, informs scheduling, and satisfies handover requirements. The MII quantifies the difference \u2014 and gives your teams the intelligence to act faster and with confidence.</p>
+        <p>At Layer 1, you have a visual. At Layer 5, you have an asset that drives procurement, validates quantities, informs scheduling, and satisfies handover \u2014 with every coordination record, CDE status, and issue resolution traceable. The MII quantifies the difference and gives your teams the intelligence to act faster and with confidence.</p>
       </div>
     </div>
 

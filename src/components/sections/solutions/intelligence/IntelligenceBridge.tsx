@@ -202,7 +202,7 @@ const html = `
       <div class="intel-bridge-eyebrow">Beyond Geometry</div>
       <h2>Every Model Has Shape.<br>Not Every Model Has <em>Intelligence</em></h2>
       <p class="intel-bridge-text">
-        Most teams measure model progress by what\u2019s visible \u2014 how much geometry is placed, how many views are produced, whether the file opens without crashing. But the intelligence that drives coordination, verification, and decision-making lives in the data you can\u2019t see on screen. <strong>The difference between a model and a digital asset is what\u2019s embedded \u2014 not what\u2019s rendered.</strong>
+        Most teams measure progress by what\u2019s visible \u2014 how much geometry is placed, whether the file opens, how many views are on a sheet. But the intelligence that drives decisions lives in what you can\u2019t see: embedded parameters, CDE status codes, coordination records, issue resolution history, and verified quantities. <strong>The difference between project data and project intelligence is whether anyone can act on it.</strong>
       </p>
     </div>
 

@@ -215,9 +215,9 @@ const html = `
   <div class="intel-cta-frame"></div>
   <div class="intel-cta-inner">
     <div class="intel-cta-eyebrow">Build With Intelligence</div>
-    <h2>Let\u2019s Make Your<br>Models <em>Work</em></h2>
+    <h2>Let\u2019s Make Your<br>Project <em>Intelligent</em></h2>
     <p class="intel-cta-text">
-      Whether your programme needs model production, federated coordination, reality capture, or data verification \u2014 the intelligence layer turns geometry into decision-ready information. Let\u2019s talk about what your project needs.
+      Models, coordination reports, CDE compliance, issue tracking, quantity verification \u2014 intelligence is what happens when every piece of project data becomes queryable, verified, and decision-ready. Let\u2019s talk about what your programme needs.
     </p>
     <div class="intel-cta-buttons">
       <a href="/contact/" class="intel-cta-btn-accent">Schedule a Call →</a>

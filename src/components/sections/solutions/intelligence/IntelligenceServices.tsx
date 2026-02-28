@@ -174,7 +174,7 @@ const html = `
     <div class="intel-services-header">
       <div class="intel-services-eyebrow">What We Deliver</div>
       <h2>Intelligence Layer <em>Services</em></h2>
-      <p class="intel-services-subtitle">The intelligence layer transforms project data \u2014 graphical and non-graphical \u2014 into verified, queryable, decision-ready information. Four pillars covering model production, design validation, reality integration, and data verification.</p>
+      <p class="intel-services-subtitle">The intelligence layer transforms project data \u2014 models, coordination records, CDE metadata, issue logs, and quantities \u2014 into verified, queryable, decision-ready information. Four pillars covering production, validation, reality integration, and verification.</p>
     </div>
 
     <div class="intel-services-grid">
