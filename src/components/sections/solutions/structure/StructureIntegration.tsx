@@ -61,6 +61,7 @@ const html = `
     margin-bottom: 40px;
   }
 
+  /* Card grid */
   .stru-lc-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -76,6 +77,7 @@ const html = `
     overflow: hidden;
   }
 
+  /* Left accent bar — present on all, coloured on best/ideal */
   .stru-phase-card::before {
     content: '';
     position: absolute;
@@ -96,9 +98,11 @@ const html = `
 
   .stru-phase-card:hover::before { background: #47B5FF; }
 
+  /* Phase number */
   .stru-pc-phase {
     font-family: 'DM Mono', monospace;
-    font-size: 10px; font-weight: 400;
+    font-size: 10px;
+    font-weight: 400;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: #47B5FF;
@@ -107,7 +111,8 @@ const html = `
 
   .stru-pc-name {
     font-family: 'Inter Tight', sans-serif;
-    font-weight: 800; font-size: 15px;
+    font-weight: 800;
+    font-size: 15px;
     letter-spacing: 0.01em;
     text-transform: uppercase;
     color: #0B3C5D;
@@ -121,12 +126,14 @@ const html = `
 
   .stru-pc-desc {
     font-family: 'Inter', sans-serif;
-    font-size: 13.5px; font-weight: 400;
+    font-size: 13.5px;
+    font-weight: 400;
     line-height: 1.65;
     color: #5a7a96;
     min-height: 46px;
   }
 
+  /* Badge row — sits at bottom */
   .stru-pc-badge {
     margin-top: 18px;
     height: 28px;
@@ -152,7 +159,7 @@ const html = `
     color: #47B5FF;
   }
 
-  .stru-text-badge {
+  .stru-integ-text-badge {
     display: inline-flex; align-items: center; gap: 6px;
     padding: 5px 14px;
     background: rgba(71,181,255,0.05);
@@ -180,6 +187,47 @@ const html = `
   .stru-lower h3 em { font-style: italic; color: #47B5FF; }
 
   .stru-lower-contracts h3 { margin-bottom: 12px; }
+
+  .stru-ps {
+    display: grid; grid-template-columns: 48px 1fr; gap: 16px;
+    align-items: start; padding: 18px 0;
+    border-bottom: 1px solid rgba(11,60,93,0.06);
+    transition: padding-left 0.2s ease;
+  }
+  .stru-ps:first-child { padding-top: 0; }
+  .stru-ps:hover { padding-left: 6px; }
+
+  .stru-ps-num {
+    font-family: 'Inter Tight', sans-serif; font-weight: 900;
+    font-size: 28px; letter-spacing: -0.04em;
+    color: rgba(11,60,93,0.08); line-height: 1;
+    transition: color 0.3s ease;
+  }
+  .stru-ps:hover .stru-ps-num { color: rgba(71,181,255,0.25); }
+
+  .stru-ps-name {
+    font-family: 'Inter Tight', sans-serif; font-weight: 700;
+    font-size: 14px; letter-spacing: 0.02em;
+    text-transform: uppercase; color: #0B3C5D;
+    margin-bottom: 4px; transition: color 0.3s ease;
+  }
+  .stru-ps:hover .stru-ps-name { color: #47B5FF; }
+  .stru-ps-name a { color: inherit; text-decoration: none; }
+
+  .stru-ps-desc {
+    font-family: 'Inter', sans-serif; font-size: 13px;
+    font-weight: 400; line-height: 1.65;
+    color: #5a7a96; margin: 0;
+  }
+
+  .stru-lower-process-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 24px; font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; text-decoration: none;
+    color: #47B5FF; transition: gap 0.2s ease;
+  }
+  .stru-lower-process-link:hover { gap: 14px; }
 
   .stru-lower-contracts-intro {
     font-family: 'Inter', sans-serif; font-size: 14px;
@@ -215,55 +263,14 @@ const html = `
     font-weight: 400; line-height: 1.6; color: #5a7a96;
   }
 
-  .stru-ps {
-    display: grid; grid-template-columns: 48px 1fr; gap: 16px;
-    align-items: start; padding: 18px 0;
-    border-bottom: 1px solid rgba(11,60,93,0.06);
-    transition: padding-left 0.2s ease;
-  }
-  .stru-ps:first-child { padding-top: 0; }
-  .stru-ps:hover { padding-left: 6px; }
-
-  .stru-ps-num {
-    font-family: 'Inter Tight', sans-serif; font-weight: 900;
-    font-size: 28px; letter-spacing: -0.04em;
-    color: rgba(11,60,93,0.08); line-height: 1;
-    transition: color 0.3s ease;
-  }
-  .stru-ps:hover .stru-ps-num { color: rgba(71,181,255,0.25); }
-
-  .stru-ps-name {
-    font-family: 'Inter Tight', sans-serif; font-weight: 700;
-    font-size: 14px; letter-spacing: 0.02em;
-    text-transform: uppercase; color: #0B3C5D;
-    margin-bottom: 4px; transition: color 0.3s ease;
-  }
-  .stru-ps:hover .stru-ps-name { color: #47B5FF; }
-  .stru-ps-name a { color: inherit; text-decoration: none; }
-
-  .stru-ps-desc {
-    font-family: 'Inter', sans-serif; font-size: 13px;
-    font-weight: 400; line-height: 1.65;
-    color: #5a7a96; margin: 0;
-  }
-
-  .stru-lower-process-link {
-    display: inline-block;
-    margin-top: 24px;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px; font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #47B5FF;
-    text-decoration: none;
-    transition: all 0.3s ease;
-  }
-  .stru-lower-process-link:hover { letter-spacing: 0.16em; }
-
-
   /* ═══ Responsive ═══ */
+  @media (max-width: 1080px) {
+    .stru-lc-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
   @media (max-width: 960px) {
-    .stru-lc-grid { grid-template-columns: 1fr 1fr; }
     .stru-lower { grid-template-columns: 1fr; gap: 56px; }
   }
 
@@ -277,43 +284,43 @@ const html = `
   <div class="stru-integ-inner">
 
     <div class="stru-integ-statement" id="stru-integ-statement">
-      <div class="stru-integ-eyebrow">Best At Inception</div>
-      <h2>Structure Works Best<br>When It Comes <em>First</em></h2>
+      <div class="stru-integ-eyebrow">Integration Points</div>
+      <h2>Structure Works Best<br>When It Comes <em>First.</em></h2>
       <p class="stru-integ-text">
         CDE governance, naming conventions, classification systems, and LOD/LOI frameworks are <strong>exponentially harder to retrofit</strong> than to define upfront. The earlier the Structure layer is established, the less rework every downstream team inherits.
       </p>
     </div>
 
     <div class="stru-lifecycle">
-      <div class="stru-lifecycle-label">Project Lifecycle · When Structure Services Enter</div>
+      <div class="stru-lifecycle-label">Project Lifecycle · Typical Construction Phases</div>
       <div class="stru-lc-grid">
 
-        <div class="stru-phase-card stru-card-best" data-stru-phase>
+        <div class="stru-phase-card stru-card-best" data-phase>
           <div class="stru-pc-phase">Phase 01</div>
           <div class="stru-pc-name">Concept &amp; Design</div>
-          <div class="stru-pc-desc">Define the PDS, CDE structure, and naming conventions before any model is created. Maximum leverage.</div>
+          <div class="stru-pc-desc">Maximum influence. Define CDE, naming, and classification before any model is opened.</div>
           <div class="stru-pc-badge"><span class="stru-best-badge">Best Entry</span></div>
         </div>
 
-        <div class="stru-phase-card stru-card-ideal" data-stru-phase>
+        <div class="stru-phase-card stru-card-ideal" data-phase>
           <div class="stru-pc-phase">Phase 02</div>
           <div class="stru-pc-name">Detailed Design</div>
-          <div class="stru-pc-desc">LOD/LOI frameworks, classification mapping, and parameter standards can still shape the modelling effort.</div>
+          <div class="stru-pc-desc">Governance still shapeable. Naming conventions and LOD matrices can redirect modelling efforts.</div>
           <div class="stru-pc-badge"><span class="stru-ideal-badge">Ideal Entry</span></div>
         </div>
 
-        <div class="stru-phase-card" data-stru-phase>
+        <div class="stru-phase-card" data-phase>
           <div class="stru-pc-phase">Phase 03</div>
           <div class="stru-pc-name">Construction</div>
           <div class="stru-pc-desc">Structure becomes remediation. Retrofit naming, enforce classification, and salvage exchange integrity for handover.</div>
-          <div class="stru-pc-badge"><span class="stru-text-badge">Retrofit Possible</span></div>
+          <div class="stru-pc-badge"><span class="stru-integ-text-badge">Retrofit Possible</span></div>
         </div>
 
-        <div class="stru-phase-card" data-stru-phase>
+        <div class="stru-phase-card" data-phase>
           <div class="stru-pc-phase">Phase 04</div>
           <div class="stru-pc-name">Operations</div>
           <div class="stru-pc-desc">Restructure asset data for FM systems. Reclassify, re-tag, and build the register the project should have delivered.</div>
-          <div class="stru-pc-badge"><span class="stru-text-badge">Restructure Possible</span></div>
+          <div class="stru-pc-badge"><span class="stru-integ-text-badge">Restructure Possible</span></div>
         </div>
 
       </div>
@@ -323,28 +330,28 @@ const html = `
       <div class="stru-lower-process">
         <h3>How We <em>Work</em></h3>
         <div class="stru-process-steps">
-          <div class="stru-ps" data-stru-ps>
+          <div class="stru-ps" data-ps>
             <div class="stru-ps-num">01</div>
             <div class="stru-ps-content">
               <div class="stru-ps-name"><a href="/process/assess/">Assess</a></div>
               <p class="stru-ps-desc">Audit existing CDE configuration, naming conventions, classification usage, and data quality. Map what exists against what ISO 19650 and the contract require.</p>
             </div>
           </div>
-          <div class="stru-ps" data-stru-ps>
+          <div class="stru-ps" data-ps>
             <div class="stru-ps-num">02</div>
             <div class="stru-ps-content">
               <div class="stru-ps-name"><a href="/process/define/">Define</a></div>
               <p class="stru-ps-desc">Design the PDS taxonomy, folder hierarchy, naming schema, classification mapping, and LOD/LOI matrix. Define every rule before deployment.</p>
             </div>
           </div>
-          <div class="stru-ps" data-stru-ps>
+          <div class="stru-ps" data-ps>
             <div class="stru-ps-num">03</div>
             <div class="stru-ps-content">
               <div class="stru-ps-name"><a href="/process/implement/">Implement</a></div>
               <p class="stru-ps-desc">Configure the CDE, roll out naming conventions, embed classification into templates, and enforce parameter standards across all authoring tools.</p>
             </div>
           </div>
-          <div class="stru-ps" data-stru-ps>
+          <div class="stru-ps" data-ps>
             <div class="stru-ps-num">04</div>
             <div class="stru-ps-content">
               <div class="stru-ps-name"><a href="/process/control/">Control</a></div>
@@ -358,41 +365,43 @@ const html = `
       <div class="stru-lower-contracts">
         <h3>Adapts To Your <em>Contract</em></h3>
         <p class="stru-lower-contracts-intro">How naming is enforced, who owns the CDE, and when classification is locked — all depends on procurement structure. We tailor the data architecture to match.</p>
-          <div class="stru-cc-row" data-stru-cc>
+        <div class="stru-cc-list">
+          <div class="stru-cc-row" data-cc>
             <div class="stru-cc-abbr">DBB</div>
             <div class="stru-cc-info">
               <div class="stru-cc-name">Design-Bid-Build</div>
               <div class="stru-cc-note">Sequential handoff. Naming and classification must survive the design–construction gap.</div>
             </div>
           </div>
-          <div class="stru-cc-row" data-stru-cc>
+          <div class="stru-cc-row" data-cc>
             <div class="stru-cc-abbr">DB</div>
             <div class="stru-cc-info">
               <div class="stru-cc-name">Design-Build</div>
               <div class="stru-cc-note">Single entity. CDE and naming conventions must unify design and construction teams from day one.</div>
             </div>
           </div>
-          <div class="stru-cc-row" data-stru-cc>
+          <div class="stru-cc-row" data-cc>
             <div class="stru-cc-abbr">P3</div>
             <div class="stru-cc-info">
               <div class="stru-cc-name">Public-Private Partnership</div>
               <div class="stru-cc-note">Long lifecycle. Classification and tagging must serve 30+ years of FM and operations.</div>
             </div>
           </div>
-          <div class="stru-cc-row" data-stru-cc>
+          <div class="stru-cc-row" data-cc>
             <div class="stru-cc-abbr">CM</div>
             <div class="stru-cc-info">
               <div class="stru-cc-name">Construction Management</div>
               <div class="stru-cc-note">Multi-party coordination. Shared naming conventions keep every team's data aligned.</div>
             </div>
           </div>
-          <div class="stru-cc-row" data-stru-cc>
+          <div class="stru-cc-row" data-cc>
             <div class="stru-cc-abbr">IPD</div>
             <div class="stru-cc-info">
               <div class="stru-cc-name">Integrated Project Delivery</div>
               <div class="stru-cc-note">Shared risk. A unified PDS enables true collaborative data exchange.</div>
             </div>
           </div>
+        </div>
       </div>
     </div>
   </div>
@@ -400,6 +409,7 @@ const html = `
 `;
 
 const script = `(function(){
+  /* Statement entrance */
   var stmt = document.getElementById('stru-integ-statement');
   if (stmt) {
     stmt.style.opacity = '0';
@@ -417,7 +427,8 @@ const script = `(function(){
     obsS.observe(stmt);
   }
 
-  var phases = document.querySelectorAll('[data-stru-phase]');
+  /* Phase cards stagger */
+  var phases = document.querySelectorAll('[data-phase]');
   phases.forEach(function(p, i) {
     p.style.opacity = '0';
     p.style.transform = 'translateY(16px)';
@@ -436,7 +447,8 @@ const script = `(function(){
     obs.observe(p);
   });
 
-  var ps = document.querySelectorAll('[data-stru-ps]');
+  /* Process steps */
+  var ps = document.querySelectorAll('[data-ps]');
   ps.forEach(function(s, i) {
     s.style.opacity = '0';
     s.style.transform = 'translateX(-12px)';
@@ -455,8 +467,9 @@ const script = `(function(){
     obs.observe(s);
   });
 
-  var std = document.querySelectorAll('[data-stru-cc]');
-  std.forEach(function(r, i) {
+  /* Contract rows */
+  var cc = document.querySelectorAll('[data-cc]');
+  cc.forEach(function(r, i) {
     r.style.opacity = '0';
     r.style.transform = 'translateX(-12px)';
     var obs = new IntersectionObserver(function(entries) {
