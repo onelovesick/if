@@ -310,119 +310,85 @@ const html = `
 
   .pds-conn-particle {
     fill: #47B5FF;
-    opacity: 0;
-    transition: opacity 1s ease 0.5s;
+    filter: drop-shadow(0 0 4px rgba(71,181,255,0.6));
+    visibility: hidden;
+    transition: visibility 0s linear 0.5s;
   }
 
-  .pds-conn-active .pds-conn-particle { opacity: 1; }
+  .pds-conn-active .pds-conn-particle { visibility: visible; }
 
-  /* ── ORBITAL NODES ── */
-  .pds-node {
+  /* ── ORBITAL NODES — circle-anchored system ── */
+  .pds-nd-circle {
     position: absolute;
-    z-index: 6;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    transform: translate(-50%, -50%);
-    transition: all 0.4s cubic-bezier(0.22,1,0.36,1);
-    cursor: default;
-  }
-
-  .pds-node:hover { transform: translate(-50%, -50%) scale(1.06); }
-
-  .pds-node-circle {
     width: 56px; height: 56px;
+    transform: translate(-50%, -50%);
     border-radius: 50%;
     border: 1px solid rgba(71,181,255,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
     background: rgba(8,11,16,0.85);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     transition: all 0.35s ease;
-    position: relative;
+    z-index: 6; cursor: default;
   }
-
-  .pds-node-circle::after {
-    content: '';
-    position: absolute; inset: -6px;
+  .pds-nd-circle::after {
+    content: ''; position: absolute; inset: -6px;
     border-radius: 50%;
     border: 1px solid rgba(71,181,255,0.05);
     transition: border-color 0.35s ease;
   }
-
-  .pds-node:hover .pds-node-circle {
+  .pds-nd-circle:hover {
     border-color: rgba(71,181,255,0.5);
     background: rgba(71,181,255,0.06);
     box-shadow: 0 0 32px rgba(71,181,255,0.12), inset 0 0 20px rgba(71,181,255,0.04);
   }
-
-  .pds-node:hover .pds-node-circle::after {
-    border-color: rgba(71,181,255,0.15);
-  }
-
-  .pds-node-icon {
+  .pds-nd-circle:hover::after { border-color: rgba(71,181,255,0.15); }
+  .pds-nd-icon {
     font-family: 'DM Mono', monospace;
     font-size: 14px; font-weight: 500;
-    letter-spacing: 0.06em;
-    color: #47B5FF;
+    letter-spacing: 0.06em; color: #47B5FF;
     transition: text-shadow 0.35s ease;
   }
+  .pds-nd-circle:hover .pds-nd-icon { text-shadow: 0 0 12px rgba(71,181,255,0.4); }
 
-  .pds-node:hover .pds-node-icon {
-    text-shadow: 0 0 12px rgba(71,181,255,0.4);
+  .pds-nd-label {
+    position: absolute; z-index: 5;
+    white-space: nowrap; pointer-events: none;
   }
-
-  .pds-node-text {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+  .pds-nd-name {
+    font-family: 'Inter Tight', sans-serif; font-weight: 800;
+    font-size: 12px; text-transform: uppercase;
+    letter-spacing: 0.04em; color: #F4F6F8;
   }
-
-  .pds-node-name {
-    font-family: 'Inter Tight', sans-serif;
-    font-weight: 800;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: #F4F6F8;
-    white-space: nowrap;
-    transition: color 0.3s ease;
-  }
-
-  .pds-node:hover .pds-node-name { color: #47B5FF; }
-
-  .pds-node-desc {
+  .pds-nd-desc {
     font-family: 'Inter', sans-serif;
     font-size: 11px; font-weight: 400;
-    color: rgba(122,155,181,0.5);
-    white-space: nowrap;
+    color: rgba(122,155,181,0.5); margin-top: 2px;
   }
 
-  /* Node positions */
-  .pds-node-1 { top: 4%; left: 50%; }
-  .pds-node-1 .pds-node-text { text-align: center; }
-  .pds-node-1 { flex-direction: column; gap: 8px; }
+  /* Circle positions — these MATCH the SVG line endpoints exactly */
+  .pds-c1 { top: 3%; left: 50%; }
+  .pds-c2 { top: 22%; left: 93%; }
+  .pds-c3 { top: 63%; left: 96%; }
+  .pds-c4 { top: 90%; left: 68%; }
+  .pds-c5 { top: 90%; left: 32%; }
+  .pds-c6 { top: 63%; left: 4%; }
+  .pds-c7 { top: 22%; left: 7%; }
 
-  .pds-node-2 { top: 24%; left: 93%; flex-direction: row-reverse; }
-  .pds-node-2 .pds-node-text { text-align: right; }
-
-  .pds-node-3 { top: 64%; left: 96%; flex-direction: row-reverse; }
-  .pds-node-3 .pds-node-text { text-align: right; }
-
-  .pds-node-4 { top: 90%; left: 68%; }
-  .pds-node-4 .pds-node-text { text-align: left; }
-
-  .pds-node-5 { top: 90%; left: 32%; flex-direction: row-reverse; }
-  .pds-node-5 .pds-node-text { text-align: right; }
-
-  .pds-node-6 { top: 64%; left: 4%; }
-  .pds-node-6 .pds-node-text { text-align: left; }
-
-  .pds-node-7 { top: 24%; left: 7%; }
-  .pds-node-7 .pds-node-text { text-align: left; }
+  /* Label positions — flipped to opposite side of each circle */
+  /* 4D — below circle, centred (stays) */
+  .pds-l1 { top: 8.5%; left: 50%; transform: translateX(-50%); text-align: center; }
+  /* 5D — now RIGHT of circle */
+  .pds-l2 { top: 20.5%; left: 98%; text-align: left; }
+  /* FM — now RIGHT of circle */
+  .pds-l3 { top: 61.5%; left: 101%; text-align: left; }
+  /* QA — now RIGHT of circle */
+  .pds-l4 { top: 88.5%; left: 73%; text-align: left; }
+  /* PR — now LEFT of circle */
+  .pds-l5 { top: 88.5%; right: 73%; text-align: right; }
+  /* WBS — now LEFT of circle */
+  .pds-l6 { top: 61.5%; right: 101%; text-align: right; }
+  /* GIS — now LEFT of circle */
+  .pds-l7 { top: 20.5%; right: 98%; text-align: right; }
 
   /* ═══ TWO-COLUMN CONTEXT ═══ */
   .pds-context {
@@ -979,18 +945,18 @@ const html = `
     .pds-context { grid-template-columns: 1fr; gap: 24px; }
     .pds-metrics { grid-template-columns: repeat(2, 1fr); }
     .pds-orbital { max-width: 560px; }
-    .pds-node-desc { display: none; }
-    .pds-node-circle { width: 44px; height: 44px; }
-    .pds-node-icon { font-size: 12px; }
+    .pds-nd-desc { display: none; }
+    .pds-nd-circle { width: 44px; height: 44px; }
+    .pds-nd-icon { font-size: 12px; }
   }
 
   @media (max-width: 600px) {
     .pds-section { padding: 90px 20px 80px; }
     .pds-orbital { max-width: 380px; }
-    .pds-node-name { font-size: 10px; }
-    .pds-node-circle { width: 36px; height: 36px; }
-    .pds-node-circle::after { display: none; }
-    .pds-node-icon { font-size: 10px; }
+    .pds-nd-name { font-size: 10px; }
+    .pds-nd-circle { width: 36px; height: 36px; }
+    .pds-nd-circle::after { display: none; }
+    .pds-nd-icon { font-size: 10px; }
     .pds-nexus { width: 130px; height: 130px; }
     .pds-nexus-code { font-size: 12px; }
     .pds-metrics { grid-template-columns: 1fr 1fr; }
@@ -1039,63 +1005,64 @@ const html = `
           </radialGradient>
         </defs>
         <!-- Glow layer -->
-        <line class="pds-conn-glow" x1="390" y1="390" x2="390" y2="31" />
-        <line class="pds-conn-glow" x1="390" y1="390" x2="725" y2="187" />
-        <line class="pds-conn-glow" x1="390" y1="390" x2="748" y2="499" />
+        <line class="pds-conn-glow" x1="390" y1="390" x2="390" y2="23" />
+        <line class="pds-conn-glow" x1="390" y1="390" x2="725" y2="172" />
+        <line class="pds-conn-glow" x1="390" y1="390" x2="749" y2="491" />
         <line class="pds-conn-glow" x1="390" y1="390" x2="530" y2="702" />
         <line class="pds-conn-glow" x1="390" y1="390" x2="250" y2="702" />
-        <line class="pds-conn-glow" x1="390" y1="390" x2="31" y2="499" />
-        <line class="pds-conn-glow" x1="390" y1="390" x2="55" y2="187" />
+        <line class="pds-conn-glow" x1="390" y1="390" x2="31" y2="491" />
+        <line class="pds-conn-glow" x1="390" y1="390" x2="55" y2="172" />
         <!-- Solid layer -->
-        <line class="pds-conn-solid" x1="390" y1="390" x2="390" y2="31" />
-        <line class="pds-conn-solid" x1="390" y1="390" x2="725" y2="187" />
-        <line class="pds-conn-solid" x1="390" y1="390" x2="748" y2="499" />
+        <line class="pds-conn-solid" x1="390" y1="390" x2="390" y2="23" />
+        <line class="pds-conn-solid" x1="390" y1="390" x2="725" y2="172" />
+        <line class="pds-conn-solid" x1="390" y1="390" x2="749" y2="491" />
         <line class="pds-conn-solid" x1="390" y1="390" x2="530" y2="702" />
         <line class="pds-conn-solid" x1="390" y1="390" x2="250" y2="702" />
-        <line class="pds-conn-solid" x1="390" y1="390" x2="31" y2="499" />
-        <line class="pds-conn-solid" x1="390" y1="390" x2="55" y2="187" />
+        <line class="pds-conn-solid" x1="390" y1="390" x2="31" y2="491" />
+        <line class="pds-conn-solid" x1="390" y1="390" x2="55" y2="172" />
         <!-- Dashed layer -->
-        <line class="pds-conn-path" x1="390" y1="390" x2="390" y2="31" />
-        <line class="pds-conn-path" x1="390" y1="390" x2="725" y2="187" />
-        <line class="pds-conn-path" x1="390" y1="390" x2="748" y2="499" />
+        <line class="pds-conn-path" x1="390" y1="390" x2="390" y2="23" />
+        <line class="pds-conn-path" x1="390" y1="390" x2="725" y2="172" />
+        <line class="pds-conn-path" x1="390" y1="390" x2="749" y2="491" />
         <line class="pds-conn-path" x1="390" y1="390" x2="530" y2="702" />
         <line class="pds-conn-path" x1="390" y1="390" x2="250" y2="702" />
-        <line class="pds-conn-path" x1="390" y1="390" x2="31" y2="499" />
-        <line class="pds-conn-path" x1="390" y1="390" x2="55" y2="187" />
-        <!-- Pulse particles (animated via JS) -->
-        <circle class="pds-conn-particle" r="3" cx="390" cy="210" opacity="0">
-          <animate attributeName="cy" values="370;31" dur="3s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0;0.8;0" dur="3s" repeatCount="indefinite"/>
+        <line class="pds-conn-path" x1="390" y1="390" x2="31" y2="491" />
+        <line class="pds-conn-path" x1="390" y1="390" x2="55" y2="172" />
+        <!-- Particles -->
+        <circle class="pds-conn-particle" r="3" fill="#47B5FF" opacity="0">
+          <animate attributeName="cy" values="370;23" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="cx" values="390;390" dur="3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.9;0" dur="3s" repeatCount="indefinite"/>
         </circle>
-        <circle class="pds-conn-particle" r="3" cx="557" cy="289" opacity="0">
+        <circle class="pds-conn-particle" r="3" fill="#47B5FF" opacity="0">
           <animate attributeName="cx" values="400;725" dur="3.4s" repeatCount="indefinite"/>
-          <animate attributeName="cy" values="380;187" dur="3.4s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0;0.8;0" dur="3.4s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="380;172" dur="3.4s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.9;0" dur="3.4s" repeatCount="indefinite"/>
         </circle>
-        <circle class="pds-conn-particle" r="3" cx="569" cy="444" opacity="0">
-          <animate attributeName="cx" values="400;748" dur="3.8s" repeatCount="indefinite"/>
-          <animate attributeName="cy" values="400;499" dur="3.8s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0;0.8;0" dur="3.8s" repeatCount="indefinite"/>
+        <circle class="pds-conn-particle" r="3" fill="#47B5FF" opacity="0">
+          <animate attributeName="cx" values="400;749" dur="3.8s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="400;491" dur="3.8s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.9;0" dur="3.8s" repeatCount="indefinite"/>
         </circle>
-        <circle class="pds-conn-particle" r="3" cx="460" cy="546" opacity="0">
+        <circle class="pds-conn-particle" r="3" fill="#47B5FF" opacity="0">
           <animate attributeName="cx" values="400;530" dur="3.2s" repeatCount="indefinite"/>
           <animate attributeName="cy" values="400;702" dur="3.2s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0;0.8;0" dur="3.2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.9;0" dur="3.2s" repeatCount="indefinite"/>
         </circle>
-        <circle class="pds-conn-particle" r="3" cx="320" cy="546" opacity="0">
+        <circle class="pds-conn-particle" r="3" fill="#47B5FF" opacity="0">
           <animate attributeName="cx" values="380;250" dur="3.6s" repeatCount="indefinite"/>
           <animate attributeName="cy" values="400;702" dur="3.6s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0;0.8;0" dur="3.6s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.9;0" dur="3.6s" repeatCount="indefinite"/>
         </circle>
-        <circle class="pds-conn-particle" r="3" cx="210" cy="444" opacity="0">
+        <circle class="pds-conn-particle" r="3" fill="#47B5FF" opacity="0">
           <animate attributeName="cx" values="380;31" dur="3.3s" repeatCount="indefinite"/>
-          <animate attributeName="cy" values="400;499" dur="3.3s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0;0.8;0" dur="3.3s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="400;491" dur="3.3s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.9;0" dur="3.3s" repeatCount="indefinite"/>
         </circle>
-        <circle class="pds-conn-particle" r="3" cx="222" cy="289" opacity="0">
+        <circle class="pds-conn-particle" r="3" fill="#47B5FF" opacity="0">
           <animate attributeName="cx" values="380;55" dur="3.5s" repeatCount="indefinite"/>
-          <animate attributeName="cy" values="380;187" dur="3.5s" repeatCount="indefinite"/>
-          <animate attributeName="opacity" values="0;0.8;0" dur="3.5s" repeatCount="indefinite"/>
+          <animate attributeName="cy" values="380;172" dur="3.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0;0.9;0" dur="3.5s" repeatCount="indefinite"/>
         </circle>
       </svg>
 
@@ -1113,60 +1080,43 @@ const html = `
       </div>
 
       <!-- 7 Orbital nodes -->
-      <div class="pds-node pds-node-1" data-pds-nd>
-        <div class="pds-node-circle"><span class="pds-node-icon">4D</span></div>
-        <div class="pds-node-text">
-          <div class="pds-node-name">Scheduling</div>
-          <div class="pds-node-desc">Programme activities by element</div>
-        </div>
-      </div>
+      <!-- Circles — positioned at exact SVG endpoints -->
+      <div class="pds-nd-circle pds-c1" data-pds-nd><span class="pds-nd-icon">4D</span></div>
+      <div class="pds-nd-circle pds-c2" data-pds-nd><span class="pds-nd-icon">5D</span></div>
+      <div class="pds-nd-circle pds-c3" data-pds-nd><span class="pds-nd-icon">FM</span></div>
+      <div class="pds-nd-circle pds-c4" data-pds-nd><span class="pds-nd-icon">QA</span></div>
+      <div class="pds-nd-circle pds-c5" data-pds-nd><span class="pds-nd-icon">PR</span></div>
+      <div class="pds-nd-circle pds-c6" data-pds-nd><span class="pds-nd-icon">WBS</span></div>
+      <div class="pds-nd-circle pds-c7" data-pds-nd><span class="pds-nd-icon">GIS</span></div>
 
-      <div class="pds-node pds-node-2" data-pds-nd>
-        <div class="pds-node-circle"><span class="pds-node-icon">5D</span></div>
-        <div class="pds-node-text">
-          <div class="pds-node-name">Cost Control</div>
-          <div class="pds-node-desc">CBS &amp; QTO derived directly</div>
-        </div>
+      <!-- Labels — positioned near each circle -->
+      <div class="pds-nd-label pds-l1" data-pds-nd>
+        <div class="pds-nd-name">Scheduling</div>
+        <div class="pds-nd-desc">Programme activities by element</div>
       </div>
-
-      <div class="pds-node pds-node-3" data-pds-nd>
-        <div class="pds-node-circle"><span class="pds-node-icon">FM</span></div>
-        <div class="pds-node-text">
-          <div class="pds-node-name">Facility Management</div>
-          <div class="pds-node-desc">Asset register at handover</div>
-        </div>
+      <div class="pds-nd-label pds-l2" data-pds-nd>
+        <div class="pds-nd-name">Cost Control</div>
+        <div class="pds-nd-desc">CBS &amp; QTO derived directly</div>
       </div>
-
-      <div class="pds-node pds-node-4" data-pds-nd>
-        <div class="pds-node-circle"><span class="pds-node-icon">QA</span></div>
-        <div class="pds-node-text">
-          <div class="pds-node-name">Quality &amp; Progress</div>
-          <div class="pds-node-desc">Inspection tracking per object</div>
-        </div>
+      <div class="pds-nd-label pds-l3" data-pds-nd>
+        <div class="pds-nd-name">Facility Management</div>
+        <div class="pds-nd-desc">Asset register at handover</div>
       </div>
-
-      <div class="pds-node pds-node-5" data-pds-nd>
-        <div class="pds-node-circle"><span class="pds-node-icon">PR</span></div>
-        <div class="pds-node-text">
-          <div class="pds-node-name">Procurement</div>
-          <div class="pds-node-desc">Package breakdown by data</div>
-        </div>
+      <div class="pds-nd-label pds-l4" data-pds-nd>
+        <div class="pds-nd-name">Quality &amp; Progress</div>
+        <div class="pds-nd-desc">Inspection tracking per object</div>
       </div>
-
-      <div class="pds-node pds-node-6" data-pds-nd>
-        <div class="pds-node-circle"><span class="pds-node-icon">WBS</span></div>
-        <div class="pds-node-text">
-          <div class="pds-node-name">Work Breakdown</div>
-          <div class="pds-node-desc">Structure mapped to scope</div>
-        </div>
+      <div class="pds-nd-label pds-l5" data-pds-nd>
+        <div class="pds-nd-name">Procurement</div>
+        <div class="pds-nd-desc">Package breakdown by data</div>
       </div>
-
-      <div class="pds-node pds-node-7" data-pds-nd>
-        <div class="pds-node-circle"><span class="pds-node-icon">GIS</span></div>
-        <div class="pds-node-text">
-          <div class="pds-node-name">Spatial &amp; GIS</div>
-          <div class="pds-node-desc">Location intelligence by code</div>
-        </div>
+      <div class="pds-nd-label pds-l6" data-pds-nd>
+        <div class="pds-nd-name">Work Breakdown</div>
+        <div class="pds-nd-desc">Structure mapped to scope</div>
+      </div>
+      <div class="pds-nd-label pds-l7" data-pds-nd>
+        <div class="pds-nd-name">Spatial &amp; GIS</div>
+        <div class="pds-nd-desc">Location intelligence by code</div>
       </div>
     </div>
 
