@@ -1,14 +1,14 @@
 import type { Metadata } from 'next';
 import IntelligenceHero from '@/components/sections/solutions/intelligence/IntelligenceHero';
-// import IntelligenceProblem from '@/components/sections/solutions/intelligence/IntelligenceProblem';
-// import IntelligenceServices from '@/components/sections/solutions/intelligence/IntelligenceServices';
-// import IntelligenceBridge from '@/components/sections/solutions/intelligence/IntelligenceBridge';
-// import IntelligenceMII from '@/components/sections/solutions/intelligence/IntelligenceMII';
-// import IntelligencePIM from '@/components/sections/solutions/intelligence/IntelligencePIM';
-// import IntelligenceIntegration from '@/components/sections/solutions/intelligence/IntelligenceIntegration';
-// import IntelligenceMatrix from '@/components/sections/solutions/intelligence/IntelligenceMatrix';
-// import IntelligenceNavigator from '@/components/sections/solutions/intelligence/IntelligenceNavigator';
-// import IntelligenceCTA from '@/components/sections/solutions/intelligence/IntelligenceCTA';
+import IntelligenceProblem from '@/components/sections/solutions/intelligence/IntelligenceProblem';
+import IntelligenceServices from '@/components/sections/solutions/intelligence/IntelligenceServices';
+import IntelligenceBridge from '@/components/sections/solutions/intelligence/IntelligenceBridge';
+import IntelligenceMII from '@/components/sections/solutions/intelligence/IntelligenceMII';
+import IntelligencePIM from '@/components/sections/solutions/intelligence/IntelligencePIM';
+import IntelligenceIntegration from '@/components/sections/solutions/intelligence/IntelligenceIntegration';
+import IntelligenceMatrix from '@/components/sections/solutions/intelligence/IntelligenceMatrix';
+import IntelligenceNavigator from '@/components/sections/solutions/intelligence/IntelligenceNavigator';
+import IntelligenceCTA from '@/components/sections/solutions/intelligence/IntelligenceCTA';
 
 export const metadata: Metadata = {
   title: 'Intelligence — BIM Modelling, Coordination & Verification | Infraforma',
@@ -28,15 +28,15 @@ export default function IntelligencePage() {
   return (
     <main>
       <IntelligenceHero />
-      {/* <IntelligenceProblem /> */}
-      {/* <IntelligenceServices /> */}
-      {/* <IntelligenceBridge /> */}
-      {/* <IntelligenceMII /> */}
-      {/* <IntelligencePIM /> */}
-      {/* <IntelligenceIntegration /> */}
-      {/* <IntelligenceMatrix /> */}
-      {/* <IntelligenceNavigator /> */}
-      {/* <IntelligenceCTA /> */}
+      <IntelligenceProblem />
+      <IntelligenceServices />
+      <IntelligenceBridge />
+      <IntelligenceMII />
+      <IntelligencePIM />
+      <IntelligenceIntegration />
+      <IntelligenceMatrix />
+      <IntelligenceNavigator />
+      <IntelligenceCTA />
     </main>
   );
 }
