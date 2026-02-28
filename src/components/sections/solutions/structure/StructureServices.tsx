@@ -111,7 +111,7 @@ const html = `
     color: rgba(244,246,248,0.7); transition: color 0.2s ease, padding-left 0.2s ease; cursor: default;
   }
   .stru-svc-item:hover { color: #F4F6F8; padding-left: 6px; }
-  .stru-svc-item::before { content: '\2192'; font-size: 11px; color: #47B5FF; opacity: 0.5; flex-shrink: 0; transition: opacity 0.2s ease; }
+  .stru-svc-item::before { content: '→'; font-size: 11px; color: #47B5FF; opacity: 0.5; flex-shrink: 0; transition: opacity 0.2s ease; }
   .stru-svc-item:hover::before { opacity: 1; }
 
   .stru-svc-item-info {
