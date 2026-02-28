@@ -393,7 +393,6 @@ const html = `
               <div class="stru-cc-note">Shared risk. A unified PDS enables true collaborative data exchange.</div>
             </div>
           </div>
-        </div>
       </div>
     </div>
   </div>
