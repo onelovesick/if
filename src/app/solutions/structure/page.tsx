@@ -1,6 +1,7 @@
 import StructureHero from '@/components/sections/solutions/structure/StructureHero';
 import StructureProblem from '@/components/sections/solutions/structure/StructureProblem';
-// import StructureServices from '@/components/sections/solutions/structure/StructureServices';
+import StructureServices from '@/components/sections/solutions/structure/StructureServices';
+import StructurePDS from '@/components/sections/solutions/structure/StructurePDS';
 // import StructureIntegration from '@/components/sections/solutions/structure/StructureIntegration';
 // import StructureMatrix from '@/components/sections/solutions/structure/StructureMatrix';
 // import StructureNavigator from '@/components/sections/solutions/structure/StructureNavigator';
@@ -16,7 +17,8 @@ export default function StructurePage() {
     <main>
       <StructureHero />
       <StructureProblem />
-      {/* <StructureServices /> */}
+      <StructureServices />
+      <StructurePDS />
       {/* <StructureIntegration /> */}
       {/* <StructureMatrix /> */}
       {/* <StructureNavigator /> */}
