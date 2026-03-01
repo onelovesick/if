@@ -202,33 +202,33 @@ const html = `
       <div class="exec-bridge-eyebrow">Beyond Geometry</div>
       <h2>Every Project Has A Schedule.<br>Not Every Schedule Has <em>Proof</em></h2>
       <p class="exec-bridge-text">
-        Most teams measure construction progress by percentage \u2014 how much is \u201cdone,\u201d how many days remain, what the contractor reported last Tuesday. But the execution intelligence that prevents delays, catches variance, and verifies quality lives in the connection between the model and the field: work packages, inspection records, actual-vs.-planned data, and issue resolution trails. <strong>The difference between a schedule and an execution system is whether the field can act on it \u2014 and whether you can prove what happened.</strong>
+        Most teams treat execution as a one-way push: model to field, field reports back in spreadsheets, nobody closes the loop. But integrated digital delivery \u2014 connecting models, schedules, work packages, inspections, and progress data into a single digital backbone \u2014 creates a fundamentally different dynamic. Field data flows back into the model. The schedule updates from verified installation. Work packages evolve with the design. <strong>The difference between a schedule and an execution system is whether the data loops back \u2014 and whether you can prove what happened.</strong>
       </p>
     </div>
 
     <div class="exec-bridge-points">
       <div class="exec-bridge-point" data-exec-bp>
         <div class="exec-bridge-point-icon">Dimension 01</div>
-        <h3>Scheduled But Not Simulated</h3>
-        <p>The programme exists in Primavera. The model exists in Revit. Nobody linked them. Sequence conflicts are invisible until the crane can\u2019t reach the pour and two trades show up for the same zone on the same day.</p>
+        <h3>Disconnected Systems</h3>
+        <p>Six tools, zero integration. Design in one platform, schedule in another, cost in a third, safety on paper. Every handoff between systems is a data loss event. IDD connects them \u2014 but most teams don\u2019t even know what IDD means.</p>
       </div>
 
       <div class="exec-bridge-point" data-exec-bp>
         <div class="exec-bridge-point-icon">Dimension 02</div>
-        <h3>Built But Not Verified</h3>
-        <p>Work is installed but progress is self-reported. Nobody compares what was planned to what was actually built. Variance is invisible until it\u2019s a delay claim \u2014 and by then, the evidence is a spreadsheet, not a verified model.</p>
+        <h3>One-Way Data Flow</h3>
+        <p>The model pushes to the field but the field never pushes back. As-built conditions aren\u2019t captured during construction. Field modifications don\u2019t update the model. Quantity changes go untracked. The digital asset and the physical asset diverge from day one.</p>
       </div>
 
       <div class="exec-bridge-point" data-exec-bp>
         <div class="exec-bridge-point-icon">Dimension 03</div>
-        <h3>Inspected But Not Traceable</h3>
-        <p>Inspections happen on clipboards. Defects are photographed on personal phones. Nothing links back to the model element, the schedule activity, or the CDE. By handover, the QA/QC record is a box of paper nobody can query.</p>
+        <h3>No Verified Handover</h3>
+        <p>By the end of construction, the model doesn\u2019t match the building, the inspection records are scattered across email and WhatsApp, and the owner receives a box of paper instead of a digital twin-ready dataset. Execution data should build the handover progressively \u2014 not retroactively.</p>
       </div>
     </div>
 
     <div class="exec-bridge-transition">
-      <div class="exec-bridge-transition-text">We Close This Gap With The <em>Construction Intelligence Loop</em></div>
-      <div class="exec-bridge-transition-sub">CIL Framework</div>
+      <div class="exec-bridge-transition-text">We Close This Gap With The <em>Execution Loop</em></div>
+      <div class="exec-bridge-transition-sub">Closed-Loop IDD</div>
     </div>
 
   </div>

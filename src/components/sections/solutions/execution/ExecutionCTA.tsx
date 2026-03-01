@@ -217,7 +217,7 @@ const html = `
     <div class="exec-cta-eyebrow">Build With Execution</div>
     <h2>Let\u2019s Connect Your<br>Model To The <em>Field</em></h2>
     <p class="exec-cta-text">
-      4D scheduling, work packaging, progress tracking, digital inspections, and field QA/QC \u2014 execution is what happens when your project data stops living on servers and starts driving what gets built on site. Let\u2019s talk about what your programme needs.
+      4D scheduling, digital work packages, shop drawing coordination, field data capture, progress verification, and digital inspections \u2014 integrated through a single digital delivery backbone that connects every model element to what actually gets built, inspected, and handed over. Let\u2019s talk about what your programme needs.
     </p>
     <div class="exec-cta-buttons">
       <a href="/contact/" class="exec-cta-btn-accent">Schedule a Call →</a>

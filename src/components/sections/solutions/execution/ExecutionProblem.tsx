@@ -335,31 +335,31 @@ const html = `
     <!-- LEFT \u2014 Sticky column (starts higher) -->
     <div class="exec-problem-left" id="exec-problem-left">
       <div class="exec-problem-eyebrow">The Execution Gap</div>
-      <h2>Your Model Is Ready.<br>Your <em>Site</em> Isn\u2019t.</h2>
+      <h2>You Have A Model.<br>Your Site Has <em>Paper</em>.</h2>
       <p class="exec-problem-text">
-        The model is coordinated, verified, and decision-ready. But the field doesn\u2019t use models \u2014 it uses schedules, work packages, inspection forms, and progress reports. When there\u2019s no bridge between the digital asset and physical construction, every dollar spent on BIM intelligence dies at the site gate. <strong>Execution means connecting verified project data to the crews, trades, and workflows that actually build.</strong>
+        The industry spends billions building intelligent models that never reach the field. The schedule lives in Primavera, the model lives in Revit, the inspections live on clipboards, and the progress report lives in someone\u2019s inbox. Construction productivity has grown at just 0.4% per year since 2000 \u2014 not because the tools don\u2019t exist, but because nobody connects them. <strong>Execution means closing the loop between the digital asset and physical construction \u2014 through integrated digital delivery that connects every model element to what actually gets built, inspected, and verified.</strong>
       </p>
 
       <div class="exec-problem-stats">
         <div class="exec-stat-block">
+          <div class="exec-stat-number">0.4<span>%</span></div>
+          <div class="exec-stat-content">
+            <div class="exec-stat-label">Annual construction productivity growth since 2000 \u2014 compared to 3% in manufacturing. The gap isn\u2019t tools. It\u2019s integration.</div>
+            <a href="https://www.mckinsey.com/capabilities/operations/our-insights/reinventing-construction-through-a-productivity-revolution" target="_blank" rel="noopener" class="exec-stat-source">McKinsey Global Institute (2022)</a>
+          </div>
+        </div>
+        <div class="exec-stat-block">
+          <div class="exec-stat-number">11<span>-20%</span></div>
+          <div class="exec-stat-content">
+            <div class="exec-stat-label">Of project cost consumed by rework \u2014 driven by poor communication, document control failures, and disconnected workflows between design and field.</div>
+            <a href="https://info.planradar.com/hubfs/PDFs/Ebook_EN_CostofRework.pdf" target="_blank" rel="noopener" class="exec-stat-source">PlanRadar / 15-Country Survey (2024)</a>
+          </div>
+        </div>
+        <div class="exec-stat-block">
           <div class="exec-stat-number">70<span>%</span></div>
           <div class="exec-stat-content">
-            <div class="exec-stat-label">Of construction projects finish late \u2014 not from design failures, but from scheduling disconnects, sequencing conflicts, and field-level coordination gaps.</div>
-            <a href="https://www.mckinsey.com/capabilities/operations/our-insights/reinventing-construction-through-a-productivity-revolution" target="_blank" rel="noopener" class="exec-stat-source">McKinsey Global Institute (2017)</a>
-          </div>
-        </div>
-        <div class="exec-stat-block">
-          <div class="exec-stat-number">35<span>%</span></div>
-          <div class="exec-stat-content">
-            <div class="exec-stat-label">Of construction time is spent on non-productive activities \u2014 waiting for information, rework, and material handling caused by poor work packaging.</div>
-            <a href="https://www.mckinsey.com/capabilities/operations/our-insights/reinventing-construction-through-a-productivity-revolution" target="_blank" rel="noopener" class="exec-stat-source">McKinsey / KPMG (2017)</a>
-          </div>
-        </div>
-        <div class="exec-stat-block">
-          <div class="exec-stat-number">98<span>%</span></div>
-          <div class="exec-stat-content">
-            <div class="exec-stat-label">Of megaprojects experience cost overruns or delays \u2014 often because actual progress was never compared to planned progress at the element level.</div>
-            <a href="https://www.pmi.org/learning/thought-leadership/pulse/pulse-of-the-profession-2023" target="_blank" rel="noopener" class="exec-stat-source">PMI Pulse of the Profession (2023)</a>
+            <div class="exec-stat-label">RFI reduction when a connected CDE and integrated digital delivery platform replaces fragmented document workflows.</div>
+            <a href="https://csglobal-group.com/news/digital-safety-2025/" target="_blank" rel="noopener" class="exec-stat-source">CSG / ISETIA + Novade (2025)</a>
           </div>
         </div>
       </div>
@@ -372,10 +372,10 @@ const html = `
         <div class="exec-fc-side"></div>
         <div class="exec-fc-header">
           <span class="exec-fc-number">Failure Mode 01</span>
-          <span class="exec-fc-tag">Scheduling</span>
+          <span class="exec-fc-tag">Fragmentation</span>
         </div>
-        <h3>Schedule Disconnected From Model</h3>
-        <p>The programme lives in Primavera or MS Project. The model lives in Revit or Navisworks. Nobody links them. Construction sequences are planned in abstraction \u2014 no spatial validation, no phasing simulation, no visual verification of what gets built when. Sequence conflicts surface on site, not on screen, and every late discovery is a delay claim waiting to happen.</p>
+        <h3>Siloed Tools, Siloed Teams</h3>
+        <p>Design in Revit. Schedule in Primavera. Cost in Excel. Documents in SharePoint. Safety on paper. Every team works in a different system with different data, different versions, and no single source of truth. The project has six tools and zero integration. IDD exists to solve this \u2014 but most teams have never heard the term, let alone implemented it. Every disconnected system is a rework generator.</p>
       </div>
 
       <div class="exec-failure-card" data-exec-fc>
@@ -385,8 +385,8 @@ const html = `
           <span class="exec-fc-number">Failure Mode 02</span>
           <span class="exec-fc-tag">Work Packaging</span>
         </div>
-        <h3>No Scoped Work Packages</h3>
-        <p>Trades receive full federated models \u2014 500MB files with every discipline visible. The mechanical foreman scrolls through architectural walls looking for ductwork. The electrician can\u2019t isolate their scope. Information overload kills field productivity. Without trade-specific, zone-scoped work packages, the model is a liability on site, not a tool.</p>
+        <h3>No Digital Work Packages</h3>
+        <p>Trades receive full federated models or printed drawings \u2014 not scoped, trade-specific digital work packages. Shop drawings aren\u2019t integrated back into the design BIM. Fabrication models aren\u2019t coordinated against the design. Field modifications (redlines) live on markups that never update the model. Quality forms aren\u2019t linked to work packages. The result: the field builds from outdated, uncoordinated, unscoped information.</p>
       </div>
 
       <div class="exec-failure-card" data-exec-fc>
@@ -394,10 +394,10 @@ const html = `
         <div class="exec-fc-side"></div>
         <div class="exec-fc-header">
           <span class="exec-fc-number">Failure Mode 03</span>
-          <span class="exec-fc-tag">Issue Resolution</span>
+          <span class="exec-fc-tag">Field Data</span>
         </div>
-        <h3>Reactive Field Issues</h3>
-        <p>Site issues get logged in emails, WhatsApp groups, and spreadsheets. There\u2019s no traceability back to the model element. The same conflict gets flagged three times by three different trades. Nobody knows which issues are open, which are resolved, and which are blocking the next pour. Field intelligence is lost because it was never captured in a system that connects to the project data.</p>
+        <h3>One-Way Information Flow</h3>
+        <p>The model pushes information to the field. The field never pushes back. As-built conditions aren\u2019t captured during construction \u2014 they\u2019re reconstructed after. Temporary works aren\u2019t modelled. Progress is reported by percentage, not by element. Quantity changes and growth aren\u2019t tracked against the live design. The digital asset and the physical asset diverge from day one, and nobody reconciles them until handover \u2014 when it\u2019s too late.</p>
       </div>
 
       <div class="exec-failure-card" data-exec-fc>
@@ -405,10 +405,10 @@ const html = `
         <div class="exec-fc-side"></div>
         <div class="exec-fc-header">
           <span class="exec-fc-number">Failure Mode 04</span>
-          <span class="exec-fc-tag">Progress Tracking</span>
+          <span class="exec-fc-tag">QA/QC &amp; Safety</span>
         </div>
-        <h3>No Actual vs. Planned</h3>
-        <p>Progress is reported by percentage \u2014 \u201cwe\u2019re 60% done\u201d \u2014 not by element. Nobody compares what was planned to what was actually installed. Variance is invisible until it becomes a delay claim. Earned value is calculated from spreadsheets, not from the model. The schedule says one thing, the site says another, and the owner finds out too late.</p>
+        <h3>Paper-Based Inspections &amp; Compliance</h3>
+        <p>Inspections happen on clipboards. Safety permits are managed manually. Defects are photographed on personal phones with no model link, no geolocation, no element reference. Digital ePTW systems can reduce safety incidents by 50% and cut permit approval time by 30\u201350% \u2014 but most sites still run on paper. By handover, the QA/QC record that should prove compliance doesn\u2019t exist digitally.</p>
       </div>
 
       <div class="exec-failure-card" data-exec-fc>
@@ -416,10 +416,10 @@ const html = `
         <div class="exec-fc-side"></div>
         <div class="exec-fc-header">
           <span class="exec-fc-number">Failure Mode 05</span>
-          <span class="exec-fc-tag">QA/QC</span>
+          <span class="exec-fc-tag">Visibility</span>
         </div>
-        <h3>Paper-Based Inspections</h3>
-        <p>Inspections happen on clipboards and PDF checklists. Defects are photographed on personal phones with no geolocation, no model link, no element reference. Data never feeds back into the CDE. By handover, the contractor has a box of paper and the owner has no verified record of what was inspected, when, by whom, or against what standard. The QA/QC data that should prove compliance doesn\u2019t exist digitally.</p>
+        <h3>No Actual vs. Planned</h3>
+        <p>Progress is reported by gut feel \u2014 \u201cwe\u2019re about 60% done.\u201d Nobody compares the 4D schedule against actual installation at the element level. Earned value is calculated from spreadsheets, not from verified model data. Variance is invisible until it becomes a delay claim. Reality capture could verify progress objectively, but the scan data sits on a hard drive instead of feeding the project dashboard. The schedule says one thing, the site says another, and the owner finds out too late.</p>
       </div>
     </div>
 
