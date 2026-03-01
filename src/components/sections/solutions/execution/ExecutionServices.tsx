@@ -174,7 +174,7 @@ const html = `
     <div class="exec-services-header">
       <div class="exec-services-eyebrow">What We Deliver</div>
       <h2>Execution Layer <em>Services</em></h2>
-      <p class="exec-services-subtitle">The execution layer implements integrated digital delivery \u2014 connecting models, schedules, work packages, field data, and verification into a single digital backbone. Five pillars covering scheduling, work packaging, field integration, progress verification, and inspections.</p>
+      <p class="exec-services-subtitle">The execution layer connects models, schedules, work packages, field data, and verification into a single digital backbone. Five pillars covering scheduling, work packaging, field integration, progress verification, and inspections.</p>
     </div>
 
     <div class="exec-services-grid">

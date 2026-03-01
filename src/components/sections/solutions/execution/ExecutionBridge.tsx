@@ -202,7 +202,7 @@ const html = `
       <div class="exec-bridge-eyebrow">Beyond Geometry</div>
       <h2>Every Project Has A Schedule.<br>Not Every Schedule Has <em>Proof</em></h2>
       <p class="exec-bridge-text">
-        Most teams treat execution as a one-way push: model to field, field reports back in spreadsheets, nobody closes the loop. But integrated digital delivery \u2014 connecting models, schedules, work packages, inspections, and progress data into a single digital backbone \u2014 creates a fundamentally different dynamic. Field data flows back into the model. The schedule updates from verified installation. Work packages evolve with the design. <strong>The difference between a schedule and an execution system is whether the data loops back \u2014 and whether you can prove what happened.</strong>
+        Most teams treat execution as a one-way push: model to field, field reports back in spreadsheets, nobody closes the loop. But closed-loop execution \u2014 connecting models, schedules, work packages, inspections, and progress data into a single digital backbone \u2014 creates a fundamentally different dynamic. Field data flows back into the model. The schedule updates from verified installation. Work packages evolve with the design. <strong>The difference between a schedule and an execution system is whether the data loops back \u2014 and whether you can prove what happened.</strong>
       </p>
     </div>
 
@@ -210,7 +210,7 @@ const html = `
       <div class="exec-bridge-point" data-exec-bp>
         <div class="exec-bridge-point-icon">Dimension 01</div>
         <h3>Disconnected Systems</h3>
-        <p>Six tools, zero integration. Design in one platform, schedule in another, cost in a third, safety on paper. Every handoff between systems is a data loss event. IDD connects them \u2014 but most teams don\u2019t even know what IDD means.</p>
+        <p>Six tools, zero integration. Design in one platform, schedule in another, cost in a third, safety on paper. Every handoff between systems is a data loss event. The execution layer connects them \u2014 but most projects never bridge the gap.</p>
       </div>
 
       <div class="exec-bridge-point" data-exec-bp>
@@ -228,7 +228,7 @@ const html = `
 
     <div class="exec-bridge-transition">
       <div class="exec-bridge-transition-text">We Close This Gap With The <em>Execution Loop</em></div>
-      <div class="exec-bridge-transition-sub">Closed-Loop IDD</div>
+      <div class="exec-bridge-transition-sub">Closed-Loop Delivery</div>
     </div>
 
   </div>

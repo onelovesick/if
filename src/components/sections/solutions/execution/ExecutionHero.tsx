@@ -458,14 +458,14 @@ const html = `
     <div class="exec-hero-eyebrow">Solution Layer \u00b7 Execution</div>
     <h1>The Model Means Nothing<br>If It Doesn\u2019t Reach The <em>Field</em></h1>
     <p class="exec-hero-sub">
-      Digital work packaging, 4D construction simulation, field data capture, and verified progress tracking \u2014 deployed through an integrated digital delivery backbone that connects every model element to what actually gets built, inspected, and handed over. We close the loop between the screen and the slab.
+      Digital work packaging, 4D construction simulation, field data capture, and verified progress tracking \u2014 deployed through a closed-loop digital backbone that connects every model element to what actually gets built, inspected, and handed over. We close the loop between the screen and the slab.
     </p>
     <div class="exec-hero-ctas">
       <a href="/contact/" class="exec-hero-cta-accent">Schedule a Call \u2192</a>
       <a href="/solutions/" class="exec-hero-cta-primary">All Solutions \u2192</a>
     </div>
     <div class="exec-hero-meta">
-      <span class="exec-hero-tag">Integrated Digital Delivery</span>
+      <span class="exec-hero-tag">Closed-Loop Delivery</span>
       <span class="exec-hero-tag">4D Construction Simulation</span>
       <span class="exec-hero-tag">Field-Verified</span>
     </div>

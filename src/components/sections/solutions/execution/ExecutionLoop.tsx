@@ -359,10 +359,10 @@ const html = `
   <div class="exec-loop-inner">
 
     <div class="exec-loop-header" id="exec-loop-header">
-      <div class="exec-loop-eyebrow">Differentiator</div>
+      <div class="exec-loop-eyebrow">How We Close The Gap</div>
       <h2>The Execution <em>Loop</em></h2>
       <p class="exec-loop-subtitle">
-        Most teams push data one way \u2014 from model to field. The field never pushes back. We close the loop. Every piece of field data feeds back into the model, updates the schedule, re-informs the work packages, and goes back to the field. Six stages. One continuous cycle.
+        The ERI diagnoses where the gaps are. The Execution Loop closes them. Six stages. One continuous cycle. Every piece of field data feeds back into the model, updates the schedule, re-informs the work packages, and goes back to the field. Most teams stop at step three \u2014 we close the loop.
       </p>
     </div>
 
@@ -406,9 +406,9 @@ const html = `
       <!-- CENTRE HUB -->
       <div class="exec-loop-hub">
         <div class="exec-loop-hub-ring">
-          <span class="exec-loop-hub-text">IDD</span>
+          <span class="exec-loop-hub-text">ERI</span>
         </div>
-        <div class="exec-loop-hub-label">Closed-Loop Delivery</div>
+        <div class="exec-loop-hub-label">Execution Readiness</div>
       </div>
     </div>
 
@@ -426,8 +426,8 @@ const html = `
       </div>
       <div class="exec-loop-card" data-exec-lc>
         <div class="exec-loop-card-icon">Why It Matters</div>
-        <h3>Closed-Loop IDD</h3>
-        <p>When field data feeds back into the model, the schedule re-baselines from verified installation, work packages update with design changes, and the handover record builds progressively \u2014 not retroactively. Every inspection, every redline, every as-built measurement flows back into the project intelligence ecosystem with full traceability.</p>
+        <h3>Closed-Loop Delivery</h3>
+        <p>When field data feeds back into the model, the schedule re-baselines from verified installation, work packages update with design changes, and the handover record builds progressively \u2014 not retroactively. Every inspection, every redline, every as-built measurement flows back into the project ecosystem with full traceability.</p>
       </div>
       <div class="exec-loop-card" data-exec-lc>
         <div class="exec-loop-card-icon">The Result</div>
@@ -440,7 +440,7 @@ const html = `
 </section>
 `;
 
-const script = \`(function(){
+const script = `(function(){
   /* ═══ HEADER ENTRANCE ═══ */
   var header = document.getElementById('exec-loop-header');
   if (header) {
@@ -697,7 +697,7 @@ const script = \`(function(){
     }, { threshold: 0.08 });
     cObs.observe(card);
   });
-})()\`;
+})()`;
 
 export default function ExecutionLoop() {
   const ref = useRef<HTMLDivElement>(null);

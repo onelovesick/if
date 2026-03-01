@@ -337,7 +337,7 @@ const html = `
       <div class="exec-problem-eyebrow">The Execution Gap</div>
       <h2>You Have A Model.<br>Your Site Has <em>Paper</em>.</h2>
       <p class="exec-problem-text">
-        The industry spends billions building intelligent models that never reach the field. The schedule lives in Primavera, the model lives in Revit, the inspections live on clipboards, and the progress report lives in someone\u2019s inbox. Construction productivity has grown at just 0.4% per year since 2000 \u2014 not because the tools don\u2019t exist, but because nobody connects them. <strong>Execution means closing the loop between the digital asset and physical construction \u2014 through integrated digital delivery that connects every model element to what actually gets built, inspected, and verified.</strong>
+        The industry spends billions building intelligent models that never reach the field. The schedule lives in Primavera, the model lives in Revit, the inspections live on clipboards, and the progress report lives in someone\u2019s inbox. Construction productivity has grown at just 0.4% per year since 2000 \u2014 not because the tools don\u2019t exist, but because nobody connects them. <strong>Execution means closing the loop between the digital asset and physical construction \u2014 connecting every model element to what actually gets built, inspected, and verified.</strong>
       </p>
 
       <div class="exec-problem-stats">
@@ -358,7 +358,7 @@ const html = `
         <div class="exec-stat-block">
           <div class="exec-stat-number">70<span>%</span></div>
           <div class="exec-stat-content">
-            <div class="exec-stat-label">RFI reduction when a connected CDE and integrated digital delivery platform replaces fragmented document workflows.</div>
+            <div class="exec-stat-label">RFI reduction when a connected CDE and digital execution platform replaces fragmented document workflows.</div>
             <a href="https://csglobal-group.com/news/digital-safety-2025/" target="_blank" rel="noopener" class="exec-stat-source">CSG / ISETIA + Novade (2025)</a>
           </div>
         </div>
@@ -375,7 +375,7 @@ const html = `
           <span class="exec-fc-tag">Fragmentation</span>
         </div>
         <h3>Siloed Tools, Siloed Teams</h3>
-        <p>Design in Revit. Schedule in Primavera. Cost in Excel. Documents in SharePoint. Safety on paper. Every team works in a different system with different data, different versions, and no single source of truth. The project has six tools and zero integration. IDD exists to solve this \u2014 but most teams have never heard the term, let alone implemented it. Every disconnected system is a rework generator.</p>
+        <p>Design in Revit. Schedule in Primavera. Cost in Excel. Documents in SharePoint. Safety on paper. Every team works in a different system with different data, different versions, and no single source of truth. The project has six tools and zero integration. Every disconnected system is a rework generator.</p>
       </div>
 
       <div class="exec-failure-card" data-exec-fc>
