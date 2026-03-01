@@ -4,7 +4,6 @@ import ExecutionProblem from '@/components/sections/solutions/execution/Executio
 import ExecutionServices from '@/components/sections/solutions/execution/ExecutionServices';
 import ExecutionBridge from '@/components/sections/solutions/execution/ExecutionBridge';
 import ExecutionERI from '@/components/sections/solutions/execution/ExecutionERI';
-import ExecutionLoop from '@/components/sections/solutions/execution/ExecutionLoop';
 import ExecutionIntegration from '@/components/sections/solutions/execution/ExecutionIntegration';
 import ExecutionMatrix from '@/components/sections/solutions/execution/ExecutionMatrix';
 import ExecutionNavigator from '@/components/sections/solutions/execution/ExecutionNavigator';
@@ -32,7 +31,6 @@ export default function ExecutionPage() {
       <ExecutionServices />
       <ExecutionBridge />
       <ExecutionERI />
-      <ExecutionLoop />
       <ExecutionIntegration />
       <ExecutionMatrix />
       <ExecutionNavigator />
