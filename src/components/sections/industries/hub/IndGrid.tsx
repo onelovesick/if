@@ -144,27 +144,28 @@ const html = `
     inset: 0;
     background-size: cover;
     background-position: center;
-    filter: grayscale(30%) contrast(1.05);
+    filter: grayscale(40%) contrast(1.1) brightness(0.7);
     transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), filter 0.7s ease;
     z-index: 0;
   }
 
   .ind-grid-card:hover .ind-grid-card-bg {
     transform: scale(1.08);
-    filter: grayscale(10%) contrast(1.1);
+    filter: grayscale(20%) contrast(1.1) brightness(0.85);
   }
 
-  /* Dark gradient overlay */
+  /* Dark gradient overlay — heavier for text readability */
   .ind-grid-card-overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(
       to top,
-      rgba(28,31,35,0.97) 0%,
-      rgba(28,31,35,0.88) 30%,
-      rgba(28,31,35,0.55) 55%,
-      rgba(28,31,35,0.25) 75%,
-      rgba(28,31,35,0.12) 100%
+      rgba(20,23,26,0.98) 0%,
+      rgba(20,23,26,0.94) 25%,
+      rgba(20,23,26,0.78) 50%,
+      rgba(20,23,26,0.55) 70%,
+      rgba(20,23,26,0.35) 85%,
+      rgba(20,23,26,0.2) 100%
     );
     z-index: 1;
     transition: background 0.5s ease;
@@ -173,11 +174,12 @@ const html = `
   .ind-grid-card:hover .ind-grid-card-overlay {
     background: linear-gradient(
       to top,
-      rgba(28,31,35,0.95) 0%,
-      rgba(28,31,35,0.82) 30%,
-      rgba(28,31,35,0.42) 55%,
-      rgba(28,31,35,0.12) 75%,
-      rgba(28,31,35,0.04) 100%
+      rgba(20,23,26,0.97) 0%,
+      rgba(20,23,26,0.9) 25%,
+      rgba(20,23,26,0.65) 50%,
+      rgba(20,23,26,0.4) 70%,
+      rgba(20,23,26,0.2) 85%,
+      rgba(20,23,26,0.08) 100%
     );
   }
 
@@ -412,7 +414,7 @@ const html = `
     <div class="ind-grid-cards">
 
       <a href="/industries/heavy-civil/" class="ind-grid-card" data-ind-card>
-        <div class="ind-grid-card-bg" style="background-image: url('https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=800&q=75')"></div>
+        <div class="ind-grid-card-bg" style="background-image: url('https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=800&q=75&fit=crop&auto=format&brightness=-20')"></div>
         <div class="ind-grid-card-overlay"></div>
         <div class="ind-grid-card-gridtex"></div>
         <div class="ind-grid-card-scanline"></div>
@@ -428,7 +430,7 @@ const html = `
       </a>
 
       <a href="/industries/mining/" class="ind-grid-card" data-ind-card>
-        <div class="ind-grid-card-bg" style="background-image: url('https://images.unsplash.com/photo-1578319439584-104c94d37305?w=800&q=75')"></div>
+        <div class="ind-grid-card-bg" style="background-image: url('https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?w=800&q=75&fit=crop')"></div>
         <div class="ind-grid-card-overlay"></div>
         <div class="ind-grid-card-gridtex"></div>
         <div class="ind-grid-card-scanline"></div>
@@ -444,7 +446,7 @@ const html = `
       </a>
 
       <a href="/industries/energy/" class="ind-grid-card" data-ind-card>
-        <div class="ind-grid-card-bg" style="background-image: url('https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=75')"></div>
+        <div class="ind-grid-card-bg" style="background-image: url('https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=75&fit=crop')"></div>
         <div class="ind-grid-card-overlay"></div>
         <div class="ind-grid-card-gridtex"></div>
         <div class="ind-grid-card-scanline"></div>
@@ -460,7 +462,7 @@ const html = `
       </a>
 
       <a href="/industries/institutional/" class="ind-grid-card" data-ind-card>
-        <div class="ind-grid-card-bg" style="background-image: url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=75')"></div>
+        <div class="ind-grid-card-bg" style="background-image: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=75&fit=crop')"></div>
         <div class="ind-grid-card-overlay"></div>
         <div class="ind-grid-card-gridtex"></div>
         <div class="ind-grid-card-scanline"></div>
@@ -476,7 +478,7 @@ const html = `
       </a>
 
       <a href="/industries/industrial/" class="ind-grid-card" data-ind-card>
-        <div class="ind-grid-card-bg" style="background-image: url('https://images.unsplash.com/photo-1513828583688-c52646db42da?w=800&q=75')"></div>
+        <div class="ind-grid-card-bg" style="background-image: url('https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?w=800&q=75&fit=crop')"></div>
         <div class="ind-grid-card-overlay"></div>
         <div class="ind-grid-card-gridtex"></div>
         <div class="ind-grid-card-scanline"></div>
@@ -492,7 +494,7 @@ const html = `
       </a>
 
       <a href="/industries/commercial/" class="ind-grid-card" data-ind-card>
-        <div class="ind-grid-card-bg" style="background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=75')"></div>
+        <div class="ind-grid-card-bg" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=75&fit=crop')"></div>
         <div class="ind-grid-card-overlay"></div>
         <div class="ind-grid-card-gridtex"></div>
         <div class="ind-grid-card-scanline"></div>
