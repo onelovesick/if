@@ -87,7 +87,7 @@ const html = `
     gap: 20px;
   }
 
-  /* ══ Individual card ══ */
+  /* ══ Card — only transform + box-shadow on hover (GPU) ══ */
   .ind-grid-card {
     position: relative;
     min-height: 460px;
@@ -96,10 +96,16 @@ const html = `
     justify-content: flex-end;
     text-decoration: none;
     overflow: hidden;
-    transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  /* Corner brackets — expand on hover */
+  .ind-grid-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 64px rgba(11,60,93,0.22);
+  }
+
+  /* Corner brackets — width/height transition */
   .ind-grid-card::before {
     content: '';
     position: absolute;
@@ -110,7 +116,7 @@ const html = `
     border-top: 1px solid rgba(71,181,255,0.15);
     border-left: 1px solid rgba(71,181,255,0.15);
     z-index: 6;
-    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: width 0.4s ease, height 0.4s ease, border-color 0.4s ease;
   }
 
   .ind-grid-card::after {
@@ -123,7 +129,7 @@ const html = `
     border-bottom: 1px solid rgba(71,181,255,0.15);
     border-right: 1px solid rgba(71,181,255,0.15);
     z-index: 6;
-    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: width 0.4s ease, height 0.4s ease, border-color 0.4s ease;
   }
 
   .ind-grid-card:hover::before,
@@ -133,28 +139,25 @@ const html = `
     border-color: rgba(71,181,255,0.5);
   }
 
-  .ind-grid-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 24px 64px rgba(11,60,93,0.22);
-  }
-
-  /* Background image layer */
+  /* Background image — only transform on hover (GPU), filter is static */
   .ind-grid-card-bg {
     position: absolute;
     inset: 0;
     background-size: cover;
     background-position: center;
     filter: grayscale(40%) contrast(1.1) brightness(0.7);
-    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), filter 0.7s ease;
+    will-change: transform;
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
     z-index: 0;
   }
 
   .ind-grid-card:hover .ind-grid-card-bg {
-    transform: scale(1.08);
-    filter: grayscale(20%) contrast(1.1) brightness(0.85);
+    transform: scale(1.06);
   }
 
-  /* Dark gradient overlay — heavier for text readability */
+  /* ══ OVERLAY SYSTEM — two layers, opacity only ══ */
+
+  /* Base overlay — always visible, heavy coverage for text readability */
   .ind-grid-card-overlay {
     position: absolute;
     inset: 0;
@@ -168,47 +171,44 @@ const html = `
       rgba(20,23,26,0.2) 100%
     );
     z-index: 1;
-    transition: background 0.5s ease;
   }
 
-  .ind-grid-card:hover .ind-grid-card-overlay {
+  /* Hover reveal layer — lighter, fades in on hover via opacity (GPU) */
+  .ind-grid-card-reveal {
+    position: absolute;
+    inset: 0;
     background: linear-gradient(
       to top,
-      rgba(20,23,26,0.97) 0%,
-      rgba(20,23,26,0.9) 25%,
-      rgba(20,23,26,0.65) 50%,
-      rgba(20,23,26,0.4) 70%,
-      rgba(20,23,26,0.2) 85%,
-      rgba(20,23,26,0.08) 100%
+      rgba(20,23,26,0.95) 0%,
+      rgba(20,23,26,0.85) 25%,
+      rgba(20,23,26,0.55) 50%,
+      rgba(20,23,26,0.3) 70%,
+      rgba(20,23,26,0.1) 85%,
+      transparent 100%
     );
+    z-index: 2;
+    opacity: 0;
+    will-change: opacity;
+    transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  /* Blueprint grid — brightens on hover */
+  .ind-grid-card:hover .ind-grid-card-reveal {
+    opacity: 1;
+  }
+
+  /* Blueprint grid — static, no transition */
   .ind-grid-card-gridtex {
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(rgba(71,181,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(71,181,255,0.03) 1px, transparent 1px);
+      linear-gradient(rgba(71,181,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(71,181,255,0.04) 1px, transparent 1px);
     background-size: 48px 48px;
-    z-index: 2;
+    z-index: 3;
     pointer-events: none;
-    transition: opacity 0.5s ease;
-    opacity: 1;
   }
 
-  .ind-grid-card:hover .ind-grid-card-gridtex {
-    background-image:
-      linear-gradient(rgba(71,181,255,0.07) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(71,181,255,0.07) 1px, transparent 1px);
-  }
-
-  /* Diagonal scan line — disabled */
-  .ind-grid-card-scanline {
-    display: none;
-  }
-
-  /* Radial hover glow — powers up on hover */
+  /* Hover glow — opacity only (GPU) */
   .ind-grid-card-glow {
     position: absolute;
     bottom: -20%;
@@ -218,24 +218,22 @@ const html = `
     height: 70%;
     background: radial-gradient(
       ellipse at 50% 100%,
-      rgba(71,181,255,0.0) 0%,
+      rgba(71,181,255,0.12) 0%,
+      rgba(71,181,255,0.04) 40%,
       transparent 70%
     );
-    z-index: 2;
+    z-index: 3;
     pointer-events: none;
-    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity: 0;
+    will-change: opacity;
+    transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .ind-grid-card:hover .ind-grid-card-glow {
-    background: radial-gradient(
-      ellipse at 50% 100%,
-      rgba(71,181,255,0.1) 0%,
-      rgba(71,181,255,0.03) 40%,
-      transparent 70%
-    );
+    opacity: 1;
   }
 
-  /* Top accent line */
+  /* Top accent line — width transition */
   .ind-grid-card-accent {
     position: absolute;
     top: 0;
@@ -276,11 +274,6 @@ const html = `
     flex: 1;
     height: 1px;
     background: rgba(71,181,255,0.15);
-    transition: background 0.3s ease;
-  }
-
-  .ind-grid-card:hover .ind-grid-card-number::after {
-    background: rgba(71,181,255,0.3);
   }
 
   .ind-grid-card-tagline {
@@ -291,14 +284,9 @@ const html = `
     text-transform: uppercase;
     color: rgba(71,181,255,0.55);
     margin-bottom: 10px;
-    transition: color 0.3s ease;
   }
 
-  .ind-grid-card:hover .ind-grid-card-tagline {
-    color: rgba(71,181,255,0.8);
-  }
-
-  /* Title with gradient sweep on hover */
+  /* Title — solid default, gradient on hover only */
   .ind-grid-card-name {
     font-family: 'Inter Tight', sans-serif;
     font-weight: 900;
@@ -416,8 +404,8 @@ const html = `
       <a href="/industries/heavy-civil/" class="ind-grid-card" data-ind-card>
         <div class="ind-grid-card-bg" style="background-image: url('/images/industries/heavy_civil.jpg')"></div>
         <div class="ind-grid-card-overlay"></div>
+        <div class="ind-grid-card-reveal"></div>
         <div class="ind-grid-card-gridtex"></div>
-        <div class="ind-grid-card-scanline"></div>
         <div class="ind-grid-card-glow"></div>
         <div class="ind-grid-card-accent"></div>
         <div class="ind-grid-card-content">
@@ -432,8 +420,8 @@ const html = `
       <a href="/industries/mining/" class="ind-grid-card" data-ind-card>
         <div class="ind-grid-card-bg" style="background-image: url('/images/industries/mining.jpg')"></div>
         <div class="ind-grid-card-overlay"></div>
+        <div class="ind-grid-card-reveal"></div>
         <div class="ind-grid-card-gridtex"></div>
-        <div class="ind-grid-card-scanline"></div>
         <div class="ind-grid-card-glow"></div>
         <div class="ind-grid-card-accent"></div>
         <div class="ind-grid-card-content">
@@ -448,8 +436,8 @@ const html = `
       <a href="/industries/energy/" class="ind-grid-card" data-ind-card>
         <div class="ind-grid-card-bg" style="background-image: url('/images/industries/energy.jpg')"></div>
         <div class="ind-grid-card-overlay"></div>
+        <div class="ind-grid-card-reveal"></div>
         <div class="ind-grid-card-gridtex"></div>
-        <div class="ind-grid-card-scanline"></div>
         <div class="ind-grid-card-glow"></div>
         <div class="ind-grid-card-accent"></div>
         <div class="ind-grid-card-content">
@@ -464,8 +452,8 @@ const html = `
       <a href="/industries/institutional/" class="ind-grid-card" data-ind-card>
         <div class="ind-grid-card-bg" style="background-image: url('/images/industries/gov.jpg')"></div>
         <div class="ind-grid-card-overlay"></div>
+        <div class="ind-grid-card-reveal"></div>
         <div class="ind-grid-card-gridtex"></div>
-        <div class="ind-grid-card-scanline"></div>
         <div class="ind-grid-card-glow"></div>
         <div class="ind-grid-card-accent"></div>
         <div class="ind-grid-card-content">
@@ -480,8 +468,8 @@ const html = `
       <a href="/industries/industrial/" class="ind-grid-card" data-ind-card>
         <div class="ind-grid-card-bg" style="background-image: url('/images/industries/industrial.jpg')"></div>
         <div class="ind-grid-card-overlay"></div>
+        <div class="ind-grid-card-reveal"></div>
         <div class="ind-grid-card-gridtex"></div>
-        <div class="ind-grid-card-scanline"></div>
         <div class="ind-grid-card-glow"></div>
         <div class="ind-grid-card-accent"></div>
         <div class="ind-grid-card-content">
@@ -496,8 +484,8 @@ const html = `
       <a href="/industries/commercial/" class="ind-grid-card" data-ind-card>
         <div class="ind-grid-card-bg" style="background-image: url('/images/industries/real_estate.jpg')"></div>
         <div class="ind-grid-card-overlay"></div>
+        <div class="ind-grid-card-reveal"></div>
         <div class="ind-grid-card-gridtex"></div>
-        <div class="ind-grid-card-scanline"></div>
         <div class="ind-grid-card-glow"></div>
         <div class="ind-grid-card-accent"></div>
         <div class="ind-grid-card-content">
@@ -548,7 +536,7 @@ const script = `(function(){
       entries.forEach(function(e) {
         if (e.isIntersecting) {
           setTimeout(function() {
-            c.style.transition = 'opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1), box-shadow 0.45s ease';
+            c.style.transition = 'opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1), box-shadow 0.45s cubic-bezier(0.22,1,0.36,1)';
             c.style.opacity = '1';
             c.style.transform = 'translateY(0)';
           }, i * 100);
