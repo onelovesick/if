@@ -414,7 +414,7 @@ const html = `
     <div class="ind-grid-cards">
 
       <a href="/industries/heavy-civil/" class="ind-grid-card" data-ind-card>
-        <div class="ind-grid-card-bg" style="background-image: url('https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=800&q=75&fit=crop&auto=format&brightness=-20')"></div>
+        <div class="ind-grid-card-bg" style="background-image: url('/images/industries/heavy_civil.jpg')"></div>
         <div class="ind-grid-card-overlay"></div>
         <div class="ind-grid-card-gridtex"></div>
         <div class="ind-grid-card-scanline"></div>
@@ -430,7 +430,7 @@ const html = `
       </a>
 
       <a href="/industries/mining/" class="ind-grid-card" data-ind-card>
-        <div class="ind-grid-card-bg" style="background-image: url('https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?w=800&q=75&fit=crop')"></div>
+        <div class="ind-grid-card-bg" style="background-image: url('/images/industries/mining.jpg')"></div>
         <div class="ind-grid-card-overlay"></div>
         <div class="ind-grid-card-gridtex"></div>
         <div class="ind-grid-card-scanline"></div>
@@ -446,7 +446,7 @@ const html = `
       </a>
 
       <a href="/industries/energy/" class="ind-grid-card" data-ind-card>
-        <div class="ind-grid-card-bg" style="background-image: url('https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&q=75&fit=crop')"></div>
+        <div class="ind-grid-card-bg" style="background-image: url('/images/industries/energy.jpg')"></div>
         <div class="ind-grid-card-overlay"></div>
         <div class="ind-grid-card-gridtex"></div>
         <div class="ind-grid-card-scanline"></div>
@@ -462,7 +462,7 @@ const html = `
       </a>
 
       <a href="/industries/institutional/" class="ind-grid-card" data-ind-card>
-        <div class="ind-grid-card-bg" style="background-image: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&q=75&fit=crop')"></div>
+        <div class="ind-grid-card-bg" style="background-image: url('/images/industries/gov.jpg')"></div>
         <div class="ind-grid-card-overlay"></div>
         <div class="ind-grid-card-gridtex"></div>
         <div class="ind-grid-card-scanline"></div>
@@ -478,7 +478,7 @@ const html = `
       </a>
 
       <a href="/industries/industrial/" class="ind-grid-card" data-ind-card>
-        <div class="ind-grid-card-bg" style="background-image: url('https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?w=800&q=75&fit=crop')"></div>
+        <div class="ind-grid-card-bg" style="background-image: url('/images/industries/industrial.jpg')"></div>
         <div class="ind-grid-card-overlay"></div>
         <div class="ind-grid-card-gridtex"></div>
         <div class="ind-grid-card-scanline"></div>
@@ -494,7 +494,7 @@ const html = `
       </a>
 
       <a href="/industries/commercial/" class="ind-grid-card" data-ind-card>
-        <div class="ind-grid-card-bg" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=75&fit=crop')"></div>
+        <div class="ind-grid-card-bg" style="background-image: url('/images/industries/real_estate.jpg')"></div>
         <div class="ind-grid-card-overlay"></div>
         <div class="ind-grid-card-gridtex"></div>
         <div class="ind-grid-card-scanline"></div>
