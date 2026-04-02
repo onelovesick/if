@@ -18,6 +18,7 @@ const sectionHtml = `<style>
   position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  align-items: stretch;
   min-height: 80vh;
   background: var(--bg);
   font-family: 'Inter', sans-serif;
@@ -52,6 +53,7 @@ const sectionHtml = `<style>
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: clamp(28px,3vw,48px);
   padding: clamp(64px,6vw,120px) clamp(40px,4vw,72px) clamp(64px,6vw,120px) clamp(48px,6%,120px);
   position: relative;
   z-index: 1;
@@ -66,6 +68,23 @@ const sectionHtml = `<style>
   background: linear-gradient(to bottom, transparent, rgba(11,60,93,0.08) 25%, rgba(11,60,93,0.08) 75%, transparent);
 }
 
+.ost-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.ost-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--accent);
+}
+
 .ost-headline {
   font-family: 'Outfit', sans-serif;
   font-size: clamp(36px,3.6vw,64px);
@@ -74,7 +93,6 @@ const sectionHtml = `<style>
   color: var(--navy);
   line-height: 0.95;
   letter-spacing: -0.02em;
-  margin-bottom: 36px;
   max-width: 560px;
 }
 .ost-headline em {
@@ -96,7 +114,6 @@ const sectionHtml = `<style>
   background: var(--white);
   border-left: 3px solid var(--accent);
   padding: 24px 28px;
-  margin-bottom: 40px;
   max-width: 500px;
   border-radius: 0 6px 6px 0;
   box-shadow: 0 2px 12px rgba(11,60,93,0.04);
@@ -310,7 +327,9 @@ const sectionHtml = `<style>
   .ost::before { background-size: 44px 44px; }
   .ost-left { padding: 100px 80px 100px 60px; max-width: 860px; }
   .ost-right { padding: 100px 140px 100px 80px; gap: 44px; }
-  .ost-headline { font-size: 72px; max-width: 720px; margin-bottom: 44px; }
+  .ost-left { gap: 44px; }
+  .ost-eyebrow { font-size: 12px; }
+  .ost-headline { font-size: 72px; max-width: 720px; }
   .ost-contrast { padding: 28px 32px; max-width: 560px; }
   .ost-contrast-cross { font-size: 16px; }
   .ost-contrast-strong { font-size: 18px; }
@@ -328,7 +347,7 @@ const sectionHtml = `<style>
 }
 
 @media (min-width: 3200px) {
-  .ost-left { padding: 120px 100px 120px 60px; max-width: 1000px; }
+  .ost-left { padding: 120px 100px 120px 60px; max-width: 1000px; gap: 52px; }
   .ost-right { padding: 120px 180px 120px 100px; gap: 52px; }
   .ost-headline { font-size: 84px; max-width: 840px; }
   .ost-right-title { font-size: 68px; }
@@ -355,7 +374,8 @@ const sectionHtml = `<style>
 
   <!-- ══ LEFT ══ -->
   <div class="ost-left">
-    <h2 class="ost-headline ost-anim" data-delay="0">
+    <div class="ost-eyebrow ost-anim" data-delay="0">What We Do</div>
+    <h2 class="ost-headline ost-anim" data-delay="80">
       We Help Project Teams Deliver
       <em>Real Projects</em> With
       Digital Power
