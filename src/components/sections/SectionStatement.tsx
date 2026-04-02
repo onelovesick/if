@@ -56,23 +56,13 @@ const statementHtml = `<style>
   line-height: 1.35;
 }
 
-/* Each word wrapped in a span by JS */
-.stmt-text .stmt-w {
-  display: inline-block;
+/* Each character is a span, no transition needed since we set opacity directly */
+.stmt-text .stmt-c {
   opacity: 0.08;
-  transform: translateY(4px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-.stmt-text .stmt-w.stmt-lit {
-  opacity: 1;
-  transform: translateY(0);
+  transition: none;
 }
 
-.stmt-text .stmt-highlight .stmt-w.stmt-lit {
-  color: var(--accent);
-  opacity: 1;
-  filter: drop-shadow(0 0 20px rgba(71,181,255,0.4));
-}
+/* Highlight characters get accent color when lit */
 .stmt-text .stmt-highlight {
   font-weight: 800;
 }
@@ -126,57 +116,68 @@ const statementScript = `(function(){
   var textEl = document.getElementById('stmtText');
   if(!root || !textEl) return;
 
-  /* Wrap every word in a span while preserving the .stmt-fade wrapper */
-  function wrapWords(el) {
+  var isHighlight = [];
+
+  /* Wrap every character in a span, preserving the highlight wrapper */
+  function wrapChars(el, inHighlight) {
     var children = Array.prototype.slice.call(el.childNodes);
     children.forEach(function(node) {
       if (node.nodeType === 3) {
-        var words = node.textContent.split(/( +)/);
+        var text = node.textContent;
         var frag = document.createDocumentFragment();
-        words.forEach(function(w) {
-          if (!w) return;
-          if (/^\\s+$/.test(w)) {
-            frag.appendChild(document.createTextNode(w));
-          } else {
-            var s = document.createElement('span');
-            s.className = 'stmt-w';
-            s.textContent = w;
-            frag.appendChild(s);
-            frag.appendChild(document.createTextNode(' '));
-          }
-        });
+        for (var i = 0; i < text.length; i++) {
+          var s = document.createElement('span');
+          s.className = 'stmt-c';
+          s.textContent = text[i];
+          frag.appendChild(s);
+          isHighlight.push(!!inHighlight);
+        }
         node.parentNode.replaceChild(frag, node);
       } else if (node.nodeType === 1) {
-        wrapWords(node);
+        wrapChars(node, inHighlight || node.classList.contains('stmt-highlight'));
       }
     });
   }
-  wrapWords(textEl);
+  wrapChars(textEl, false);
 
-  var allWords = textEl.querySelectorAll('.stmt-w');
-  var total = allWords.length;
-  var activated = false;
+  var allChars = textEl.querySelectorAll('.stmt-c');
+  var total = allChars.length;
 
   function onScroll() {
     var rect = root.getBoundingClientRect();
     var vh = window.innerHeight;
 
-    /* Progress: 0 when section top hits 70% of viewport, 1 when section top hits 50% */
-    var start = vh * 0.7;
-    var end = vh * 0.5;
-    var progress = (start - rect.top) / (start - end);
+    /* Start when section center hits 75% of viewport, end when it hits 35% */
+    var sectionCenter = rect.top + rect.height * 0.5;
+    var start = vh * 0.8;
+    var end = vh * 0.25;
+    var progress = (start - sectionCenter) / (start - end);
     progress = Math.max(0, Math.min(1, progress));
 
-    if (progress > 0 && !activated) {
-      activated = true;
+    if (progress > 0) {
       root.classList.add('stmt-active');
+    } else {
+      root.classList.remove('stmt-active');
     }
 
-    /* Light up words progressively */
-    var wordsToShow = Math.floor(progress * total);
+    /* How many chars to fully reveal */
+    var revealed = progress * total;
+
     for (var i = 0; i < total; i++) {
-      if (i < wordsToShow) {
-        allWords[i].classList.add('stmt-lit');
+      /* Each char fades individually over a ~3 char softness range */
+      var charProgress = (revealed - i) / 3;
+      charProgress = Math.max(0, Math.min(1, charProgress));
+
+      var opacity = 0.08 + charProgress * 0.92;
+
+      if (isHighlight[i] && charProgress >= 1) {
+        allChars[i].style.opacity = '1';
+        allChars[i].style.color = '#47B5FF';
+        allChars[i].style.filter = 'drop-shadow(0 0 18px rgba(71,181,255,0.35))';
+      } else {
+        allChars[i].style.opacity = opacity;
+        allChars[i].style.color = '';
+        allChars[i].style.filter = '';
       }
     }
   }
