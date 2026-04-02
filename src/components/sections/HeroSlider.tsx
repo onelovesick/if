@@ -84,15 +84,7 @@ const heroHtml = `<style>
   background: radial-gradient(circle, rgba(40,140,220,0.12) 0%, rgba(40,140,220,0.03) 35%, transparent 60%);
   animation: h3pulse2 8s ease-in-out infinite 2s, h3drift2 25s ease-in-out infinite alternate;
 }
-.h3-node-2::after {
-  content: '';
-  position: absolute;
-  inset: 38%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(71,181,255,0.25) 0%, rgba(71,181,255,0.05) 45%, transparent 70%);
-  animation: h3pulse2core 5s ease-in-out infinite 1s;
-  filter: blur(3px);
-}
+.h3-node-2::after { display: none; }
 
 /* Node 3 — tertiary, center-right, subtle */
 .h3-node-3 {
@@ -101,15 +93,7 @@ const heroHtml = `<style>
   background: radial-gradient(circle, rgba(71,181,255,0.08) 0%, transparent 55%);
   animation: h3pulse3 7s ease-in-out infinite 4s, h3drift3 18s ease-in-out infinite alternate-reverse;
 }
-.h3-node-3::after {
-  content: '';
-  position: absolute;
-  inset: 40%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(100,200,255,0.2) 0%, transparent 65%);
-  animation: h3pulse3core 4.5s ease-in-out infinite 2s;
-  filter: blur(2px);
-}
+.h3-node-3::after { display: none; }
 
 /* Node 4 — small accent, top center-left */
 .h3-node-4 {
@@ -118,15 +102,7 @@ const heroHtml = `<style>
   background: radial-gradient(circle, rgba(71,181,255,0.06) 0%, transparent 50%);
   animation: h3pulse2 9s ease-in-out infinite 3s, h3drift4 22s ease-in-out infinite alternate;
 }
-.h3-node-4::after {
-  content: '';
-  position: absolute;
-  inset: 42%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(71,181,255,0.22) 0%, transparent 60%);
-  animation: h3pulse1core 5.5s ease-in-out infinite 1.5s;
-  filter: blur(2px);
-}
+.h3-node-4::after { display: none; }
 
 /* Node 5 — faint deep node, bottom right */
 .h3-node-5 {
