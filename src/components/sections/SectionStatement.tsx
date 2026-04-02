@@ -147,9 +147,9 @@ const statementScript = `(function(){
     var rect = root.getBoundingClientRect();
     var vh = window.innerHeight;
 
-    /* Start when section top enters viewport, finish when section is 60% visible */
-    var start = vh;
-    var end = vh * 0.55;
+    /* Start when section top is 85% down the viewport, finish at 50% */
+    var start = vh * 0.85;
+    var end = vh * 0.5;
     var progress = (start - rect.top) / (start - end);
     progress = Math.max(0, Math.min(1, progress));
 
@@ -159,8 +159,8 @@ const statementScript = `(function(){
       root.classList.remove('stmt-active');
     }
 
-    /* How many chars to fully reveal */
-    var revealed = progress * total;
+    /* How many chars to fully reveal — add softness buffer so last chars complete */
+    var revealed = progress * (total + 3);
 
     for (var i = 0; i < total; i++) {
       /* Each char fades individually over a ~3 char softness range */
