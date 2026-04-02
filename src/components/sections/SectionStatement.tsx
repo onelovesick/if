@@ -68,12 +68,13 @@ const statementHtml = `<style>
   transform: translateY(0);
 }
 
-.stmt-text .stmt-fade .stmt-w.stmt-lit {
-  opacity: 0.35;
+.stmt-text .stmt-highlight .stmt-w.stmt-lit {
+  color: var(--accent);
+  opacity: 1;
+  filter: drop-shadow(0 0 20px rgba(71,181,255,0.4));
 }
-
-.stmt-text .stmt-fade {
-  font-weight: 600;
+.stmt-text .stmt-highlight {
+  font-weight: 800;
 }
 
 /* ══ RESPONSIVE ══ */
@@ -117,7 +118,7 @@ const statementHtml = `<style>
 <section class="stmt" id="stmtRoot" aria-label="How we work">
   <div class="stmt-label">How We Work</div>
   <div class="stmt-divider"></div>
-  <div class="stmt-text" id="stmtText">Infrastructure projects don't fail from lack of tools. They fail from lack of structure. <span class="stmt-fade">We connect every team around one source of truth.</span></div>
+  <div class="stmt-text" id="stmtText">Infrastructure projects don't fail from lack of tools. They fail from lack of structure. We connect every team around <span class="stmt-highlight">one source of truth.</span></div>
 </section>`
 
 const statementScript = `(function(){
