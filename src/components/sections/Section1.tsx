@@ -125,26 +125,75 @@ const sectionHtml = `<style>
   border-radius: 2px;
 }
 
+/* ══ CONTRAST — Not this / This ══ */
 .ost-contrast {
-  background: var(--white);
-  border-left: 3px solid var(--accent);
-  padding: 24px 28px;
-  max-width: 500px;
-  border-radius: 0 6px 6px 0;
-  box-shadow: 0 2px 12px rgba(11,60,93,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 540px;
 }
-.ost-contrast-cross {
-  font-size: 14.5px;
-  color: rgba(90,122,150,0.4);
+
+.ost-contrast-wrong {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.ost-contrast-wrong-icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(220,80,60,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+.ost-contrast-wrong-icon svg {
+  width: 12px;
+  height: 12px;
+}
+.ost-contrast-wrong-text {
+  font-size: clamp(13px,1vw,15px);
+  color: rgba(90,122,150,0.5);
+  line-height: 1.7;
   text-decoration: line-through;
-  text-decoration-color: rgba(71,181,255,0.3);
-  line-height: 1.75;
-  margin-bottom: 12px;
+  text-decoration-color: rgba(220,80,60,0.2);
+  text-decoration-thickness: 1.5px;
+}
+
+.ost-contrast-divider {
+  width: 40px;
+  height: 1px;
+  background: rgba(11,60,93,0.1);
+}
+
+.ost-contrast-right {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.ost-contrast-right-icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(71,181,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+.ost-contrast-right-icon svg {
+  width: 14px;
+  height: 14px;
 }
 .ost-contrast-strong {
-  font-size: 16px;
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(18px,1.6vw,26px);
   font-weight: 700;
   color: var(--navy);
+  line-height: 1.25;
 }
 
 .ost-cta {
@@ -327,8 +376,8 @@ const sectionHtml = `<style>
   .ost-h-lg { font-size: 74px; }
   .ost-h-md { font-size: 50px; }
   .ost-headline { max-width: 680px; }
-  .ost-contrast-cross { font-size: 15px; }
-  .ost-contrast-strong { font-size: 17px; }
+  .ost-contrast-wrong-text { font-size: 15px; }
+  .ost-contrast-strong { font-size: 24px; }
   .ost-cta { font-size: 12px; padding: 18px 32px; }
   .ost-tools { gap: 14px; }
   .ost-tool { padding: 28px 24px 22px; }
@@ -351,9 +400,10 @@ const sectionHtml = `<style>
   .ost-h-lg { font-size: 88px; }
   .ost-h-md { font-size: 58px; }
   .ost-headline { max-width: 780px; }
-  .ost-contrast { padding: 28px 32px; max-width: 560px; }
-  .ost-contrast-cross { font-size: 16px; }
-  .ost-contrast-strong { font-size: 18px; }
+  .ost-contrast { max-width: 600px; gap: 24px; }
+  .ost-contrast-wrong-text { font-size: 16px; }
+  .ost-contrast-strong { font-size: 28px; }
+  .ost-contrast-wrong-icon, .ost-contrast-right-icon { width: 32px; height: 32px; }
   .ost-cta { font-size: 13px; padding: 20px 36px; }
   .ost-right-eyebrow { font-size: 12px; }
   .ost-right-title { font-size: 26px; }
@@ -407,12 +457,19 @@ const sectionHtml = `<style>
       <span class="ost-h-line ost-h-md">with digital power</span>
     </h2>
     <div class="ost-contrast ost-anim" data-delay="120">
-      <div class="ost-contrast-cross">
-        Many projects attempt to implement every available digital tool,
-        workflow, and reporting layer at once, applying excessive
-        digital processes on top of broken structure.
+      <div class="ost-contrast-wrong">
+        <div class="ost-contrast-wrong-icon">
+          <svg viewBox="0 0 12 12" fill="none"><line x1="2" y1="2" x2="10" y2="10" stroke="#dc503c" stroke-width="2" stroke-linecap="round"/><line x1="10" y1="2" x2="2" y2="10" stroke="#dc503c" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <div class="ost-contrast-wrong-text">Every tool at once, every workflow layered on, digital processes stacked on broken structure.</div>
       </div>
-      <div class="ost-contrast-strong">We implement lean, controlled systems.</div>
+      <div class="ost-contrast-divider"></div>
+      <div class="ost-contrast-right">
+        <div class="ost-contrast-right-icon">
+          <svg viewBox="0 0 14 14" fill="none"><polyline points="2,7 5.5,10.5 12,3.5" stroke="#47B5FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="ost-contrast-strong">Lean systems. Controlled structure. Nothing more than what the project needs.</div>
+      </div>
     </div>
     <a href="/process/" class="ost-cta ost-anim" data-delay="240">Discover The Process <span class="ost-cta-arr">→</span></a>
   </div>
