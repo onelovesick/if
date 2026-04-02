@@ -86,27 +86,42 @@ const sectionHtml = `<style>
 }
 
 .ost-headline {
+  max-width: 620px;
+}
+.ost-h-line {
+  display: block;
   font-family: 'Outfit', sans-serif;
-  font-size: clamp(36px,3.6vw,64px);
   font-weight: 700;
   text-transform: uppercase;
   color: var(--navy);
-  line-height: 0.95;
   letter-spacing: -0.02em;
-  max-width: 560px;
+  line-height: 1;
 }
-.ost-headline em {
-  font-style: normal;
+.ost-h-sm {
+  font-size: clamp(24px,2.4vw,40px);
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.ost-h-md {
+  font-size: clamp(32px,3.2vw,56px);
+  margin-bottom: 4px;
+}
+.ost-h-lg {
+  font-size: clamp(44px,4.6vw,82px);
+  font-weight: 800;
   color: var(--accent);
+  line-height: 0.95;
+  margin-bottom: 8px;
   position: relative;
 }
-.ost-headline em::after {
+.ost-h-lg::after {
   content: '';
   position: absolute;
-  bottom: 2px; left: 0; right: 0;
+  bottom: -2px; left: 0;
+  width: 100%;
   height: 3px;
-  background: var(--accent);
-  opacity: 0.25;
+  background: linear-gradient(90deg, var(--accent), rgba(71,181,255,0.15));
   border-radius: 2px;
 }
 
@@ -175,18 +190,18 @@ const sectionHtml = `<style>
 
 .ost-right-title {
   font-family: 'Outfit', sans-serif;
-  font-size: clamp(28px,2.6vw,48px);
-  font-weight: 700;
+  font-size: clamp(18px,1.4vw,24px);
+  font-weight: 600;
   text-transform: uppercase;
   color: var(--navy);
-  letter-spacing: -0.02em;
-  line-height: 1.05;
-  margin-bottom: 12px;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  margin-bottom: 8px;
 }
 .ost-right-sub {
-  font-size: clamp(14px,1vw,16px);
+  font-size: clamp(13px,0.9vw,15px);
   color: var(--muted);
-  line-height: 1.75;
+  line-height: 1.7;
   max-width: 520px;
 }
 
@@ -308,7 +323,10 @@ const sectionHtml = `<style>
 @media (min-width: 1600px) {
   .ost { min-height: 70vh; }
   .ost::before { background-size: 36px 36px; }
-  .ost-headline { font-size: 58px; max-width: 620px; }
+  .ost-h-sm { font-size: 36px; }
+  .ost-h-lg { font-size: 74px; }
+  .ost-h-md { font-size: 50px; }
+  .ost-headline { max-width: 680px; }
   .ost-contrast-cross { font-size: 15px; }
   .ost-contrast-strong { font-size: 17px; }
   .ost-cta { font-size: 12px; padding: 18px 32px; }
@@ -317,8 +335,8 @@ const sectionHtml = `<style>
   .ost-tool-name { font-size: 18px; }
   .ost-tool-role { font-size: 10px; }
   .ost-tool-cat { font-size: 10px; }
-  .ost-right-title { font-size: 50px; }
-  .ost-right-sub { font-size: 16px; }
+  .ost-right-title { font-size: 22px; }
+  .ost-right-sub { font-size: 15px; }
 }
 
 /* Ultrawide / 32" 4K */
@@ -329,14 +347,17 @@ const sectionHtml = `<style>
   .ost-right { padding: 100px 140px 100px 80px; gap: 44px; }
   .ost-left { gap: 44px; }
   .ost-eyebrow { font-size: 12px; }
-  .ost-headline { font-size: 72px; max-width: 720px; }
+  .ost-h-sm { font-size: 42px; }
+  .ost-h-lg { font-size: 88px; }
+  .ost-h-md { font-size: 58px; }
+  .ost-headline { max-width: 780px; }
   .ost-contrast { padding: 28px 32px; max-width: 560px; }
   .ost-contrast-cross { font-size: 16px; }
   .ost-contrast-strong { font-size: 18px; }
   .ost-cta { font-size: 13px; padding: 20px 36px; }
   .ost-right-eyebrow { font-size: 12px; }
-  .ost-right-title { font-size: 58px; }
-  .ost-right-sub { font-size: 18px; max-width: 600px; }
+  .ost-right-title { font-size: 26px; }
+  .ost-right-sub { font-size: 16px; max-width: 600px; }
   .ost-tools { gap: 16px; }
   .ost-tool { padding: 32px 28px 26px; border-radius: 8px; }
   .ost-tool-cat { font-size: 11px; }
@@ -349,9 +370,12 @@ const sectionHtml = `<style>
 @media (min-width: 3200px) {
   .ost-left { padding: 120px 100px 120px 60px; max-width: 1000px; gap: 52px; }
   .ost-right { padding: 120px 180px 120px 100px; gap: 52px; }
-  .ost-headline { font-size: 84px; max-width: 840px; }
-  .ost-right-title { font-size: 68px; }
-  .ost-right-sub { font-size: 20px; }
+  .ost-h-sm { font-size: 48px; }
+  .ost-h-lg { font-size: 100px; }
+  .ost-h-md { font-size: 66px; }
+  .ost-headline { max-width: 900px; }
+  .ost-right-title { font-size: 28px; }
+  .ost-right-sub { font-size: 18px; }
   .ost-tool { padding: 36px 32px 30px; }
   .ost-tool-name { font-size: 22px; }
   .ost-tool-role { font-size: 12px; }
@@ -366,7 +390,9 @@ const sectionHtml = `<style>
 }
 @media (max-width: 480px) {
   .ost-tools { grid-template-columns: repeat(2,1fr); }
-  .ost-headline { font-size: 32px; }
+  .ost-h-sm { font-size: 18px; }
+  .ost-h-lg { font-size: 36px; }
+  .ost-h-md { font-size: 24px; }
 }
 </style>
 
@@ -376,9 +402,9 @@ const sectionHtml = `<style>
   <div class="ost-left">
     <div class="ost-eyebrow ost-anim" data-delay="0">What We Do</div>
     <h2 class="ost-headline ost-anim" data-delay="80">
-      We Help Project Teams Deliver
-      <em>Real Projects</em> With
-      Digital Power
+      <span class="ost-h-line ost-h-sm">We help project teams deliver</span>
+      <span class="ost-h-line ost-h-lg">Real Projects</span>
+      <span class="ost-h-line ost-h-md">with digital power</span>
     </h2>
     <div class="ost-contrast ost-anim" data-delay="120">
       <div class="ost-contrast-cross">
@@ -396,8 +422,8 @@ const sectionHtml = `<style>
 
     <div class="ost-right-header">
       <div class="ost-right-eyebrow">Technology Ecosystem</div>
-      <div class="ost-right-title">The Tools Behind<br/>The Structure</div>
-      <p class="ost-right-sub">Platform-agnostic. We work with the tools your team already uses, and we know how to make them talk to each other.</p>
+      <div class="ost-right-title">Your Tools, Our Structure</div>
+      <p class="ost-right-sub">We integrate with the platforms your team already runs. These are some of the tools we work with every day.</p>
     </div>
 
     <div class="ost-tools" id="ostTools">
