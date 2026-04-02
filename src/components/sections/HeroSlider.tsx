@@ -26,13 +26,16 @@ const heroHtml = `<style>
   background: var(--bg-deep);
 }
 
-/* ══ GRADIENT MESH BACKGROUND ══ */
+/* ══ GRADIENT MESH + ENERGY NODES BACKGROUND ══ */
 .h3-mesh {
   position: absolute;
   inset: 0;
   overflow: hidden;
   z-index: 0;
+  background: radial-gradient(ellipse 120% 80% at 50% 50%, #060e1a 0%, var(--bg-deep) 100%);
 }
+
+/* Base atmosphere layers — deep, dark, high contrast */
 .h3-mesh-layer {
   position: absolute;
   inset: -60%;
@@ -41,37 +44,148 @@ const heroHtml = `<style>
   will-change: transform;
 }
 .h3-mesh-1 {
-  background: radial-gradient(ellipse 70% 55% at 25% 45%, rgba(71,181,255,0.13), transparent 70%);
-  animation: h3m1 28s ease-in-out infinite alternate;
+  background: radial-gradient(ellipse 60% 50% at 30% 50%, rgba(71,181,255,0.1), transparent 65%);
+  animation: h3m1 30s ease-in-out infinite alternate;
 }
 .h3-mesh-2 {
-  background: radial-gradient(ellipse 55% 65% at 75% 25%, rgba(11,60,93,0.3), transparent 65%);
-  animation: h3m2 34s ease-in-out infinite alternate-reverse;
+  background: radial-gradient(ellipse 50% 60% at 75% 30%, rgba(11,60,93,0.25), transparent 60%);
+  animation: h3m2 36s ease-in-out infinite alternate-reverse;
 }
 .h3-mesh-3 {
-  background: radial-gradient(ellipse 45% 50% at 55% 75%, rgba(30,90,150,0.09), transparent 60%);
-  animation: h3m3 24s ease-in-out infinite alternate;
+  background: radial-gradient(ellipse 40% 45% at 60% 75%, rgba(20,70,130,0.08), transparent 55%);
+  animation: h3m3 26s ease-in-out infinite alternate;
 }
 .h3-mesh-4 {
-  background: radial-gradient(ellipse 35% 40% at 80% 60%, rgba(71,181,255,0.06), transparent 55%);
-  animation: h3m4 20s ease-in-out infinite alternate-reverse;
+  background: radial-gradient(ellipse 35% 35% at 85% 55%, rgba(71,181,255,0.05), transparent 50%);
+  animation: h3m4 22s ease-in-out infinite alternate-reverse;
 }
+
+/* ── Energy Nodes — bright focal points that breathe ── */
+.h3-node {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* Node 1 — primary, upper right, largest glow */
+.h3-node-1 {
+  width: 500px; height: 500px;
+  top: 8%; right: 12%;
+  background: radial-gradient(circle, rgba(71,181,255,0.18) 0%, rgba(71,181,255,0.06) 30%, transparent 65%);
+  animation: h3pulse1 6s ease-in-out infinite, h3drift1 20s ease-in-out infinite alternate;
+}
+.h3-node-1::after {
+  content: '';
+  position: absolute;
+  inset: 35%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(71,181,255,0.35) 0%, rgba(71,181,255,0.08) 40%, transparent 70%);
+  animation: h3pulse1core 4s ease-in-out infinite;
+  filter: blur(4px);
+}
+
+/* Node 2 — secondary, lower left */
+.h3-node-2 {
+  width: 350px; height: 350px;
+  bottom: 20%; left: 25%;
+  background: radial-gradient(circle, rgba(40,140,220,0.12) 0%, rgba(40,140,220,0.03) 35%, transparent 60%);
+  animation: h3pulse2 8s ease-in-out infinite 2s, h3drift2 25s ease-in-out infinite alternate;
+}
+.h3-node-2::after {
+  content: '';
+  position: absolute;
+  inset: 38%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(71,181,255,0.25) 0%, rgba(71,181,255,0.05) 45%, transparent 70%);
+  animation: h3pulse2core 5s ease-in-out infinite 1s;
+  filter: blur(3px);
+}
+
+/* Node 3 — tertiary, center-right, subtle */
+.h3-node-3 {
+  width: 250px; height: 250px;
+  top: 45%; right: 30%;
+  background: radial-gradient(circle, rgba(71,181,255,0.08) 0%, transparent 55%);
+  animation: h3pulse3 7s ease-in-out infinite 4s, h3drift3 18s ease-in-out infinite alternate-reverse;
+}
+.h3-node-3::after {
+  content: '';
+  position: absolute;
+  inset: 40%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(100,200,255,0.2) 0%, transparent 65%);
+  animation: h3pulse3core 4.5s ease-in-out infinite 2s;
+  filter: blur(2px);
+}
+
+/* Node 4 — small accent, top center-left */
+.h3-node-4 {
+  width: 180px; height: 180px;
+  top: 15%; left: 40%;
+  background: radial-gradient(circle, rgba(71,181,255,0.06) 0%, transparent 50%);
+  animation: h3pulse2 9s ease-in-out infinite 3s, h3drift4 22s ease-in-out infinite alternate;
+}
+.h3-node-4::after {
+  content: '';
+  position: absolute;
+  inset: 42%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(71,181,255,0.22) 0%, transparent 60%);
+  animation: h3pulse1core 5.5s ease-in-out infinite 1.5s;
+  filter: blur(2px);
+}
+
+/* Node 5 — faint deep node, bottom right */
+.h3-node-5 {
+  width: 400px; height: 400px;
+  bottom: 5%; right: 5%;
+  background: radial-gradient(circle, rgba(20,80,140,0.07) 0%, transparent 55%);
+  animation: h3pulse3 10s ease-in-out infinite 1s, h3drift5 28s ease-in-out infinite alternate;
+}
+
+/* ── Pulse keyframes — breathing intensity ── */
+@keyframes h3pulse1 {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+@keyframes h3pulse1core {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+@keyframes h3pulse2 {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 0.9; }
+}
+@keyframes h3pulse2core {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.25); opacity: 1; }
+}
+@keyframes h3pulse3 {
+  0%, 100% { transform: scale(0.95); opacity: 0.4; }
+  50% { transform: scale(1.08); opacity: 0.85; }
+}
+@keyframes h3pulse3core {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.2); opacity: 0.9; }
+}
+
+/* ── Drift keyframes — slow spatial movement ── */
+@keyframes h3drift1 { 0%{translate: 0 0} 50%{translate: -30px 20px} 100%{translate: 25px -15px} }
+@keyframes h3drift2 { 0%{translate: 0 0} 50%{translate: 20px -25px} 100%{translate: -20px 30px} }
+@keyframes h3drift3 { 0%{translate: 0 0} 50%{translate: -15px -20px} 100%{translate: 20px 10px} }
+@keyframes h3drift4 { 0%{translate: 0 0} 50%{translate: 25px 15px} 100%{translate: -18px -22px} }
+@keyframes h3drift5 { 0%{translate: 0 0} 50%{translate: -20px 18px} 100%{translate: 15px -12px} }
+
+/* ── Base mesh drift ── */
 @keyframes h3m1 { 0%{transform:translate(0,0)} 50%{transform:translate(-4%,3%)} 100%{transform:translate(3%,-2%)} }
 @keyframes h3m2 { 0%{transform:translate(0,0)} 50%{transform:translate(3%,-4%)} 100%{transform:translate(-5%,2%)} }
 @keyframes h3m3 { 0%{transform:translate(0,0)} 50%{transform:translate(-3%,-3%)} 100%{transform:translate(4%,3%)} }
 @keyframes h3m4 { 0%{transform:translate(0,0) rotate(0deg)} 50%{transform:translate(2%,4%) rotate(1deg)} 100%{transform:translate(-3%,-2%) rotate(-1deg)} }
 
-/* ══ GRID OVERLAY ══ */
+/* ══ GRID OVERLAY — disabled ══ */
 .h3-grid {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background-image:
-    linear-gradient(rgba(71,181,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(71,181,255,0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-  opacity: 0;
-  animation: h3fadeIn 1.5s ease forwards 0.3s;
+  display: none;
 }
 
 /* ══ GRAIN OVERLAY ══ */
@@ -217,7 +331,8 @@ const heroHtml = `<style>
   z-index: 5;
   transform: translate(-50%, -50%);
   opacity: 0;
-  transition: opacity 0.5s ease, left 0.12s ease-out, top 0.12s ease-out;
+  transition: opacity 0.5s ease;
+  will-change: left, top;
 }
 .h3.h3-mouse-active .h3-glow {
   opacity: 1;
@@ -679,12 +794,17 @@ const heroHtml = `<style>
 </style>
 
 <section class="h3" id="h3Root">
-  <!-- Gradient mesh -->
+  <!-- Gradient mesh + energy nodes -->
   <div class="h3-mesh" id="h3Mesh">
     <div class="h3-mesh-layer h3-mesh-1"></div>
     <div class="h3-mesh-layer h3-mesh-2"></div>
     <div class="h3-mesh-layer h3-mesh-3"></div>
     <div class="h3-mesh-layer h3-mesh-4"></div>
+    <div class="h3-node h3-node-1"></div>
+    <div class="h3-node h3-node-2"></div>
+    <div class="h3-node h3-node-3"></div>
+    <div class="h3-node h3-node-4"></div>
+    <div class="h3-node h3-node-5"></div>
   </div>
 
   <!-- Grid -->
