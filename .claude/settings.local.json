@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx next:*)",
+      "Bash(node -e \"const p=require\\('path'\\);console.log\\(p.resolve\\(__dirname\\)\\);console.log\\(require.resolve\\('next/package.json'\\)\\)\")",
+      "Bash(npm ls:*)",
+      "Bash(npm install:*)",
+      "Bash(curl -s http://localhost:3099)"
+    ]
+  }
+}

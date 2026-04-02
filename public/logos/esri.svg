@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 28" fill="none">
+  <circle cx="14" cy="14" r="11" fill="none" stroke="#007AC2" stroke-width="2"/>
+  <ellipse cx="14" cy="14" rx="5.5" ry="11" fill="none" stroke="#007AC2" stroke-width="1.4"/>
+  <line x1="3" y1="14" x2="25" y2="14" stroke="#007AC2" stroke-width="1.4"/>
+  <text x="30" y="20" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="16" fill="#007AC2" letter-spacing="0.5">ESRI</text>
+</svg>

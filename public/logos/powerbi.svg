@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 28" fill="none">
+  <rect x="3" y="14" width="6" height="12" rx="1" fill="#F2C811"/>
+  <rect x="11" y="8" width="6" height="18" rx="1" fill="#E8B20A"/>
+  <rect x="19" y="2" width="6" height="24" rx="1" fill="#D4A008"/>
+  <text x="32" y="20" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="14" fill="#4B4B4B">POWER</text>
+  <text x="86" y="20" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="14" fill="#F2C811">BI</text>
+</svg>

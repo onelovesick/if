@@ -6,5 +6,8 @@ const nextConfig = {
       { protocol: 'https', hostname: 'cdn.prod.website-files.com' },
     ],
   },
+  turbopack: {
+    root: __dirname,
+  },
 }
 module.exports = nextConfig

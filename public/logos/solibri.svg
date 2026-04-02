@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 28" fill="none">
+  <polygon points="14,2 24,8 24,20 14,26 4,20 4,8" fill="none" stroke="#E85D26" stroke-width="2"/>
+  <circle cx="14" cy="14" r="4.5" fill="#E85D26"/>
+  <text x="32" y="20" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="16" fill="#E85D26" letter-spacing="0.3">SOLIBRI</text>
+</svg>
