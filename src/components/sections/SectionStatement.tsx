@@ -30,26 +30,20 @@ const statementHtml = `<style>
   color: rgba(255,255,255,0.35);
   white-space: nowrap;
   flex-shrink: 0;
-  opacity: 0;
-  transform: translateX(-20px);
-  transition: opacity 0.7s ease, transform 0.8s cubic-bezier(0.22,1,0.36,1);
-}
-.stmt-label.vis {
-  opacity: 1;
-  transform: translateX(0);
 }
 
 /* Vertical divider */
 .stmt-divider {
   width: 1px;
   align-self: stretch;
+  min-height: 40px;
   background: rgba(71,181,255,0.25);
   flex-shrink: 0;
   transform: scaleY(0);
   transform-origin: top;
-  transition: transform 0.8s cubic-bezier(0.22,1,0.36,1) 0.15s;
+  transition: transform 0.8s cubic-bezier(0.22,1,0.36,1);
 }
-.stmt-divider.vis {
+.stmt.stmt-active .stmt-divider {
   transform: scaleY(1);
 }
 
@@ -60,17 +54,25 @@ const statementHtml = `<style>
   font-weight: 700;
   color: #ffffff;
   line-height: 1.35;
-  opacity: 0;
-  transform: translateX(-30px);
-  transition: opacity 0.8s ease 0.2s, transform 1s cubic-bezier(0.22,1,0.36,1) 0.2s;
 }
-.stmt-text.vis {
+
+/* Each word wrapped in a span by JS */
+.stmt-text .stmt-w {
+  display: inline-block;
+  opacity: 0.08;
+  transform: translateY(4px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.stmt-text .stmt-w.stmt-lit {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateY(0);
+}
+
+.stmt-text .stmt-fade .stmt-w.stmt-lit {
+  opacity: 0.35;
 }
 
 .stmt-text .stmt-fade {
-  color: rgba(255,255,255,0.35);
   font-weight: 600;
 }
 
@@ -102,39 +104,91 @@ const statementHtml = `<style>
   .stmt-divider {
     width: 40px;
     height: 1px;
+    min-height: 0;
     align-self: auto;
     transform: scaleX(0);
     transform-origin: left;
   }
-  .stmt-divider.vis { transform: scaleX(1); }
+  .stmt.stmt-active .stmt-divider { transform: scaleX(1); }
   .stmt-text { font-size: 20px; }
 }
 </style>
 
 <section class="stmt" id="stmtRoot" aria-label="How we work">
-  <div class="stmt-label" id="stmtLabel">How We Work</div>
-  <div class="stmt-divider" id="stmtDiv"></div>
+  <div class="stmt-label">How We Work</div>
+  <div class="stmt-divider"></div>
   <div class="stmt-text" id="stmtText">Infrastructure projects don't fail from lack of tools. They fail from lack of structure. <span class="stmt-fade">We connect every team around one source of truth.</span></div>
 </section>`
 
 const statementScript = `(function(){
-  var els = [
-    document.getElementById('stmtLabel'),
-    document.getElementById('stmtDiv'),
-    document.getElementById('stmtText')
-  ];
-  if(!els[0]) return;
+  var root = document.getElementById('stmtRoot');
+  var textEl = document.getElementById('stmtText');
+  if(!root || !textEl) return;
 
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){
-        e.target.classList.add('vis');
-        io.unobserve(e.target);
+  /* Wrap every word in a span while preserving the .stmt-fade wrapper */
+  function wrapWords(el) {
+    var children = Array.prototype.slice.call(el.childNodes);
+    children.forEach(function(node) {
+      if (node.nodeType === 3) {
+        var words = node.textContent.split(/( +)/);
+        var frag = document.createDocumentFragment();
+        words.forEach(function(w) {
+          if (!w) return;
+          if (/^\\s+$/.test(w)) {
+            frag.appendChild(document.createTextNode(w));
+          } else {
+            var s = document.createElement('span');
+            s.className = 'stmt-w';
+            s.textContent = w;
+            frag.appendChild(s);
+            frag.appendChild(document.createTextNode(' '));
+          }
+        });
+        node.parentNode.replaceChild(frag, node);
+      } else if (node.nodeType === 1) {
+        wrapWords(node);
       }
     });
-  }, { threshold: 0.2 });
+  }
+  wrapWords(textEl);
 
-  els.forEach(function(el){ if(el) io.observe(el); });
+  var allWords = textEl.querySelectorAll('.stmt-w');
+  var total = allWords.length;
+  var activated = false;
+
+  function onScroll() {
+    var rect = root.getBoundingClientRect();
+    var vh = window.innerHeight;
+
+    /* Progress: 0 when section top hits bottom of viewport, 1 when section top hits 30% from top */
+    var start = vh;
+    var end = vh * 0.15;
+    var progress = (start - rect.top) / (start - end);
+    progress = Math.max(0, Math.min(1, progress));
+
+    if (progress > 0 && !activated) {
+      activated = true;
+      root.classList.add('stmt-active');
+    }
+
+    /* Light up words progressively */
+    var wordsToShow = Math.floor(progress * total);
+    for (var i = 0; i < total; i++) {
+      if (i < wordsToShow) {
+        allWords[i].classList.add('stmt-lit');
+      }
+    }
+  }
+
+  var ticking = false;
+  window.addEventListener('scroll', function() {
+    if (!ticking) {
+      requestAnimationFrame(function() { onScroll(); ticking = false; });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  onScroll();
 }());`
 
 export default function SectionStatement() {
