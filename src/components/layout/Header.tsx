@@ -46,11 +46,11 @@ const headerHtml = `<!-- =======================================================
   align-items: center;
   padding: 0 3.5%;
   height: 72px;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
+  background: transparent;
+  border-bottom: 1px solid transparent;
   position: relative;
   transition: height 0.45s cubic-bezier(0.4,0,0.2,1), background 0.45s ease,
-              box-shadow 0.45s ease, padding 0.45s ease;
+              box-shadow 0.45s ease, padding 0.45s ease, border-color 0.45s ease;
   overflow: visible;
 }
 
@@ -69,7 +69,7 @@ const headerHtml = `<!-- =======================================================
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   box-shadow: none;
-  border-bottom-color: transparent;
+  border-bottom-color: var(--border);
 }
 
 /* ── Left nav ── */

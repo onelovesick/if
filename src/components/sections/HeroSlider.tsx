@@ -351,7 +351,7 @@ const heroHtml = `<style>
   inset: 0;
   display: flex;
   align-items: center;
-  padding: 0 5%;
+  padding: 0 clamp(5%, 6vw, 8%);
   pointer-events: none;
 }
 .h3-slide.active { pointer-events: auto; }
@@ -747,17 +747,44 @@ const heroHtml = `<style>
   .h3-word-inner { font-size: clamp(28px, 4.2vw, 66px) !important; }
 }
 @media (min-width: 1920px) and (max-width: 2559px) {
-  .h3-content { width: 44vw; max-width: 820px; }
-  .h3-word-inner { font-size: clamp(28px, 3.8vw, 76px) !important; }
-  .h3-body { font-size: 18px; }
+  .h3-content { width: 48vw; max-width: 920px; }
+  .h3-word-inner { font-size: clamp(48px, 4.5vw, 88px) !important; }
+  .h3-body { font-size: 19px; max-width: 560px; line-height: 1.9; }
+  .h3-eyebrow-text { font-size: 11px; letter-spacing: 0.35em; }
+  .h3-tag { font-size: 11px; }
+  .h3-btn-p, .h3-btn-g { font-size: 12px; padding: 17px 34px; }
+  .h3-phase { padding: 24px 28px; }
+  .h3-phase-name { font-size: 13px; }
+  .h3-phase-num { font-size: 10px; }
+  .h3-bignum-text { font-size: clamp(280px, 52vh, 620px) !important; }
+  .h3-bignum { height: clamp(280px, 52vh, 620px); }
+  .h3-node-1 { width: 650px; height: 650px; }
+  .h3-node-2 { width: 450px; height: 450px; }
+  .h3-shape-1 { width: 240px; height: 240px; }
+  .h3-shape-6 { width: 400px; height: 400px; }
 }
 @media (min-width: 2560px) {
-  .h3-content { width: 40vw; max-width: 1000px; }
-  .h3-word-inner { font-size: clamp(28px, 3.2vw, 96px) !important; }
-  .h3-body { font-size: 20px; }
-  .h3-phase { padding: 24px 28px; }
+  .h3 { padding: 0 2%; }
+  .h3-content { width: 46vw; max-width: 1100px; }
+  .h3-word-inner { font-size: clamp(56px, 4.2vw, 110px) !important; }
+  .h3-body { font-size: 21px; max-width: 640px; line-height: 1.9; }
+  .h3-eyebrow { margin-bottom: 36px; }
+  .h3-eyebrow-text { font-size: 12px; letter-spacing: 0.35em; }
+  .h3-eyebrow-line { width: 56px; }
+  .h3-title { margin-bottom: 36px; }
+  .h3-tag { font-size: 12px; margin-bottom: 44px; }
+  .h3-btn-p, .h3-btn-g { font-size: 13px; padding: 18px 38px; }
+  .h3-phase { padding: 28px 32px; }
   .h3-phase-name { font-size: 14px; }
-  .h3-btn-p, .h3-btn-g { font-size: 12px; padding: 18px 36px; }
+  .h3-phase-num { font-size: 10px; }
+  .h3-bignum-text { font-size: clamp(320px, 55vh, 700px) !important; }
+  .h3-bignum { height: clamp(320px, 55vh, 700px); }
+  .h3-node-1 { width: 800px; height: 800px; }
+  .h3-node-2 { width: 550px; height: 550px; }
+  .h3-node-5 { width: 600px; height: 600px; }
+  .h3-shape-1 { width: 280px; height: 280px; }
+  .h3-shape-6 { width: 480px; height: 480px; }
+  .h3-corner { width: 44px; height: 44px; }
 }
 </style>
 
