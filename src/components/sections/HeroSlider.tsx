@@ -75,15 +75,7 @@ const heroHtml = `<style>
   background: radial-gradient(circle, rgba(71,181,255,0.18) 0%, rgba(71,181,255,0.06) 30%, transparent 65%);
   animation: h3pulse1 6s ease-in-out infinite, h3drift1 20s ease-in-out infinite alternate;
 }
-.h3-node-1::after {
-  content: '';
-  position: absolute;
-  inset: 35%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(71,181,255,0.35) 0%, rgba(71,181,255,0.08) 40%, transparent 70%);
-  animation: h3pulse1core 4s ease-in-out infinite;
-  filter: blur(4px);
-}
+.h3-node-1::after { display: none; }
 
 /* Node 2 — secondary, lower left */
 .h3-node-2 {
