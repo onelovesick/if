@@ -133,6 +133,76 @@ const sectionHtml = `<style>
   max-width: 480px;
 }
 
+/* ══ BUILT FOR DELIVERY ══ */
+.ost-pillars {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 500px;
+}
+.ost-pillars-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(13px, 1vw, 15px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--navy);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(11,60,93,0.08);
+}
+.ost-pillar {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 0 16px;
+  align-items: start;
+  padding: 16px 0;
+  position: relative;
+}
+.ost-pillar + .ost-pillar {
+  border-top: 1px solid rgba(11,60,93,0.05);
+}
+.ost-pillar-icon {
+  grid-row: 1 / 3;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(71,181,255,0.06);
+  color: var(--accent);
+  transition: background 0.3s, transform 0.3s;
+}
+.ost-pillar:hover .ost-pillar-icon {
+  background: rgba(71,181,255,0.12);
+  transform: scale(1.05);
+}
+.ost-pillar-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--navy);
+  stroke-width: 1.5;
+  fill: none;
+}
+.ost-pillar-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(12px, 0.85vw, 14px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--navy);
+  line-height: 1.2;
+  align-self: end;
+}
+.ost-pillar-desc {
+  font-size: clamp(12px, 0.8vw, 14px);
+  color: var(--muted);
+  line-height: 1.6;
+  margin-top: 3px;
+  align-self: start;
+}
+
 .ost-cta {
   display: inline-flex; align-items: center; gap: 10px;
   font-family: var(--mono);
@@ -322,6 +392,11 @@ const sectionHtml = `<style>
   .ost-tool-cat { font-size: 10px; }
   .ost-right-title { font-size: 22px; }
   .ost-right-sub { font-size: 15px; }
+  .ost-pillars-title { font-size: 15px; }
+  .ost-pillar-label { font-size: 14px; }
+  .ost-pillar-desc { font-size: 14px; }
+  .ost-pillar-icon { width: 44px; height: 44px; }
+  .ost-pillar { grid-template-columns: 44px 1fr; }
 }
 
 /* Ultrawide / 32" 4K */
@@ -348,6 +423,11 @@ const sectionHtml = `<style>
   .ost-tool-name { font-size: 20px; }
   .ost-tool-role { font-size: 11px; }
   .ost-footnote { font-size: 11px; }
+  .ost-pillars-title { font-size: 16px; }
+  .ost-pillar-label { font-size: 15px; }
+  .ost-pillar-desc { font-size: 15px; }
+  .ost-pillar-icon { width: 46px; height: 46px; border-radius: 10px; }
+  .ost-pillar { grid-template-columns: 46px 1fr; gap: 0 20px; padding: 18px 0; }
 }
 
 @media (min-width: 3200px) {
@@ -390,6 +470,35 @@ const sectionHtml = `<style>
       <span class="ost-h-line ost-h-md">with digital power</span>
     </h2>
     <p class="ost-sub ost-anim" data-delay="120">We build lean digital systems that match how your teams actually work. No tool overload. No process bloat. Just the structure your project needs to move.</p>
+
+    <div class="ost-pillars ost-anim" data-delay="160">
+      <div class="ost-pillars-title">Built for Delivery</div>
+
+      <div class="ost-pillar">
+        <div class="ost-pillar-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><line x1="6.5" y1="10" x2="6.5" y2="14"/><line x1="17.5" y1="10" x2="17.5" y2="17.5"/><line x1="10" y1="17.5" x2="14" y2="17.5"/></svg>
+        </div>
+        <div class="ost-pillar-label">Lean systems shaped around project reality.</div>
+        <div class="ost-pillar-desc">Lean systems shaped around project reality.</div>
+      </div>
+
+      <div class="ost-pillar">
+        <div class="ost-pillar-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="6" r="2"/><circle cx="19" cy="12" r="2"/><circle cx="12" cy="18" r="2"/><line x1="7" y1="11" x2="10" y2="7.5"/><line x1="14" y1="7.5" x2="17" y2="11"/><line x1="17" y1="13" x2="14" y2="16.5"/><line x1="10" y1="16.5" x2="7" y2="13"/></svg>
+        </div>
+        <div class="ost-pillar-label">Coordinated information</div>
+        <div class="ost-pillar-desc">Models, reviews, documents and site data stay connected.</div>
+      </div>
+
+      <div class="ost-pillar">
+        <div class="ost-pillar-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="4 14 9 9 13 13 20 6"/><line x1="16" y1="6" x2="20" y2="6"/><line x1="20" y1="6" x2="20" y2="10"/></svg>
+        </div>
+        <div class="ost-pillar-label">Ready for the next phase</div>
+        <div class="ost-pillar-desc">From design to construction to operations, the structure stays usable.</div>
+      </div>
+    </div>
+
     <a href="/process/" class="ost-cta ost-anim" data-delay="240">Discover The Process <span class="ost-cta-arr">→</span></a>
   </div>
 
