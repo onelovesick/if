@@ -147,11 +147,10 @@ const statementScript = `(function(){
     var rect = root.getBoundingClientRect();
     var vh = window.innerHeight;
 
-    /* Start when section center hits 75% of viewport, end when it hits 35% */
-    var sectionCenter = rect.top + rect.height * 0.5;
-    var start = vh * 0.8;
-    var end = vh * 0.25;
-    var progress = (start - sectionCenter) / (start - end);
+    /* Start when section top enters viewport, finish when section is 60% visible */
+    var start = vh;
+    var end = vh * 0.55;
+    var progress = (start - rect.top) / (start - end);
     progress = Math.max(0, Math.min(1, progress));
 
     if (progress > 0) {
