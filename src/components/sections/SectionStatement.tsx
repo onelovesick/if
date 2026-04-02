@@ -161,9 +161,9 @@ const statementScript = `(function(){
     var rect = root.getBoundingClientRect();
     var vh = window.innerHeight;
 
-    /* Progress: 0 when section top hits bottom of viewport, 1 when section top hits 30% from top */
-    var start = vh;
-    var end = vh * 0.15;
+    /* Progress: 0 when section top hits 70% of viewport, 1 when section top hits 50% */
+    var start = vh * 0.7;
+    var end = vh * 0.5;
     var progress = (start - rect.top) / (start - end);
     progress = Math.max(0, Math.min(1, progress));
 
