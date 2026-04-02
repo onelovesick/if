@@ -5,7 +5,9 @@
       "Bash(node -e \"const p=require\\('path'\\);console.log\\(p.resolve\\(__dirname\\)\\);console.log\\(require.resolve\\('next/package.json'\\)\\)\")",
       "Bash(npm ls:*)",
       "Bash(npm install:*)",
-      "Bash(curl -s http://localhost:3099)"
+      "Bash(curl -s http://localhost:3099)",
+      "WebFetch(domain:github.com)",
+      "Bash(npx skills:*)"
     ]
   }
 }

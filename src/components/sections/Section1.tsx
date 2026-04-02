@@ -38,6 +38,99 @@ const sectionHtml = `<style>
   -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 70%);
 }
 
+/* ══ FLOATING GRADIENT ORBS ══ */
+.ost-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(80px);
+  opacity: 0;
+  animation: orbFadeIn 2s ease forwards;
+  will-change: transform;
+}
+.ost-orb--1 {
+  width: 420px; height: 420px;
+  background: radial-gradient(circle, rgba(71,181,255,0.12) 0%, transparent 70%);
+  top: -8%; left: 10%;
+  animation: orbDrift1 18s ease-in-out infinite, orbFadeIn 2s ease forwards;
+}
+.ost-orb--2 {
+  width: 340px; height: 340px;
+  background: radial-gradient(circle, rgba(11,60,93,0.08) 0%, transparent 70%);
+  bottom: -5%; right: 20%;
+  animation: orbDrift2 22s ease-in-out infinite, orbFadeIn 2s 0.5s ease forwards;
+}
+.ost-orb--3 {
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(71,181,255,0.07) 0%, transparent 70%);
+  top: 40%; left: 45%;
+  animation: orbDrift3 26s ease-in-out infinite, orbFadeIn 2s 1s ease forwards;
+}
+.ost-orb--4 {
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(11,60,93,0.06) 0%, transparent 70%);
+  top: 15%; right: 8%;
+  animation: orbDrift4 20s ease-in-out infinite, orbFadeIn 2s 0.8s ease forwards;
+}
+
+@keyframes orbFadeIn {
+  to { opacity: 1; }
+}
+@keyframes orbDrift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(40px, 30px) scale(1.05); }
+  50% { transform: translate(-20px, 60px) scale(0.95); }
+  75% { transform: translate(30px, -20px) scale(1.02); }
+}
+@keyframes orbDrift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(-35px, -25px) scale(1.04); }
+  50% { transform: translate(25px, -50px) scale(0.96); }
+  75% { transform: translate(-15px, 30px) scale(1.03); }
+}
+@keyframes orbDrift3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50px, -40px) scale(1.06); }
+  66% { transform: translate(-30px, 25px) scale(0.94); }
+}
+@keyframes orbDrift4 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  30% { transform: translate(-25px, 35px) scale(1.03); }
+  60% { transform: translate(35px, -15px) scale(0.97); }
+}
+
+/* ══ MOUSE-REACTIVE DEPTH LAYER ══ */
+.ost-depth {
+  position: absolute;
+  inset: -40px;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(circle 600px at var(--mx, 50%) var(--my, 50%), rgba(71,181,255,0.04) 0%, transparent 100%);
+  transition: background 0.4s ease;
+}
+
+/* ══ SUBTLE MOVING GRID OVERLAY ══ */
+.ost-gridmove {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+  background-image:
+    linear-gradient(90deg, transparent 49.5%, rgba(11,60,93,0.03) 49.5%, rgba(11,60,93,0.03) 50.5%, transparent 50.5%),
+    linear-gradient(0deg, transparent 49.5%, rgba(11,60,93,0.03) 49.5%, rgba(11,60,93,0.03) 50.5%, transparent 50.5%);
+  background-size: 120px 120px;
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, black 10%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, black 10%, transparent 70%);
+  animation: gridShift 30s linear infinite;
+}
+@keyframes gridShift {
+  0% { background-position: 0 0; }
+  100% { background-position: 120px 120px; }
+}
+
 /* Top edge divider */
 .ost::after {
   content: '';
@@ -379,7 +472,15 @@ const sectionHtml = `<style>
 }
 </style>
 
-<section class="ost" aria-label="Our approach and technology ecosystem">
+<section class="ost" aria-label="Our approach and technology ecosystem" id="ostSection">
+
+  <!-- ══ LIVING BACKGROUND LAYERS ══ -->
+  <div class="ost-orb ost-orb--1"></div>
+  <div class="ost-orb ost-orb--2"></div>
+  <div class="ost-orb ost-orb--3"></div>
+  <div class="ost-orb ost-orb--4"></div>
+  <div class="ost-depth" id="ostDepth"></div>
+  <div class="ost-gridmove"></div>
 
   <!-- ══ LEFT ══ -->
   <div class="ost-left">
@@ -492,7 +593,7 @@ const sectionHtml = `<style>
   </div>
 
 </section>`
-const sectionScript = "(function(){\n  var tools = document.querySelectorAll('.ost-tool');\n  var anims = document.querySelectorAll('.ost-anim');\n  var io = new IntersectionObserver(function(entries){\n    entries.forEach(function(e){\n      if(e.isIntersecting){ e.target.classList.add('vis'); io.unobserve(e.target); }\n    });\n  }, { threshold: 0.08 });\n  tools.forEach(function(t){ io.observe(t); });\n  anims.forEach(function(el){\n    el.style.transitionDelay = (el.getAttribute('data-delay') || '0') + 'ms';\n    io.observe(el);\n  });\n}());"
+const sectionScript = "(function(){\n  var tools = document.querySelectorAll('.ost-tool');\n  var anims = document.querySelectorAll('.ost-anim');\n  var io = new IntersectionObserver(function(entries){\n    entries.forEach(function(e){\n      if(e.isIntersecting){ e.target.classList.add('vis'); io.unobserve(e.target); }\n    });\n  }, { threshold: 0.08 });\n  tools.forEach(function(t){ io.observe(t); });\n  anims.forEach(function(el){\n    el.style.transitionDelay = (el.getAttribute('data-delay') || '0') + 'ms';\n    io.observe(el);\n  });\n\n  /* Mouse-reactive depth glow */\n  var section = document.getElementById('ostSection');\n  var depth = document.getElementById('ostDepth');\n  if(section && depth){\n    var ticking = false;\n    section.addEventListener('mousemove', function(e){\n      if(ticking) return;\n      ticking = true;\n      requestAnimationFrame(function(){\n        var rect = section.getBoundingClientRect();\n        var mx = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);\n        var my = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);\n        depth.style.setProperty('--mx', mx + '%');\n        depth.style.setProperty('--my', my + '%');\n        ticking = false;\n      });\n    });\n  }\n}());"
 
 export default function Section1() {
   useEffect(() => {
