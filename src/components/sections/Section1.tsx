@@ -37,13 +37,13 @@ const sectionHtml = `<style>
   -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 70%);
 }
 
-/* Subtle top edge accent line */
+/* Top edge divider */
 .ost::after {
   content: '';
   position: absolute;
-  top: 0; left: 10%; right: 10%;
+  top: 0; left: 0; right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(71,181,255,0.2) 30%, rgba(71,181,255,0.2) 70%, transparent);
+  background: rgba(11,60,93,0.06);
   z-index: 1;
 }
 
@@ -65,26 +65,6 @@ const sectionHtml = `<style>
   width: 1px;
   background: linear-gradient(to bottom, transparent, rgba(11,60,93,0.08) 25%, rgba(11,60,93,0.08) 75%, transparent);
 }
-
-.ost-eyebrow {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--accent);
-  display: flex; align-items: center; gap: 14px;
-  margin-bottom: 36px;
-}
-.ost-eyebrow::before { content:''; width:28px; height:1px; background:var(--accent); }
-
-.ost-intro {
-  font-size: clamp(15px,1.15vw,18px);
-  line-height: 1.8;
-  color: var(--muted);
-  margin-bottom: 32px;
-  max-width: 500px;
-}
-.ost-intro strong { font-weight: 600; color: var(--navy); }
 
 .ost-headline {
   font-family: 'Outfit', sans-serif;
@@ -312,7 +292,6 @@ const sectionHtml = `<style>
   .ost { min-height: 70vh; }
   .ost::before { background-size: 36px 36px; }
   .ost-headline { font-size: 58px; max-width: 620px; }
-  .ost-intro { font-size: 17px; }
   .ost-contrast-cross { font-size: 15px; }
   .ost-contrast-strong { font-size: 17px; }
   .ost-cta { font-size: 12px; padding: 18px 32px; }
@@ -331,9 +310,6 @@ const sectionHtml = `<style>
   .ost::before { background-size: 44px 44px; }
   .ost-left { padding: 100px 80px 100px 60px; max-width: 860px; }
   .ost-right { padding: 100px 140px 100px 80px; gap: 44px; }
-  .ost-eyebrow { font-size: 12px; margin-bottom: 44px; }
-  .ost-eyebrow::before { width: 36px; }
-  .ost-intro { font-size: 19px; max-width: 560px; }
   .ost-headline { font-size: 72px; max-width: 720px; margin-bottom: 44px; }
   .ost-contrast { padding: 28px 32px; max-width: 560px; }
   .ost-contrast-cross { font-size: 16px; }
@@ -355,7 +331,6 @@ const sectionHtml = `<style>
   .ost-left { padding: 120px 100px 120px 60px; max-width: 1000px; }
   .ost-right { padding: 120px 180px 120px 100px; gap: 52px; }
   .ost-headline { font-size: 84px; max-width: 840px; }
-  .ost-intro { font-size: 21px; }
   .ost-right-title { font-size: 68px; }
   .ost-right-sub { font-size: 20px; }
   .ost-tool { padding: 36px 32px 30px; }
@@ -380,19 +355,12 @@ const sectionHtml = `<style>
 
   <!-- ══ LEFT ══ -->
   <div class="ost-left">
-    <div class="ost-eyebrow ost-anim" data-delay="0">How We Work</div>
-    <p class="ost-intro ost-anim" data-delay="100">
-      Infrastructure projects don't fail from lack of tools, they fail from
-      lack of structure. We <strong>connect</strong> engineers, contractors,
-      clients, architects and project members around:<br/>
-      <strong>One source of truth.</strong>
-    </p>
-    <h2 class="ost-headline ost-anim" data-delay="200">
+    <h2 class="ost-headline ost-anim" data-delay="0">
       We Help Project Teams Deliver
       <em>Real Projects</em> With
       Digital Power
     </h2>
-    <div class="ost-contrast ost-anim" data-delay="320">
+    <div class="ost-contrast ost-anim" data-delay="120">
       <div class="ost-contrast-cross">
         Many projects attempt to implement every available digital tool,
         workflow, and reporting layer at once, applying excessive
@@ -400,7 +368,7 @@ const sectionHtml = `<style>
       </div>
       <div class="ost-contrast-strong">We implement lean, controlled systems.</div>
     </div>
-    <a href="/process/" class="ost-cta ost-anim" data-delay="440">Discover The Process <span class="ost-cta-arr">→</span></a>
+    <a href="/process/" class="ost-cta ost-anim" data-delay="240">Discover The Process <span class="ost-cta-arr">→</span></a>
   </div>
 
   <!-- ══ RIGHT ══ -->

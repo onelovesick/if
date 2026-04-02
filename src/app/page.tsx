@@ -1,4 +1,5 @@
 import HeroSlider from '@/components/sections/HeroSlider'
+import SectionStatement from '@/components/sections/SectionStatement'
 import Section1   from '@/components/sections/Section1'
 import Section2   from '@/components/sections/Section2'
 import Section3   from '@/components/sections/Section3'
@@ -15,6 +16,7 @@ export default function HomePage() {
       <PageLoader />
       <main style={{ margin: 0, padding: 0 }}>
         <HeroSlider />
+        <SectionStatement />
         <Section1 />
         <Section2 />
         <Section3 />
