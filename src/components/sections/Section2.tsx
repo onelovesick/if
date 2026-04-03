@@ -11,10 +11,10 @@ const sectionHtml = `<style>
   --navy:     #0B3C5D;
   --bg:       #0E1418;
   --surface:  #131A20;
-  --border:   rgba(71,181,255,0.10);
-  --border-h: rgba(71,181,255,0.28);
+  --border:   rgba(71,181,255,0.18);
+  --border-h: rgba(71,181,255,0.38);
   --text:     #F0F4F7;
-  --muted:    #7a9bb5;
+  --muted:    #93b1c8;
   --mono:     'DM Mono', monospace;
 
   position: relative;
@@ -135,7 +135,7 @@ const sectionHtml = `<style>
 .sol-num {
   font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em;
   padding-left: 20px; flex-shrink: 0; line-height: 1;
-  opacity: 0.55; transition: opacity 0.25s;
+  opacity: 0.75; transition: opacity 0.25s;
 }
 .sol-trigger:hover .sol-num,
 .sol-panel.sol-open .sol-num { opacity: 1; }
@@ -162,17 +162,17 @@ const sectionHtml = `<style>
 .sol-trigger-layers { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
 .sol-trigger-layer {
   font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
-  color: rgba(71,181,255,0.5); border: 1px solid rgba(71,181,255,0.18);
+  color: rgba(71,181,255,0.7); border: 1px solid rgba(71,181,255,0.28);
   border-radius: 2px; padding: 3px 8px;
   transition: color 0.25s, border-color 0.25s;
 }
 .sol-trigger:hover .sol-trigger-layer,
-.sol-panel.sol-open .sol-trigger-layer { color: rgba(71,181,255,0.85); border-color: rgba(71,181,255,0.38); }
+.sol-panel.sol-open .sol-trigger-layer { color: rgba(71,181,255,1); border-color: rgba(71,181,255,0.5); }
 
 /* Chevron */
 .sol-chevron {
   width: 36px; height: 36px; border-radius: 50%;
-  border: 1px solid rgba(71,181,255,0.18);
+  border: 1px solid rgba(71,181,255,0.3);
   display: flex; align-items: center; justify-content: center;
   color: var(--muted); font-size: 13px; flex-shrink: 0;
   margin-right: 20px; justify-self: end;
@@ -205,24 +205,24 @@ const sectionHtml = `<style>
 
 .sol-col-label {
   font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em;
-  text-transform: uppercase; color: rgba(71,181,255,0.4);
+  text-transform: uppercase; color: rgba(71,181,255,0.6);
   margin-bottom: 16px; display: block;
 }
 
 /* Col 1 — description */
 .sol-desc-text {
-  font-size: clamp(14px,1.05vw,16px); color: rgba(240,244,247,0.72);
+  font-size: clamp(14px,1.05vw,16px); color: rgba(240,244,247,0.85);
   line-height: 1.85; margin-bottom: 28px;
 }
 .sol-powered-label {
   font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em;
-  text-transform: uppercase; color: rgba(71,181,255,0.4); margin-bottom: 10px;
+  text-transform: uppercase; color: rgba(71,181,255,0.6); margin-bottom: 10px;
 }
 .sol-layers { display: flex; gap: 8px; flex-wrap: wrap; }
 .sol-layer-pill {
   font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--muted); border: 1px solid rgba(71,181,255,0.2);
-  border-radius: 2px; padding: 5px 12px; background: rgba(71,181,255,0.04);
+  color: var(--muted); border: 1px solid rgba(71,181,255,0.3);
+  border-radius: 2px; padding: 5px 12px; background: rgba(71,181,255,0.06);
 }
 
 /* Col 2 — deliverables */
@@ -240,7 +240,7 @@ const sectionHtml = `<style>
 .sol-explore {
   display: inline-flex; align-items: center; gap: 10px;
   font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--text); border: 1px solid rgba(71,181,255,0.25);
+  color: var(--text); border: 1px solid rgba(71,181,255,0.35);
   padding: 11px 22px; border-radius: 2px; text-decoration: none;
   transition: background 0.25s, border-color 0.25s, color 0.25s;
 }
@@ -252,8 +252,8 @@ const sectionHtml = `<style>
 .sol-topics { display: flex; flex-wrap: wrap; gap: 7px; }
 .sol-topic {
   font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--muted); border: 1px solid rgba(71,181,255,0.14);
-  border-radius: 2px; padding: 5px 10px; background: rgba(71,181,255,0.03);
+  color: var(--muted); border: 1px solid rgba(71,181,255,0.25);
+  border-radius: 2px; padding: 5px 10px; background: rgba(71,181,255,0.05);
   transition: color 0.2s, border-color 0.2s, background 0.2s;
 }
 .sol-topic:hover { color: var(--text); border-color: rgba(71,181,255,0.32); background: rgba(71,181,255,0.07); }
@@ -263,7 +263,7 @@ const sectionHtml = `<style>
   display: flex; align-items: center; justify-content: space-between;
   gap: 32px; flex-wrap: wrap;
   margin-top: clamp(36px,4vw,56px);
-  padding-top: 28px; border-top: 1px solid var(--border);
+  padding-top: 28px;
 }
 .sol-footer-copy {
   font-size: clamp(13px,1vw,15px); color: var(--muted);
