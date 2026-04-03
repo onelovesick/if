@@ -107,14 +107,14 @@ const sectionHtml = `<style>
 }
 @keyframes cta-scan { from { top: -35%; } to { top: 100%; } }
 
-/* Content */
-.cta-content {
-  position: relative;
+/* ── Hero title group (appears first) ── */
+.cta-hero {
+  position: absolute;
   z-index: 10;
   text-align: center;
   width: 100%;
-  max-width: 1100px;
-  padding: 0 6%;
+  max-width: 1400px;
+  padding: 0 4%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -132,60 +132,91 @@ const sectionHtml = `<style>
   letter-spacing: 0.3em;
   color: var(--accent);
   text-transform: uppercase;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 1s ease, transform 1.2s cubic-bezier(0.22,1,0.36,1);
+  transform: translateY(20px);
+  transition: opacity 1.2s ease, transform 1.4s cubic-bezier(0.16,1,0.3,1);
 }
 .cta-eyebrow.vis { opacity: 1; transform: translateY(0); }
 .cta-eline { width: 28px; height: 1px; background: var(--accent); }
 
-/* Headline */
+/* Headline — big, full width, word-by-word clip reveal */
 .cta-headline {
   font-family: 'Inter', sans-serif;
-  font-size: clamp(38px, 5.8vw, 82px);
+  font-size: clamp(42px, 7vw, 110px);
   font-weight: 800;
-  line-height: 1.06;
-  letter-spacing: -0.035em;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
   color: #fff;
-  margin-bottom: 28px;
-  max-width: 1000px;
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 1s ease 0.1s, transform 1.2s cubic-bezier(0.22,1,0.36,1) 0.1s;
+  margin-bottom: 0;
+  width: 100%;
 }
-.cta-headline.vis { opacity: 1; transform: translateY(0); }
 
-.cta-headline em {
-  font-style: normal;
-  background: linear-gradient(135deg, #fff 20%, #47B5FF 70%);
+.cta-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0 0.08em;
+}
+.cta-word-inner {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform 1.2s cubic-bezier(0.16,1,0.3,1);
+}
+.cta-word:nth-child(1) .cta-word-inner { transition-delay: 0.05s; }
+.cta-word:nth-child(2) .cta-word-inner { transition-delay: 0.12s; }
+.cta-word:nth-child(3) .cta-word-inner { transition-delay: 0.19s; }
+.cta-word:nth-child(4) .cta-word-inner { transition-delay: 0.26s; }
+.cta-word:nth-child(5) .cta-word-inner { transition-delay: 0.33s; }
+.cta-word:nth-child(6) .cta-word-inner { transition-delay: 0.40s; }
+.cta-word:nth-child(7) .cta-word-inner { transition-delay: 0.47s; }
+.cta-headline.vis .cta-word-inner { transform: translateY(0); }
+
+.cta-word-accent {
+  background: linear-gradient(135deg, #fff 10%, #47B5FF 50%, #7DD4FF 90%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  filter: drop-shadow(0 0 40px rgba(71,181,255,0.2));
 }
 
-/* Rule */
+/* Rule below headline */
 .cta-rule {
-  width: 40px;
-  height: 1px;
-  background: rgba(71,181,255,0.5);
-  margin: 0 auto 24px;
-  opacity: 0;
-  transition: opacity 0.8s ease 0.2s;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  margin: 28px auto 0;
+  transition: width 1.4s cubic-bezier(0.16,1,0.3,1) 0.5s;
 }
-.cta-rule.vis { opacity: 1; }
+.cta-rule.vis { width: 120px; }
+
+/* ── Supporting content group (appears after) ── */
+.cta-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  width: 100%;
+  max-width: 1100px;
+  padding: 0 6%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  margin-top: 36px;
+}
 
 /* Body */
 .cta-body {
-  font-size: clamp(14px, 1.15vw, 17px);
+  font-size: clamp(15px, 1.2vw, 18px);
   font-weight: 400;
   color: var(--muted);
-  line-height: 1.8;
-  max-width: 580px;
-  margin-bottom: 44px;
+  line-height: 1.85;
+  max-width: 620px;
+  margin-bottom: 48px;
   opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 1s ease 0.3s, transform 1.2s cubic-bezier(0.22,1,0.36,1) 0.3s;
+  transform: translateY(18px);
+  transition: opacity 1.2s ease, transform 1.4s cubic-bezier(0.16,1,0.3,1);
 }
 .cta-body.vis { opacity: 1; transform: translateY(0); }
 
@@ -199,8 +230,8 @@ const sectionHtml = `<style>
   border-radius: 3px;
   overflow: hidden;
   opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 1s ease 0.4s, transform 1.2s cubic-bezier(0.22,1,0.36,1) 0.4s;
+  transform: translateY(14px);
+  transition: opacity 1.2s ease 0.15s, transform 1.4s cubic-bezier(0.16,1,0.3,1) 0.15s;
 }
 .cta-stats.vis { opacity: 1; transform: translateY(0); }
 
@@ -244,8 +275,8 @@ const sectionHtml = `<style>
   flex-wrap: wrap;
   justify-content: center;
   opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 1s ease 0.5s, transform 1.2s cubic-bezier(0.22,1,0.36,1) 0.5s;
+  transform: translateY(14px);
+  transition: opacity 1.2s ease 0.3s, transform 1.4s cubic-bezier(0.16,1,0.3,1) 0.3s;
 }
 .cta-btns.vis { opacity: 1; transform: translateY(0); }
 
@@ -323,7 +354,8 @@ const sectionHtml = `<style>
 
 /* Responsive */
 @media (max-width: 768px) {
-  .cta-headline { font-size: clamp(32px, 8.5vw, 56px); letter-spacing: -0.025em; }
+  .cta-headline { font-size: clamp(32px, 10vw, 56px); }
+  .cta-hero { max-width: 100%; padding: 0 6%; }
   .cta-stats { flex-wrap: wrap; border: none; gap: 1px; background: rgba(71,181,255,0.15); border-radius: 3px; }
   .cta-stat { flex: 1 1 calc(50% - 1px); min-width: 140px; padding: 18px 20px; }
   .cta-btns { flex-direction: column; width: 100%; max-width: 320px; }
@@ -331,9 +363,14 @@ const sectionHtml = `<style>
   .cta-corner { display: none; }
 }
 @media (min-width: 1800px) {
-  .cta-headline { font-size: clamp(72px, 5.5vw, 100px); }
-  .cta-body { font-size: 18px; max-width: 640px; }
+  .cta-headline { font-size: clamp(90px, 7vw, 130px); }
+  .cta-hero { max-width: 1600px; }
+  .cta-body { font-size: 19px; max-width: 680px; }
   .cta-stat { padding: 24px 52px; }
+}
+@media (min-width: 2400px) {
+  .cta-headline { font-size: 140px; }
+  .cta-hero { max-width: 1920px; }
 }
 </style>
 
@@ -355,20 +392,27 @@ const sectionHtml = `<style>
     <div class="cta-corner cta-bl" id="ctaCBL"></div>
     <div class="cta-corner cta-br" id="ctaCBR"></div>
 
-    <div class="cta-content" id="ctaContent">
-
+    <!-- Hero title group (appears first) -->
+    <div class="cta-hero" id="ctaHero">
       <div class="cta-eyebrow" id="ctaEyebrow">
         <span class="cta-eline"></span>
         Our Promise
         <span class="cta-eline"></span>
       </div>
-
       <h2 class="cta-headline" id="ctaHeadline">
-        We Bridge The Gap Between<br/><em>Digital</em> &amp; Reality
+        <span class="cta-word"><span class="cta-word-inner">We</span></span>
+        <span class="cta-word"><span class="cta-word-inner">Bridge</span></span>
+        <span class="cta-word"><span class="cta-word-inner">The</span></span>
+        <span class="cta-word"><span class="cta-word-inner">Gap</span></span>
+        <span class="cta-word"><span class="cta-word-inner">Between</span></span>
+        <span class="cta-word"><span class="cta-word-inner cta-word-accent">Digital</span></span>
+        <span class="cta-word"><span class="cta-word-inner">&amp; Reality</span></span>
       </h2>
-
       <div class="cta-rule" id="ctaRule"></div>
+    </div>
 
+    <!-- Supporting content (appears after) -->
+    <div class="cta-content" id="ctaContent">
       <p class="cta-body" id="ctaBody">
         Most teams invest in tools, technology, and software. The real advantage is in the people and processes behind them. We design controlled digital ecosystems that align with enterprise culture and deliver measurable results from day one.
       </p>
@@ -392,7 +436,6 @@ const sectionHtml = `<style>
         <a href="/services" class="cta-btn-p">What We Do <span class="arr">&rarr;</span></a>
         <a href="/contact"  class="cta-btn-g">Contact Us</a>
       </div>
-
     </div>
 
     <div class="cta-edge"></div>
@@ -411,6 +454,7 @@ var introTxt= document.getElementById('ctaIntroText');
 var overlay = document.getElementById('ctaOverlay');
 var grid    = document.getElementById('ctaGrid');
 var scan    = document.getElementById('ctaScan');
+var hero    = document.getElementById('ctaHero');
 var content = document.getElementById('ctaContent');
 var corners = ['ctaCTL','ctaCTR','ctaCBL','ctaCBR'];
 
@@ -421,6 +465,7 @@ var frames = new Array(TOTAL);
 var loaded = 0;
 var ready = false;
 var ticking = false;
+var heroRevealed = false;
 var contentRevealed = false;
 var lastIdx = -1;
 
@@ -530,25 +575,46 @@ function update(){
     if (idx !== lastIdx) paintFrame(idx);
   }
 
-  /* Phase 3: Overlay */
-  var overlayP = Math.max(0, Math.min(1, (raw - 0.55) / 0.12));
+  /* Phase 3: Overlay starts fading in */
+  var overlayP = Math.max(0, Math.min(1, (raw - 0.50) / 0.12));
   overlay.style.opacity = overlayP.toFixed(3);
   grid.style.opacity = overlayP.toFixed(3);
   scan.style.opacity = overlayP.toFixed(3);
 
-  /* Phase 4: Content */
-  var contentP = Math.max(0, (raw - 0.65) / 0.35);
+  /* Phase 4a: Hero title appears first (at 55%) */
+  var heroP = Math.max(0, (raw - 0.55) / 0.10);
+  if (heroP > 0){
+    hero.style.opacity = '1';
+    hero.style.pointerEvents = 'auto';
+
+    if (!heroRevealed){
+      heroRevealed = true;
+      var hl = document.getElementById('ctaHeadline');
+      var ey = document.getElementById('ctaEyebrow');
+      var ru = document.getElementById('ctaRule');
+      if (ey) ey.classList.add('vis');
+      if (hl) hl.classList.add('vis');
+      if (ru) ru.classList.add('vis');
+      corners.forEach(function(id){
+        var el = document.getElementById(id);
+        if (el) el.classList.add('vis');
+      });
+    }
+  } else {
+    hero.style.opacity = '0';
+    hero.style.pointerEvents = 'none';
+    heroRevealed = false;
+  }
+
+  /* Phase 4b: Supporting content appears after (at 70%) */
+  var contentP = Math.max(0, (raw - 0.70) / 0.30);
   if (contentP > 0){
     content.style.opacity = '1';
     content.style.pointerEvents = 'auto';
 
     if (!contentRevealed){
       contentRevealed = true;
-      ['ctaEyebrow','ctaHeadline','ctaRule','ctaBody','ctaStats','ctaBtns'].forEach(function(id){
-        var el = document.getElementById(id);
-        if (el) el.classList.add('vis');
-      });
-      corners.forEach(function(id){
+      ['ctaBody','ctaStats','ctaBtns'].forEach(function(id){
         var el = document.getElementById(id);
         if (el) el.classList.add('vis');
       });
