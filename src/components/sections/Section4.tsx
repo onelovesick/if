@@ -34,20 +34,14 @@ const sectionHtml = `<style>
   justify-content: center;
 }
 
-/* Canvas — renders decoded frames */
-.cta-canvas {
+/* Video — full viewport */
+.cta-video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 0;
   object-fit: cover;
-}
-/* Hidden video for decoding */
-.cta-video-src {
-  position: absolute;
-  width: 0; height: 0;
-  opacity: 0; pointer-events: none;
+  z-index: 0;
 }
 
 /* Dark overlay */
@@ -330,8 +324,7 @@ const sectionHtml = `<style>
 <section class="cta-root" id="ctaRoot">
   <div class="cta-sticky" id="ctaSticky">
 
-    <canvas class="cta-canvas" id="ctaCanvas"></canvas>
-    <video class="cta-video-src" id="ctaVideo" muted playsinline preload="auto" crossorigin="anonymous">
+    <video class="cta-video" id="ctaVideo" muted playsinline preload="auto">
       <source src="/videos/bridge-bg.mp4" type="video/mp4" />
     </video>
 
@@ -393,7 +386,6 @@ const sectionScript = `
 'use strict';
 
 var root    = document.getElementById('ctaRoot');
-var canvas  = document.getElementById('ctaCanvas');
 var video   = document.getElementById('ctaVideo');
 var overlay = document.getElementById('ctaOverlay');
 var grid    = document.getElementById('ctaGrid');
@@ -401,125 +393,70 @@ var scan    = document.getElementById('ctaScan');
 var content = document.getElementById('ctaContent');
 var corners = ['ctaCTL','ctaCTR','ctaCBL','ctaCBR'];
 
-if (!root || !canvas || !video) return;
+if (!root || !video) return;
 
-var ctx = canvas.getContext('2d');
-var frames = [];
-var totalFrames = 0;
-var extracting = false;
+var duration = 0;
 var ready = false;
 var ticking = false;
+var seeking = false;
+var pendingTime = -1;
 var contentRevealed = false;
-var lastFrameIdx = -1;
-var FPS = 24;
+var visible = false;
 
-/* Size canvas to viewport */
-function sizeCanvas(){
-  var dpr = Math.min(window.devicePixelRatio || 1, 2);
-  var w = window.innerWidth;
-  var h = window.innerHeight;
-  canvas.width = w * dpr;
-  canvas.height = h * dpr;
-  canvas.style.width = w + 'px';
-  canvas.style.height = h + 'px';
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  /* Repaint current frame at new size */
-  if (ready && lastFrameIdx >= 0) paintFrame(lastFrameIdx);
+function onMeta(){
+  duration = video.duration || 0;
+  if (duration > 0){ ready = true; update(); }
 }
+video.addEventListener('loadedmetadata', onMeta);
+if (video.readyState >= 1) onMeta();
 
-/* Paint a frame to canvas with cover fit */
-function paintFrame(idx){
-  if (idx < 0 || idx >= frames.length) return;
-  lastFrameIdx = idx;
-  var img = frames[idx];
-  if (!img) return;
-
-  var cw = canvas.width / (Math.min(window.devicePixelRatio || 1, 2));
-  var ch = canvas.height / (Math.min(window.devicePixelRatio || 1, 2));
-  var iw = img.width || video.videoWidth;
-  var ih = img.height || video.videoHeight;
-  if (!iw || !ih) return;
-
-  /* Cover fit */
-  var scale = Math.max(cw / iw, ch / ih);
-  var dw = iw * scale;
-  var dh = ih * scale;
-  var dx = (cw - dw) / 2;
-  var dy = (ch - dh) / 2;
-
-  ctx.clearRect(0, 0, cw, ch);
-  ctx.drawImage(img, dx, dy, dw, dh);
-}
-
-/* Extract frames from video using seeked events */
-function extractFrames(){
-  if (extracting) return;
-  extracting = true;
-
-  var duration = video.duration;
-  totalFrames = Math.ceil(duration * FPS);
-  frames = new Array(totalFrames);
-  var idx = 0;
-  var tmpCanvas = document.createElement('canvas');
-  tmpCanvas.width = video.videoWidth;
-  tmpCanvas.height = video.videoHeight;
-  var tmpCtx = tmpCanvas.getContext('2d');
-
-  function captureFrame(){
-    tmpCtx.drawImage(video, 0, 0, tmpCanvas.width, tmpCanvas.height);
-    /* Store as ImageBitmap for fast painting */
-    createImageBitmap(tmpCanvas).then(function(bmp){
-      frames[idx] = bmp;
-      idx++;
-      if (idx < totalFrames){
-        video.currentTime = idx / FPS;
-      } else {
-        ready = true;
-        video.style.display = 'none';
-        sizeCanvas();
-        update();
-      }
-    });
+/* Only seek when previous seek has completed */
+video.addEventListener('seeked', function(){
+  seeking = false;
+  if (pendingTime >= 0){
+    var t = pendingTime;
+    pendingTime = -1;
+    doSeek(t);
   }
+});
 
-  video.addEventListener('seeked', captureFrame);
-  video.currentTime = 0;
-}
-
-/* Start extraction when video is loaded enough */
-function onCanPlay(){
-  if (video.videoWidth > 0 && video.duration > 0){
-    extractFrames();
+function doSeek(t){
+  if (seeking){
+    pendingTime = t;
+    return;
   }
+  seeking = true;
+  video.currentTime = t;
 }
-video.addEventListener('canplaythrough', onCanPlay);
-if (video.readyState >= 4) onCanPlay();
 
-/* Scroll update */
+/* Visibility — skip all work when off screen */
+var visIO = new IntersectionObserver(function(entries){
+  visible = entries[0].isIntersecting;
+}, { threshold: 0 });
+visIO.observe(root);
+
 function update(){
-  if (!ready) return;
+  if (!ready || !visible){ ticking = false; return; }
 
   var rect = root.getBoundingClientRect();
   var scrollable = root.offsetHeight - window.innerHeight;
-  if (scrollable <= 0) return;
+  if (scrollable <= 0){ ticking = false; return; }
 
   var rawProgress = Math.max(0, Math.min(1, -rect.top / scrollable));
-
-  /* Video: first 70%, content: last 30% */
   var videoProgress   = Math.min(1, rawProgress / 0.7);
   var contentProgress = Math.max(0, (rawProgress - 0.7) / 0.3);
 
-  /* Paint the right frame */
-  var frameIdx = Math.min(totalFrames - 1, Math.floor(videoProgress * (totalFrames - 1)));
-  if (frameIdx !== lastFrameIdx){
-    paintFrame(frameIdx);
+  /* Scrub video — throttled via seeked gate */
+  var targetTime = videoProgress * duration;
+  if (Math.abs(video.currentTime - targetTime) > 0.08){
+    doSeek(targetTime);
   }
 
-  /* Overlay fade during last 20% of video */
-  var overlayAlpha = videoProgress > 0.8 ? (videoProgress - 0.8) / 0.2 : 0;
-  overlay.style.opacity = overlayAlpha;
-  grid.style.opacity    = overlayAlpha;
-  scan.style.opacity    = overlayAlpha;
+  /* Overlay fade */
+  var oa = videoProgress > 0.8 ? (videoProgress - 0.8) / 0.2 : 0;
+  overlay.style.opacity = oa;
+  grid.style.opacity    = oa;
+  scan.style.opacity    = oa;
 
   /* Content */
   if (contentProgress > 0){
@@ -563,7 +500,7 @@ window.addEventListener('scroll', function(){
   if (!ticking){ ticking = true; requestAnimationFrame(update); }
 }, { passive: true });
 
-window.addEventListener('resize', sizeCanvas);
+update();
 
 }());
 `
