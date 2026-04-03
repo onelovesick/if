@@ -159,11 +159,15 @@ const sectionHtml = `<style>
   justify-content: center;
   padding: clamp(40px,4vw,80px) clamp(20px,2vw,48px);
   z-index: 1;
+  perspective: 900px;
 }
 .ost-diagram {
   width: 100%;
-  max-width: 580px;
+  max-width: 620px;
   height: auto;
+  transform: rotateX(18deg) rotateY(-8deg) rotateZ(2deg);
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 30px 40px rgba(11,60,93,0.08)) drop-shadow(0 8px 16px rgba(11,60,93,0.04));
 }
 
 /* ══ SCROLL ANIMATIONS ══ */
