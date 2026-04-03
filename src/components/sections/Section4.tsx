@@ -184,11 +184,8 @@ const sectionHtml = `<style>
 .cta-headline.vis .cta-word-inner { transform: translateY(0); }
 
 .cta-word-accent {
-  background: linear-gradient(135deg, #fff 10%, #47B5FF 50%, #7DD4FF 90%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  filter: drop-shadow(0 0 40px rgba(71,181,255,0.2));
+  color: var(--accent);
+  text-shadow: 0 0 40px rgba(71,181,255,0.3), 0 2px 20px rgba(0,0,0,0.3);
 }
 
 /* Rule below headline */
