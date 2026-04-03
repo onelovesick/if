@@ -45,7 +45,7 @@ const sectionHtml = `<style>
   letter-spacing: 0.28em; text-transform: uppercase;
   color: var(--accent); margin-bottom: 20px;
   opacity: 0; transform: translateY(16px) scale(0.95);
-  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1);
+  transition: opacity 1.2s ease, transform 1.4s cubic-bezier(0.22,1,0.36,1);
 }
 .sdf-eyebrow.sdf-in { opacity: 1; transform: translateY(0) scale(1); }
 .sdf-eyebrow::before, .sdf-eyebrow::after {
@@ -62,7 +62,7 @@ const sectionHtml = `<style>
 .sdf-char {
   display: inline-block;
   color: rgba(11,60,93,0.12);
-  transition: color 0.35s ease;
+  transition: color 0.8s cubic-bezier(0.22,1,0.36,1);
 }
 .sdf-char.sdf-filled { color: var(--navy); }
 .sdf-char.sdf-space { width: 0.3em; }
@@ -70,7 +70,7 @@ const sectionHtml = `<style>
   font-size: clamp(14px,1.1vw,17px); color: var(--muted);
   line-height: 1.75; max-width: 620px; margin: 0 auto;
   opacity: 0; transform: translateY(20px);
-  transition: opacity 0.8s ease 0.15s, transform 0.8s cubic-bezier(0.22,1,0.36,1) 0.15s;
+  transition: opacity 1.2s ease 0.2s, transform 1.4s cubic-bezier(0.22,1,0.36,1) 0.2s;
 }
 .sdf-intro.sdf-in { opacity: 1; transform: translateY(0); }
 
@@ -92,15 +92,15 @@ const sectionHtml = `<style>
   padding: clamp(28px,2.5vw,40px) clamp(20px,2vw,32px);
   opacity: 0;
   transform: translateY(40px) scale(0.92);
-  transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22,1,0.36,1);
+  transition: opacity 1.4s ease, transform 1.6s cubic-bezier(0.16,1,0.3,1);
 }
 .sdf-step.vis { opacity: 1; transform: translateY(0) scale(1); }
 
 /* Each card enters from a unique origin */
-.sdf-step:nth-child(1) { transform: translateY(50px) translateX(-20px) scale(0.92) rotate(-1deg); transition-delay: 0s; }
-.sdf-step:nth-child(2) { transform: translateY(60px) scale(0.90); transition-delay: 0.1s; }
-.sdf-step:nth-child(3) { transform: translateY(60px) scale(0.90); transition-delay: 0.2s; }
-.sdf-step:nth-child(4) { transform: translateY(50px) translateX(20px) scale(0.92) rotate(1deg); transition-delay: 0.3s; }
+.sdf-step:nth-child(1) { transform: translateY(60px) translateX(-24px) scale(0.90) rotate(-1.5deg); transition-delay: 0s; }
+.sdf-step:nth-child(2) { transform: translateY(70px) scale(0.88); transition-delay: 0.15s; }
+.sdf-step:nth-child(3) { transform: translateY(70px) scale(0.88); transition-delay: 0.3s; }
+.sdf-step:nth-child(4) { transform: translateY(60px) translateX(24px) scale(0.90) rotate(1.5deg); transition-delay: 0.45s; }
 .sdf-step:nth-child(1).vis,
 .sdf-step:nth-child(2).vis,
 .sdf-step:nth-child(3).vis,
@@ -129,7 +129,7 @@ const sectionHtml = `<style>
   top: 0; left: 0; right: 0; height: 3px;
   background: var(--accent);
   transform: scaleX(0); transform-origin: left;
-  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+  transition: transform 1.2s cubic-bezier(0.22,1,0.36,1) 0.3s;
 }
 .sdf-step.vis .sdf-step-accent { transform: scaleX(1); }
 
@@ -205,7 +205,7 @@ const sectionHtml = `<style>
   border-radius: 10px;
   border-left: 3px solid var(--accent);
   opacity: 0; transform: translateY(30px);
-  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22,1,0.36,1);
+  transition: opacity 1.2s ease, transform 1.4s cubic-bezier(0.22,1,0.36,1);
 }
 .sdf-principle.sdf-in { opacity: 1; transform: translateY(0); }
 .sdf-principle-text {
