@@ -166,7 +166,7 @@ const sectionHtml = `<style>
   display: inline-block;
   overflow: hidden;
   vertical-align: bottom;
-  padding: 0 0.08em 0.08em;
+  padding: 0 0.08em 0.15em;
 }
 .cta-word-inner {
   display: inline-block;
