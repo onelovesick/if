@@ -63,7 +63,7 @@ const sectionHtml = `<style>
   color: rgba(255,255,255,0.7);
   text-align: center;
   user-select: none;
-  will-change: color;
+  will-change: color, transform;
   transition: opacity 0.4s ease;
 }
 
@@ -567,6 +567,9 @@ function update(){
       var cb = 255;
       introTxt.style.color = 'rgb(' + cr + ',' + cg + ',' + cb + ')';
     }
+    /* Scale: 3x at start, 1x when near sticky */
+    var logoScale = 3 - distToSticky * 2;
+    introTxt.style.transform = 'scale(' + logoScale.toFixed(3) + ')';
     introTxt.style.opacity = logoFade.toFixed(3);
     intro.style.opacity = '1';
     intro.style.pointerEvents = logoFade > 0 ? 'auto' : 'none';
