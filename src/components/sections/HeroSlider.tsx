@@ -1055,7 +1055,7 @@ root.addEventListener('mousemove', function(e){
 });
 
 /* ══ SLIDER LOGIC ══ */
-var DURATION = 6000;
+var DURATION = 12000;
 var current = 0;
 var slides = document.querySelectorAll('.h3-slide');
 var dots = document.querySelectorAll('.h3-dot');
