@@ -152,147 +152,18 @@ const sectionHtml = `<style>
 .ost-cta-arr { transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1); }
 .ost-cta:hover .ost-cta-arr { transform: translateX(5px); }
 
-/* ══ RIGHT — Tech Ecosystem ══ */
+/* ══ RIGHT — Live Ecosystem ══ */
 .ost-right {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  padding: clamp(64px,6vw,120px) clamp(48px,6%,120px) clamp(64px,6vw,120px) clamp(40px,4vw,72px);
-  gap: 36px;
+  padding: clamp(40px,4vw,80px) clamp(20px,2vw,48px);
   z-index: 1;
 }
-
-.ost-right-header {}
-.ost-right-eyebrow {
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: rgba(11,60,93,0.3);
-  display: flex; align-items: center; gap: 14px;
-  margin-bottom: 14px;
-}
-.ost-right-eyebrow::after { content:''; flex:1; height:1px; background:rgba(11,60,93,0.08); }
-
-.ost-right-title {
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(18px,1.4vw,24px);
-  font-weight: 600;
-  text-transform: uppercase;
-  color: var(--navy);
-  letter-spacing: 0.02em;
-  line-height: 1.2;
-  margin-bottom: 8px;
-}
-.ost-right-sub {
-  font-size: clamp(13px,0.9vw,15px);
-  color: var(--muted);
-  line-height: 1.7;
-  max-width: 520px;
-}
-
-/* ══ 3x3 TOOL GRID ══ */
-.ost-tools {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-
-.ost-tool {
-  background: var(--white);
-  border: 1px solid rgba(11,60,93,0.06);
-  border-radius: 6px;
-  padding: 24px 20px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  position: relative;
-  overflow: hidden;
-  cursor: default;
-  opacity: 0;
-  transform: translateY(20px) scale(0.97);
-  transition:
-    opacity   0.7s ease,
-    transform 0.7s cubic-bezier(0.22,1,0.36,1),
-    border-color 0.3s,
-    box-shadow   0.3s;
-}
-.ost-tool.vis { opacity: 1; transform: translateY(0) scale(1); }
-.ost-tool:nth-child(1){ transition-delay:0.05s }
-.ost-tool:nth-child(2){ transition-delay:0.12s }
-.ost-tool:nth-child(3){ transition-delay:0.19s }
-.ost-tool:nth-child(4){ transition-delay:0.26s }
-.ost-tool:nth-child(5){ transition-delay:0.33s }
-.ost-tool:nth-child(6){ transition-delay:0.40s }
-.ost-tool:nth-child(7){ transition-delay:0.47s }
-.ost-tool:nth-child(8){ transition-delay:0.54s }
-.ost-tool:nth-child(9){ transition-delay:0.61s }
-
-/* Top accent bar on hover */
-.ost-tool::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: var(--accent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
-}
-.ost-tool:hover {
-  border-color: rgba(71,181,255,0.2);
-  box-shadow: 0 8px 32px rgba(11,60,93,0.07), 0 2px 8px rgba(71,181,255,0.06);
-}
-.ost-tool:hover::before { transform: scaleX(1); }
-
-.ost-tool-cat {
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(71,181,255,0.6);
-  line-height: 1;
-}
-
-.ost-tool-logo {
-  height: 28px;
-  display: flex;
-  align-items: center;
-  margin: 4px 0;
-}
-.ost-tool-logo img {
-  height: 22px;
-  width: auto;
-  display: block;
-  object-fit: contain;
-}
-
-.ost-tool-name {
-  font-family: 'Outfit', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--navy);
-  letter-spacing: 0.01em;
-  line-height: 1;
-}
-.ost-tool-role {
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-  opacity: 0.55;
-  line-height: 1.5;
-}
-
-.ost-footnote {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(11,60,93,0.2);
-  padding-top: 4px;
+.ost-diagram {
+  width: 100%;
+  max-width: 580px;
+  height: auto;
 }
 
 /* ══ SCROLL ANIMATIONS ══ */
@@ -315,22 +186,15 @@ const sectionHtml = `<style>
   .ost-headline { max-width: 680px; }
   .ost-sub { font-size: 17px; }
   .ost-cta { font-size: 12px; padding: 18px 32px; }
-  .ost-tools { gap: 14px; }
-  .ost-tool { padding: 28px 24px 22px; }
-  .ost-tool-name { font-size: 18px; }
-  .ost-tool-role { font-size: 10px; }
-  .ost-tool-cat { font-size: 10px; }
-  .ost-right-title { font-size: 22px; }
-  .ost-right-sub { font-size: 15px; }
+  .ost-diagram { max-width: 640px; }
 }
 
 /* Ultrawide / 32" 4K */
 @media (min-width: 2200px) {
   .ost { min-height: 65vh; }
   .ost::before { background-size: 44px 44px; }
-  .ost-left { padding: 100px 80px 100px 60px; max-width: 860px; }
-  .ost-right { padding: 100px 140px 100px 80px; gap: 44px; }
-  .ost-left { gap: 44px; }
+  .ost-left { padding: 100px 80px 100px 60px; max-width: 860px; gap: 44px; }
+  .ost-right { padding: 80px 48px; }
   .ost-eyebrow { font-size: 12px; }
   .ost-h-sm { font-size: 42px; }
   .ost-h-lg { font-size: 88px; }
@@ -338,31 +202,17 @@ const sectionHtml = `<style>
   .ost-headline { max-width: 780px; }
   .ost-sub { font-size: 19px; max-width: 540px; }
   .ost-cta { font-size: 13px; padding: 20px 36px; }
-  .ost-right-eyebrow { font-size: 12px; }
-  .ost-right-title { font-size: 26px; }
-  .ost-right-sub { font-size: 16px; max-width: 600px; }
-  .ost-tools { gap: 16px; }
-  .ost-tool { padding: 32px 28px 26px; border-radius: 8px; }
-  .ost-tool-cat { font-size: 11px; }
-  .ost-tool-logo { height: 28px; margin: 6px 0; }
-  .ost-tool-name { font-size: 20px; }
-  .ost-tool-role { font-size: 11px; }
-  .ost-footnote { font-size: 11px; }
+  .ost-diagram { max-width: 720px; }
 }
 
 @media (min-width: 3200px) {
   .ost-left { padding: 120px 100px 120px 60px; max-width: 1000px; gap: 52px; }
-  .ost-right { padding: 120px 180px 120px 100px; gap: 52px; }
+  .ost-right { padding: 100px 60px; }
   .ost-h-sm { font-size: 48px; }
   .ost-h-lg { font-size: 100px; }
   .ost-h-md { font-size: 66px; }
   .ost-headline { max-width: 900px; }
-  .ost-right-title { font-size: 28px; }
-  .ost-right-sub { font-size: 18px; }
-  .ost-tool { padding: 36px 32px 30px; }
-  .ost-tool-name { font-size: 22px; }
-  .ost-tool-role { font-size: 12px; }
-  .ost-tools { gap: 18px; }
+  .ost-diagram { max-width: 820px; }
 }
 
 /* Tablet */
@@ -370,9 +220,10 @@ const sectionHtml = `<style>
   .ost { grid-template-columns: 1fr; min-height: auto; }
   .ost-left { max-width: 100%; margin: 0 auto; }
   .ost-left::after { display: none; }
+  .ost-right { padding: 20px 20px 60px; }
+  .ost-diagram { max-width: 500px; }
 }
 @media (max-width: 480px) {
-  .ost-tools { grid-template-columns: repeat(2,1fr); }
   .ost-h-sm { font-size: 18px; }
   .ost-h-lg { font-size: 36px; }
   .ost-h-md { font-size: 24px; }
@@ -394,102 +245,130 @@ const sectionHtml = `<style>
     <a href="/process/" class="ost-cta ost-anim" data-delay="240">Discover The Process <span class="ost-cta-arr">→</span></a>
   </div>
 
-  <!-- ══ RIGHT ══ -->
+  <!-- ══ RIGHT — Live Ecosystem ══ -->
   <div class="ost-right">
+    <svg class="ost-diagram ost-anim" data-delay="200" viewBox="0 0 620 580" xmlns="http://www.w3.org/2000/svg">
 
-    <div class="ost-right-header">
-      <div class="ost-right-eyebrow">Technology Ecosystem</div>
-      <div class="ost-right-title">Your Tools, Our Structure</div>
-      <p class="ost-right-sub">We integrate with the platforms your team already runs. These are some of the tools we work with every day.</p>
-    </div>
+      <!-- Connection paths (visible dashed lines) -->
+      <path id="c1" d="M90,65 L310,280" stroke="rgba(11,60,93,0.08)" stroke-width="1" stroke-dasharray="4 6" fill="none"/>
+      <path id="c2" d="M310,40 L310,280" stroke="rgba(11,60,93,0.08)" stroke-width="1" stroke-dasharray="4 6" fill="none"/>
+      <path id="c3" d="M530,65 L310,280" stroke="rgba(11,60,93,0.08)" stroke-width="1" stroke-dasharray="4 6" fill="none"/>
+      <path id="c4" d="M70,235 L310,280" stroke="rgba(11,60,93,0.08)" stroke-width="1" stroke-dasharray="4 6" fill="none"/>
+      <path id="c5" d="M550,235 L310,280" stroke="rgba(11,60,93,0.08)" stroke-width="1" stroke-dasharray="4 6" fill="none"/>
+      <path id="c6" d="M530,490 L310,280" stroke="rgba(11,60,93,0.08)" stroke-width="1" stroke-dasharray="4 6" fill="none"/>
+      <path id="c7" d="M90,490 L310,280" stroke="rgba(11,60,93,0.08)" stroke-width="1" stroke-dasharray="4 6" fill="none"/>
+      <path id="c8" d="M205,548 L310,280" stroke="rgba(11,60,93,0.08)" stroke-width="1" stroke-dasharray="4 6" fill="none"/>
+      <path id="c9" d="M415,548 L310,280" stroke="rgba(11,60,93,0.08)" stroke-width="1" stroke-dasharray="4 6" fill="none"/>
 
-    <div class="ost-tools" id="ostTools">
+      <!-- Hidden reverse paths (for outbound dot motion) -->
+      <path id="r1" d="M310,280 L90,65" fill="none" stroke="none"/>
+      <path id="r2" d="M310,280 L310,40" fill="none" stroke="none"/>
+      <path id="r3" d="M310,280 L530,65" fill="none" stroke="none"/>
+      <path id="r4" d="M310,280 L70,235" fill="none" stroke="none"/>
+      <path id="r5" d="M310,280 L550,235" fill="none" stroke="none"/>
+      <path id="r6" d="M310,280 L530,490" fill="none" stroke="none"/>
+      <path id="r7" d="M310,280 L90,490" fill="none" stroke="none"/>
+      <path id="r8" d="M310,280 L205,548" fill="none" stroke="none"/>
+      <path id="r9" d="M310,280 L415,548" fill="none" stroke="none"/>
 
-      <div class="ost-tool">
-        <div class="ost-tool-cat">Design · BIM</div>
-        <div class="ost-tool-logo">
-          <img src="/logos/autodesk.svg" alt="Autodesk" />
-        </div>
-        <div class="ost-tool-name">Autodesk</div>
-        <div class="ost-tool-role">Revit · ACC · Navisworks · Civil 3D</div>
-      </div>
+      <!-- Subtle orbital ring -->
+      <circle cx="310" cy="280" r="165" fill="none" stroke="rgba(11,60,93,0.03)" stroke-width="1" stroke-dasharray="3 8"/>
 
-      <div class="ost-tool">
-        <div class="ost-tool-cat">Civil · Infrastructure</div>
-        <div class="ost-tool-logo">
-          <img src="/logos/bentley.svg" alt="Bentley Systems" />
-        </div>
-        <div class="ost-tool-name">Bentley</div>
-        <div class="ost-tool-role">OpenRoads · iTwin · ProjectWise</div>
-      </div>
+      <!-- ══ Animated dots — inbound (tool → hub) ══ -->
+      <circle r="2.5" fill="#47B5FF" opacity="0.65"><animateMotion dur="3.2s" repeatCount="indefinite" begin="0s"><mpath href="#c1"/></animateMotion></circle>
+      <circle r="2.5" fill="#47B5FF" opacity="0.65"><animateMotion dur="2.8s" repeatCount="indefinite" begin="0.4s"><mpath href="#c2"/></animateMotion></circle>
+      <circle r="2.5" fill="#47B5FF" opacity="0.65"><animateMotion dur="3.5s" repeatCount="indefinite" begin="0.9s"><mpath href="#c3"/></animateMotion></circle>
+      <circle r="2.5" fill="#47B5FF" opacity="0.65"><animateMotion dur="3.0s" repeatCount="indefinite" begin="1.3s"><mpath href="#c4"/></animateMotion></circle>
+      <circle r="2.5" fill="#47B5FF" opacity="0.65"><animateMotion dur="3.3s" repeatCount="indefinite" begin="0.2s"><mpath href="#c5"/></animateMotion></circle>
+      <circle r="2.5" fill="#47B5FF" opacity="0.65"><animateMotion dur="2.9s" repeatCount="indefinite" begin="1.6s"><mpath href="#c6"/></animateMotion></circle>
+      <circle r="2.5" fill="#47B5FF" opacity="0.65"><animateMotion dur="3.4s" repeatCount="indefinite" begin="0.7s"><mpath href="#c7"/></animateMotion></circle>
+      <circle r="2.5" fill="#47B5FF" opacity="0.65"><animateMotion dur="3.1s" repeatCount="indefinite" begin="1.1s"><mpath href="#c8"/></animateMotion></circle>
+      <circle r="2.5" fill="#47B5FF" opacity="0.65"><animateMotion dur="3.6s" repeatCount="indefinite" begin="0.5s"><mpath href="#c9"/></animateMotion></circle>
 
-      <div class="ost-tool">
-        <div class="ost-tool-cat">Construction OS</div>
-        <div class="ost-tool-logo">
-          <img src="/logos/procore.svg" alt="Procore" />
-        </div>
-        <div class="ost-tool-name">Procore</div>
-        <div class="ost-tool-role">RFI · Submittals · Field Mgmt</div>
-      </div>
+      <!-- Extra inbound dots (denser traffic on select lines) -->
+      <circle r="2" fill="#47B5FF" opacity="0.35"><animateMotion dur="4.5s" repeatCount="indefinite" begin="2.2s"><mpath href="#c1"/></animateMotion></circle>
+      <circle r="2" fill="#47B5FF" opacity="0.35"><animateMotion dur="4.0s" repeatCount="indefinite" begin="2.8s"><mpath href="#c5"/></animateMotion></circle>
+      <circle r="2" fill="#47B5FF" opacity="0.35"><animateMotion dur="4.2s" repeatCount="indefinite" begin="3.0s"><mpath href="#c7"/></animateMotion></circle>
 
-      <div class="ost-tool">
-        <div class="ost-tool-cat">Digital Twin</div>
-        <div class="ost-tool-logo">
-          <img src="/logos/tandem.svg" alt="Autodesk Tandem" />
-        </div>
-        <div class="ost-tool-name">Tandem</div>
-        <div class="ost-tool-role">Digital Twin · COBie · FM</div>
-      </div>
+      <!-- ══ Animated dots — outbound (hub → tool) ══ -->
+      <circle r="2" fill="#47B5FF" opacity="0.2"><animateMotion dur="4.1s" repeatCount="indefinite" begin="1.8s"><mpath href="#r1"/></animateMotion></circle>
+      <circle r="2" fill="#47B5FF" opacity="0.2"><animateMotion dur="3.8s" repeatCount="indefinite" begin="2.2s"><mpath href="#r2"/></animateMotion></circle>
+      <circle r="2" fill="#47B5FF" opacity="0.2"><animateMotion dur="4.3s" repeatCount="indefinite" begin="1.4s"><mpath href="#r3"/></animateMotion></circle>
+      <circle r="2" fill="#47B5FF" opacity="0.2"><animateMotion dur="3.5s" repeatCount="indefinite" begin="0.6s"><mpath href="#r4"/></animateMotion></circle>
+      <circle r="2" fill="#47B5FF" opacity="0.2"><animateMotion dur="4.0s" repeatCount="indefinite" begin="2.6s"><mpath href="#r5"/></animateMotion></circle>
+      <circle r="2" fill="#47B5FF" opacity="0.2"><animateMotion dur="3.7s" repeatCount="indefinite" begin="0.9s"><mpath href="#r6"/></animateMotion></circle>
+      <circle r="2" fill="#47B5FF" opacity="0.2"><animateMotion dur="4.2s" repeatCount="indefinite" begin="1.2s"><mpath href="#r7"/></animateMotion></circle>
+      <circle r="2" fill="#47B5FF" opacity="0.2"><animateMotion dur="3.9s" repeatCount="indefinite" begin="2.4s"><mpath href="#r8"/></animateMotion></circle>
+      <circle r="2" fill="#47B5FF" opacity="0.2"><animateMotion dur="4.5s" repeatCount="indefinite" begin="1.7s"><mpath href="#r9"/></animateMotion></circle>
 
-      <div class="ost-tool">
-        <div class="ost-tool-cat">GIS · Spatial</div>
-        <div class="ost-tool-logo">
-          <img src="/logos/esri.svg" alt="Esri ArcGIS" />
-        </div>
-        <div class="ost-tool-name">ESRI / GIS</div>
-        <div class="ost-tool-role">ArcGIS · Spatial BIM Integration</div>
-      </div>
+      <!-- ══ Center hub ══ -->
+      <circle cx="310" cy="280" r="70" fill="rgba(71,181,255,0.03)"/>
+      <circle cx="310" cy="280" r="52" fill="none" stroke="rgba(71,181,255,0.12)" stroke-width="1">
+        <animate attributeName="r" values="52;60;52" dur="4s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="1;0.15;1" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="310" cy="282" r="44" fill="rgba(11,60,93,0.03)"/>
+      <circle cx="310" cy="280" r="44" fill="#ffffff" stroke="rgba(71,181,255,0.25)" stroke-width="1.5"/>
+      <text x="310" y="276" font-family="'Outfit', sans-serif" font-size="11" font-weight="700" fill="#0B3C5D" text-anchor="middle" letter-spacing="0.06em">INFRAFORMA</text>
+      <text x="310" y="292" font-family="'DM Mono', monospace" font-size="7" fill="#5a7a96" text-anchor="middle" letter-spacing="0.12em">PLATFORM</text>
 
-      <div class="ost-tool">
-        <div class="ost-tool-cat">Field · Mobile</div>
-        <div class="ost-tool-logo">
-          <img src="/logos/dalux.svg" alt="Dalux" />
-        </div>
-        <div class="ost-tool-name">Dalux</div>
-        <div class="ost-tool-role">Field BIM · Model Viewer · QA</div>
-      </div>
+      <!-- ══ Tool nodes ══ -->
+      <!-- Autodesk -->
+      <g>
+        <rect x="35" y="50" width="110" height="30" rx="4" fill="#ffffff" stroke="rgba(11,60,93,0.07)" stroke-width="1"/>
+        <text x="90" y="42" font-family="'DM Mono', monospace" font-size="6.5" fill="rgba(71,181,255,0.5)" text-anchor="middle" letter-spacing="0.08em">DESIGN · BIM</text>
+        <text x="90" y="70" font-family="'Outfit', sans-serif" font-size="10.5" font-weight="600" fill="#0B3C5D" text-anchor="middle">AUTODESK</text>
+      </g>
+      <!-- Bentley -->
+      <g>
+        <rect x="255" y="25" width="110" height="30" rx="4" fill="#ffffff" stroke="rgba(11,60,93,0.07)" stroke-width="1"/>
+        <text x="310" y="17" font-family="'DM Mono', monospace" font-size="6.5" fill="rgba(71,181,255,0.5)" text-anchor="middle" letter-spacing="0.08em">CIVIL · INFRA</text>
+        <text x="310" y="45" font-family="'Outfit', sans-serif" font-size="10.5" font-weight="600" fill="#0B3C5D" text-anchor="middle">BENTLEY</text>
+      </g>
+      <!-- Procore -->
+      <g>
+        <rect x="475" y="50" width="110" height="30" rx="4" fill="#ffffff" stroke="rgba(11,60,93,0.07)" stroke-width="1"/>
+        <text x="530" y="42" font-family="'DM Mono', monospace" font-size="6.5" fill="rgba(71,181,255,0.5)" text-anchor="middle" letter-spacing="0.08em">CONSTRUCTION</text>
+        <text x="530" y="70" font-family="'Outfit', sans-serif" font-size="10.5" font-weight="600" fill="#0B3C5D" text-anchor="middle">PROCORE</text>
+      </g>
+      <!-- Tandem -->
+      <g>
+        <rect x="15" y="220" width="110" height="30" rx="4" fill="#ffffff" stroke="rgba(11,60,93,0.07)" stroke-width="1"/>
+        <text x="70" y="212" font-family="'DM Mono', monospace" font-size="6.5" fill="rgba(71,181,255,0.5)" text-anchor="middle" letter-spacing="0.08em">DIGITAL TWIN</text>
+        <text x="70" y="240" font-family="'Outfit', sans-serif" font-size="10.5" font-weight="600" fill="#0B3C5D" text-anchor="middle">TANDEM</text>
+      </g>
+      <!-- ESRI -->
+      <g>
+        <rect x="495" y="220" width="110" height="30" rx="4" fill="#ffffff" stroke="rgba(11,60,93,0.07)" stroke-width="1"/>
+        <text x="550" y="212" font-family="'DM Mono', monospace" font-size="6.5" fill="rgba(71,181,255,0.5)" text-anchor="middle" letter-spacing="0.08em">GIS · SPATIAL</text>
+        <text x="550" y="240" font-family="'Outfit', sans-serif" font-size="10.5" font-weight="600" fill="#0B3C5D" text-anchor="middle">ESRI / GIS</text>
+      </g>
+      <!-- Dalux -->
+      <g>
+        <rect x="475" y="475" width="110" height="30" rx="4" fill="#ffffff" stroke="rgba(11,60,93,0.07)" stroke-width="1"/>
+        <text x="530" y="467" font-family="'DM Mono', monospace" font-size="6.5" fill="rgba(71,181,255,0.5)" text-anchor="middle" letter-spacing="0.08em">FIELD · MOBILE</text>
+        <text x="530" y="495" font-family="'Outfit', sans-serif" font-size="10.5" font-weight="600" fill="#0B3C5D" text-anchor="middle">DALUX</text>
+      </g>
+      <!-- Power BI -->
+      <g>
+        <rect x="35" y="475" width="110" height="30" rx="4" fill="#ffffff" stroke="rgba(11,60,93,0.07)" stroke-width="1"/>
+        <text x="90" y="467" font-family="'DM Mono', monospace" font-size="6.5" fill="rgba(71,181,255,0.5)" text-anchor="middle" letter-spacing="0.08em">ANALYTICS</text>
+        <text x="90" y="495" font-family="'Outfit', sans-serif" font-size="10.5" font-weight="600" fill="#0B3C5D" text-anchor="middle">POWER BI</text>
+      </g>
+      <!-- Solibri -->
+      <g>
+        <rect x="150" y="533" width="110" height="30" rx="4" fill="#ffffff" stroke="rgba(11,60,93,0.07)" stroke-width="1"/>
+        <text x="205" y="525" font-family="'DM Mono', monospace" font-size="6.5" fill="rgba(71,181,255,0.5)" text-anchor="middle" letter-spacing="0.08em">MODEL QA</text>
+        <text x="205" y="553" font-family="'Outfit', sans-serif" font-size="10.5" font-weight="600" fill="#0B3C5D" text-anchor="middle">SOLIBRI</text>
+      </g>
+      <!-- ISO 19650 -->
+      <g>
+        <rect x="360" y="533" width="110" height="30" rx="4" fill="#ffffff" stroke="rgba(11,60,93,0.07)" stroke-width="1"/>
+        <text x="415" y="525" font-family="'DM Mono', monospace" font-size="6.5" fill="rgba(71,181,255,0.5)" text-anchor="middle" letter-spacing="0.08em">STANDARD</text>
+        <text x="415" y="553" font-family="'Outfit', sans-serif" font-size="10.5" font-weight="600" fill="#0B3C5D" text-anchor="middle">ISO 19650</text>
+      </g>
 
-      <div class="ost-tool">
-        <div class="ost-tool-cat">Analytics</div>
-        <div class="ost-tool-logo">
-          <img src="/logos/powerbi.svg" alt="Microsoft Power BI" />
-        </div>
-        <div class="ost-tool-name">Power BI</div>
-        <div class="ost-tool-role">Dashboards · Progress Reporting</div>
-      </div>
-
-      <div class="ost-tool">
-        <div class="ost-tool-cat">Model QA</div>
-        <div class="ost-tool-logo">
-          <img src="/logos/solibri.svg" alt="Solibri" />
-        </div>
-        <div class="ost-tool-name">Solibri</div>
-        <div class="ost-tool-role">Model Checking · IFC · OpenBIM</div>
-      </div>
-
-      <div class="ost-tool">
-        <div class="ost-tool-cat">Standard</div>
-        <div class="ost-tool-logo">
-          <img src="/logos/iso19650.svg" alt="ISO 19650" />
-        </div>
-        <div class="ost-tool-name">ISO 19650</div>
-        <div class="ost-tool-role">BIM Standard · EIR · BEP Framework</div>
-      </div>
-
-    </div>
-
-    <div class="ost-footnote">↳ Platform-agnostic · We integrate with your existing stack</div>
-
+    </svg>
   </div>
 
 </section>`
