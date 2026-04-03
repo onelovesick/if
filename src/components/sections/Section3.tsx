@@ -51,16 +51,18 @@ const sectionHtml = `<style>
 }
 .sdf-title {
   font-family: 'Inter Tight', 'Inter', sans-serif;
-  font-size: clamp(32px,4vw,64px);
+  font-size: clamp(36px,4.8vw,76px);
   font-weight: 900; text-transform: uppercase;
-  color: var(--navy); line-height: 0.95;
-  letter-spacing: -0.025em; margin-bottom: 20px;
+  line-height: 1;
+  letter-spacing: -0.03em; margin-bottom: 20px;
 }
-.sdf-title-accent {
-  display: inline;
-  background: linear-gradient(100deg, var(--navy) 0%, var(--accent) 60%, #1A6FAD 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+.sdf-char {
+  display: inline-block;
+  color: rgba(11,60,93,0.12);
+  transition: color 0.35s ease;
 }
+.sdf-char.sdf-filled { color: var(--navy); }
+.sdf-char.sdf-space { width: 0.3em; }
 .sdf-intro {
   font-size: clamp(14px,1.1vw,17px); color: var(--muted);
   line-height: 1.75; max-width: 620px; margin: 0 auto;
@@ -284,7 +286,7 @@ const sectionHtml = `<style>
 }
 @media (min-width: 1800px) {
   .sdf-track, .sdf-principle { max-width: 1600px; }
-  .sdf-title { font-size: clamp(56px,4vw,76px); }
+  .sdf-title { font-size: clamp(56px,4.8vw,88px); }
 }
 @media (min-width: 2400px) {
   .sdf-track, .sdf-principle { max-width: 1920px; }
@@ -298,7 +300,7 @@ const sectionHtml = `<style>
   <!-- Header -->
   <header class="sdf-header">
     <div class="sdf-eyebrow">Structured Delivery Framework</div>
-    <h2 class="sdf-title" id="sdfTitle">How We Bring <span class="sdf-title-accent">Control</span> to Infrastructure</h2>
+    <h2 class="sdf-title" id="sdfTitle" data-text="How We Bring Control to Infrastructure"></h2>
     <p class="sdf-intro">Across design, construction, and operations, we apply a disciplined four-step framework that aligns information, teams, and systems around what truly matters.</p>
   </header>
 
@@ -376,16 +378,58 @@ var revealIO = new IntersectionObserver(function(entries){
 }, { threshold: 0.06 });
 revealIO.observe(root);
 
-/* ══ GEOMETRIC GRID CANVAS ══ */
+/* ══ CHARACTER FILL ON SCROLL ══ */
+(function(){
+  var titleEl = document.getElementById('sdfTitle');
+  if (!titleEl) return;
+  var text = titleEl.getAttribute('data-text') || '';
+  var html = '';
+  for (var i = 0; i < text.length; i++){
+    if (text[i] === ' '){
+      html += '<span class="sdf-char sdf-space"> </span>';
+    } else {
+      html += '<span class="sdf-char">' + text[i] + '</span>';
+    }
+  }
+  titleEl.innerHTML = html;
+
+  var chars = Array.from(titleEl.querySelectorAll('.sdf-char'));
+  var total = chars.length;
+  var ticking = false;
+
+  function updateChars(){
+    var rect = root.getBoundingClientRect();
+    var winH = window.innerHeight;
+    /* progress: 0 when section top hits viewport bottom, 1 when section top reaches 40% from top */
+    var raw = (winH - rect.top) / (winH * 0.6);
+    var progress = Math.max(0, Math.min(1, raw));
+    var filled = Math.floor(progress * total);
+
+    for (var i = 0; i < total; i++){
+      if (i < filled){
+        chars[i].classList.add('sdf-filled');
+      } else {
+        chars[i].classList.remove('sdf-filled');
+      }
+    }
+    ticking = false;
+  }
+
+  function onScroll(){
+    if (!ticking){ ticking = true; requestAnimationFrame(updateChars); }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  updateChars();
+})();
+
+/* ══ TOPOGRAPHIC CONTOUR CANVAS ══ */
 (function(){
   var canvas = document.getElementById('sdfCanvas');
   if (!canvas) return;
   var ctx = canvas.getContext('2d');
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
-  var W, H, scrollY = 0, paused = false, raf;
-  var nodes = [];
-  var NODE_COUNT = 50;
-  var CONN_DIST = 180;
+  var W, H, paused = false, raf;
   var time = 0;
 
   function resize(){
@@ -396,63 +440,95 @@ revealIO.observe(root);
     ctx.setTransform(dpr,0,0,dpr,0,0);
   }
 
-  function init(){
-    nodes = [];
-    for (var i = 0; i < NODE_COUNT; i++){
-      nodes.push({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        vx: (Math.random() - 0.5) * 0.25,
-        vy: (Math.random() - 0.5) * 0.18,
-        size: 1 + Math.random() * 2,
-        phase: Math.random() * Math.PI * 2
-      });
-    }
+  /* Simple 2D noise approximation */
+  var PERM = [];
+  for (var i = 0; i < 512; i++) PERM[i] = Math.floor(Math.random() * 256);
+
+  function fade(t){ return t*t*t*(t*(t*6-15)+10); }
+  function lerp(a,b,t){ return a + t*(b-a); }
+  function grad(h,x,y){
+    var v = (h & 1) === 0 ? x : y;
+    return (h & 2) === 0 ? v : -v;
   }
+  function noise2d(x,y){
+    var X = Math.floor(x) & 255, Y = Math.floor(y) & 255;
+    x -= Math.floor(x); y -= Math.floor(y);
+    var u = fade(x), v = fade(y);
+    var a = PERM[X] + Y, b = PERM[X+1] + Y;
+    return lerp(
+      lerp(grad(PERM[a],x,y), grad(PERM[b],x-1,y), u),
+      lerp(grad(PERM[a+1],x,y-1), grad(PERM[b+1],x-1,y-1), u),
+      v
+    );
+  }
+
+  var CONTOUR_LEVELS = 8;
+  var SCALE = 0.0025;
 
   function draw(){
     if (paused) return;
-    time += 0.008;
+    time += 0.0012;
     ctx.clearRect(0, 0, W, H);
 
-    for (var i = 0; i < NODE_COUNT; i++){
-      var p = nodes[i];
-      p.x += p.vx;
-      p.y += p.vy;
-      if (p.x < -20) p.x = W + 20;
-      if (p.x > W + 20) p.x = -20;
-      if (p.y < -20) p.y = H + 20;
-      if (p.y > H + 20) p.y = -20;
-    }
+    /* Draw contour lines using marching approach */
+    var step = 28;
+    var cols = Math.ceil(W / step) + 1;
+    var rows = Math.ceil(H / step) + 1;
 
-    /* connections */
-    for (var i = 0; i < NODE_COUNT; i++){
-      var a = nodes[i];
-      for (var j = i + 1; j < NODE_COUNT; j++){
-        var b = nodes[j];
-        var dx = a.x - b.x, dy = a.y - b.y;
-        var dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist < CONN_DIST){
-          var alpha = (1 - dist / CONN_DIST) * 0.08;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = 'rgba(11,60,93,' + alpha.toFixed(4) + ')';
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-        }
+    /* Compute noise field */
+    var field = [];
+    for (var iy = 0; iy < rows; iy++){
+      field[iy] = [];
+      for (var ix = 0; ix < cols; ix++){
+        field[iy][ix] = noise2d(ix * step * SCALE + time, iy * step * SCALE + time * 0.7);
       }
     }
 
-    /* nodes */
-    for (var i = 0; i < NODE_COUNT; i++){
-      var p = nodes[i];
-      var pulse = 0.6 + 0.4 * Math.sin(time * 2 + p.phase);
-      var alpha = 0.06 * pulse;
+    /* Draw contour segments */
+    for (var level = 0; level < CONTOUR_LEVELS; level++){
+      var threshold = -0.5 + (level / CONTOUR_LEVELS);
+      var alpha = 0.03 + 0.02 * Math.sin(time * 1.5 + level * 0.8);
+
       ctx.beginPath();
-      ctx.arc(p.x, p.y + scrollY * 0.02, p.size, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(11,60,93,' + alpha.toFixed(4) + ')';
-      ctx.fill();
+      ctx.strokeStyle = 'rgba(71,181,255,' + alpha.toFixed(4) + ')';
+      ctx.lineWidth = 0.6;
+
+      for (var iy = 0; iy < rows - 1; iy++){
+        for (var ix = 0; ix < cols - 1; ix++){
+          var tl = field[iy][ix], tr = field[iy][ix+1];
+          var bl = field[iy+1][ix], br = field[iy+1][ix+1];
+          var x0 = ix * step, y0 = iy * step;
+
+          /* Simple marching squares - find edge crossings */
+          var edges = [];
+          if ((tl >= threshold) !== (tr >= threshold)){
+            var t = (threshold - tl) / (tr - tl);
+            edges.push([x0 + t * step, y0]);
+          }
+          if ((tr >= threshold) !== (br >= threshold)){
+            var t = (threshold - tr) / (br - tr);
+            edges.push([x0 + step, y0 + t * step]);
+          }
+          if ((bl >= threshold) !== (br >= threshold)){
+            var t = (threshold - bl) / (br - bl);
+            edges.push([x0 + t * step, y0 + step]);
+          }
+          if ((tl >= threshold) !== (bl >= threshold)){
+            var t = (threshold - tl) / (bl - tl);
+            edges.push([x0, y0 + t * step]);
+          }
+
+          if (edges.length >= 2){
+            ctx.moveTo(edges[0][0], edges[0][1]);
+            ctx.lineTo(edges[1][0], edges[1][1]);
+            if (edges.length === 4){
+              ctx.moveTo(edges[2][0], edges[2][1]);
+              ctx.lineTo(edges[3][0], edges[3][1]);
+            }
+          }
+        }
+      }
+      ctx.stroke();
     }
 
     raf = requestAnimationFrame(draw);
@@ -469,10 +545,8 @@ revealIO.observe(root);
   var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (mq.matches) return;
 
-  resize(); init();
-  window.addEventListener('resize', function(){ resize(); init(); });
-  window.addEventListener('scroll', function(){ scrollY = -root.getBoundingClientRect().top; }, { passive: true });
-  draw();
+  resize(); draw();
+  window.addEventListener('resize', resize);
 })();
 
 /* ══ TIMELINE ANIMATION ══ */
