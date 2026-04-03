@@ -26,28 +26,53 @@ const sectionHtml = `<style>
   color: var(--text);
 }
 
-/* ── Parallax background ── */
-.cta-bg {
-  position: absolute;
-  inset: -30%;            /* larger oversize = more parallax travel */
-  background-image: url('https://cdn.prod.website-files.com/6990d6b6d02a54ec489cbf03/699d0dd1f85e06a8ce7df9d0_pexels-cottonbro-4570794.jpg');
-  background-size: cover;
-  background-position: center 30%;
-  will-change: transform;
+/* ── Dark base layer (always visible) ── */
+.cta-base {
+  position: absolute; inset: 0;
+  background: #050c14;
   z-index: 0;
 }
 
-/* ── Dark overlay — engineering serious tone ── */
+/* ── Revealed background (clipped from left to right on scroll) ── */
+.cta-bg {
+  position: absolute;
+  inset: -20%;
+  will-change: clip-path, transform;
+  clip-path: inset(0 100% 0 0);
+  z-index: 1;
+  overflow: hidden;
+}
+.cta-bg-video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+/* ── Reveal edge glow (vertical light bar at the wipe edge) ── */
+.cta-reveal-edge {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 3px;
+  left: 0%;
+  background: var(--accent);
+  box-shadow: 0 0 40px 8px rgba(71,181,255,0.5), 0 0 80px 16px rgba(71,181,255,0.2);
+  z-index: 4;
+  opacity: 0;
+  pointer-events: none;
+  will-change: left, opacity;
+}
+
+/* ── Dark overlay on top of revealed image ── */
 .cta-overlay {
   position: absolute;
   inset: 0;
   background:
     linear-gradient(to bottom,
       rgba(5,12,20,0.72) 0%,
-      rgba(8,24,40,0.65) 45%,
-      rgba(5,12,20,0.88) 100%),
-    radial-gradient(ellipse 90% 70% at 50% 40%, rgba(11,60,93,0.28) 0%, transparent 65%);
-  z-index: 1;
+      rgba(8,24,40,0.60) 45%,
+      rgba(5,12,20,0.85) 100%),
+    radial-gradient(ellipse 90% 70% at 50% 40%, rgba(11,60,93,0.25) 0%, transparent 65%);
+  z-index: 2;
 }
 
 /* Fine grid — blueprint feel */
@@ -58,7 +83,7 @@ const sectionHtml = `<style>
     linear-gradient(rgba(71,181,255,0.032) 1px, transparent 1px),
     linear-gradient(90deg, rgba(71,181,255,0.032) 1px, transparent 1px);
   background-size: 56px 56px;
-  z-index: 2;
+  z-index: 3;
   pointer-events: none;
 }
 
@@ -309,7 +334,13 @@ const sectionHtml = `<style>
 
 <section class="cta-root" id="ctaRoot">
 
-  <div class="cta-bg" id="ctaBg"></div>
+  <div class="cta-base"></div>
+  <div class="cta-bg" id="ctaBg">
+    <video class="cta-bg-video" autoplay muted loop playsinline>
+      <source src="/videos/bridge-bg.mp4" type="video/mp4" />
+    </video>
+  </div>
+  <div class="cta-reveal-edge" id="ctaEdge"></div>
   <div class="cta-overlay"></div>
   <div class="cta-grid"></div>
   <div class="cta-scan"></div>
@@ -361,7 +392,7 @@ const sectionHtml = `<style>
 
   <div class="cta-edge"></div>
 </section>`
-const sectionScripts = ["\n(function(){\n'use strict';\n\nvar bg   = document.getElementById('ctaBg');\nvar root = document.getElementById('ctaRoot');\nvar raf  = false;\n\n/* \u2500\u2500 Parallax \u2014 40% speed \u2500\u2500 */\nfunction doParallax(){\n  var rect   = root.getBoundingClientRect();\n  var center = rect.top + rect.height / 2 - window.innerHeight / 2;\n  bg.style.transform = 'translateY(' + (center * 0.4) + 'px)';\n  raf = false;\n}\nwindow.addEventListener('scroll', function(){\n  if(!raf){ requestAnimationFrame(doParallax); raf = true; }\n}, { passive: true });\ndoParallax();\n\n/* \u2500\u2500 Entrance animations \u2500\u2500 */\nvar done = false;\nfunction animate(){\n  if(done) return; done = true;\n  ['ctaEyebrow','ctaHeadline','ctaRule','ctaBody','ctaStats','ctaBtns'].forEach(function(id){\n    var el = document.getElementById(id);\n    if(el) el.classList.add('vis');\n  });\n  /* Count up */\n  document.querySelectorAll('.cta-count').forEach(function(el){\n    var target = +el.getAttribute('data-t');\n    var t0 = null, dur = 1800;\n    function step(ts){\n      if(!t0) t0 = ts;\n      var p = Math.min((ts-t0)/dur, 1);\n      var e = 1 - Math.pow(1-p, 3);\n      el.textContent = Math.round(e * target);\n      if(p < 1) requestAnimationFrame(step);\n    }\n    setTimeout(function(){ requestAnimationFrame(step); }, 550);\n  });\n}\nnew IntersectionObserver(function(e){ if(e[0].isIntersecting){ animate(); } }, { threshold: 0.15 }).observe(root);\n\n}());\n"]
+const sectionScripts = ["\n(function(){\n'use strict';\n\nvar bg   = document.getElementById('ctaBg');\nvar edge = document.getElementById('ctaEdge');\nvar root = document.getElementById('ctaRoot');\nvar ticking = false;\n\n/* \u2500\u2500 Scroll-driven left-to-right reveal \u2500\u2500 */\nfunction doReveal(){\n  var rect = root.getBoundingClientRect();\n  var winH = window.innerHeight;\n  /* progress: 0 when section top hits viewport bottom, 1 when section top reaches 20% from top */\n  var start = winH;\n  var end = winH * 0.2;\n  var raw = (start - rect.top) / (start - end);\n  var progress = Math.max(0, Math.min(1, raw));\n\n  /* Reveal clip from left */\n  var revealPct = 100 - (progress * 100);\n  bg.style.clipPath = 'inset(0 ' + revealPct.toFixed(1) + '% 0 0)';\n\n  /* Parallax on the bg */\n  var center = rect.top + rect.height / 2 - winH / 2;\n  bg.style.transform = 'translateY(' + (center * 0.25) + 'px)';\n\n  /* Edge glow follows the wipe edge */\n  if (progress > 0.01 && progress < 0.98){\n    edge.style.opacity = '1';\n    edge.style.left = (progress * 100).toFixed(1) + '%';\n  } else {\n    edge.style.opacity = '0';\n  }\n\n  ticking = false;\n}\n\nwindow.addEventListener('scroll', function(){\n  if(!ticking){ ticking = true; requestAnimationFrame(doReveal); }\n}, { passive: true });\ndoReveal();\n\n/* \u2500\u2500 Entrance animations \u2500\u2500 */\nvar done = false;\nfunction animate(){\n  if(done) return; done = true;\n  ['ctaEyebrow','ctaHeadline','ctaRule','ctaBody','ctaStats','ctaBtns'].forEach(function(id){\n    var el = document.getElementById(id);\n    if(el) el.classList.add('vis');\n  });\n  /* Count up */\n  document.querySelectorAll('.cta-count').forEach(function(el){\n    var target = +el.getAttribute('data-t');\n    var t0 = null, dur = 1800;\n    function step(ts){\n      if(!t0) t0 = ts;\n      var p = Math.min((ts-t0)/dur, 1);\n      var e = 1 - Math.pow(1-p, 3);\n      el.textContent = Math.round(e * target);\n      if(p < 1) requestAnimationFrame(step);\n    }\n    setTimeout(function(){ requestAnimationFrame(step); }, 550);\n  });\n}\nnew IntersectionObserver(function(e){ if(e[0].isIntersecting){ animate(); } }, { threshold: 0.15 }).observe(root);\n\n}());\n"]
 
 export default function Section4() {
   useEffect(() => {
