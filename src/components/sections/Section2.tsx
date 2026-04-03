@@ -27,12 +27,10 @@ const sectionHtml = `<style>
 }
 .sol.sol-in { opacity: 1; transform: translateY(0); }
 
-/* Dot grid */
-.sol::before {
-  content: '';
+/* Particle mesh canvas */
+.sol-mesh-canvas {
   position: absolute; inset: 0;
-  background-image: radial-gradient(circle, rgba(71,181,255,0.06) 1px, transparent 1px);
-  background-size: 36px 36px;
+  width: 100%; height: 100%;
   pointer-events: none; z-index: 0;
 }
 
@@ -82,7 +80,7 @@ const sectionHtml = `<style>
 }
 .sol-hl-accent {
   display: inline;
-  background: linear-gradient(100deg, #fff 0%, var(--accent) 55%, #1A6FAD 100%);
+  background: linear-gradient(100deg, var(--accent) 0%, #7DD4FF 45%, #fff 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 
@@ -321,12 +319,13 @@ const sectionHtml = `<style>
 </style>
 
 <section class="sol" id="solRoot" aria-labelledby="solHeadline">
+  <canvas class="sol-mesh-canvas" id="solMesh"></canvas>
   <div class="sol-wrap">
 
     <!-- Header -->
     <header class="sol-header">
       <div class="sol-eyebrow">Advanced BIM &amp; Digital Delivery</div>
-      <h2 class="sol-headline" id="solHeadline">Three <span class="sol-hl-accent">Integrated</span> Solution Layers</h2>
+      <h2 class="sol-headline" id="solHeadline">Three Integrated <span class="sol-hl-accent">Solution Layers</span></h2>
       <p class="sol-intro">From information governance through model-based delivery to operational asset intelligence. Three solution families. One delivery system.</p>
     </header>
 
@@ -527,6 +526,141 @@ const sectionScript = `
 
 var root = document.getElementById('solRoot');
 if (!root) return;
+
+/* ══ PARTICLE MESH NETWORK ══ */
+(function(){
+  var canvas = document.getElementById('solMesh');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var W, H;
+  var particles = [];
+  var PARTICLE_COUNT = 80;
+  var CONNECTION_DIST = 160;
+  var DEPTH = 400;
+  var scrollY = 0;
+  var raf;
+  var paused = false;
+
+  function resize(){
+    var rect = root.getBoundingClientRect();
+    W = rect.width; H = rect.height;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function initParticles(){
+    particles = [];
+    for (var i = 0; i < PARTICLE_COUNT; i++){
+      particles.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        z: Math.random() * DEPTH,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.2,
+        vz: (Math.random() - 0.5) * 0.15
+      });
+    }
+  }
+
+  function project(p){
+    var perspective = 800;
+    var scale = perspective / (perspective + p.z);
+    var cx = W * 0.5;
+    var cy = H * 0.5;
+    return {
+      x: cx + (p.x - cx) * scale,
+      y: cy + (p.y - cy) * scale + scrollY * (p.z / DEPTH) * 0.08,
+      scale: scale,
+      alpha: 0.15 + 0.45 * (1 - p.z / DEPTH)
+    };
+  }
+
+  function draw(){
+    if (paused) return;
+    ctx.clearRect(0, 0, W, H);
+
+    /* Update positions */
+    for (var i = 0; i < PARTICLE_COUNT; i++){
+      var p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.z += p.vz;
+
+      if (p.x < -40) p.x = W + 40;
+      if (p.x > W + 40) p.x = -40;
+      if (p.y < -40) p.y = H + 40;
+      if (p.y > H + 40) p.y = -40;
+      if (p.z < 0) p.z = DEPTH;
+      if (p.z > DEPTH) p.z = 0;
+    }
+
+    /* Draw connections */
+    for (var i = 0; i < PARTICLE_COUNT; i++){
+      var pi = project(particles[i]);
+      for (var j = i + 1; j < PARTICLE_COUNT; j++){
+        var pj = project(particles[j]);
+        var dx = pi.x - pj.x;
+        var dy = pi.y - pj.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < CONNECTION_DIST){
+          var lineAlpha = (1 - dist / CONNECTION_DIST) * Math.min(pi.alpha, pj.alpha) * 0.5;
+          ctx.beginPath();
+          ctx.moveTo(pi.x, pi.y);
+          ctx.lineTo(pj.x, pj.y);
+          ctx.strokeStyle = 'rgba(71,181,255,' + lineAlpha.toFixed(3) + ')';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+
+    /* Draw particles */
+    for (var i = 0; i < PARTICLE_COUNT; i++){
+      var pp = project(particles[i]);
+      var r = 1 + pp.scale * 1.2;
+      ctx.beginPath();
+      ctx.arc(pp.x, pp.y, r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(71,181,255,' + (pp.alpha * 0.7).toFixed(3) + ')';
+      ctx.fill();
+    }
+
+    raf = requestAnimationFrame(draw);
+  }
+
+  /* Scroll tracking */
+  function onScroll(){
+    var rect = root.getBoundingClientRect();
+    scrollY = -rect.top;
+  }
+
+  /* Visibility — pause when off screen */
+  var meshIO = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){
+        paused = false;
+        raf = requestAnimationFrame(draw);
+      } else {
+        paused = true;
+        if (raf) cancelAnimationFrame(raf);
+      }
+    });
+  }, { threshold: 0 });
+  meshIO.observe(root);
+
+  /* Reduced motion */
+  var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (mq.matches) return;
+
+  resize();
+  initParticles();
+  window.addEventListener('resize', function(){ resize(); initParticles(); });
+  window.addEventListener('scroll', onScroll, { passive: true });
+  draw();
+})();
 
 /* ── Section scroll reveal ── */
 var revealIO = new IntersectionObserver(function(entries){
