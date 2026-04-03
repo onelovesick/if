@@ -32,6 +32,27 @@ const sectionHtml = `<style>
   display: flex;
   align-items: center;
   justify-content: center;
+  background: #050c14;
+}
+
+/* ── Pre-video intro layer ── */
+.cta-intro {
+  position: absolute; inset: 0;
+  z-index: 5;
+  display: flex; align-items: center; justify-content: center;
+  background: #050c14;
+  transition: opacity 0.6s ease;
+}
+.cta-intro-text {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(28px, 4vw, 56px);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(71,181,255,0.12);
+  text-align: center;
+  user-select: none;
+  transition: color 0.4s ease, opacity 0.4s ease;
 }
 
 /* Video — full viewport */
@@ -324,6 +345,10 @@ const sectionHtml = `<style>
 <section class="cta-root" id="ctaRoot">
   <div class="cta-sticky" id="ctaSticky">
 
+    <div class="cta-intro" id="ctaIntro">
+      <span class="cta-intro-text" id="ctaIntroText">INFRAFORMA</span>
+    </div>
+
     <video class="cta-video" id="ctaVideo" muted playsinline preload="auto">
       <source src="/videos/bridge-bg.mp4" type="video/mp4" />
     </video>
@@ -385,13 +410,15 @@ const sectionScript = `
 (function(){
 'use strict';
 
-var root    = document.getElementById('ctaRoot');
-var video   = document.getElementById('ctaVideo');
-var overlay = document.getElementById('ctaOverlay');
-var grid    = document.getElementById('ctaGrid');
-var scan    = document.getElementById('ctaScan');
-var content = document.getElementById('ctaContent');
-var corners = ['ctaCTL','ctaCTR','ctaCBL','ctaCBR'];
+var root      = document.getElementById('ctaRoot');
+var video     = document.getElementById('ctaVideo');
+var intro     = document.getElementById('ctaIntro');
+var introText = document.getElementById('ctaIntroText');
+var overlay   = document.getElementById('ctaOverlay');
+var grid      = document.getElementById('ctaGrid');
+var scan      = document.getElementById('ctaScan');
+var content   = document.getElementById('ctaContent');
+var corners   = ['ctaCTL','ctaCTR','ctaCBL','ctaCBR'];
 
 if (!root || !video) return;
 
@@ -403,14 +430,19 @@ var pendingTime = -1;
 var contentRevealed = false;
 var visible = false;
 
+/* Preload first frame immediately */
 function onMeta(){
   duration = video.duration || 0;
-  if (duration > 0){ ready = true; update(); }
+  if (duration > 0){
+    ready = true;
+    video.currentTime = 0.01;
+    update();
+  }
 }
 video.addEventListener('loadedmetadata', onMeta);
 if (video.readyState >= 1) onMeta();
 
-/* Only seek when previous seek has completed */
+/* Seek gate — one seek at a time, queue the latest */
 video.addEventListener('seeked', function(){
   seeking = false;
   if (pendingTime >= 0){
@@ -421,19 +453,24 @@ video.addEventListener('seeked', function(){
 });
 
 function doSeek(t){
-  if (seeking){
-    pendingTime = t;
-    return;
-  }
+  if (seeking){ pendingTime = t; return; }
   seeking = true;
   video.currentTime = t;
 }
 
-/* Visibility — skip all work when off screen */
+/* Visibility gate */
 var visIO = new IntersectionObserver(function(entries){
   visible = entries[0].isIntersecting;
+  if (visible && ready) requestAnimationFrame(update);
 }, { threshold: 0 });
 visIO.observe(root);
+
+/*
+  Scroll phases across 300vh:
+  Phase 1 (0-20%):  Intro — dark with INFRAFORMA, fades to white
+  Phase 2 (20-75%): Video scrub
+  Phase 3 (75-100%): Content reveal
+*/
 
 function update(){
   if (!ready || !visible){ ticking = false; return; }
@@ -442,23 +479,39 @@ function update(){
   var scrollable = root.offsetHeight - window.innerHeight;
   if (scrollable <= 0){ ticking = false; return; }
 
-  var rawProgress = Math.max(0, Math.min(1, -rect.top / scrollable));
-  var videoProgress   = Math.min(1, rawProgress / 0.7);
-  var contentProgress = Math.max(0, (rawProgress - 0.7) / 0.3);
+  var raw = Math.max(0, Math.min(1, -rect.top / scrollable));
 
-  /* Scrub video — throttled via seeked gate */
+  /* Phase 1: Intro 0..0.2 */
+  var introProgress = Math.min(1, raw / 0.2);
+
+  if (introProgress < 1){
+    intro.style.opacity = 1 - introProgress;
+    intro.style.pointerEvents = 'auto';
+    /* Text goes from dim to bright as user scrolls in */
+    var textAlpha = 0.12 + introProgress * 0.6;
+    introText.style.color = 'rgba(71,181,255,' + textAlpha.toFixed(2) + ')';
+  } else {
+    intro.style.opacity = '0';
+    intro.style.pointerEvents = 'none';
+  }
+
+  /* Phase 2: Video 0.2..0.75 */
+  var videoProgress = Math.max(0, Math.min(1, (raw - 0.2) / 0.55));
+
   var targetTime = videoProgress * duration;
-  if (Math.abs(video.currentTime - targetTime) > 0.08){
+  if (Math.abs(video.currentTime - targetTime) > 0.1){
     doSeek(targetTime);
   }
 
-  /* Overlay fade */
-  var oa = videoProgress > 0.8 ? (videoProgress - 0.8) / 0.2 : 0;
+  /* Overlay fade during last 25% of video phase */
+  var oa = videoProgress > 0.75 ? (videoProgress - 0.75) / 0.25 : 0;
   overlay.style.opacity = oa;
   grid.style.opacity    = oa;
   scan.style.opacity    = oa;
 
-  /* Content */
+  /* Phase 3: Content 0.75..1 */
+  var contentProgress = Math.max(0, (raw - 0.75) / 0.25);
+
   if (contentProgress > 0){
     content.style.opacity = '1';
     content.style.pointerEvents = 'auto';
