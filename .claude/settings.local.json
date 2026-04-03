@@ -8,7 +8,12 @@
       "Bash(curl -s http://localhost:3099)",
       "WebFetch(domain:github.com)",
       "Bash(npx skills:*)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(where ffmpeg:*)",
+      "Read(//c/Program Files/**)",
+      "Read(//c/Users/yousi/**)",
+      "Bash(npm list:*)",
+      "Bash(npx ffmpeg-static:*)"
     ]
   }
 }

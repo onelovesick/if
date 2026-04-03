@@ -1,6 +1,8 @@
 "use client"
 import { useEffect } from 'react'
 
+const TOTAL_FRAMES = 121
+
 const sectionHtml = `<style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap');
 
@@ -8,7 +10,6 @@ const sectionHtml = `<style>
   box-sizing: border-box; margin: 0; padding: 0;
 }
 
-/* Outer wrapper — tall to create scroll distance */
 .cta-root {
   --accent: #47B5FF;
   --text:   #F4F6F8;
@@ -22,35 +23,7 @@ const sectionHtml = `<style>
   color: var(--text);
 }
 
-/* Intro block — NOT sticky, scrolls naturally */
-.cta-intro-block {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-}
-.cta-intro-bg {
-  position: absolute; inset: 0;
-  background: #050c14;
-  z-index: 0;
-  will-change: opacity;
-}
-.cta-intro-text {
-  position: relative; z-index: 1;
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(28px, 4vw, 56px);
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(71,181,255,0.12);
-  text-align: center;
-  user-select: none;
-}
-
-/* Sticky viewport frame — for video + content */
+/* Sticky viewport */
 .cta-sticky {
   position: sticky;
   top: 0;
@@ -63,14 +36,42 @@ const sectionHtml = `<style>
   background: #050c14;
 }
 
-/* Video — full viewport */
-.cta-video {
+/* Frame canvas */
+.cta-canvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
   z-index: 0;
+}
+
+/* Intro overlay */
+.cta-intro {
+  position: absolute; inset: 0;
+  z-index: 5;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 16px;
+  background: #050c14;
+  will-change: opacity;
+}
+.cta-intro-text {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(32px, 4.5vw, 64px);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(71,181,255,0.08);
+  text-align: center;
+  user-select: none;
+  will-change: color;
+}
+.cta-intro-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(71,181,255,0);
+  will-change: color;
 }
 
 /* Dark overlay */
@@ -79,15 +80,15 @@ const sectionHtml = `<style>
   inset: 0;
   background:
     linear-gradient(to bottom,
-      rgba(5,12,20,0.55) 0%,
-      rgba(8,24,40,0.45) 45%,
-      rgba(5,12,20,0.75) 100%);
+      rgba(5,12,20,0.72) 0%,
+      rgba(8,24,40,0.60) 45%,
+      rgba(5,12,20,0.85) 100%),
+    radial-gradient(ellipse 90% 70% at 50% 40%, rgba(11,60,93,0.25) 0%, transparent 65%);
   z-index: 1;
   opacity: 0;
-  transition: opacity 0.1s linear;
 }
 
-/* Blueprint grid */
+/* Grid */
 .cta-grid {
   position: absolute;
   inset: 0;
@@ -98,28 +99,20 @@ const sectionHtml = `<style>
   z-index: 2;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.1s linear;
 }
 
-/* Scan line */
+/* Scan */
 .cta-scan {
   position: absolute;
   left: 0; right: 0;
   height: 35%;
-  background: linear-gradient(to bottom,
-    transparent 0%,
-    rgba(71,181,255,0.028) 50%,
-    transparent 100%);
+  background: linear-gradient(to bottom, transparent 0%, rgba(71,181,255,0.028) 50%, transparent 100%);
   z-index: 3;
   animation: cta-scan 11s linear infinite;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.1s linear;
 }
-@keyframes cta-scan {
-  from { top: -35%; }
-  to   { top: 100%; }
-}
+@keyframes cta-scan { from { top: -35%; } to { top: 100%; } }
 
 /* Content */
 .cta-content {
@@ -132,6 +125,8 @@ const sectionHtml = `<style>
   display: flex;
   flex-direction: column;
   align-items: center;
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Eyebrow */
@@ -147,7 +142,7 @@ const sectionHtml = `<style>
   margin-bottom: 24px;
   opacity: 0;
   transform: translateY(14px);
-  transition: opacity 1.2s ease, transform 1.4s cubic-bezier(0.22,1,0.36,1);
+  transition: opacity 1s ease, transform 1.2s cubic-bezier(0.22,1,0.36,1);
 }
 .cta-eyebrow.vis { opacity: 1; transform: translateY(0); }
 .cta-eline { width: 28px; height: 1px; background: var(--accent); }
@@ -164,7 +159,7 @@ const sectionHtml = `<style>
   max-width: 1000px;
   opacity: 0;
   transform: translateY(22px);
-  transition: opacity 1.2s ease 0.1s, transform 1.4s cubic-bezier(0.22,1,0.36,1) 0.1s;
+  transition: opacity 1s ease 0.1s, transform 1.2s cubic-bezier(0.22,1,0.36,1) 0.1s;
 }
 .cta-headline.vis { opacity: 1; transform: translateY(0); }
 
@@ -183,7 +178,7 @@ const sectionHtml = `<style>
   background: rgba(71,181,255,0.5);
   margin: 0 auto 24px;
   opacity: 0;
-  transition: opacity 1s ease 0.2s;
+  transition: opacity 0.8s ease 0.2s;
 }
 .cta-rule.vis { opacity: 1; }
 
@@ -197,7 +192,7 @@ const sectionHtml = `<style>
   margin-bottom: 44px;
   opacity: 0;
   transform: translateY(14px);
-  transition: opacity 1.2s ease 0.3s, transform 1.4s cubic-bezier(0.22,1,0.36,1) 0.3s;
+  transition: opacity 1s ease 0.3s, transform 1.2s cubic-bezier(0.22,1,0.36,1) 0.3s;
 }
 .cta-body.vis { opacity: 1; transform: translateY(0); }
 
@@ -212,7 +207,7 @@ const sectionHtml = `<style>
   overflow: hidden;
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity 1.2s ease 0.4s, transform 1.4s cubic-bezier(0.22,1,0.36,1) 0.4s;
+  transition: opacity 1s ease 0.4s, transform 1.2s cubic-bezier(0.22,1,0.36,1) 0.4s;
 }
 .cta-stats.vis { opacity: 1; transform: translateY(0); }
 
@@ -257,7 +252,7 @@ const sectionHtml = `<style>
   justify-content: center;
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity 1.2s ease 0.5s, transform 1.4s cubic-bezier(0.22,1,0.36,1) 0.5s;
+  transition: opacity 1s ease 0.5s, transform 1.2s cubic-bezier(0.22,1,0.36,1) 0.5s;
 }
 .cta-btns.vis { opacity: 1; transform: translateY(0); }
 
@@ -309,14 +304,14 @@ const sectionHtml = `<style>
   transform: translateY(-2px);
 }
 
-/* Corner marks */
+/* Corners */
 .cta-corner {
   position: absolute;
   width: 36px; height: 36px;
   z-index: 10;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.8s ease 0.6s;
+  transition: opacity 0.8s ease;
 }
 .cta-corner.vis { opacity: 0.45; }
 .cta-tl { top: 28px; left: 28px; border-top: 1px solid var(--accent); border-left: 1px solid var(--accent); }
@@ -324,7 +319,7 @@ const sectionHtml = `<style>
 .cta-bl { bottom: 28px; left: 28px; border-bottom: 1px solid var(--accent); border-left: 1px solid var(--accent); }
 .cta-br { bottom: 28px; right: 28px; border-bottom: 1px solid var(--accent); border-right: 1px solid var(--accent); }
 
-/* Bottom edge */
+/* Edge */
 .cta-edge {
   position: absolute;
   bottom: 0; left: 0; right: 0;
@@ -342,7 +337,6 @@ const sectionHtml = `<style>
   .cta-btn-p, .cta-btn-g { width: 100%; justify-content: center; }
   .cta-corner { display: none; }
 }
-
 @media (min-width: 1800px) {
   .cta-headline { font-size: clamp(72px, 5.5vw, 100px); }
   .cta-body { font-size: 18px; max-width: 640px; }
@@ -351,19 +345,14 @@ const sectionHtml = `<style>
 </style>
 
 <section class="cta-root" id="ctaRoot">
-
-  <!-- Intro — scrolls naturally, not sticky -->
-  <div class="cta-intro-block" id="ctaIntroBlock">
-    <div class="cta-intro-bg" id="ctaIntroBg"></div>
-    <span class="cta-intro-text" id="ctaIntroText">INFRAFORMA</span>
-  </div>
-
-  <!-- Sticky frame — video + content -->
   <div class="cta-sticky" id="ctaSticky">
 
-    <video class="cta-video" id="ctaVideo" muted playsinline preload="auto">
-      <source src="/videos/bridge-bg.mp4" type="video/mp4" />
-    </video>
+    <canvas class="cta-canvas" id="ctaCanvas"></canvas>
+
+    <div class="cta-intro" id="ctaIntro">
+      <span class="cta-intro-text" id="ctaIntroText">INFRAFORMA</span>
+      <span class="cta-intro-sub" id="ctaIntroSub">Scroll to explore</span>
+    </div>
 
     <div class="cta-overlay" id="ctaOverlay"></div>
     <div class="cta-grid" id="ctaGrid"></div>
@@ -374,7 +363,7 @@ const sectionHtml = `<style>
     <div class="cta-corner cta-bl" id="ctaCBL"></div>
     <div class="cta-corner cta-br" id="ctaCBR"></div>
 
-    <div class="cta-content" id="ctaContent" style="opacity:0; pointer-events:none;">
+    <div class="cta-content" id="ctaContent">
 
       <div class="cta-eyebrow" id="ctaEyebrow">
         <span class="cta-eline"></span>
@@ -422,116 +411,113 @@ const sectionScript = `
 (function(){
 'use strict';
 
-var root      = document.getElementById('ctaRoot');
-var introBlock= document.getElementById('ctaIntroBlock');
-var introBg   = document.getElementById('ctaIntroBg');
-var introText = document.getElementById('ctaIntroText');
-var video     = document.getElementById('ctaVideo');
-var overlay   = document.getElementById('ctaOverlay');
-var grid      = document.getElementById('ctaGrid');
-var scan      = document.getElementById('ctaScan');
-var content   = document.getElementById('ctaContent');
-var corners   = ['ctaCTL','ctaCTR','ctaCBL','ctaCBR'];
+var TOTAL = ${TOTAL_FRAMES};
+var root    = document.getElementById('ctaRoot');
+var canvas  = document.getElementById('ctaCanvas');
+var intro   = document.getElementById('ctaIntro');
+var introTxt= document.getElementById('ctaIntroText');
+var introSub= document.getElementById('ctaIntroSub');
+var overlay = document.getElementById('ctaOverlay');
+var grid    = document.getElementById('ctaGrid');
+var scan    = document.getElementById('ctaScan');
+var content = document.getElementById('ctaContent');
+var corners = ['ctaCTL','ctaCTR','ctaCBL','ctaCBR'];
 
-if (!root || !video) return;
+if (!root || !canvas) return;
 
-var duration = 0;
+var ctx = canvas.getContext('2d');
+var frames = new Array(TOTAL);
+var loaded = 0;
 var ready = false;
 var ticking = false;
 var contentRevealed = false;
-var visible = false;
+var lastIdx = -1;
 
-/* Smoothed video time — lerp towards target to eliminate jank */
-var currentTime = 0;
-var targetTime = 0;
-var animating = false;
+/* ── Size canvas ── */
+function sizeCanvas(){
+  var w = window.innerWidth;
+  var h = window.innerHeight;
+  canvas.width = w;
+  canvas.height = h;
+  if (lastIdx >= 0) paintFrame(lastIdx);
+}
+sizeCanvas();
+window.addEventListener('resize', sizeCanvas);
 
-function onMeta(){
-  duration = video.duration || 0;
-  if (duration > 0){
-    ready = true;
-    video.currentTime = 0.01;
-    startLoop();
-    update();
+/* ── Preload all frames ── */
+function preload(){
+  for (var i = 0; i < TOTAL; i++){
+    (function(idx){
+      var img = new Image();
+      img.onload = function(){
+        frames[idx] = img;
+        loaded++;
+        /* Paint first frame immediately */
+        if (idx === 0) paintFrame(0);
+        if (loaded === TOTAL){ ready = true; update(); }
+      };
+      img.src = '/frames/f' + String(idx + 1).padStart(3, '0') + '.jpg';
+    })(i);
   }
 }
-video.addEventListener('loadedmetadata', onMeta);
-if (video.readyState >= 1) onMeta();
+preload();
 
-/* Smooth playback loop — lerps currentTime toward target */
-function startLoop(){
-  if (animating) return;
-  animating = true;
-  function tick(){
-    if (!visible){ animating = false; return; }
-    /* Lerp toward target — 0.12 gives smooth ~8 frame catch-up */
-    var diff = targetTime - currentTime;
-    if (Math.abs(diff) > 0.01){
-      currentTime += diff * 0.12;
-      video.currentTime = currentTime;
-    }
-    requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
+/* ── Paint frame with cover fit ── */
+function paintFrame(idx){
+  if (idx < 0 || idx >= TOTAL || !frames[idx]) return;
+  lastIdx = idx;
+  var img = frames[idx];
+  var cw = canvas.width, ch = canvas.height;
+  var iw = img.naturalWidth, ih = img.naturalHeight;
+  var scale = Math.max(cw / iw, ch / ih);
+  var dw = iw * scale, dh = ih * scale;
+  var dx = (cw - dw) / 2, dy = (ch - dh) / 2;
+  ctx.drawImage(img, dx, dy, dw, dh);
 }
 
-/* Visibility */
-var visIO = new IntersectionObserver(function(entries){
-  var wasVisible = visible;
-  visible = entries[0].isIntersecting;
-  if (visible && !wasVisible && ready) startLoop();
-}, { threshold: 0 });
-visIO.observe(root);
-
+/* ── Scroll update ── */
 /*
-  Layout: 400vh total
-  - First 100vh: intro block (scrolls naturally, not sticky)
-  - Remaining 300vh: sticky frame
-
-  Scroll phases (measured from sticky frame):
-  Phase 1 (0-65%):   Video scrub
-  Phase 2 (65-100%):  Overlay + content reveal
+  400vh total, sticky at top.
+  Phase 0 (0-15%):   Intro — dark bg with INFRAFORMA, fades out
+  Phase 1 (10-70%):  Frame scrub (overlaps slightly with intro fade)
+  Phase 2 (60-75%):  Overlay fades in
+  Phase 3 (70-100%): Content reveals
 */
-
 function update(){
-  if (!visible){ ticking = false; return; }
+  var rect = root.getBoundingClientRect();
+  var scrollable = root.offsetHeight - window.innerHeight;
+  if (scrollable <= 0){ ticking = false; return; }
 
-  /* ── Intro block (scrolls with page) ── */
-  var introRect = introBlock.getBoundingClientRect();
-  var winH = window.innerHeight;
+  var raw = Math.max(0, Math.min(1, -rect.top / scrollable));
 
-  /* Text brightens as intro scrolls through viewport */
-  var introVis = Math.max(0, Math.min(1, (winH - introRect.top) / winH));
-  var textAlpha = 0.06 + introVis * 0.65;
-  introText.style.color = 'rgba(71,181,255,' + textAlpha.toFixed(2) + ')';
+  /* Phase 0: Intro */
+  var introP = Math.min(1, raw / 0.15);
+  intro.style.opacity = (1 - introP).toFixed(3);
+  if (introP >= 1){
+    intro.style.pointerEvents = 'none';
+  } else {
+    intro.style.pointerEvents = 'auto';
+    var textA = 0.08 + introP * 0.5;
+    introTxt.style.color = 'rgba(71,181,255,' + textA.toFixed(2) + ')';
+    introSub.style.color = 'rgba(71,181,255,' + (textA * 0.5).toFixed(2) + ')';
+  }
 
-  /* Fade intro bg from dark to transparent as it scrolls up */
-  var introScroll = Math.max(0, Math.min(1, -introRect.top / (winH * 0.6)));
-  introBg.style.opacity = (1 - introScroll).toFixed(2);
-  introText.style.opacity = (1 - introScroll * 1.5).toFixed(2);
+  /* Phase 1: Frame scrub */
+  if (ready){
+    var frameP = Math.max(0, Math.min(1, (raw - 0.10) / 0.60));
+    var idx = Math.min(TOTAL - 1, Math.floor(frameP * (TOTAL - 1)));
+    if (idx !== lastIdx) paintFrame(idx);
+  }
 
-  /* ── Sticky frame phases ── */
-  if (!ready){ ticking = false; return; }
+  /* Phase 2: Overlay */
+  var overlayP = Math.max(0, Math.min(1, (raw - 0.60) / 0.12));
+  overlay.style.opacity = overlayP.toFixed(3);
+  grid.style.opacity = overlayP.toFixed(3);
+  scan.style.opacity = overlayP.toFixed(3);
 
-  var rootRect = root.getBoundingClientRect();
-  /* Scroll progress within the sticky portion (after intro) */
-  var stickyScroll = root.offsetHeight - winH;
-  var stickyOffset = -rootRect.top - winH; /* how far past the intro */
-  var raw = Math.max(0, Math.min(1, stickyOffset / (stickyScroll > 0 ? stickyScroll : 1)));
-
-  /* Phase 1: Video 0..0.65 */
-  var videoProgress = Math.min(1, raw / 0.65);
-  targetTime = videoProgress * duration;
-
-  /* Phase 2: Overlay + content 0.65..1 */
-  var overlayProgress = Math.max(0, (raw - 0.55) / 0.15);
-  overlay.style.opacity = Math.min(1, overlayProgress);
-  grid.style.opacity    = Math.min(1, overlayProgress);
-  scan.style.opacity    = Math.min(1, overlayProgress);
-
-  var contentProgress = Math.max(0, (raw - 0.7) / 0.3);
-
-  if (contentProgress > 0){
+  /* Phase 3: Content */
+  var contentP = Math.max(0, (raw - 0.70) / 0.30);
+  if (contentP > 0){
     content.style.opacity = '1';
     content.style.pointerEvents = 'auto';
 
