@@ -49,20 +49,20 @@ const sectionHtml = `<style>
   position: relative; z-index: 1;
   max-width: 1400px;
   margin: 0 auto;
-  padding: clamp(80px,9vw,140px) clamp(24px,6%,96px);
+  padding: clamp(56px,6vw,96px) clamp(24px,6%,96px);
 }
 
 /* ─── HEADER ─── */
 .sol-header {
   text-align: center;
-  margin-bottom: clamp(56px,7vw,96px);
+  margin-bottom: clamp(36px,4vw,56px);
 }
 
 .sol-eyebrow {
   display: inline-flex; align-items: center; gap: 12px;
   font-family: var(--mono); font-size: 11px;
   letter-spacing: 0.28em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 24px;
+  color: var(--accent); margin-bottom: 20px;
   opacity: 0;
   animation: sol-up 0.7s cubic-bezier(0.22,1,0.36,1) forwards 0.15s;
 }
@@ -73,22 +73,22 @@ const sectionHtml = `<style>
 
 .sol-headline {
   font-family: 'Inter Tight', 'Inter', sans-serif;
-  font-size: clamp(52px,7vw,108px);
-  font-weight: 900; line-height: 0.9;
+  font-size: clamp(36px,4.8vw,76px);
+  font-weight: 900; line-height: 1;
   letter-spacing: -0.03em; text-transform: uppercase;
-  color: var(--text); margin-bottom: 28px;
+  color: var(--text); margin-bottom: 20px;
   opacity: 0;
   animation: sol-up 0.8s cubic-bezier(0.22,1,0.36,1) forwards 0.28s;
 }
 .sol-hl-accent {
-  display: block;
+  display: inline;
   background: linear-gradient(100deg, #fff 0%, var(--accent) 55%, #1A6FAD 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 
 .sol-intro {
-  font-size: clamp(15px,1.2vw,18px); color: var(--muted);
-  line-height: 1.75; max-width: 640px; margin: 0 auto;
+  font-size: clamp(14px,1.1vw,17px); color: var(--muted);
+  line-height: 1.75; max-width: 600px; margin: 0 auto;
   opacity: 0;
   animation: sol-up 0.7s cubic-bezier(0.22,1,0.36,1) forwards 0.42s;
 }
@@ -114,7 +114,7 @@ const sectionHtml = `<style>
 /* Trigger row */
 .sol-trigger {
   width: 100%; background: none; border: none; cursor: pointer;
-  padding: clamp(28px,3.5vw,48px) 0;
+  padding: clamp(22px,2.5vw,36px) 0;
   display: grid; grid-template-columns: 56px 1fr 48px;
   align-items: center; gap: 0;
   text-align: left; position: relative;
@@ -147,7 +147,7 @@ const sectionHtml = `<style>
 
 .sol-label {
   font-family: 'Inter Tight', 'Inter', sans-serif;
-  font-size: clamp(26px,3.8vw,60px);
+  font-size: clamp(22px,3vw,46px);
   font-weight: 900; text-transform: uppercase;
   letter-spacing: -0.025em; line-height: 1;
   color: var(--text); transition: color 0.25s;
@@ -194,7 +194,7 @@ const sectionHtml = `<style>
 .sol-panel.sol-open .sol-body { max-height: 1000px; }
 
 .sol-body-inner {
-  padding: 0 20px clamp(40px,5vw,64px) 56px;
+  padding: 0 20px clamp(28px,3vw,44px) 56px;
 }
 
 /* 3-col grid */
@@ -264,8 +264,8 @@ const sectionHtml = `<style>
 .sol-footer {
   display: flex; align-items: center; justify-content: space-between;
   gap: 32px; flex-wrap: wrap;
-  margin-top: clamp(56px,7vw,96px);
-  padding-top: 36px; border-top: 1px solid var(--border);
+  margin-top: clamp(36px,4vw,56px);
+  padding-top: 28px; border-top: 1px solid var(--border);
 }
 .sol-footer-copy {
   font-size: clamp(13px,1vw,15px); color: var(--muted);
@@ -308,7 +308,7 @@ const sectionHtml = `<style>
 }
 @media (min-width: 1800px) {
   .sol-wrap { max-width: 1600px; }
-  .sol-headline { font-size: clamp(80px,6vw,120px); }
+  .sol-headline { font-size: clamp(64px,5vw,88px); }
 }
 @media (min-width: 2400px) {
   .sol-wrap { max-width: 1920px; }
@@ -326,12 +326,8 @@ const sectionHtml = `<style>
     <!-- Header -->
     <header class="sol-header">
       <div class="sol-eyebrow">Advanced BIM &amp; Digital Delivery</div>
-      <h2 class="sol-headline" id="solHeadline">
-        Our
-        <span class="sol-hl-accent">Three Core</span>
-        Solutions
-      </h2>
-      <p class="sol-intro">Three integrated solution families covering the full project lifecycle — from information governance to operational asset intelligence.</p>
+      <h2 class="sol-headline" id="solHeadline">Three <span class="sol-hl-accent">Integrated</span> Solution Layers</h2>
+      <p class="sol-intro">From information governance through model-based delivery to operational asset intelligence. Three solution families. One delivery system.</p>
     </header>
 
     <!-- Accordion stack -->
