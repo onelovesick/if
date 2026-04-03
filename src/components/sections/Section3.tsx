@@ -44,7 +44,10 @@ const sectionHtml = `<style>
   font-family: var(--mono); font-size: 11px;
   letter-spacing: 0.28em; text-transform: uppercase;
   color: var(--accent); margin-bottom: 20px;
+  opacity: 0; transform: translateY(16px) scale(0.95);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1);
 }
+.sdf-eyebrow.sdf-in { opacity: 1; transform: translateY(0) scale(1); }
 .sdf-eyebrow::before, .sdf-eyebrow::after {
   content: ''; width: 28px; height: 1px;
   background: var(--accent); opacity: 0.5;
@@ -66,46 +69,15 @@ const sectionHtml = `<style>
 .sdf-intro {
   font-size: clamp(14px,1.1vw,17px); color: var(--muted);
   line-height: 1.75; max-width: 620px; margin: 0 auto;
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.8s ease 0.15s, transform 0.8s cubic-bezier(0.22,1,0.36,1) 0.15s;
 }
+.sdf-intro.sdf-in { opacity: 1; transform: translateY(0); }
 
 /* ── Timeline track ── */
 .sdf-track {
   position: relative; z-index: 1;
   max-width: 1400px; margin: 0 auto;
-}
-
-/* Horizontal rail */
-.sdf-rail {
-  position: relative; height: 3px;
-  background: rgba(11,60,93,0.06);
-  border-radius: 2px;
-  margin-bottom: 0;
-}
-.sdf-rail-fill {
-  position: absolute; top: 0; left: 0;
-  height: 100%; width: 0%;
-  background: linear-gradient(90deg, var(--accent), rgba(71,181,255,0.4));
-  border-radius: 2px;
-  box-shadow: 0 0 12px rgba(71,181,255,0.3);
-}
-.sdf-rail-dot {
-  position: absolute; top: 50%; left: 0;
-  width: 12px; height: 12px; border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 4px rgba(71,181,255,0.2), 0 0 20px rgba(71,181,255,0.5);
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  z-index: 2;
-}
-/* Dot trail glow */
-.sdf-rail-glow {
-  position: absolute; top: 50%; left: 0;
-  width: 80px; height: 3px;
-  background: linear-gradient(90deg, transparent, rgba(71,181,255,0.6), transparent);
-  transform: translate(-100%, -50%);
-  opacity: 0;
-  filter: blur(2px);
-  z-index: 1;
 }
 
 /* ── Step cards ── */
@@ -119,10 +91,20 @@ const sectionHtml = `<style>
   position: relative;
   padding: clamp(28px,2.5vw,40px) clamp(20px,2vw,32px);
   opacity: 0;
-  transform: translateY(24px) scale(0.97);
-  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1);
+  transform: translateY(40px) scale(0.92);
+  transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22,1,0.36,1);
 }
 .sdf-step.vis { opacity: 1; transform: translateY(0) scale(1); }
+
+/* Each card enters from a unique origin */
+.sdf-step:nth-child(1) { transform: translateY(50px) translateX(-20px) scale(0.92) rotate(-1deg); transition-delay: 0s; }
+.sdf-step:nth-child(2) { transform: translateY(60px) scale(0.90); transition-delay: 0.1s; }
+.sdf-step:nth-child(3) { transform: translateY(60px) scale(0.90); transition-delay: 0.2s; }
+.sdf-step:nth-child(4) { transform: translateY(50px) translateX(20px) scale(0.92) rotate(1deg); transition-delay: 0.3s; }
+.sdf-step:nth-child(1).vis,
+.sdf-step:nth-child(2).vis,
+.sdf-step:nth-child(3).vis,
+.sdf-step:nth-child(4).vis { transform: translateY(0) translateX(0) scale(1) rotate(0deg); }
 
 /* Card surface */
 .sdf-step-card {
@@ -222,7 +204,10 @@ const sectionHtml = `<style>
   border: 1px solid rgba(11,60,93,0.06);
   border-radius: 10px;
   border-left: 3px solid var(--accent);
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22,1,0.36,1);
 }
+.sdf-principle.sdf-in { opacity: 1; transform: translateY(0); }
 .sdf-principle-text {
   flex: 1;
 }
@@ -306,12 +291,6 @@ const sectionHtml = `<style>
 
   <!-- Timeline -->
   <div class="sdf-track">
-    <div class="sdf-rail" id="sdfRail">
-      <div class="sdf-rail-fill" id="sdfFill"></div>
-      <div class="sdf-rail-glow" id="sdfGlow"></div>
-      <div class="sdf-rail-dot" id="sdfDot"></div>
-    </div>
-
     <div class="sdf-steps">
       <div class="sdf-step" data-stop="12.5">
         <div class="sdf-step-card">
@@ -400,8 +379,10 @@ revealIO.observe(root);
   function updateChars(){
     var rect = root.getBoundingClientRect();
     var winH = window.innerHeight;
-    /* progress: 0 when section top hits viewport bottom, 1 when section top reaches 40% from top */
-    var raw = (winH - rect.top) / (winH * 0.6);
+    /* Slower fill: starts when section enters, completes when section top is 15% from viewport top */
+    var start = winH;
+    var end = winH * 0.15;
+    var raw = (start - rect.top) / (start - end);
     var progress = Math.max(0, Math.min(1, raw));
     var filled = Math.floor(progress * total);
 
@@ -421,6 +402,31 @@ revealIO.observe(root);
 
   window.addEventListener('scroll', onScroll, { passive: true });
   updateChars();
+})();
+
+/* ══ SCROLL ENTRANCE FOR ALL ELEMENTS ══ */
+(function(){
+  var eyebrow = root.querySelector('.sdf-eyebrow');
+  var intro = root.querySelector('.sdf-intro');
+  var steps = Array.from(root.querySelectorAll('.sdf-step'));
+  var principle = root.querySelector('.sdf-principle');
+
+  var targets = [];
+  if (eyebrow) targets.push(eyebrow);
+  if (intro) targets.push(intro);
+  steps.forEach(function(s){ targets.push(s); });
+  if (principle) targets.push(principle);
+
+  var elIO = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){
+        e.target.classList.add(e.target.classList.contains('sdf-step') ? 'vis' : 'sdf-in');
+        elIO.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  targets.forEach(function(t){ elIO.observe(t); });
 })();
 
 /* ══ TOPOGRAPHIC CONTOUR CANVAS ══ */
@@ -549,76 +555,6 @@ revealIO.observe(root);
   window.addEventListener('resize', resize);
 })();
 
-/* ══ TIMELINE ANIMATION ══ */
-(function(){
-  var fill   = document.getElementById('sdfFill');
-  var dot    = document.getElementById('sdfDot');
-  var glow   = document.getElementById('sdfGlow');
-  var steps  = Array.from(document.querySelectorAll('.sdf-step'));
-  var nums   = Array.from(document.querySelectorAll('.sdf-step-num'));
-  var fired  = false;
-
-  function easeInOut(t){ return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
-
-  function runSequence(){
-    var stepDur = 600;
-    var pause   = 140;
-
-    dot.style.opacity  = '1';
-    glow.style.opacity = '1';
-    dot.style.left  = '0%';
-    glow.style.left = '0%';
-    fill.style.width = '0%';
-
-    var stops = steps.map(function(s){ return parseFloat(s.getAttribute('data-stop')); });
-
-    function animateTo(idx, startPct, endPct, onDone){
-      var start = null;
-      function frame(ts){
-        if (!start) start = ts;
-        var t = Math.min((ts - start) / stepDur, 1);
-        var cur = startPct + (endPct - startPct) * easeInOut(t);
-        dot.style.left  = cur + '%';
-        glow.style.left = cur + '%';
-        fill.style.width = cur + '%';
-        if (t < 1){ requestAnimationFrame(frame); return; }
-        setTimeout(function(){
-          var num = nums[idx];
-          num.classList.remove('pulse');
-          void num.offsetWidth;
-          num.classList.add('pulse');
-          steps[idx].classList.add('vis');
-          setTimeout(onDone, pause);
-        }, 40);
-      }
-      requestAnimationFrame(frame);
-    }
-
-    animateTo(0, 0, stops[0], function(){
-      animateTo(1, stops[0], stops[1], function(){
-        animateTo(2, stops[1], stops[2], function(){
-          animateTo(3, stops[2], stops[3], function(){
-            dot.style.transition  = 'opacity 0.6s ease';
-            glow.style.transition = 'opacity 0.6s ease';
-            dot.style.opacity  = '0';
-            glow.style.opacity = '0';
-            fill.style.width = '100%';
-          });
-        });
-      });
-    });
-  }
-
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if (e.isIntersecting && !fired){
-        fired = true; io.disconnect();
-        setTimeout(runSequence, 400);
-      }
-    });
-  }, { threshold: 0.25 });
-  if (root) io.observe(root);
-})();
 
 }());
 `
