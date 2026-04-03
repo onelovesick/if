@@ -481,22 +481,27 @@ function update(){
 
   var raw = Math.max(0, Math.min(1, -rect.top / scrollable));
 
-  /* Phase 1: Intro 0..0.2 */
-  var introProgress = Math.min(1, raw / 0.2);
+  /* Pre-phase: Intro text brightens before section is fully in viewport */
+  /* Uses rect.top relative to viewport height so it starts early */
+  var winH = window.innerHeight;
+  var preProgress = Math.max(0, Math.min(1, (winH - rect.top) / (winH * 0.8)));
+
+  /* Phase 1: Intro fades out during 0..0.15 of scroll progress */
+  var introProgress = Math.min(1, raw / 0.15);
 
   if (introProgress < 1){
     intro.style.opacity = 1 - introProgress;
     intro.style.pointerEvents = 'auto';
-    /* Text goes from dim to bright as user scrolls in */
-    var textAlpha = 0.12 + introProgress * 0.6;
+    /* Text brightens as user approaches — driven by viewport proximity, not scroll progress */
+    var textAlpha = 0.06 + preProgress * 0.7;
     introText.style.color = 'rgba(71,181,255,' + textAlpha.toFixed(2) + ')';
   } else {
     intro.style.opacity = '0';
     intro.style.pointerEvents = 'none';
   }
 
-  /* Phase 2: Video 0.2..0.75 */
-  var videoProgress = Math.max(0, Math.min(1, (raw - 0.2) / 0.55));
+  /* Phase 2: Video 0.15..0.75 */
+  var videoProgress = Math.max(0, Math.min(1, (raw - 0.15) / 0.6));
 
   var targetTime = videoProgress * duration;
   if (Math.abs(video.currentTime - targetTime) > 0.1){
