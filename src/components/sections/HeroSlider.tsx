@@ -685,6 +685,49 @@ const heroHtml = `<style>
 }
 @keyframes h3scrollPulse { 0%,100%{transform:scaleY(1);opacity:1} 50%{transform:scaleY(0.35);opacity:0.35} }
 
+/* ══ VIDEO BACKGROUND ══ */
+.h3-video-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.h3-video-wrap.h3-vid-active {
+  opacity: 1;
+}
+.h3-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+}
+.h3-video-mask {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+    rgba(3,10,18,1) 0%,
+    rgba(3,10,18,0.95) 25%,
+    rgba(3,10,18,0.6) 45%,
+    rgba(3,10,18,0.15) 65%,
+    rgba(3,10,18,0.05) 80%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+.h3-video-dim {
+  position: absolute;
+  inset: 0;
+  background: rgba(3,10,18,0.25);
+  pointer-events: none;
+}
+
 /* ══ VIGNETTES ══ */
 .h3-vig-left {
   position: absolute;
@@ -800,6 +843,15 @@ const heroHtml = `<style>
     <div class="h3-node h3-node-3"></div>
     <div class="h3-node h3-node-4"></div>
     <div class="h3-node h3-node-5"></div>
+  </div>
+
+  <!-- Video background (slide 0) -->
+  <div class="h3-video-wrap h3-vid-active" id="h3Video">
+    <video class="h3-video" autoplay muted loop playsinline>
+      <source src="/videos/hero-bg.mp4" type="video/mp4" />
+    </video>
+    <div class="h3-video-dim"></div>
+    <div class="h3-video-mask"></div>
   </div>
 
   <!-- Grid -->
@@ -1047,6 +1099,9 @@ function goTo(i){
     slides[current].classList.add('active');
     dots[current].classList.add('active');
     phases[current].classList.add('active');
+    /* Show video only on slide 0 */
+    var vid = document.getElementById('h3Video');
+    if(vid){ if(current === 0) vid.classList.add('h3-vid-active'); else vid.classList.remove('h3-vid-active'); }
     transitioning = false;
 
     progStart = null;
