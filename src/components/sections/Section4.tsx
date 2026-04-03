@@ -17,12 +17,40 @@ const sectionHtml = `<style>
 
   position: relative;
   width: 100%;
-  height: 300vh;
+  height: 400vh;
   font-family: 'Inter', sans-serif;
   color: var(--text);
 }
 
-/* Sticky viewport frame */
+/* Intro block — NOT sticky, scrolls naturally */
+.cta-intro-block {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+.cta-intro-bg {
+  position: absolute; inset: 0;
+  background: #050c14;
+  z-index: 0;
+  will-change: opacity;
+}
+.cta-intro-text {
+  position: relative; z-index: 1;
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(28px, 4vw, 56px);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(71,181,255,0.12);
+  text-align: center;
+  user-select: none;
+}
+
+/* Sticky viewport frame — for video + content */
 .cta-sticky {
   position: sticky;
   top: 0;
@@ -33,26 +61,6 @@ const sectionHtml = `<style>
   align-items: center;
   justify-content: center;
   background: #050c14;
-}
-
-/* ── Pre-video intro layer ── */
-.cta-intro {
-  position: absolute; inset: 0;
-  z-index: 5;
-  display: flex; align-items: center; justify-content: center;
-  background: #050c14;
-  transition: opacity 0.6s ease;
-}
-.cta-intro-text {
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(28px, 4vw, 56px);
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(71,181,255,0.12);
-  text-align: center;
-  user-select: none;
-  transition: color 0.4s ease, opacity 0.4s ease;
 }
 
 /* Video — full viewport */
@@ -343,11 +351,15 @@ const sectionHtml = `<style>
 </style>
 
 <section class="cta-root" id="ctaRoot">
-  <div class="cta-sticky" id="ctaSticky">
 
-    <div class="cta-intro" id="ctaIntro">
-      <span class="cta-intro-text" id="ctaIntroText">INFRAFORMA</span>
-    </div>
+  <!-- Intro — scrolls naturally, not sticky -->
+  <div class="cta-intro-block" id="ctaIntroBlock">
+    <div class="cta-intro-bg" id="ctaIntroBg"></div>
+    <span class="cta-intro-text" id="ctaIntroText">INFRAFORMA</span>
+  </div>
+
+  <!-- Sticky frame — video + content -->
+  <div class="cta-sticky" id="ctaSticky">
 
     <video class="cta-video" id="ctaVideo" muted playsinline preload="auto">
       <source src="/videos/bridge-bg.mp4" type="video/mp4" />
@@ -411,9 +423,10 @@ const sectionScript = `
 'use strict';
 
 var root      = document.getElementById('ctaRoot');
-var video     = document.getElementById('ctaVideo');
-var intro     = document.getElementById('ctaIntro');
+var introBlock= document.getElementById('ctaIntroBlock');
+var introBg   = document.getElementById('ctaIntroBg');
 var introText = document.getElementById('ctaIntroText');
+var video     = document.getElementById('ctaVideo');
 var overlay   = document.getElementById('ctaOverlay');
 var grid      = document.getElementById('ctaGrid');
 var scan      = document.getElementById('ctaScan');
@@ -425,97 +438,98 @@ if (!root || !video) return;
 var duration = 0;
 var ready = false;
 var ticking = false;
-var seeking = false;
-var pendingTime = -1;
 var contentRevealed = false;
 var visible = false;
 
-/* Preload first frame immediately */
+/* Smoothed video time — lerp towards target to eliminate jank */
+var currentTime = 0;
+var targetTime = 0;
+var animating = false;
+
 function onMeta(){
   duration = video.duration || 0;
   if (duration > 0){
     ready = true;
     video.currentTime = 0.01;
+    startLoop();
     update();
   }
 }
 video.addEventListener('loadedmetadata', onMeta);
 if (video.readyState >= 1) onMeta();
 
-/* Seek gate — one seek at a time, queue the latest */
-video.addEventListener('seeked', function(){
-  seeking = false;
-  if (pendingTime >= 0){
-    var t = pendingTime;
-    pendingTime = -1;
-    doSeek(t);
+/* Smooth playback loop — lerps currentTime toward target */
+function startLoop(){
+  if (animating) return;
+  animating = true;
+  function tick(){
+    if (!visible){ animating = false; return; }
+    /* Lerp toward target — 0.12 gives smooth ~8 frame catch-up */
+    var diff = targetTime - currentTime;
+    if (Math.abs(diff) > 0.01){
+      currentTime += diff * 0.12;
+      video.currentTime = currentTime;
+    }
+    requestAnimationFrame(tick);
   }
-});
-
-function doSeek(t){
-  if (seeking){ pendingTime = t; return; }
-  seeking = true;
-  video.currentTime = t;
+  requestAnimationFrame(tick);
 }
 
-/* Visibility gate */
+/* Visibility */
 var visIO = new IntersectionObserver(function(entries){
+  var wasVisible = visible;
   visible = entries[0].isIntersecting;
-  if (visible && ready) requestAnimationFrame(update);
+  if (visible && !wasVisible && ready) startLoop();
 }, { threshold: 0 });
 visIO.observe(root);
 
 /*
-  Scroll phases across 300vh:
-  Phase 1 (0-20%):  Intro — dark with INFRAFORMA, fades to white
-  Phase 2 (20-75%): Video scrub
-  Phase 3 (75-100%): Content reveal
+  Layout: 400vh total
+  - First 100vh: intro block (scrolls naturally, not sticky)
+  - Remaining 300vh: sticky frame
+
+  Scroll phases (measured from sticky frame):
+  Phase 1 (0-65%):   Video scrub
+  Phase 2 (65-100%):  Overlay + content reveal
 */
 
 function update(){
-  if (!ready || !visible){ ticking = false; return; }
+  if (!visible){ ticking = false; return; }
 
-  var rect = root.getBoundingClientRect();
-  var scrollable = root.offsetHeight - window.innerHeight;
-  if (scrollable <= 0){ ticking = false; return; }
-
-  var raw = Math.max(0, Math.min(1, -rect.top / scrollable));
-
-  /* Pre-phase: Intro text brightens before section is fully in viewport */
-  /* Uses rect.top relative to viewport height so it starts early */
+  /* ── Intro block (scrolls with page) ── */
+  var introRect = introBlock.getBoundingClientRect();
   var winH = window.innerHeight;
-  var preProgress = Math.max(0, Math.min(1, (winH - rect.top) / (winH * 0.8)));
 
-  /* Phase 1: Intro fades out during 0..0.15 of scroll progress */
-  var introProgress = Math.min(1, raw / 0.15);
+  /* Text brightens as intro scrolls through viewport */
+  var introVis = Math.max(0, Math.min(1, (winH - introRect.top) / winH));
+  var textAlpha = 0.06 + introVis * 0.65;
+  introText.style.color = 'rgba(71,181,255,' + textAlpha.toFixed(2) + ')';
 
-  if (introProgress < 1){
-    intro.style.opacity = 1 - introProgress;
-    intro.style.pointerEvents = 'auto';
-    /* Text brightens as user approaches — driven by viewport proximity, not scroll progress */
-    var textAlpha = 0.06 + preProgress * 0.7;
-    introText.style.color = 'rgba(71,181,255,' + textAlpha.toFixed(2) + ')';
-  } else {
-    intro.style.opacity = '0';
-    intro.style.pointerEvents = 'none';
-  }
+  /* Fade intro bg from dark to transparent as it scrolls up */
+  var introScroll = Math.max(0, Math.min(1, -introRect.top / (winH * 0.6)));
+  introBg.style.opacity = (1 - introScroll).toFixed(2);
+  introText.style.opacity = (1 - introScroll * 1.5).toFixed(2);
 
-  /* Phase 2: Video 0.15..0.75 */
-  var videoProgress = Math.max(0, Math.min(1, (raw - 0.15) / 0.6));
+  /* ── Sticky frame phases ── */
+  if (!ready){ ticking = false; return; }
 
-  var targetTime = videoProgress * duration;
-  if (Math.abs(video.currentTime - targetTime) > 0.1){
-    doSeek(targetTime);
-  }
+  var rootRect = root.getBoundingClientRect();
+  /* Scroll progress within the sticky portion (after intro) */
+  var stickyScroll = root.offsetHeight - winH;
+  var stickyOffset = -rootRect.top - winH; /* how far past the intro */
+  var raw = Math.max(0, Math.min(1, stickyOffset / (stickyScroll > 0 ? stickyScroll : 1)));
 
-  /* Overlay fade during last 25% of video phase */
-  var oa = videoProgress > 0.75 ? (videoProgress - 0.75) / 0.25 : 0;
-  overlay.style.opacity = oa;
-  grid.style.opacity    = oa;
-  scan.style.opacity    = oa;
+  /* Phase 1: Video 0..0.65 */
+  var videoProgress = Math.min(1, raw / 0.65);
+  targetTime = videoProgress * duration;
 
-  /* Phase 3: Content 0.75..1 */
-  var contentProgress = Math.max(0, (raw - 0.75) / 0.25);
+  /* Phase 2: Overlay + content 0.65..1 */
+  var overlayProgress = Math.max(0, (raw - 0.55) / 0.15);
+  overlay.style.opacity = Math.min(1, overlayProgress);
+  grid.style.opacity    = Math.min(1, overlayProgress);
+  scan.style.opacity    = Math.min(1, overlayProgress);
+
+  var contentProgress = Math.max(0, (raw - 0.7) / 0.3);
 
   if (contentProgress > 0){
     content.style.opacity = '1';
