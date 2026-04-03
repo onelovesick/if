@@ -542,8 +542,10 @@ function update(){
     When rect.top = 0, section is at sticky position.
     Map this to 0..1 for the full dark-to-white + logo transition.
   */
-  var distToSticky = Math.max(0, Math.min(1, 1 - rect.top / winH));
-  /* distToSticky: 0 = section at bottom of viewport, 1 = section at sticky */
+  var rawDist = Math.max(0, Math.min(1, 1 - rect.top / winH));
+  /* Delay start: nothing happens until section is 40% into viewport, then transition runs from 0.4..1 */
+  var distToSticky = Math.max(0, Math.min(1, (rawDist - 0.4) / 0.6));
+  /* distToSticky: 0 = section 40% into viewport, 1 = section at sticky */
 
   if (raw < 0.08){
     /* Intro still visible */
