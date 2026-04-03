@@ -107,14 +107,22 @@ const sectionHtml = `<style>
 }
 @keyframes cta-scan { from { top: -35%; } to { top: 100%; } }
 
-/* ── Hero title group (appears first) ── */
-.cta-hero {
-  position: absolute;
+/* ── All content wrapper ── */
+.cta-all {
+  position: relative;
   z-index: 10;
   text-align: center;
   width: 100%;
   max-width: 1400px;
   padding: 0 4%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── Hero title group (appears first) ── */
+.cta-hero {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -192,12 +200,8 @@ const sectionHtml = `<style>
 
 /* ── Supporting content group (appears after) ── */
 .cta-content {
-  position: relative;
-  z-index: 10;
-  text-align: center;
   width: 100%;
-  max-width: 1100px;
-  padding: 0 6%;
+  max-width: 700px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -355,7 +359,7 @@ const sectionHtml = `<style>
 /* Responsive */
 @media (max-width: 768px) {
   .cta-headline { font-size: clamp(32px, 10vw, 56px); }
-  .cta-hero { max-width: 100%; padding: 0 6%; }
+  .cta-all { padding: 0 6%; }
   .cta-stats { flex-wrap: wrap; border: none; gap: 1px; background: rgba(71,181,255,0.15); border-radius: 3px; }
   .cta-stat { flex: 1 1 calc(50% - 1px); min-width: 140px; padding: 18px 20px; }
   .cta-btns { flex-direction: column; width: 100%; max-width: 320px; }
@@ -364,13 +368,13 @@ const sectionHtml = `<style>
 }
 @media (min-width: 1800px) {
   .cta-headline { font-size: clamp(90px, 7vw, 130px); }
-  .cta-hero { max-width: 1600px; }
+  .cta-all { max-width: 1600px; }
   .cta-body { font-size: 19px; max-width: 680px; }
   .cta-stat { padding: 24px 52px; }
 }
 @media (min-width: 2400px) {
   .cta-headline { font-size: 140px; }
-  .cta-hero { max-width: 1920px; }
+  .cta-all { max-width: 1920px; }
 }
 </style>
 
@@ -392,6 +396,7 @@ const sectionHtml = `<style>
     <div class="cta-corner cta-bl" id="ctaCBL"></div>
     <div class="cta-corner cta-br" id="ctaCBR"></div>
 
+    <div class="cta-all">
     <!-- Hero title group (appears first) -->
     <div class="cta-hero" id="ctaHero">
       <div class="cta-eyebrow" id="ctaEyebrow">
@@ -436,6 +441,7 @@ const sectionHtml = `<style>
         <a href="/services" class="cta-btn-p">What We Do <span class="arr">&rarr;</span></a>
         <a href="/contact"  class="cta-btn-g">Contact Us</a>
       </div>
+    </div>
     </div>
 
     <div class="cta-edge"></div>
