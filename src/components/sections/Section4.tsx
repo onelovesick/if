@@ -51,8 +51,8 @@ const sectionHtml = `<style>
   z-index: 5;
   display: flex; align-items: center; justify-content: center;
   flex-direction: column; gap: 16px;
+  will-change: opacity, background-color;
   background: #050c14;
-  will-change: opacity;
 }
 .cta-intro-text {
   font-family: 'Inter', sans-serif;
@@ -60,18 +60,11 @@ const sectionHtml = `<style>
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(71,181,255,0.08);
+  color: rgba(255,255,255,0.7);
   text-align: center;
   user-select: none;
   will-change: color;
-}
-.cta-intro-sub {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: rgba(71,181,255,0);
-  will-change: color;
+  transition: opacity 0.4s ease;
 }
 
 /* Dark overlay */
@@ -351,7 +344,6 @@ const sectionHtml = `<style>
 
     <div class="cta-intro" id="ctaIntro">
       <span class="cta-intro-text" id="ctaIntroText">INFRAFORMA</span>
-      <span class="cta-intro-sub" id="ctaIntroSub">Scroll to explore</span>
     </div>
 
     <div class="cta-overlay" id="ctaOverlay"></div>
@@ -416,7 +408,6 @@ var root    = document.getElementById('ctaRoot');
 var canvas  = document.getElementById('ctaCanvas');
 var intro   = document.getElementById('ctaIntro');
 var introTxt= document.getElementById('ctaIntroText');
-var introSub= document.getElementById('ctaIntroSub');
 var overlay = document.getElementById('ctaOverlay');
 var grid    = document.getElementById('ctaGrid');
 var scan    = document.getElementById('ctaScan');
@@ -477,46 +468,76 @@ function paintFrame(idx){
 
 /* ── Scroll update ── */
 /*
-  400vh total, sticky at top.
-  Phase 0 (0-15%):   Intro — dark bg with INFRAFORMA, fades out
-  Phase 1 (10-70%):  Frame scrub (overlaps slightly with intro fade)
-  Phase 2 (60-75%):  Overlay fades in
-  Phase 3 (70-100%): Content reveals
+  Intro transition is driven by rect.top approaching 0 (sticky position).
+  Once sticky, scroll progress within 400vh drives:
+    Phase 1 (0-8%):    Logo fades out
+    Phase 2 (5-65%):   Frame scrub
+    Phase 3 (55-70%):  Overlay fades in
+    Phase 4 (65-100%): Content reveals
 */
 function update(){
   var rect = root.getBoundingClientRect();
-  var scrollable = root.offsetHeight - window.innerHeight;
+  var winH = window.innerHeight;
+  var scrollable = root.offsetHeight - winH;
   if (scrollable <= 0){ ticking = false; return; }
 
   var raw = Math.max(0, Math.min(1, -rect.top / scrollable));
 
-  /* Phase 0: Intro */
-  var introP = Math.min(1, raw / 0.15);
-  intro.style.opacity = (1 - introP).toFixed(3);
-  if (introP >= 1){
-    intro.style.pointerEvents = 'none';
+  /*
+    Intro: driven by distance from sticky position.
+    rect.top goes from positive (below) to 0 (sticky).
+    When rect.top = winH, section just entered viewport bottom.
+    When rect.top = 0, section is at sticky position.
+    Map this to 0..1 for the full dark-to-white + logo transition.
+  */
+  var distToSticky = Math.max(0, Math.min(1, 1 - rect.top / winH));
+  /* distToSticky: 0 = section at bottom of viewport, 1 = section at sticky */
+
+  if (raw < 0.08){
+    /* Intro still visible */
+    /* Background: dark (#050c14) -> white (#f2f5f8) */
+    var r = Math.round(5   + distToSticky * (242 - 5));
+    var g = Math.round(12  + distToSticky * (245 - 12));
+    var b = Math.round(20  + distToSticky * (248 - 20));
+    intro.style.background = 'rgb(' + r + ',' + g + ',' + b + ')';
+
+    /* Logo: white -> accent blue, then fades out at very end */
+    var logoFade = raw < 0.04 ? 1 : Math.max(0, 1 - (raw - 0.04) / 0.04);
+    if (distToSticky < 0.7){
+      /* White logo on dark */
+      var wa = 0.7 + distToSticky * 0.3;
+      introTxt.style.color = 'rgba(255,255,255,' + wa.toFixed(2) + ')';
+    } else {
+      /* Transition to accent blue on light bg */
+      var blueP = (distToSticky - 0.7) / 0.3;
+      var cr = Math.round(255 - blueP * (255 - 71));
+      var cg = Math.round(255 - blueP * (255 - 181));
+      var cb = 255;
+      introTxt.style.color = 'rgb(' + cr + ',' + cg + ',' + cb + ')';
+    }
+    introTxt.style.opacity = logoFade.toFixed(3);
+    intro.style.opacity = '1';
+    intro.style.pointerEvents = logoFade > 0 ? 'auto' : 'none';
   } else {
-    intro.style.pointerEvents = 'auto';
-    var textA = 0.08 + introP * 0.5;
-    introTxt.style.color = 'rgba(71,181,255,' + textA.toFixed(2) + ')';
-    introSub.style.color = 'rgba(71,181,255,' + (textA * 0.5).toFixed(2) + ')';
+    intro.style.opacity = '0';
+    intro.style.pointerEvents = 'none';
   }
 
-  /* Phase 1: Frame scrub */
+  /* Phase 2: Frame scrub */
   if (ready){
-    var frameP = Math.max(0, Math.min(1, (raw - 0.10) / 0.60));
+    var frameP = Math.max(0, Math.min(1, (raw - 0.05) / 0.60));
     var idx = Math.min(TOTAL - 1, Math.floor(frameP * (TOTAL - 1)));
     if (idx !== lastIdx) paintFrame(idx);
   }
 
-  /* Phase 2: Overlay */
-  var overlayP = Math.max(0, Math.min(1, (raw - 0.60) / 0.12));
+  /* Phase 3: Overlay */
+  var overlayP = Math.max(0, Math.min(1, (raw - 0.55) / 0.12));
   overlay.style.opacity = overlayP.toFixed(3);
   grid.style.opacity = overlayP.toFixed(3);
   scan.style.opacity = overlayP.toFixed(3);
 
-  /* Phase 3: Content */
-  var contentP = Math.max(0, (raw - 0.70) / 0.30);
+  /* Phase 4: Content */
+  var contentP = Math.max(0, (raw - 0.65) / 0.35);
   if (contentP > 0){
     content.style.opacity = '1';
     content.style.pointerEvents = 'auto';
