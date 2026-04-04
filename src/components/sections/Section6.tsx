@@ -40,17 +40,44 @@ const sectionHtml = `<style>
   justify-content: center;
   margin: -60px 0;
   margin-left: clamp(-120px, -8vw, -40px);
+  overflow: visible;
 }
 
 .esk-video {
   width: 100%;
   display: block;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 82%, transparent 100%),
-    linear-gradient(to bottom, transparent 0%, black 5%, black 97%, transparent 100%);
-  -webkit-mask-composite: destination-in;
-  mask-image: linear-gradient(to right, transparent 0%, black 4%, black 82%, transparent 100%),
-    linear-gradient(to bottom, transparent 0%, black 5%, black 97%, transparent 100%);
-  mask-composite: intersect;
+  -webkit-mask-image: radial-gradient(
+    ellipse 62% 58% at 48% 50%,
+    black 30%,
+    rgba(0,0,0,0.7) 50%,
+    rgba(0,0,0,0.25) 70%,
+    rgba(0,0,0,0.05) 85%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 62% 58% at 48% 50%,
+    black 30%,
+    rgba(0,0,0,0.7) 50%,
+    rgba(0,0,0,0.25) 70%,
+    rgba(0,0,0,0.05) 85%,
+    transparent 100%
+  );
+}
+
+/* Edge feathering overlay — dark fog around perimeter */
+.esk-video-col::after {
+  content: '';
+  position: absolute; inset: -20px;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    radial-gradient(
+      ellipse 55% 50% at 48% 50%,
+      transparent 35%,
+      rgba(6,14,24,0.3) 55%,
+      rgba(6,14,24,0.7) 72%,
+      #060e18 90%
+    );
 }
 
 /* Scroll reveal */
