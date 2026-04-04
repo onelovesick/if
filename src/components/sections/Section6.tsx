@@ -44,8 +44,7 @@ const sectionHtml = `<style>
 .esk-video-wrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 1;
-  max-width: 620px;
+  max-width: 700px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,20 +55,18 @@ const sectionHtml = `<style>
   height: 100%;
   object-fit: cover;
   -webkit-mask-image: radial-gradient(
-    ellipse 80% 80% at 50% 50%,
-    black 40%,
-    rgba(0,0,0,0.7) 58%,
-    rgba(0,0,0,0.3) 72%,
-    rgba(0,0,0,0.08) 85%,
-    transparent 95%
+    ellipse 100% 100% at 50% 50%,
+    black 55%,
+    rgba(0,0,0,0.5) 75%,
+    rgba(0,0,0,0.1) 90%,
+    transparent 100%
   );
   mask-image: radial-gradient(
-    ellipse 80% 80% at 50% 50%,
-    black 40%,
-    rgba(0,0,0,0.7) 58%,
-    rgba(0,0,0,0.3) 72%,
-    rgba(0,0,0,0.08) 85%,
-    transparent 95%
+    ellipse 100% 100% at 50% 50%,
+    black 55%,
+    rgba(0,0,0,0.5) 75%,
+    rgba(0,0,0,0.1) 90%,
+    transparent 100%
   );
 }
 
