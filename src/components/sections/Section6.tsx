@@ -47,24 +47,24 @@ const sectionHtml = `<style>
   width: 100%;
   display: block;
   -webkit-mask-image: radial-gradient(
-    ellipse 62% 58% at 48% 50%,
-    black 30%,
-    rgba(0,0,0,0.7) 50%,
-    rgba(0,0,0,0.25) 70%,
-    rgba(0,0,0,0.05) 85%,
+    ellipse 75% 72% at 48% 50%,
+    black 60%,
+    rgba(0,0,0,0.8) 72%,
+    rgba(0,0,0,0.35) 85%,
+    rgba(0,0,0,0.08) 93%,
     transparent 100%
   );
   mask-image: radial-gradient(
-    ellipse 62% 58% at 48% 50%,
-    black 30%,
-    rgba(0,0,0,0.7) 50%,
-    rgba(0,0,0,0.25) 70%,
-    rgba(0,0,0,0.05) 85%,
+    ellipse 75% 72% at 48% 50%,
+    black 60%,
+    rgba(0,0,0,0.8) 72%,
+    rgba(0,0,0,0.35) 85%,
+    rgba(0,0,0,0.08) 93%,
     transparent 100%
   );
 }
 
-/* Edge feathering overlay — dark fog around perimeter */
+/* Edge feathering — only the true perimeter */
 .esk-video-col::after {
   content: '';
   position: absolute; inset: -20px;
@@ -72,11 +72,11 @@ const sectionHtml = `<style>
   z-index: 1;
   background:
     radial-gradient(
-      ellipse 55% 50% at 48% 50%,
-      transparent 35%,
-      rgba(6,14,24,0.3) 55%,
-      rgba(6,14,24,0.7) 72%,
-      #060e18 90%
+      ellipse 70% 66% at 48% 50%,
+      transparent 65%,
+      rgba(6,14,24,0.15) 78%,
+      rgba(6,14,24,0.55) 88%,
+      #060e18 97%
     );
 }
 
