@@ -45,11 +45,11 @@ const sectionHtml = `<style>
 .esk-video {
   width: 100%;
   display: block;
-  -webkit-mask-image: linear-gradient(to right, black 50%, transparent 98%),
-    linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 3%, black 50%, transparent 97%),
+    linear-gradient(to bottom, transparent 0%, black 3%, black 97%, transparent 100%);
   -webkit-mask-composite: destination-in;
-  mask-image: linear-gradient(to right, black 50%, transparent 98%),
-    linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 3%, black 50%, transparent 97%),
+    linear-gradient(to bottom, transparent 0%, black 3%, black 97%, transparent 100%);
   mask-composite: intersect;
 }
 
