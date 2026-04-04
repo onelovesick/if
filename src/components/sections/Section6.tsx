@@ -45,7 +45,7 @@ const sectionHtml = `<style>
   position: relative;
   width: 100%;
   aspect-ratio: 1;
-  max-width: 520px;
+  max-width: 620px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,20 +55,21 @@ const sectionHtml = `<style>
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 50%;
   -webkit-mask-image: radial-gradient(
-    ellipse 48% 48% at 50% 50%,
-    black 35%,
-    rgba(0,0,0,0.6) 55%,
-    rgba(0,0,0,0.15) 70%,
-    transparent 80%
+    ellipse 80% 80% at 50% 50%,
+    black 40%,
+    rgba(0,0,0,0.7) 58%,
+    rgba(0,0,0,0.3) 72%,
+    rgba(0,0,0,0.08) 85%,
+    transparent 95%
   );
   mask-image: radial-gradient(
-    ellipse 48% 48% at 50% 50%,
-    black 35%,
-    rgba(0,0,0,0.6) 55%,
-    rgba(0,0,0,0.15) 70%,
-    transparent 80%
+    ellipse 80% 80% at 50% 50%,
+    black 40%,
+    rgba(0,0,0,0.7) 58%,
+    rgba(0,0,0,0.3) 72%,
+    rgba(0,0,0,0.08) 85%,
+    transparent 95%
   );
 }
 
