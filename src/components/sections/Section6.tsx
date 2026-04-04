@@ -27,57 +27,98 @@ const sectionHtml = `<style>
   max-width: 1500px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 60% 1fr;
-  gap: 0;
+  grid-template-columns: 58% 1fr;
+  gap: clamp(24px,3vw,48px);
   align-items: center;
 }
 
 /* ══ LEFT: Video ══ */
-.esk-video-col {
+.esk-video-shell {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: -60px 0;
-  margin-left: clamp(-120px, -8vw, -40px);
-  overflow: visible;
+  overflow: hidden;
+  isolation: isolate;
+  margin: -40px 0;
+  margin-left: clamp(-140px, -10vw, -60px);
 }
 
 .esk-video {
   width: 100%;
   display: block;
   -webkit-mask-image: radial-gradient(
-    ellipse 75% 72% at 48% 50%,
-    black 60%,
-    rgba(0,0,0,0.8) 72%,
-    rgba(0,0,0,0.35) 85%,
-    rgba(0,0,0,0.08) 93%,
-    transparent 100%
+    ellipse 88% 78% at center,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,1) 62%,
+    rgba(0,0,0,0.92) 74%,
+    rgba(0,0,0,0.55) 88%,
+    rgba(0,0,0,0) 100%
   );
   mask-image: radial-gradient(
-    ellipse 75% 72% at 48% 50%,
-    black 60%,
-    rgba(0,0,0,0.8) 72%,
-    rgba(0,0,0,0.35) 85%,
-    rgba(0,0,0,0.08) 93%,
-    transparent 100%
+    ellipse 88% 78% at center,
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,1) 62%,
+    rgba(0,0,0,0.92) 74%,
+    rgba(0,0,0,0.55) 88%,
+    rgba(0,0,0,0) 100%
   );
 }
 
-/* Edge feathering — only the true perimeter */
-.esk-video-col::after {
+/* Side + top/bottom edge kill */
+.esk-video-shell::before {
   content: '';
-  position: absolute; inset: -20px;
-  pointer-events: none;
-  z-index: 1;
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 2;
   background:
-    radial-gradient(
-      ellipse 70% 66% at 48% 50%,
-      transparent 65%,
-      rgba(6,14,24,0.15) 78%,
-      rgba(6,14,24,0.55) 88%,
-      #060e18 97%
-    );
+    linear-gradient(to right, #060e18 0%, transparent 14%, transparent 86%, #060e18 100%),
+    linear-gradient(to bottom, #060e18 0%, transparent 14%, transparent 86%, #060e18 100%);
+}
+
+/* Radial fog overlay */
+.esk-edge-overlay {
+  position: absolute; inset: 0;
+  pointer-events: none; z-index: 3;
+  background: radial-gradient(
+    ellipse 92% 82% at center,
+    transparent 0%,
+    transparent 64%,
+    rgba(6,14,24,0.10) 76%,
+    rgba(6,14,24,0.28) 86%,
+    rgba(6,14,24,0.58) 93%,
+    rgba(6,14,24,0.88) 98%,
+    #060e18 100%
+  );
+}
+
+/* Directional edge overlays */
+.esk-edge-t {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 18%; pointer-events: none; z-index: 4;
+  background: linear-gradient(to bottom, #060e18 0%, transparent 100%);
+}
+.esk-edge-b {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 18%; pointer-events: none; z-index: 4;
+  background: linear-gradient(to top, #060e18 0%, transparent 100%);
+}
+.esk-edge-l {
+  position: absolute; top: 0; bottom: 0; left: 0;
+  width: 14%; pointer-events: none; z-index: 4;
+  background: linear-gradient(to right, #060e18 0%, transparent 100%);
+}
+.esk-edge-r {
+  position: absolute; top: 0; bottom: 0; right: 0;
+  width: 14%; pointer-events: none; z-index: 4;
+  background: linear-gradient(to left, #060e18 0%, transparent 100%);
+}
+
+/* Scroll reveal */
+.esk-video-shell {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 1.4s ease, transform 1.8s cubic-bezier(0.16,1,0.3,1);
+}
+.esk-video-shell.esk-in {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 /* Scroll reveal */
@@ -210,7 +251,7 @@ const sectionHtml = `<style>
 /* ══ Responsive ══ */
 @media (max-width: 1024px) {
   .esk-wrap { grid-template-columns: 1fr; }
-  .esk-video-col { margin: 0; }
+  .esk-video-shell { margin: 0; }
 }
 @media (min-width: 1800px) {
   .esk-wrap { max-width: 1700px; }
@@ -222,10 +263,15 @@ const sectionHtml = `<style>
   <div class="esk-wrap">
 
     <!-- Left: Video -->
-    <div class="esk-video-col" id="eskVideoCol">
+    <div class="esk-video-shell" id="eskVideoCol">
       <video class="esk-video" autoplay muted loop playsinline>
         <source src="/videos/vidwho.mp4" type="video/mp4" />
       </video>
+      <div class="esk-edge-overlay"></div>
+      <div class="esk-edge-t"></div>
+      <div class="esk-edge-b"></div>
+      <div class="esk-edge-l"></div>
+      <div class="esk-edge-r"></div>
     </div>
 
     <!-- Right: Content -->
