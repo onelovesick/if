@@ -276,7 +276,7 @@ const sectionHtml = `<style>
   <div class="ind-grid">
 
     <a href="/industries/heavy-civil/" class="ind-card">
-      <div class="ind-card-img" style="background-image:url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=900&q=80')"></div>
+      <div class="ind-card-img" style="background-image:url('/images/industries/heavy_civil.jpg')"></div>
       <div class="ind-card-overlay"></div>
       <div class="ind-card-line"></div>
       <span class="ind-card-num">01</span>
@@ -289,7 +289,7 @@ const sectionHtml = `<style>
     </a>
 
     <a href="/industries/mining/" class="ind-card">
-      <div class="ind-card-img" style="background-image:url('https://images.unsplash.com/photo-1578496479763-c21ef8a43d52?w=900&q=80')"></div>
+      <div class="ind-card-img" style="background-image:url('/images/industries/mining.jpg')"></div>
       <div class="ind-card-overlay"></div>
       <div class="ind-card-line"></div>
       <span class="ind-card-num">02</span>
@@ -302,7 +302,7 @@ const sectionHtml = `<style>
     </a>
 
     <a href="/industries/energy/" class="ind-card">
-      <div class="ind-card-img" style="background-image:url('https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=900&q=80')"></div>
+      <div class="ind-card-img" style="background-image:url('/images/industries/energy.jpg')"></div>
       <div class="ind-card-overlay"></div>
       <div class="ind-card-line"></div>
       <span class="ind-card-num">03</span>
@@ -315,7 +315,7 @@ const sectionHtml = `<style>
     </a>
 
     <a href="/industries/institutional/" class="ind-card">
-      <div class="ind-card-img" style="background-image:url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&q=80')"></div>
+      <div class="ind-card-img" style="background-image:url('/images/industries/gov.jpg')"></div>
       <div class="ind-card-overlay"></div>
       <div class="ind-card-line"></div>
       <span class="ind-card-num">04</span>
@@ -328,7 +328,7 @@ const sectionHtml = `<style>
     </a>
 
     <a href="/industries/industrial/" class="ind-card">
-      <div class="ind-card-img" style="background-image:url('https://images.unsplash.com/photo-1611264041264-4af37e2bdf61?w=900&q=80')"></div>
+      <div class="ind-card-img" style="background-image:url('/images/industries/industrial.jpg')"></div>
       <div class="ind-card-overlay"></div>
       <div class="ind-card-line"></div>
       <span class="ind-card-num">05</span>
@@ -341,7 +341,7 @@ const sectionHtml = `<style>
     </a>
 
     <a href="/industries/commercial/" class="ind-card">
-      <div class="ind-card-img" style="background-image:url('https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=900&q=80')"></div>
+      <div class="ind-card-img" style="background-image:url('/images/industries/real_estate.jpg')"></div>
       <div class="ind-card-overlay"></div>
       <div class="ind-card-line"></div>
       <span class="ind-card-num">06</span>
