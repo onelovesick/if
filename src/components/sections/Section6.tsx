@@ -281,7 +281,7 @@ const sectionHtml = `<style>
     <div class="esk-right" id="eskRight">
       <div class="esk-eyebrow">Who We Serve</div>
       <h2 class="esk-headline">Empowering Every <span class="esk-hl-accent">Stakeholder</span></h2>
-      <p class="esk-body">From planning to post-construction, we align teams with data-driven clarity and integrated workflows. Every actor in the project ecosystem connects through one structured digital environment.</p>
+      <p class="esk-body">We align teams with data-driven clarity and integrated workflows. Every actor in the project ecosystem connects through one structured digital environment.</p>
 
       <div class="esk-grid" id="eskGrid">
 
