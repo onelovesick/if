@@ -39,11 +39,8 @@ const sectionHtml = `<style>
 
 /* ── Header ── */
 .blg-header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 40px;
-  margin-bottom: 32px;
+  text-align: center;
+  margin-bottom: clamp(36px,4vw,56px);
 }
 
 .blg-eyebrow {
@@ -57,7 +54,12 @@ const sectionHtml = `<style>
   gap: 10px;
   margin-bottom: 10px;
 }
-.blg-eyebrow::before { content:''; width:20px; height:1px; background:var(--accent); }
+.blg-eyebrow {
+  display: inline-flex; align-items: center; gap: 12px;
+}
+.blg-eyebrow::before, .blg-eyebrow::after {
+  content:''; width:28px; height:1px; background:var(--accent); opacity:0.5;
+}
 
 .blg-title {
   font-family: 'Inter Tight', 'Inter', sans-serif;
@@ -362,10 +364,6 @@ const sectionHtml = `<style>
       <div class="blg-eyebrow">Knowledge Base</div>
       <h2 class="blg-title" id="blgTitle" data-text="From The Field"></h2>
     </div>
-    <a href="/knowledge/" class="blg-viewall">
-      <span>Explore All</span>
-      <span class="blg-viewall-arr">→</span>
-    </a>
   </div>
 
   <!-- 5 category cards: 3 top + 2 bottom centered -->
@@ -455,6 +453,13 @@ const sectionHtml = `<style>
       </div>
     </a>
 
+  </div>
+
+  <div style="text-align:center; margin-top:clamp(32px,3vw,48px);">
+    <a href="/knowledge/" class="blg-viewall">
+      <span>Explore All</span>
+      <span class="blg-viewall-arr">→</span>
+    </a>
   </div>
 
 </div>
