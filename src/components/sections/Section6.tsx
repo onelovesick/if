@@ -136,6 +136,8 @@ const sectionHtml = `<style>
 .esk-right {
   display: flex;
   flex-direction: column;
+  align-self: start;
+  margin-top: -20px;
   opacity: 0;
   transform: translateX(30px);
   transition: opacity 1.4s ease 0.1s, transform 1.8s cubic-bezier(0.16,1,0.3,1) 0.1s;
@@ -227,18 +229,11 @@ const sectionHtml = `<style>
 }
 .esk-card:hover .esk-card-label { color: var(--accent); }
 
-/* Expandable desc */
 .esk-card-desc {
   font-size: clamp(11px,0.78vw,12px);
   color: rgba(147,177,200,0.5);
   line-height: 1.6;
-  max-height: 0; overflow: hidden; opacity: 0;
-  margin-top: 0;
-  transition: max-height 0.45s cubic-bezier(0.22,1,0.36,1),
-    opacity 0.35s ease 0.05s, margin-top 0.35s ease;
-}
-.esk-card:hover .esk-card-desc {
-  max-height: 60px; opacity: 1; margin-top: 10px;
+  margin-top: 8px;
 }
 
 /* Card scroll entrance */
