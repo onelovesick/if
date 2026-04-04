@@ -81,168 +81,103 @@ const sectionHtml = `<style>
   max-width: 620px; margin: 0 auto;
 }
 
-/* ── Hub + Grid Layout ── */
-.esk-system {
+/* ── 3x2 Grid ── */
+.esk-grid {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  grid-template-rows: auto auto auto;
-  gap: 16px;
-  align-items: center;
-  justify-items: center;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-/* ── Central Hub ── */
-.esk-hub {
-  grid-column: 2; grid-row: 1 / 4;
-  width: 160px; height: 160px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(71,181,255,0.2);
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column; gap: 6px;
-  position: relative;
-  opacity: 0; transform: scale(0.8);
-  transition: opacity 1.2s ease 0.3s, transform 1.4s cubic-bezier(0.16,1,0.3,1) 0.3s;
-}
-.esk-hub.esk-in { opacity: 1; transform: scale(1); }
-
-/* Pulse ring */
-.esk-hub::before {
-  content: '';
-  position: absolute; inset: -12px;
-  border-radius: 50%;
-  border: 1px solid rgba(71,181,255,0.1);
-  animation: esk-pulse 3s ease-in-out infinite;
-}
-.esk-hub::after {
-  content: '';
-  position: absolute; inset: -28px;
-  border-radius: 50%;
-  border: 1px solid rgba(71,181,255,0.05);
-  animation: esk-pulse 3s ease-in-out infinite 1s;
-}
-@keyframes esk-pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.06); opacity: 0.3; }
-}
-
-.esk-hub-label {
-  font-family: 'Inter Tight', sans-serif;
-  font-size: 11px; font-weight: 900;
-  letter-spacing: 0.15em; text-transform: uppercase;
-  color: var(--accent);
-}
-.esk-hub-sub {
-  font-family: var(--mono);
-  font-size: 8px; letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(71,181,255,0.4);
-}
-/* Hub inner glow */
-.esk-hub-glow {
-  position: absolute; inset: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(71,181,255,0.08) 0%, transparent 70%);
-}
-
-/* ── Stakeholder Cards ── */
+/* ── Card ── */
 .esk-card {
-  width: 100%;
-  max-width: 380px;
-  background: var(--surface);
+  background: rgba(12,22,34,0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(71,181,255,0.08);
-  border-radius: 8px;
-  padding: clamp(20px,2vw,28px);
+  border-radius: 10px;
+  padding: clamp(28px,2.5vw,36px);
   position: relative;
   overflow: hidden;
   cursor: default;
-  opacity: 0; transform: translateY(30px);
-  transition: opacity 1.2s ease, transform 1.4s cubic-bezier(0.16,1,0.3,1),
-    border-color 0.35s, box-shadow 0.35s, background 0.35s;
+  opacity: 0;
+  transform: translateY(40px) scale(0.94);
+  transition: opacity 1.4s ease, transform 1.6s cubic-bezier(0.16,1,0.3,1),
+    border-color 0.35s, box-shadow 0.4s, background 0.35s;
 }
-.esk-card.esk-in { opacity: 1; transform: translateY(0); }
+.esk-card.esk-in { opacity: 1; transform: translateY(0) scale(1); }
 
-/* Stagger */
-.esk-card:nth-child(1) { transition-delay: 0.05s; }
-.esk-card:nth-child(2) { transition-delay: 0.1s; }
-.esk-card:nth-child(3) { transition-delay: 0.15s; }
-.esk-card:nth-child(5) { transition-delay: 0.2s; }
-.esk-card:nth-child(6) { transition-delay: 0.25s; }
-.esk-card:nth-child(7) { transition-delay: 0.3s; }
+/* Staggered unique entrances */
+.esk-card:nth-child(1) { transform: translateY(50px) translateX(-16px) scale(0.93) rotate(-0.6deg); transition-delay: 0s; }
+.esk-card:nth-child(2) { transform: translateY(55px) scale(0.92); transition-delay: 0.08s; }
+.esk-card:nth-child(3) { transform: translateY(50px) translateX(16px) scale(0.93) rotate(0.6deg); transition-delay: 0.16s; }
+.esk-card:nth-child(4) { transform: translateY(50px) translateX(-16px) scale(0.93) rotate(-0.6deg); transition-delay: 0.24s; }
+.esk-card:nth-child(5) { transform: translateY(55px) scale(0.92); transition-delay: 0.32s; }
+.esk-card:nth-child(6) { transform: translateY(50px) translateX(16px) scale(0.93) rotate(0.6deg); transition-delay: 0.4s; }
+.esk-card:nth-child(1).esk-in,
+.esk-card:nth-child(2).esk-in,
+.esk-card:nth-child(3).esk-in,
+.esk-card:nth-child(4).esk-in,
+.esk-card:nth-child(5).esk-in,
+.esk-card:nth-child(6).esk-in { transform: translateY(0) translateX(0) scale(1) rotate(0deg); }
 
-/* Accent top bar */
+/* Top accent line */
 .esk-card::before {
   content: '';
   position: absolute; top: 0; left: 0; right: 0; height: 2px;
   background: var(--accent);
   transform: scaleX(0); transform-origin: left;
-  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+  transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
 }
 .esk-card:hover::before { transform: scaleX(1); }
 
-.esk-card:hover {
-  border-color: rgba(71,181,255,0.2);
-  box-shadow: 0 8px 32px rgba(71,181,255,0.06), 0 0 0 1px rgba(71,181,255,0.08);
-  background: #0e1a28;
-}
-
-/* Connection line to hub */
+/* Hover glow */
 .esk-card::after {
   content: '';
-  position: absolute;
-  top: 50%; width: 40px; height: 1px;
-  background: linear-gradient(90deg, rgba(71,181,255,0.15), rgba(71,181,255,0.03));
-  transition: background 0.3s;
+  position: absolute; top: 0; left: 0; right: 0; height: 80px;
+  background: linear-gradient(180deg, rgba(71,181,255,0.05) 0%, transparent 100%);
+  opacity: 0; transition: opacity 0.35s;
+  pointer-events: none;
 }
-.esk-card.esk-left::after { right: -40px; }
-.esk-card.esk-right-card::after { left: -40px; background: linear-gradient(90deg, rgba(71,181,255,0.03), rgba(71,181,255,0.15)); }
-.esk-card:hover::after {
-  background: linear-gradient(90deg, rgba(71,181,255,0.4), rgba(71,181,255,0.08));
-}
-.esk-card.esk-right-card:hover::after {
-  background: linear-gradient(90deg, rgba(71,181,255,0.08), rgba(71,181,255,0.4));
+.esk-card:hover::after { opacity: 1; }
+
+.esk-card:hover {
+  border-color: rgba(71,181,255,0.22);
+  box-shadow: 0 12px 40px rgba(71,181,255,0.06), 0 0 0 1px rgba(71,181,255,0.06);
+  background: rgba(14,26,40,0.75);
 }
 
-.esk-card-head {
-  display: flex; align-items: center; gap: 12px;
-  margin-bottom: 10px;
-}
-
+/* Number */
 .esk-card-num {
-  width: 32px; height: 32px;
-  display: flex; align-items: center; justify-content: center;
   font-family: var(--mono); font-size: 10px;
-  letter-spacing: 0.04em; font-weight: 500;
-  background: rgba(71,181,255,0.08);
-  color: var(--accent);
-  border-radius: 6px;
-  transition: background 0.3s;
+  letter-spacing: 0.14em; font-weight: 500;
+  color: var(--accent); opacity: 0.5;
+  margin-bottom: 20px;
+  display: block;
+  transition: opacity 0.3s;
 }
-.esk-card:hover .esk-card-num { background: rgba(71,181,255,0.15); }
+.esk-card:hover .esk-card-num { opacity: 1; }
 
+/* Label */
 .esk-card-label {
   font-family: 'Inter Tight', 'Inter', sans-serif;
-  font-size: clamp(15px,1.2vw,19px);
+  font-size: clamp(17px,1.4vw,22px);
   font-weight: 900; text-transform: uppercase;
   color: var(--text); letter-spacing: -0.01em;
-  transition: color 0.25s;
+  line-height: 1.1; margin-bottom: 14px;
+  transition: color 0.3s;
 }
 .esk-card:hover .esk-card-label { color: var(--accent); }
 
+/* Description */
 .esk-card-desc {
-  font-size: clamp(12px,0.9vw,14px);
-  color: var(--muted); line-height: 1.7;
-  opacity: 0.7;
+  font-size: clamp(13px,0.95vw,15px);
+  color: var(--muted); line-height: 1.75;
+  opacity: 0.65;
+  transition: opacity 0.3s;
 }
-
-/* ── Connector dots (decorative) ── */
-.esk-dot-line {
-  display: flex; align-items: center; gap: 6px;
-  padding: 0 8px;
-}
-.esk-dot-line span {
-  width: 3px; height: 3px; border-radius: 50%;
-  background: rgba(71,181,255,0.15);
-}
+.esk-card:hover .esk-card-desc { opacity: 0.85; }
 
 /* ── Bottom ── */
 .esk-bottom {
@@ -261,17 +196,18 @@ const sectionHtml = `<style>
 
 /* ── Responsive ── */
 @media (max-width: 1024px) {
-  .esk-system {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-  }
-  .esk-hub { grid-column: 1; grid-row: auto; margin: 20px 0; }
-  .esk-card::after { display: none; }
-  .esk-dot-line { display: none; }
+  .esk-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .esk-grid { grid-template-columns: 1fr; }
 }
 @media (min-width: 1800px) {
   .esk-wrap { max-width: 1600px; }
-  .esk-hub { width: 180px; height: 180px; }
+  .esk-grid { max-width: 1600px; gap: 18px; }
+  .esk-card-label { font-size: 22px; }
+}
+@media (min-width: 2400px) {
+  .esk-grid { max-width: 1920px; }
 }
 </style>
 
@@ -289,64 +225,43 @@ const sectionHtml = `<style>
       <p class="esk-intro">From planning to post-construction, we align teams with data-driven clarity and integrated workflows. Every actor in the project ecosystem connects through one structured digital environment.</p>
     </header>
 
-    <!-- System Layout: Left cards | Hub | Right cards -->
-    <div class="esk-system">
+    <!-- 3x2 Grid -->
+    <div class="esk-grid">
 
-      <!-- Left column cards -->
-      <div style="display:flex; flex-direction:column; gap:16px; width:100%; align-items:flex-end;">
-        <div class="esk-card esk-left">
-          <div class="esk-card-head">
-            <span class="esk-card-num">01</span>
-            <span class="esk-card-label">Contractors</span>
-          </div>
-          <p class="esk-card-desc">General contractors, subcontractors, and field teams executing digital work packages with structured data.</p>
-        </div>
-        <div class="esk-card esk-left">
-          <div class="esk-card-head">
-            <span class="esk-card-num">02</span>
-            <span class="esk-card-label">Architects</span>
-          </div>
-          <p class="esk-card-desc">Design teams producing coordinated BIM models and design documentation across all phases.</p>
-        </div>
-        <div class="esk-card esk-left">
-          <div class="esk-card-head">
-            <span class="esk-card-num">03</span>
-            <span class="esk-card-label">Government Agencies</span>
-          </div>
-          <p class="esk-card-desc">Public owners, regulatory bodies, and permitting authorities requiring compliance and transparency.</p>
-        </div>
+      <div class="esk-card">
+        <span class="esk-card-num">01</span>
+        <div class="esk-card-label">Contractors</div>
+        <p class="esk-card-desc">General contractors, subcontractors, and field teams executing digital work packages with structured data.</p>
       </div>
 
-      <!-- Central Hub -->
-      <div class="esk-hub" id="eskHub">
-        <div class="esk-hub-glow"></div>
-        <span class="esk-hub-label">Infraforma</span>
-        <span class="esk-hub-sub">Digital Hub</span>
+      <div class="esk-card">
+        <span class="esk-card-num">02</span>
+        <div class="esk-card-label">Architects</div>
+        <p class="esk-card-desc">Design teams producing coordinated BIM models and design documentation across all project phases.</p>
       </div>
 
-      <!-- Right column cards -->
-      <div style="display:flex; flex-direction:column; gap:16px; width:100%; align-items:flex-start;">
-        <div class="esk-card esk-right-card">
-          <div class="esk-card-head">
-            <span class="esk-card-num">04</span>
-            <span class="esk-card-label">Consultants & PMs</span>
-          </div>
-          <p class="esk-card-desc">Project managers, cost consultants, and digital delivery advisors coordinating complex programmes.</p>
-        </div>
-        <div class="esk-card esk-right-card">
-          <div class="esk-card-head">
-            <span class="esk-card-num">05</span>
-            <span class="esk-card-label">Engineers</span>
-          </div>
-          <p class="esk-card-desc">Structural, mechanical, electrical, and civil engineering disciplines producing technical deliverables.</p>
-        </div>
-        <div class="esk-card esk-right-card">
-          <div class="esk-card-head">
-            <span class="esk-card-num">06</span>
-            <span class="esk-card-label">Owners & Developers</span>
-          </div>
-          <p class="esk-card-desc">Asset owners, developers, and investment groups managing capital programmes and long-term operations.</p>
-        </div>
+      <div class="esk-card">
+        <span class="esk-card-num">03</span>
+        <div class="esk-card-label">Government Agencies</div>
+        <p class="esk-card-desc">Public owners, regulatory bodies, and permitting authorities requiring compliance and transparency.</p>
+      </div>
+
+      <div class="esk-card">
+        <span class="esk-card-num">04</span>
+        <div class="esk-card-label">Consultants &amp; PMs</div>
+        <p class="esk-card-desc">Project managers, cost consultants, and digital delivery advisors coordinating complex programmes.</p>
+      </div>
+
+      <div class="esk-card">
+        <span class="esk-card-num">05</span>
+        <div class="esk-card-label">Engineers</div>
+        <p class="esk-card-desc">Structural, mechanical, electrical, and civil engineering disciplines producing technical deliverables.</p>
+      </div>
+
+      <div class="esk-card">
+        <span class="esk-card-num">06</span>
+        <div class="esk-card-label">Owners &amp; Developers</div>
+        <p class="esk-card-desc">Asset owners, developers, and investment groups managing capital programmes and long-term operations.</p>
       </div>
 
     </div>
@@ -367,7 +282,6 @@ if (!root) return;
 
 var targets = [
   document.getElementById('eskHeader'),
-  document.getElementById('eskHub'),
   document.getElementById('eskBottom')
 ].concat(Array.from(root.querySelectorAll('.esk-card')));
 
