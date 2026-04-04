@@ -147,10 +147,10 @@ const sectionHtml = `<style>
   margin: 0 4px;
 }
 
-/* ── Main editorial grid ── */
+/* ── Main grid ── */
 .blg-grid {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 14px;
   margin-bottom: 14px;
 }
@@ -193,28 +193,11 @@ const sectionHtml = `<style>
 }
 .blg-card:hover::after { transform: scaleX(1); }
 
-/* Featured: full height on left col */
-.blg-card--featured {
-  grid-row: 1 / 2;
-}
-.blg-card--featured .blg-card-img { height: 100%; min-height: 320px; }
-
-/* Side stack */
-.blg-stack {
-  display: flex; flex-direction: column; gap: 14px;
-}
-.blg-stack .blg-card {
-  flex-direction: row; flex: 1;
-}
-.blg-stack .blg-card .blg-card-img {
-  width: 160px; height: auto; flex-shrink: 0;
-}
-
 /* Image */
 .blg-card-img {
   position: relative;
   overflow: hidden;
-  height: 220px;
+  height: 160px;
   flex-shrink: 0;
 }
 
@@ -345,43 +328,23 @@ const sectionHtml = `<style>
 }
 .blg-card:hover .blg-card-arr { opacity: 1; transform: translateX(4px); }
 
-/* ── Bottom row ── */
+/* ── Bottom row: 2 centered ── */
 .blg-grid-bottom {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 14px;
+  max-width: 66.66%;
+  margin: 0 auto;
 }
-.blg-grid-bottom .blg-card {
-  flex-direction: row;
-  align-items: stretch;
-}
-.blg-grid-bottom .blg-card-img {
-  width: 130px;
-  height: auto;
-  flex-shrink: 0;
-}
-.blg-grid-bottom .blg-card-body {
-  padding: 16px 18px;
-}
-.blg-grid-bottom .blg-card-heading {
-  font-size: clamp(13px,1vw,15px) !important;
-}
-.blg-grid-bottom .blg-card-excerpt { display: none; }
 
 /* Responsive */
 @media (max-width: 1024px) {
-  .blg-grid { grid-template-columns: 1fr; }
-  .blg-card--featured .blg-card-img { height: 280px; min-height: 280px; }
-  .blg-stack .blg-card { flex-direction: column; }
-  .blg-stack .blg-card .blg-card-img { width: 100%; height: 180px; }
-  .blg-grid-bottom { grid-template-columns: 1fr 1fr; }
-  .blg-grid-bottom .blg-card:last-child { display: none; }
+  .blg-grid { grid-template-columns: repeat(2, 1fr); }
+  .blg-grid-bottom { max-width: 100%; }
 }
 @media (max-width: 640px) {
-  .blg-grid-bottom { grid-template-columns: 1fr; }
-  .blg-grid-bottom .blg-card:last-child { display: flex; }
-  .blg-grid-bottom .blg-card { flex-direction: column; }
-  .blg-grid-bottom .blg-card-img { width: 100%; height: 160px; }
+  .blg-grid, .blg-grid-bottom { grid-template-columns: 1fr; }
+  .blg-grid-bottom { max-width: 100%; }
   .blg-header { flex-direction: column; align-items: flex-start; gap: 20px; }
 }
 @media (min-width: 1800px) {
@@ -396,130 +359,98 @@ const sectionHtml = `<style>
   <!-- Header -->
   <div class="blg-header">
     <div>
-      <div class="blg-eyebrow">Insights &amp; Resources</div>
+      <div class="blg-eyebrow">Knowledge Base</div>
       <h2 class="blg-title" id="blgTitle" data-text="From The Field"></h2>
     </div>
-    <a href="/blog/" class="blg-viewall">
-      <span>View All</span>
+    <a href="/knowledge/" class="blg-viewall">
+      <span>Explore All</span>
       <span class="blg-viewall-arr">→</span>
     </a>
   </div>
 
-  <!-- Top: Featured left + 2 stacked right -->
+  <!-- 5 category cards: 3 top + 2 bottom centered -->
   <div class="blg-grid">
 
-    <!-- Featured -->
-    <a href="/blog/iso-19650-practical-guide/" class="blg-card blg-card--featured">
+    <a href="/knowledge/information-management/" class="blg-card">
       <div class="blg-card-img">
-        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=900&q=75" alt="BIM on infrastructure site" loading="lazy"/>
-        <span class="blg-type-badge blg-type-badge--guide">Guide</span>
+        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=75" alt="Information management" loading="lazy"/>
+        <span class="blg-type-badge blg-type-badge--guide">12 Articles</span>
       </div>
       <div class="blg-card-body">
-        <div class="blg-card-topic">ISO 19650 · Information Management</div>
-        <h3 class="blg-card-heading">ISO 19650 In Practice: What It Actually Means For Your Project Team</h3>
-        <p class="blg-card-excerpt">Most projects claim ISO 19650 compliance. Few implement it with discipline. We break down what the standard demands at each phase and where teams fall short.</p>
-        <div class="blg-card-tags">
-          <span class="blg-card-tag">BIM Standards</span>
-          <span class="blg-card-tag">CDE</span>
-          <span class="blg-card-tag">Compliance</span>
-        </div>
+        <div class="blg-card-topic">ISO 19650 · EIR · BEP · CDE</div>
+        <h3 class="blg-card-heading">Information Management</h3>
+        <p class="blg-card-excerpt">Standards, information requirements, level of information need, governance, naming conventions, and classification logic.</p>
         <div class="blg-card-meta">
-          <span class="blg-card-date">Jan 2025 · 8 min read</span>
-          <span class="blg-card-arr">Read Guide →</span>
+          <span class="blg-card-date">Core Discipline</span>
+          <span class="blg-card-arr">Browse →</span>
         </div>
       </div>
     </a>
 
-    <!-- Side stack -->
-    <div class="blg-stack">
-      <a href="/blog/bep-template-guide/" class="blg-card">
-        <div class="blg-card-img">
-          <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=75" alt="BEP planning" loading="lazy"/>
-          <span class="blg-type-badge blg-type-badge--article">Article</span>
+    <a href="/knowledge/modelling-data/" class="blg-card">
+      <div class="blg-card-img">
+        <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=75" alt="Modelling and data" loading="lazy"/>
+        <span class="blg-type-badge blg-type-badge--article">9 Articles</span>
+      </div>
+      <div class="blg-card-body">
+        <div class="blg-card-topic">BIM · IFC · OpenBIM · Databases</div>
+        <h3 class="blg-card-heading">Modelling &amp; Data</h3>
+        <p class="blg-card-excerpt">Coordination, federated models, data structures, interoperability, and parametric authoring standards.</p>
+        <div class="blg-card-meta">
+          <span class="blg-card-date">Production</span>
+          <span class="blg-card-arr">Browse →</span>
         </div>
-        <div class="blg-card-body">
-          <div class="blg-card-topic">BEP · Project Planning</div>
-          <h3 class="blg-card-heading">Writing a BEP That People Actually Follow</h3>
-          <div class="blg-card-meta">
-            <span class="blg-card-date">Feb 2025 · 6 min</span>
-            <span class="blg-card-arr">Read →</span>
-          </div>
+      </div>
+    </a>
+
+    <a href="/knowledge/for-the-field/" class="blg-card">
+      <div class="blg-card-img">
+        <img src="https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?w=600&q=75" alt="Field verification" loading="lazy"/>
+        <span class="blg-type-badge blg-type-badge--news">8 Articles</span>
+      </div>
+      <div class="blg-card-body">
+        <div class="blg-card-topic">Scan-to-BIM · 4D · QA</div>
+        <h3 class="blg-card-heading">For the Field</h3>
+        <p class="blg-card-excerpt">Reality capture, digital work packaging, field verification, model-based QA, and construction validation.</p>
+        <div class="blg-card-meta">
+          <span class="blg-card-date">Verification</span>
+          <span class="blg-card-arr">Browse →</span>
         </div>
-      </a>
-      <a href="/blog/cde-selection-2025/" class="blg-card">
-        <div class="blg-card-img">
-          <img src="https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=600&q=75" alt="CDE platform" loading="lazy"/>
-          <span class="blg-type-badge blg-type-badge--insight">Insight</span>
-        </div>
-        <div class="blg-card-body">
-          <div class="blg-card-topic">CDE · Platforms</div>
-          <h3 class="blg-card-heading">Choosing a CDE: Beyond the Feature List</h3>
-          <div class="blg-card-meta">
-            <span class="blg-card-date">Dec 2024 · 5 min</span>
-            <span class="blg-card-arr">Read →</span>
-          </div>
-        </div>
-      </a>
-    </div>
+      </div>
+    </a>
 
   </div>
 
-  <!-- Bottom row: 3 compact cards -->
   <div class="blg-grid-bottom">
 
-    <a href="/blog/cde-selection-2025/" class="blg-card" data-type="insight">
+    <a href="/knowledge/smart-infrastructure/" class="blg-card">
       <div class="blg-card-img">
-        <img src="https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=500&q=80" alt="CDE platform"/>
-        <span class="blg-type-badge blg-type-badge--insight">Insight</span>
+        <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=75" alt="Smart infrastructure" loading="lazy"/>
+        <span class="blg-type-badge blg-type-badge--insight">7 Articles</span>
       </div>
       <div class="blg-card-body">
-        <div class="blg-card-topic">CDE · Platforms</div>
-        <h3 class="blg-card-heading">Choosing a CDE: Beyond the Feature List</h3>
-        <div class="blg-card-tags">
-          <span class="blg-card-tag">Autodesk ACC</span>
-          <span class="blg-card-tag">Procore</span>
-        </div>
+        <div class="blg-card-topic">Digital Twin · COBie · AIM</div>
+        <h3 class="blg-card-heading">Smart Infrastructure</h3>
+        <p class="blg-card-excerpt">Digital twin foundations, structured handover, connected assets, lifecycle intelligence, and operational readiness.</p>
         <div class="blg-card-meta">
-          <span class="blg-card-date">Dec 2024 · 5 min</span>
-          <span class="blg-card-arr">Read →</span>
+          <span class="blg-card-date">Operations</span>
+          <span class="blg-card-arr">Browse →</span>
         </div>
       </div>
     </a>
 
-    <a href="/blog/digital-twin-handover/" class="blg-card" data-type="article">
+    <a href="/knowledge/industry-standards/" class="blg-card">
       <div class="blg-card-img">
-        <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=500&q=80" alt="Digital twin handover"/>
-        <span class="blg-type-badge blg-type-badge--article">Article</span>
+        <img src="https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=600&q=75" alt="Industry standards" loading="lazy"/>
+        <span class="blg-type-badge blg-type-badge--article">6 Articles</span>
       </div>
       <div class="blg-card-body">
-        <div class="blg-card-topic">Digital Twin · FM</div>
-        <h3 class="blg-card-heading">Why Most Digital Twins Fail at Handover</h3>
-        <div class="blg-card-tags">
-          <span class="blg-card-tag">Tandem</span>
-          <span class="blg-card-tag">COBie</span>
-        </div>
+        <div class="blg-card-topic">P3 · Procurement · Policy</div>
+        <h3 class="blg-card-heading">Industry &amp; Standards</h3>
+        <p class="blg-card-excerpt">ISO direction, regulatory shifts, enterprise digital maturity, market intelligence, and compliance trends.</p>
         <div class="blg-card-meta">
-          <span class="blg-card-date">Nov 2024 · 5 min</span>
-          <span class="blg-card-arr">Read →</span>
-        </div>
-      </div>
-    </a>
-
-    <a href="/blog/p3-bim-requirements/" class="blg-card" data-type="news">
-      <div class="blg-card-img">
-        <img src="https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?w=500&q=80" alt="P3 infrastructure project"/>
-        <span class="blg-type-badge blg-type-badge--news">News</span>
-      </div>
-      <div class="blg-card-body">
-        <div class="blg-card-topic">P3 · Procurement</div>
-        <h3 class="blg-card-heading">New BIM Requirements in Canadian P3 Contracts</h3>
-        <div class="blg-card-tags">
-          <span class="blg-card-tag">Infrastructure</span>
-          <span class="blg-card-tag">Canada</span>
-        </div>
-        <div class="blg-card-meta">
-          <span class="blg-card-date">Oct 2024 · 3 min</span>
-          <span class="blg-card-arr">Read →</span>
+          <span class="blg-card-date">Market</span>
+          <span class="blg-card-arr">Browse →</span>
         </div>
       </div>
     </a>
