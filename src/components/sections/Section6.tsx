@@ -24,11 +24,11 @@ const sectionHtml = `<style>
 
 .esk-wrap {
   position: relative; z-index: 1;
-  max-width: 1400px;
+  max-width: 1500px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(40px,5vw,80px);
+  grid-template-columns: 55% 1fr;
+  gap: clamp(24px,3vw,48px);
   align-items: center;
 }
 
@@ -38,42 +38,25 @@ const sectionHtml = `<style>
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 500px;
-}
-
-.esk-video-wrap {
-  position: relative;
-  width: 100%;
-  max-width: 700px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin: -40px 0;
+  margin-left: -60px;
 }
 
 .esk-video {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  -webkit-mask-image: radial-gradient(
-    ellipse 100% 100% at 50% 50%,
-    black 55%,
-    rgba(0,0,0,0.5) 75%,
-    rgba(0,0,0,0.1) 90%,
-    transparent 100%
-  );
-  mask-image: radial-gradient(
-    ellipse 100% 100% at 50% 50%,
-    black 55%,
-    rgba(0,0,0,0.5) 75%,
-    rgba(0,0,0,0.1) 90%,
-    transparent 100%
-  );
+  display: block;
+  -webkit-mask-image: linear-gradient(to right, black 50%, transparent 98%),
+    linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-composite: destination-in;
+  mask-image: linear-gradient(to right, black 50%, transparent 98%),
+    linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-composite: intersect;
 }
 
 /* Scroll reveal */
 .esk-video-col {
   opacity: 0;
-  transform: translateX(-30px);
+  transform: translateX(-40px);
   transition: opacity 1.4s ease, transform 1.8s cubic-bezier(0.16,1,0.3,1);
 }
 .esk-video-col.esk-in {
@@ -115,9 +98,9 @@ const sectionHtml = `<style>
 .esk-hl-accent { color: var(--accent); }
 
 .esk-body {
-  font-size: clamp(14px,1.05vw,16px);
-  color: var(--muted); line-height: 1.8;
-  margin-bottom: 36px; max-width: 480px;
+  font-size: clamp(13px,0.95vw,15px);
+  color: var(--muted); line-height: 1.75;
+  margin-bottom: 28px; max-width: 460px;
 }
 
 /* ══ Stakeholder list ══ */
@@ -129,9 +112,9 @@ const sectionHtml = `<style>
 
 .esk-item {
   display: grid;
-  grid-template-columns: 40px 1fr;
-  gap: 0 14px;
-  padding: 18px 0;
+  grid-template-columns: 32px 1fr;
+  gap: 0 10px;
+  padding: 12px 0;
   border-bottom: 1px solid rgba(71,181,255,0.06);
   cursor: default;
   position: relative;
@@ -162,18 +145,18 @@ const sectionHtml = `<style>
 
 .esk-item-label {
   font-family: 'Inter Tight', 'Inter', sans-serif;
-  font-size: clamp(14px,1.1vw,17px);
+  font-size: clamp(13px,0.95vw,15px);
   font-weight: 800; text-transform: uppercase;
   color: var(--text); letter-spacing: 0;
-  line-height: 1.2; margin-bottom: 4px;
+  line-height: 1.2; margin-bottom: 2px;
   transition: color 0.25s;
 }
 .esk-item:hover .esk-item-label { color: var(--accent); }
 
 .esk-item-desc {
-  font-size: clamp(12px,0.85vw,13.5px);
-  color: rgba(147,177,200,0.5);
-  line-height: 1.6;
+  font-size: clamp(11px,0.8vw,12.5px);
+  color: rgba(147,177,200,0.45);
+  line-height: 1.55;
 }
 
 /* Item scroll entrance */
@@ -200,16 +183,10 @@ const sectionHtml = `<style>
 /* ══ Responsive ══ */
 @media (max-width: 1024px) {
   .esk-wrap { grid-template-columns: 1fr; }
-  .esk-video-col { min-height: 360px; }
-  .esk-video-wrap { max-width: 400px; }
-}
-@media (max-width: 640px) {
-  .esk-video-col { min-height: 280px; }
-  .esk-video-wrap { max-width: 300px; }
+  .esk-video-col { margin: 0; }
 }
 @media (min-width: 1800px) {
-  .esk-wrap { max-width: 1600px; }
-  .esk-video-wrap { max-width: 580px; }
+  .esk-wrap { max-width: 1700px; }
   .esk-headline { font-size: clamp(40px,3.2vw,56px); }
 }
 </style>
@@ -219,11 +196,9 @@ const sectionHtml = `<style>
 
     <!-- Left: Video -->
     <div class="esk-video-col" id="eskVideoCol">
-      <div class="esk-video-wrap">
-        <video class="esk-video" autoplay muted loop playsinline>
-          <source src="/videos/vidwho.mp4" type="video/mp4" />
-        </video>
-      </div>
+      <video class="esk-video" autoplay muted loop playsinline>
+        <source src="/videos/vidwho.mp4" type="video/mp4" />
+      </video>
     </div>
 
     <!-- Right: Content -->
