@@ -83,17 +83,9 @@ const sectionHtml = `<style>
   -webkit-backdrop-filter: blur(6px);
 }
 
-/* Grid */
+/* Grid — disabled */
 .cta-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(71,181,255,0.032) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(71,181,255,0.032) 1px, transparent 1px);
-  background-size: 56px 56px;
-  z-index: 2;
-  pointer-events: none;
-  opacity: 0;
+  display: none;
 }
 
 /* Scan */
@@ -555,8 +547,8 @@ function update(){
     var b = Math.round(20  + distToSticky * (248 - 20));
     intro.style.background = 'rgb(' + r + ',' + g + ',' + b + ')';
 
-    /* Logo: white -> accent blue, then fades out at very end */
-    var logoFade = raw < 0.04 ? 1 : Math.max(0, 1 - (raw - 0.04) / 0.04);
+    /* Logo: white -> accent blue, then fades out smoothly */
+    var logoFade = raw < 0.03 ? 1 : Math.max(0, 1 - (raw - 0.03) / 0.10);
     if (distToSticky < 0.7){
       /* White logo on dark */
       var wa = 0.7 + distToSticky * 0.3;
