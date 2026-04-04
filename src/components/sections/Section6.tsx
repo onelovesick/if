@@ -19,7 +19,7 @@ const sectionHtml = `<style>
   background: var(--bg);
   font-family: 'Inter', sans-serif;
   overflow: hidden;
-  padding: clamp(64px,7vw,120px) clamp(24px,5%,96px);
+  padding: clamp(100px,12vw,200px) clamp(24px,5%,96px);
 }
 
 .esk-wrap {
@@ -168,21 +168,21 @@ const sectionHtml = `<style>
 .esk-body {
   font-size: clamp(13px,0.95vw,15px);
   color: var(--muted); line-height: 1.75;
-  margin-bottom: 28px; max-width: 460px;
+  margin-bottom: 36px; max-width: 460px;
 }
 
 /* ══ Stakeholder grid ══ */
 .esk-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 12px;
 }
 
 .esk-card {
   background: rgba(12,22,34,0.5);
   border: 1px solid rgba(71,181,255,0.08);
   border-radius: 8px;
-  padding: 18px 16px;
+  padding: 22px 20px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
