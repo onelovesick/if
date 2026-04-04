@@ -1,14 +1,5 @@
 "use client"
-import { useEffect, useRef, useState } from 'react'
-
-const STAKEHOLDERS = [
-  { id: "contractors",  label: "Contractors",          desc: "General contractors, subcontractors, and field teams executing digital work packages.", angle: -Math.PI / 2 },
-  { id: "architects",   label: "Architects",           desc: "Design teams producing coordinated BIM models and design documentation.", angle: -Math.PI / 2 + Math.PI / 3 },
-  { id: "government",   label: "Government Agencies",  desc: "Public owners, regulatory bodies, and permitting authorities.", angle: -Math.PI / 2 + (2 * Math.PI) / 3 },
-  { id: "consultants",  label: "Consultants & PMs",    desc: "Project managers, cost consultants, and digital delivery advisors.", angle: -Math.PI / 2 + Math.PI },
-  { id: "engineers",    label: "Engineers",             desc: "Structural, mechanical, electrical, and civil engineering disciplines.", angle: -Math.PI / 2 + (4 * Math.PI) / 3 },
-  { id: "owners",       label: "Owners & Developers",  desc: "Asset owners, developers, and investment groups managing capital programmes.", angle: -Math.PI / 2 + (5 * Math.PI) / 3 },
-]
+import { useEffect } from 'react'
 
 const sectionHtml = `<style>
 @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@700;900&family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap');
@@ -19,446 +10,381 @@ const sectionHtml = `<style>
   --accent: #47B5FF;
   --navy: #0B3C5D;
   --bg: #060e18;
+  --surface: #0c1622;
   --text: #F0F4F7;
-  --muted: #93b1c8;
+  --muted: #7a9bb5;
   --mono: 'DM Mono', monospace;
 
   position: relative;
   width: 100%;
-  min-height: 100vh;
   background: var(--bg);
   font-family: 'Inter', sans-serif;
   overflow: hidden;
-  display: flex;
-  align-items: center;
+  padding: clamp(56px,6vw,96px) clamp(24px,5%,96px);
 }
 
-/* Grid bg */
-.esk::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(71,181,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(71,181,255,0.02) 1px, transparent 1px);
-  background-size: 56px 56px;
-  pointer-events: none;
-}
-
-/* Glow */
+/* Subtle radial glow */
 .esk::after {
   content: '';
-  position: absolute; top: 10%; left: 15%;
-  width: 50%; height: 80%;
-  background: radial-gradient(ellipse at 50% 50%, rgba(71,181,255,0.05) 0%, transparent 60%);
+  position: absolute; top: 30%; left: 50%;
+  width: 80%; height: 60%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse, rgba(71,181,255,0.04) 0%, transparent 60%);
   pointer-events: none;
 }
 
 .esk-wrap {
   position: relative; z-index: 1;
-  width: 100%; max-width: 1400px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: clamp(48px,5vw,80px) clamp(24px,5%,64px);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(32px,4vw,64px);
-  align-items: center;
 }
 
-/* Canvas */
-.esk-canvas {
-  width: 100%;
-  aspect-ratio: 1;
-  max-height: 580px;
+/* ── Header ── */
+.esk-header {
+  text-align: center;
+  margin-bottom: clamp(48px,5vw,72px);
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 1.2s ease, transform 1.4s cubic-bezier(0.16,1,0.3,1);
 }
-
-/* Right content */
-.esk-right {
-  display: flex; flex-direction: column;
-}
+.esk-header.esk-in { opacity: 1; transform: translateY(0); }
 
 .esk-eyebrow {
+  display: inline-flex; align-items: center; gap: 12px;
   font-family: var(--mono); font-size: 11px;
   letter-spacing: 0.28em; text-transform: uppercase;
   color: var(--accent); margin-bottom: 20px;
-  display: flex; align-items: center; gap: 12px;
 }
-.esk-eyebrow::before {
+.esk-eyebrow::before, .esk-eyebrow::after {
   content: ''; width: 28px; height: 1px;
   background: var(--accent); opacity: 0.5;
 }
 
 .esk-headline {
   font-family: 'Inter Tight', 'Inter', sans-serif;
-  font-size: clamp(32px,3.8vw,56px);
+  font-size: clamp(36px,4.8vw,76px);
   font-weight: 900; text-transform: uppercase;
   color: var(--text); line-height: 1;
   letter-spacing: -0.03em; margin-bottom: 20px;
 }
-.esk-accent { color: var(--accent); }
+.esk-hl-accent { color: var(--accent); }
 
-.esk-body {
+.esk-intro {
   font-size: clamp(14px,1.1vw,17px);
   color: var(--muted); line-height: 1.8;
-  max-width: 520px; margin-bottom: 36px;
+  max-width: 620px; margin: 0 auto;
 }
 
-/* Stakeholder items */
-.esk-list {
-  display: grid; grid-template-columns: 1fr 1fr;
-  border-top: 1px solid rgba(71,181,255,0.12);
+/* ── Hub + Grid Layout ── */
+.esk-system {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 16px;
+  align-items: center;
+  justify-items: center;
 }
-.esk-item {
-  padding: 16px 14px 16px 0;
-  cursor: pointer;
-  border-bottom: 1px solid rgba(71,181,255,0.08);
+
+/* ── Central Hub ── */
+.esk-hub {
+  grid-column: 2; grid-row: 1 / 4;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(71,181,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 6px;
   position: relative;
-  transition: background 0.25s;
+  opacity: 0; transform: scale(0.8);
+  transition: opacity 1.2s ease 0.3s, transform 1.4s cubic-bezier(0.16,1,0.3,1) 0.3s;
 }
-.esk-item:nth-child(odd) {
-  border-right: 1px solid rgba(71,181,255,0.08);
-}
-.esk-item:nth-child(even) {
-  padding-left: 14px;
-}
-.esk-item:hover, .esk-item.esk-active {
-  background: rgba(71,181,255,0.04);
-}
+.esk-hub.esk-in { opacity: 1; transform: scale(1); }
 
-/* Accent bar */
-.esk-item::before {
+/* Pulse ring */
+.esk-hub::before {
   content: '';
-  position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
-  background: var(--accent);
-  transform: scaleY(0); transform-origin: bottom;
-  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+  position: absolute; inset: -12px;
+  border-radius: 50%;
+  border: 1px solid rgba(71,181,255,0.1);
+  animation: esk-pulse 3s ease-in-out infinite;
 }
-.esk-item:nth-child(odd):hover::before,
-.esk-item:nth-child(odd).esk-active::before { transform: scaleY(1); }
+.esk-hub::after {
+  content: '';
+  position: absolute; inset: -28px;
+  border-radius: 50%;
+  border: 1px solid rgba(71,181,255,0.05);
+  animation: esk-pulse 3s ease-in-out infinite 1s;
+}
+@keyframes esk-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.06); opacity: 0.3; }
+}
 
-.esk-item-head {
-  display: flex; align-items: center; gap: 10px; margin-bottom: 4px;
+.esk-hub-label {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 11px; font-weight: 900;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--accent);
 }
-.esk-item-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: rgba(71,181,255,0.3);
-  transition: background 0.3s, box-shadow 0.3s;
-  flex-shrink: 0;
+.esk-hub-sub {
+  font-family: var(--mono);
+  font-size: 8px; letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(71,181,255,0.4);
 }
-.esk-item:hover .esk-item-dot,
-.esk-item.esk-active .esk-item-dot {
+/* Hub inner glow */
+.esk-hub-glow {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(71,181,255,0.08) 0%, transparent 70%);
+}
+
+/* ── Stakeholder Cards ── */
+.esk-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--surface);
+  border: 1px solid rgba(71,181,255,0.08);
+  border-radius: 8px;
+  padding: clamp(20px,2vw,28px);
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 1.2s ease, transform 1.4s cubic-bezier(0.16,1,0.3,1),
+    border-color 0.35s, box-shadow 0.35s, background 0.35s;
+}
+.esk-card.esk-in { opacity: 1; transform: translateY(0); }
+
+/* Stagger */
+.esk-card:nth-child(1) { transition-delay: 0.05s; }
+.esk-card:nth-child(2) { transition-delay: 0.1s; }
+.esk-card:nth-child(3) { transition-delay: 0.15s; }
+.esk-card:nth-child(5) { transition-delay: 0.2s; }
+.esk-card:nth-child(6) { transition-delay: 0.25s; }
+.esk-card:nth-child(7) { transition-delay: 0.3s; }
+
+/* Accent top bar */
+.esk-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
   background: var(--accent);
-  box-shadow: 0 0 8px rgba(71,181,255,0.5);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
 }
-.esk-item-label {
+.esk-card:hover::before { transform: scaleX(1); }
+
+.esk-card:hover {
+  border-color: rgba(71,181,255,0.2);
+  box-shadow: 0 8px 32px rgba(71,181,255,0.06), 0 0 0 1px rgba(71,181,255,0.08);
+  background: #0e1a28;
+}
+
+/* Connection line to hub */
+.esk-card::after {
+  content: '';
+  position: absolute;
+  top: 50%; width: 40px; height: 1px;
+  background: linear-gradient(90deg, rgba(71,181,255,0.15), rgba(71,181,255,0.03));
+  transition: background 0.3s;
+}
+.esk-card.esk-left::after { right: -40px; }
+.esk-card.esk-right-card::after { left: -40px; background: linear-gradient(90deg, rgba(71,181,255,0.03), rgba(71,181,255,0.15)); }
+.esk-card:hover::after {
+  background: linear-gradient(90deg, rgba(71,181,255,0.4), rgba(71,181,255,0.08));
+}
+.esk-card.esk-right-card:hover::after {
+  background: linear-gradient(90deg, rgba(71,181,255,0.08), rgba(71,181,255,0.4));
+}
+
+.esk-card-head {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 10px;
+}
+
+.esk-card-num {
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.04em; font-weight: 500;
+  background: rgba(71,181,255,0.08);
+  color: var(--accent);
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+.esk-card:hover .esk-card-num { background: rgba(71,181,255,0.15); }
+
+.esk-card-label {
   font-family: 'Inter Tight', 'Inter', sans-serif;
+  font-size: clamp(15px,1.2vw,19px);
+  font-weight: 900; text-transform: uppercase;
+  color: var(--text); letter-spacing: -0.01em;
+  transition: color 0.25s;
+}
+.esk-card:hover .esk-card-label { color: var(--accent); }
+
+.esk-card-desc {
   font-size: clamp(12px,0.9vw,14px);
-  font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.02em;
-  color: var(--muted); transition: color 0.25s;
-}
-.esk-item:hover .esk-item-label,
-.esk-item.esk-active .esk-item-label { color: #fff; }
-
-.esk-item-desc {
-  font-size: 11.5px; color: rgba(147,177,200,0.55);
-  line-height: 1.5; padding-left: 16px;
+  color: var(--muted); line-height: 1.7;
+  opacity: 0.7;
 }
 
-.esk-footer {
+/* ── Connector dots (decorative) ── */
+.esk-dot-line {
+  display: flex; align-items: center; gap: 6px;
+  padding: 0 8px;
+}
+.esk-dot-line span {
+  width: 3px; height: 3px; border-radius: 50%;
+  background: rgba(71,181,255,0.15);
+}
+
+/* ── Bottom ── */
+.esk-bottom {
+  text-align: center;
+  margin-top: clamp(40px,4vw,64px);
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 1.2s ease 0.4s, transform 1.4s cubic-bezier(0.16,1,0.3,1) 0.4s;
+}
+.esk-bottom.esk-in { opacity: 1; transform: translateY(0); }
+
+.esk-bottom-text {
   font-family: var(--mono); font-size: 10px;
   letter-spacing: 0.18em; text-transform: uppercase;
-  color: rgba(71,181,255,0.3); margin-top: 24px;
+  color: rgba(71,181,255,0.3);
 }
 
-/* Scroll reveal */
-.esk-reveal {
-  opacity: 0; transform: translateY(30px);
-  transition: opacity 1.4s ease, transform 1.6s cubic-bezier(0.16,1,0.3,1);
-}
-.esk-reveal.esk-vis { opacity: 1; transform: translateY(0); }
-.esk-reveal-d1 { transition-delay: 0.12s; }
-
-/* Responsive */
+/* ── Responsive ── */
 @media (max-width: 1024px) {
-  .esk-wrap { grid-template-columns: 1fr; }
-  .esk-canvas { max-height: 420px; margin: 0 auto; }
+  .esk-system {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+  .esk-hub { grid-column: 1; grid-row: auto; margin: 20px 0; }
+  .esk-card::after { display: none; }
+  .esk-dot-line { display: none; }
 }
 @media (min-width: 1800px) {
   .esk-wrap { max-width: 1600px; }
+  .esk-hub { width: 180px; height: 180px; }
 }
 </style>
 
-<section class="esk" id="eskRoot">
+<section class="esk" id="eskRoot" aria-labelledby="eskHeadline">
   <div class="esk-wrap">
 
-    <div class="esk-reveal" id="eskLeft">
-      <canvas class="esk-canvas" id="eskCanvas"></canvas>
-    </div>
-
-    <div class="esk-right esk-reveal esk-reveal-d1" id="eskRight">
+    <!-- Header -->
+    <header class="esk-header" id="eskHeader">
       <div class="esk-eyebrow">Who We Serve</div>
-      <h2 class="esk-headline">Empowering Every <span class="esk-accent">Stakeholder</span></h2>
-      <p class="esk-body">From planning to post-construction, we align teams with data-driven clarity and integrated workflows. Every actor in the project ecosystem connects through one structured digital environment.</p>
+      <h2 class="esk-headline" id="eskHeadline">Empowering Every <span class="esk-hl-accent">Stakeholder</span></h2>
+      <p class="esk-intro">From planning to post-construction, we align teams with data-driven clarity and integrated workflows. Every actor in the project ecosystem connects through one structured digital environment.</p>
+    </header>
 
-      <div class="esk-list" id="eskList">
-        ${STAKEHOLDERS.map((s, i) => `
-        <div class="esk-item" data-id="${s.id}">
-          <div class="esk-item-head">
-            <span class="esk-item-dot"></span>
-            <span class="esk-item-label">${s.label}</span>
+    <!-- System Layout: Left cards | Hub | Right cards -->
+    <div class="esk-system">
+
+      <!-- Left column cards -->
+      <div style="display:flex; flex-direction:column; gap:16px; width:100%; align-items:flex-end;">
+        <div class="esk-card esk-left">
+          <div class="esk-card-head">
+            <span class="esk-card-num">01</span>
+            <span class="esk-card-label">Contractors</span>
           </div>
-          <p class="esk-item-desc">${s.desc}</p>
-        </div>`).join('')}
+          <p class="esk-card-desc">General contractors, subcontractors, and field teams executing digital work packages with structured data.</p>
+        </div>
+        <div class="esk-card esk-left">
+          <div class="esk-card-head">
+            <span class="esk-card-num">02</span>
+            <span class="esk-card-label">Architects</span>
+          </div>
+          <p class="esk-card-desc">Design teams producing coordinated BIM models and design documentation across all phases.</p>
+        </div>
+        <div class="esk-card esk-left">
+          <div class="esk-card-head">
+            <span class="esk-card-num">03</span>
+            <span class="esk-card-label">Government Agencies</span>
+          </div>
+          <p class="esk-card-desc">Public owners, regulatory bodies, and permitting authorities requiring compliance and transparency.</p>
+        </div>
       </div>
 
-      <div class="esk-footer">6 Stakeholder Groups · One Digital Ecosystem</div>
+      <!-- Central Hub -->
+      <div class="esk-hub" id="eskHub">
+        <div class="esk-hub-glow"></div>
+        <span class="esk-hub-label">Infraforma</span>
+        <span class="esk-hub-sub">Digital Hub</span>
+      </div>
+
+      <!-- Right column cards -->
+      <div style="display:flex; flex-direction:column; gap:16px; width:100%; align-items:flex-start;">
+        <div class="esk-card esk-right-card">
+          <div class="esk-card-head">
+            <span class="esk-card-num">04</span>
+            <span class="esk-card-label">Consultants & PMs</span>
+          </div>
+          <p class="esk-card-desc">Project managers, cost consultants, and digital delivery advisors coordinating complex programmes.</p>
+        </div>
+        <div class="esk-card esk-right-card">
+          <div class="esk-card-head">
+            <span class="esk-card-num">05</span>
+            <span class="esk-card-label">Engineers</span>
+          </div>
+          <p class="esk-card-desc">Structural, mechanical, electrical, and civil engineering disciplines producing technical deliverables.</p>
+        </div>
+        <div class="esk-card esk-right-card">
+          <div class="esk-card-head">
+            <span class="esk-card-num">06</span>
+            <span class="esk-card-label">Owners & Developers</span>
+          </div>
+          <p class="esk-card-desc">Asset owners, developers, and investment groups managing capital programmes and long-term operations.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom -->
+    <div class="esk-bottom" id="eskBottom">
+      <span class="esk-bottom-text">6 Stakeholder Groups · One Digital Ecosystem</span>
     </div>
 
   </div>
 </section>`
 
+const sectionScript = `
+(function(){
+'use strict';
+var root = document.getElementById('eskRoot');
+if (!root) return;
+
+var targets = [
+  document.getElementById('eskHeader'),
+  document.getElementById('eskHub'),
+  document.getElementById('eskBottom')
+].concat(Array.from(root.querySelectorAll('.esk-card')));
+
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if (e.isIntersecting){
+      e.target.classList.add('esk-in');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+targets.forEach(function(t){ if (t) io.observe(t); });
+}());
+`
+
 export default function Section6() {
-  const [hoveredId, setHoveredId] = useState<string | null>(null)
-  const hoveredRef = useRef<string | null>(null)
-  const canvasRef = useRef<HTMLCanvasElement | null>(null)
-  const rafRef = useRef<number>(0)
-  const visibleRef = useRef(false)
-
-  // Keep ref in sync with state for the animation loop
-  useEffect(() => { hoveredRef.current = hoveredId }, [hoveredId])
-
   useEffect(() => {
-    const root = document.getElementById('eskRoot')
-    const canvas = document.getElementById('eskCanvas') as HTMLCanvasElement
-    if (!root || !canvas) return
-    canvasRef.current = canvas
-
-    const ctx = canvas.getContext('2d')!
-    const dpr = Math.min(window.devicePixelRatio || 1, 2)
-    let W = 0, H = 0, cx = 0, cy = 0, radius = 0
-    let time = 0
-
-    // Current animated values per node (for smooth lerp)
-    const nodeGlow = STAKEHOLDERS.map(() => 0)
-
-    function resize() {
-      const rect = canvas.getBoundingClientRect()
-      W = rect.width; H = rect.height
-      canvas.width = W * dpr; canvas.height = H * dpr
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-      cx = W / 2; cy = H / 2
-      radius = Math.min(W, H) * 0.36
-    }
-
-    function draw() {
-      if (!visibleRef.current) { rafRef.current = requestAnimationFrame(draw); return }
-      time += 0.006
-      ctx.clearRect(0, 0, W, H)
-
-      const hovered = hoveredRef.current
-
-      // Lerp node glow
-      STAKEHOLDERS.forEach((s, i) => {
-        const target = hovered === s.id ? 1 : 0
-        nodeGlow[i] += (target - nodeGlow[i]) * 0.08
-      })
-
-      const anyActive = hovered !== null
-
-      // ── Outer rings ──
-      for (let r = 0; r < 3; r++) {
-        const ringR = radius * (0.55 + r * 0.22)
-        const rot = time * (r % 2 === 0 ? 1 : -1) * 0.3
-        ctx.beginPath()
-        ctx.arc(cx, cy, ringR, 0, Math.PI * 2)
-        ctx.strokeStyle = `rgba(71,181,255,${0.04 + r * 0.02})`
-        ctx.lineWidth = 1
-        ctx.stroke()
-
-        // Dashes on rings
-        const dashCount = 24 + r * 12
-        for (let d = 0; d < dashCount; d++) {
-          const a = (d / dashCount) * Math.PI * 2 + rot
-          const len = 3
-          const x1 = cx + Math.cos(a) * (ringR - len)
-          const y1 = cy + Math.sin(a) * (ringR - len)
-          const x2 = cx + Math.cos(a) * (ringR + len)
-          const y2 = cy + Math.sin(a) * (ringR + len)
-          ctx.beginPath()
-          ctx.moveTo(x1, y1); ctx.lineTo(x2, y2)
-          ctx.strokeStyle = `rgba(71,181,255,${0.06 + r * 0.02})`
-          ctx.lineWidth = 0.5
-          ctx.stroke()
-        }
+    setTimeout(() => {
+      try {
+        new Function(sectionScript)()
+      } catch(e) {
+        console.error('Section6 script error:', e)
       }
-
-      // ── Radial lines from center to each node ──
-      STAKEHOLDERS.forEach((s, i) => {
-        const nx = cx + Math.cos(s.angle) * radius
-        const ny = cy + Math.sin(s.angle) * radius
-        const glow = nodeGlow[i]
-        const baseAlpha = 0.06 + glow * 0.25
-
-        // Line
-        ctx.beginPath()
-        ctx.moveTo(cx, cy); ctx.lineTo(nx, ny)
-        ctx.strokeStyle = `rgba(71,181,255,${baseAlpha})`
-        ctx.lineWidth = 1 + glow * 1.5
-        ctx.stroke()
-
-        // Traveling dots (2 per line at different offsets)
-        for (let d = 0; d < 2; d++) {
-          const speed = 0.3 + d * 0.15
-          const t = ((time * speed + d * 0.5 + i * 0.17) % 1)
-          const dx = cx + (nx - cx) * t
-          const dy = cy + (ny - cy) * t
-          const dotAlpha = 0.2 + glow * 0.6
-          const dotR = 1.5 + glow * 1.5
-
-          ctx.beginPath()
-          ctx.arc(dx, dy, dotR, 0, Math.PI * 2)
-          ctx.fillStyle = `rgba(71,181,255,${dotAlpha})`
-          ctx.fill()
-
-          // Dot glow
-          if (glow > 0.1) {
-            ctx.beginPath()
-            ctx.arc(dx, dy, dotR + 4, 0, Math.PI * 2)
-            ctx.fillStyle = `rgba(71,181,255,${glow * 0.15})`
-            ctx.fill()
-          }
-        }
-      })
-
-      // ── Central hub ──
-      const hubPulse = 0.85 + Math.sin(time * 3) * 0.15
-      const hubAlpha = anyActive ? 0.2 : 0.1
-
-      // Outer glow
-      const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius * 0.35)
-      grad.addColorStop(0, `rgba(71,181,255,${hubAlpha * hubPulse})`)
-      grad.addColorStop(1, 'rgba(71,181,255,0)')
-      ctx.beginPath()
-      ctx.arc(cx, cy, radius * 0.35, 0, Math.PI * 2)
-      ctx.fillStyle = grad
-      ctx.fill()
-
-      // Hub circle
-      ctx.beginPath()
-      ctx.arc(cx, cy, 28, 0, Math.PI * 2)
-      ctx.fillStyle = `rgba(71,181,255,${0.15 + (anyActive ? 0.15 : 0)})`
-      ctx.fill()
-      ctx.strokeStyle = `rgba(71,181,255,${0.3 + (anyActive ? 0.2 : 0)})`
-      ctx.lineWidth = 1.5
-      ctx.stroke()
-
-      // Hub inner
-      ctx.beginPath()
-      ctx.arc(cx, cy, 12, 0, Math.PI * 2)
-      ctx.fillStyle = `rgba(71,181,255,${0.4 + (anyActive ? 0.3 : 0)})`
-      ctx.fill()
-
-      // Hub text
-      ctx.font = "600 7px 'DM Mono', monospace"
-      ctx.textAlign = 'center'
-      ctx.textBaseline = 'middle'
-      ctx.fillStyle = `rgba(71,181,255,${0.6 + (anyActive ? 0.3 : 0)})`
-      ctx.fillText('IF', cx, cy)
-
-      // ── Node endpoints ──
-      STAKEHOLDERS.forEach((s, i) => {
-        const nx = cx + Math.cos(s.angle) * radius
-        const ny = cy + Math.sin(s.angle) * radius
-        const glow = nodeGlow[i]
-        const nodeR = 18 + glow * 8
-
-        // Node glow
-        if (glow > 0.05) {
-          const ng = ctx.createRadialGradient(nx, ny, 0, nx, ny, nodeR + 20)
-          ng.addColorStop(0, `rgba(71,181,255,${glow * 0.2})`)
-          ng.addColorStop(1, 'rgba(71,181,255,0)')
-          ctx.beginPath()
-          ctx.arc(nx, ny, nodeR + 20, 0, Math.PI * 2)
-          ctx.fillStyle = ng
-          ctx.fill()
-        }
-
-        // Node circle
-        ctx.beginPath()
-        ctx.arc(nx, ny, nodeR, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(10,20,35,${0.85 + glow * 0.15})`
-        ctx.fill()
-        ctx.strokeStyle = `rgba(71,181,255,${0.15 + glow * 0.55})`
-        ctx.lineWidth = 1 + glow
-        ctx.stroke()
-
-        // Node inner dot
-        ctx.beginPath()
-        ctx.arc(nx, ny, 4 + glow * 3, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(71,181,255,${0.25 + glow * 0.6})`
-        ctx.fill()
-
-        // Label
-        const labelR = radius + 32 + glow * 8
-        const lx = cx + Math.cos(s.angle) * labelR
-        const ly = cy + Math.sin(s.angle) * labelR
-
-        ctx.font = `${glow > 0.3 ? '600' : '500'} ${9 + glow * 2}px 'DM Mono', monospace`
-        ctx.textAlign = 'center'
-        ctx.textBaseline = 'middle'
-        ctx.fillStyle = `rgba(147,177,200,${0.45 + glow * 0.55})`
-        ctx.fillText(s.label.toUpperCase(), lx, ly)
-      })
-
-      // ── Ambient particles ──
-      for (let p = 0; p < 30; p++) {
-        const pa = (p / 30) * Math.PI * 2 + time * 0.2
-        const pr = radius * (0.3 + Math.sin(time + p * 1.3) * 0.5 + 0.5) * 0.9
-        const px = cx + Math.cos(pa) * pr
-        const py = cy + Math.sin(pa) * pr
-        const alpha = 0.08 + Math.sin(time * 2 + p) * 0.06
-        ctx.beginPath()
-        ctx.arc(px, py, 1, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(71,181,255,${alpha})`
-        ctx.fill()
-      }
-
-      rafRef.current = requestAnimationFrame(draw)
-    }
-
-    // Visibility
-    const io = new IntersectionObserver(([e]) => {
-      visibleRef.current = e.isIntersecting
-      if (e.isIntersecting) {
-        document.getElementById('eskLeft')?.classList.add('esk-vis')
-        document.getElementById('eskRight')?.classList.add('esk-vis')
-      }
-    }, { threshold: 0.08 })
-    io.observe(root)
-
-    // Hover events
-    const items = document.querySelectorAll('.esk-item')
-    items.forEach((item) => {
-      const id = item.getAttribute('data-id')
-      item.addEventListener('mouseenter', () => { setHoveredId(id); item.classList.add('esk-active') })
-      item.addEventListener('mouseleave', () => { setHoveredId(null); item.classList.remove('esk-active') })
-    })
-
-    resize()
-    window.addEventListener('resize', resize)
-    rafRef.current = requestAnimationFrame(draw)
-
-    return () => {
-      window.removeEventListener('resize', resize)
-      cancelAnimationFrame(rafRef.current)
-      io.disconnect()
-    }
+    }, 300)
   }, [])
 
   return (
-    <div
-      suppressHydrationWarning
-      dangerouslySetInnerHTML={{ __html: sectionHtml }}
-    />
+    <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: sectionHtml }} />
   )
 }
