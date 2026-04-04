@@ -23,14 +23,21 @@ const sectionHtml = `<style>
   padding: clamp(56px,6vw,96px) clamp(24px,5%,96px);
 }
 
-/* Subtle radial glow */
-.esk::after {
-  content: '';
-  position: absolute; top: 30%; left: 50%;
-  width: 80%; height: 60%;
-  transform: translateX(-50%);
-  background: radial-gradient(ellipse, rgba(71,181,255,0.04) 0%, transparent 60%);
+/* Background video */
+.esk-bgvid {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.12;
   pointer-events: none;
+  z-index: 0;
+}
+/* Dark overlay on video */
+.esk-bgdim {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(6,14,24,0.7) 0%, rgba(6,14,24,0.4) 50%, rgba(6,14,24,0.8) 100%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .esk-wrap {
@@ -269,6 +276,10 @@ const sectionHtml = `<style>
 </style>
 
 <section class="esk" id="eskRoot" aria-labelledby="eskHeadline">
+  <video class="esk-bgvid" autoplay muted loop playsinline>
+    <source src="/videos/stakeholder-bg.mp4" type="video/mp4" />
+  </video>
+  <div class="esk-bgdim"></div>
   <div class="esk-wrap">
 
     <!-- Header -->
