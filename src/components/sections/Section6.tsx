@@ -27,8 +27,8 @@ const sectionHtml = `<style>
   max-width: 1500px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 55% 1fr;
-  gap: clamp(24px,3vw,48px);
+  grid-template-columns: 60% 1fr;
+  gap: 0;
   align-items: center;
 }
 
@@ -38,17 +38,17 @@ const sectionHtml = `<style>
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: -40px 0;
-  margin-left: -60px;
+  margin: -60px 0;
+  margin-left: clamp(-120px, -8vw, -40px);
 }
 
 .esk-video {
   width: 100%;
   display: block;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%),
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 82%, transparent 100%),
     linear-gradient(to bottom, transparent 0%, black 5%, black 97%, transparent 100%);
   -webkit-mask-composite: destination-in;
-  mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%),
+  mask-image: linear-gradient(to right, transparent 0%, black 4%, black 82%, transparent 100%),
     linear-gradient(to bottom, transparent 0%, black 5%, black 97%, transparent 100%);
   mask-composite: intersect;
 }
