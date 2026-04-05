@@ -174,48 +174,68 @@ const sectionHtml = `<style>
 /* ── Bottom content ── */
 .tek-bottom {
   position: relative; z-index: 2;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: clamp(56px,6vw,96px) clamp(32px,5%,96px) clamp(80px,8vw,140px);
-  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px,4vw,64px);
+  align-items: center;
+  border-top: 1px solid rgba(71,181,255,0.06);
 }
+
+.tek-bottom-left {}
+
+.tek-bottom-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.tek-bottom-eyebrow::before {
+  content: ''; width: 20px; height: 1px;
+  background: var(--accent); opacity: 0.4;
+}
+
 .tek-bottom-title {
   font-family: 'Inter Tight', 'Inter', sans-serif;
-  font-size: clamp(22px,2.4vw,36px);
+  font-size: clamp(24px,2.6vw,40px);
   font-weight: 900; text-transform: uppercase;
   color: #fff; line-height: 1.1;
   letter-spacing: -0.02em;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 .tek-bottom-title span { color: var(--accent); }
+
 .tek-bottom-desc {
-  font-size: clamp(14px,1.05vw,16px);
+  font-size: clamp(13px,1vw,15px);
   color: rgba(255,255,255,0.45);
   line-height: 1.8;
-  max-width: 580px;
-  margin: 0 auto 32px;
+  max-width: 480px;
 }
 
-/* Feature pills */
+/* Feature pills - right column */
 .tek-features {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 .tek-feat {
-  display: flex; align-items: center; gap: 8px;
+  display: flex; align-items: center; gap: 10px;
   font-family: var(--mono); font-size: 10px;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: rgba(255,255,255,0.55);
-  padding: 10px 20px;
-  border: 1px solid rgba(71,181,255,0.1);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  padding: 14px 18px;
+  border: 1px solid rgba(71,181,255,0.08);
   border-radius: 6px;
   background: rgba(71,181,255,0.03);
-  transition: border-color 0.25s, color 0.25s, background 0.25s;
+  transition: border-color 0.3s, color 0.3s, background 0.3s;
 }
 .tek-feat:hover {
-  border-color: rgba(71,181,255,0.25);
+  border-color: rgba(71,181,255,0.2);
   color: rgba(255,255,255,0.85);
   background: rgba(71,181,255,0.06);
 }
@@ -224,6 +244,16 @@ const sectionHtml = `<style>
   border-radius: 50%;
   background: var(--accent);
   opacity: 0.5;
+  flex-shrink: 0;
+}
+
+/* Responsive bottom */
+@media (max-width: 768px) {
+  .tek-bottom { grid-template-columns: 1fr; }
+  .tek-features { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .tek-features { grid-template-columns: 1fr; }
 }
 
 .tek-marquee-inner {
@@ -483,8 +513,8 @@ const sectionHtml = `<style>
   <!-- Header -->
   <div class="tek-header">
     <div class="tek-eyebrow">Technology Ecosystem</div>
-    <h2 class="tek-title">Built On The <em>Industry's</em><br/>Best Platforms</h2>
-    <p class="tek-sub">Platform-agnostic by design. We deploy whichever tools serve your project — and we know how to make them work together.</p>
+    <h2 class="tek-title">We Make Your <em>Tools</em><br/>Work Together</h2>
+    <p class="tek-sub">Platform-agnostic by design. We structure the information layer that connects your existing stack into one governed, interoperable system.</p>
   </div>
 
   <!-- Marquees -->
@@ -677,14 +707,18 @@ const sectionHtml = `<style>
 
   <!-- Bottom content -->
   <div class="tek-bottom">
-    <h3 class="tek-bottom-title">Platform-Agnostic. <span>Standards-Driven.</span></h3>
-    <p class="tek-bottom-desc">We do not sell software. We structure the information layer that makes your existing tools work harder, together, and in compliance with ISO 19650.</p>
+    <div class="tek-bottom-left">
+      <div class="tek-bottom-eyebrow">Our Approach</div>
+      <h3 class="tek-bottom-title">We Structure the <span>Information Layer</span></h3>
+      <p class="tek-bottom-desc">We do not sell software. We govern the data, standards, and workflows that connect your platforms into one controlled delivery system.</p>
+    </div>
     <div class="tek-features">
       <div class="tek-feat"><span class="tek-feat-dot"></span>ISO 19650 Aligned</div>
-      <div class="tek-feat"><span class="tek-feat-dot"></span>OpenBIM / IFC</div>
+      <div class="tek-feat"><span class="tek-feat-dot"></span>OpenBIM / IFC Native</div>
       <div class="tek-feat"><span class="tek-feat-dot"></span>CDE Governance</div>
       <div class="tek-feat"><span class="tek-feat-dot"></span>Multi-Platform</div>
       <div class="tek-feat"><span class="tek-feat-dot"></span>Interoperability</div>
+      <div class="tek-feat"><span class="tek-feat-dot"></span>Vendor Neutral</div>
     </div>
   </div>
 
