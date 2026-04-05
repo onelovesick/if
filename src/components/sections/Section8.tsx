@@ -18,90 +18,117 @@ const sectionHtml = `<style>
 
 .tek {
   --accent: #47B5FF;
-  --navy: #0B3C5D;
-  --mono: 'DM Mono', monospace;
+  --navy:   #0B3C5D;
+  --dark:   #060d14;
+  --mono:   'DM Mono', monospace;
 
   position: relative;
-  background: linear-gradient(135deg, #1a8cd8 0%, #47B5FF 35%, #3da6f0 65%, #2990d8 100%);
+  /* Gradient: white → navy → near-black */
+  background: linear-gradient(
+    to bottom,
+    #F2F5F8    0%,
+    #c8d8e8    6%,
+    #4a7a9b   12%,
+    #1a3a52   20%,
+    #0d2d45   32%,
+    #0B3C5D   55%,
+    #071e30   78%,
+    #060d14  100%
+  );
   overflow: hidden;
-  padding: 0;
+  padding: 0 0 0;
 }
 
-/* Subtle texture overlay */
+/* ── Scan-line grid overlay ── */
 .tek::before {
   content: '';
-  position: absolute; inset: 0;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size: 32px 32px;
-  pointer-events: none; z-index: 0;
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(71,181,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(71,181,255,0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
 }
 
-/* Light bloom */
+/* Radial glow in center */
 .tek::after {
   content: '';
-  position: absolute; top: -30%; left: 20%;
-  width: 60%; height: 80%;
-  background: radial-gradient(ellipse, rgba(255,255,255,0.08) 0%, transparent 60%);
-  pointer-events: none; z-index: 0;
+  position: absolute;
+  top: 55%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70vw; height: 40vh;
+  background: radial-gradient(ellipse, rgba(71,181,255,0.07) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
 }
 
-/* Canvas hidden — not needed on bright bg */
-.tek-mesh { display: none; }
+/* ── Top spacer ── */
+.tek-fade-top {
+  height: 60px;
+}
 
-/* Bottom fade removed */
-.tek-fade-bottom { display: none; }
-.tek-fade-top { display: none; }
+/* ── Bottom — hard match to footer ── */
+.tek-fade-bottom {
+  height: 2px;
+  background: #060d14;
+  position: relative;
+  z-index: 2;
+}
 
 /* ── Header ── */
 .tek-header {
   position: relative;
   z-index: 2;
   text-align: center;
-  padding: clamp(56px,6vw,96px) clamp(32px,5%,96px) clamp(48px,5vw,72px);
+  padding: 48px clamp(32px,5%,96px) 52px;
 }
 
 .tek-eyebrow {
   font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.28em;
+  font-size: 9px;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.7);
+  color: rgba(71,181,255,0.95);
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 .tek-eyebrow::before,
 .tek-eyebrow::after {
   content: '';
   width: 28px; height: 1px;
-  background: rgba(255,255,255,0.3);
+  background: linear-gradient(90deg, transparent, rgba(71,181,255,0.4));
+}
+.tek-eyebrow::after {
+  background: linear-gradient(90deg, rgba(71,181,255,0.4), transparent);
 }
 
 .tek-title {
   font-family: 'Inter Tight', 'Inter', sans-serif;
-  font-size: clamp(36px,4.8vw,76px);
+  font-size: clamp(36px, 4vw, 62px);
   font-weight: 900;
   text-transform: uppercase;
   color: #ffffff;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  margin-bottom: 18px;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.08);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  margin-bottom: 14px;
 }
 .tek-title em {
-  color: var(--navy);
+  color: var(--accent);
   font-style: italic;
 }
 
 .tek-sub {
   font-family: 'Inter', sans-serif;
-  font-size: clamp(14px,1.1vw,17px);
-  color: rgba(255,255,255,0.75);
-  letter-spacing: 0.01em;
-  max-width: 540px;
+  font-size: 13.5px;
+  color: rgba(255,255,255,0.38);
+  letter-spacing: 0.02em;
+  max-width: 480px;
   margin: 0 auto;
-  line-height: 1.75;
+  line-height: 1.7;
 }
 
 /* ── Marquee wrapper ── */
@@ -111,7 +138,7 @@ const sectionHtml = `<style>
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: 0 0 clamp(56px,6vw,96px);
+  padding: 0 0 72px;
 }
 
 /* Edge fade masks */
@@ -126,21 +153,21 @@ const sectionHtml = `<style>
 }
 .tek-marquees::before {
   left: 0;
-  background: linear-gradient(90deg, #3098d8, transparent);
+  background: linear-gradient(90deg, #0B3C5D, transparent);
 }
 .tek-marquees::after {
   right: 0;
-  background: linear-gradient(270deg, #3098d8, transparent);
+  background: linear-gradient(270deg, #071e30, transparent);
 }
 
 /* ── Single marquee track ── */
 .tek-marquee {
   overflow: hidden;
-  padding: 14px 0;
-  border-top: 1px solid rgba(255,255,255,0.1);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 12px 0;
+  border-top: 1px solid rgba(71,181,255,0.06);
+  border-bottom: 1px solid rgba(71,181,255,0.06);
 }
-.tek-marquee + .tek-marquee { border-top: none; margin-top: 20px; }
+.tek-marquee + .tek-marquee { border-top: none; margin-top: 16px; }
 
 .tek-marquee-inner {
   display: flex;
@@ -166,13 +193,11 @@ const sectionHtml = `<style>
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 14px 32px;
+  padding: 12px 28px;
   margin: 0 8px;
-  border: 1px solid rgba(255,255,255,0.15);
-  background: rgba(255,255,255,0.08);
-  border-radius: 6px;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(71,181,255,0.08);
+  background: rgba(255,255,255,0.03);
+  border-radius: 3px;
   white-space: nowrap;
   cursor: default;
   transition: background 0.3s, border-color 0.3s, transform 0.3s;
@@ -183,15 +208,14 @@ const sectionHtml = `<style>
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent);
+  background: linear-gradient(135deg, rgba(71,181,255,0.06), transparent);
   opacity: 0;
   transition: opacity 0.3s;
 }
 .tek-logo:hover {
-  background: rgba(255,255,255,0.18);
-  border-color: rgba(255,255,255,0.35);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  background: rgba(71,181,255,0.07);
+  border-color: rgba(71,181,255,0.25);
+  transform: translateY(-2px);
 }
 .tek-logo:hover::before { opacity: 1; }
 
@@ -207,70 +231,70 @@ const sectionHtml = `<style>
 
 .tek-logo-name {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.85);
+  color: rgba(255,255,255,0.65);
   transition: color 0.3s;
 }
-.tek-logo:hover .tek-logo-name { color: #fff; }
+.tek-logo:hover .tek-logo-name { color: rgba(255,255,255,0.95); }
 
 .tek-logo-cat {
   font-family: var(--mono);
   font-size: 7.5px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
+  color: rgba(71,181,255,0.35);
   padding-left: 10px;
-  border-left: 1px solid rgba(255,255,255,0.15);
+  border-left: 1px solid rgba(71,181,255,0.12);
   transition: color 0.3s;
 }
-.tek-logo:hover .tek-logo-cat { color: rgba(255,255,255,0.7); }
+.tek-logo:hover .tek-logo-cat { color: rgba(71,181,255,0.7); }
 
 /* ── ISO 19650 bar ── */
 .tek-iso {
   position: relative;
   z-index: 2;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 32px;
-  padding: clamp(48px,5vw,80px) clamp(32px,5%,96px) clamp(56px,6vw,96px);
-  border-top: 1px solid rgba(71,181,255,0.1);
-  max-width: 1400px;
+  gap: 0;
+  padding: 32px clamp(32px,5%,96px) 56px;
+  border-top: 1px solid rgba(71,181,255,0.08);
+  flex-wrap: wrap;
+  max-width: 1600px;
   margin: 0 auto;
   width: 100%;
-  text-align: center;
 }
 
-/* Title block */
+/* Left badge */
 .tek-iso-label {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
+  flex-shrink: 0;
+  padding-right: 40px;
 }
 .tek-iso-title {
   font-family: 'Inter Tight', 'Inter', sans-serif;
-  font-size: clamp(28px,3vw,48px);
+  font-size: 17px;
   font-weight: 900;
   text-transform: uppercase;
   color: white;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.03em;
   line-height: 1;
 }
 .tek-iso-sub {
   font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.22em;
+  font-size: 7.5px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(71,181,255,0.6);
+  color: rgba(71,181,255,0.55);
+  margin-top: 5px;
 }
 
-/* Vertical divider — hidden in new layout */
+/* Vertical divider between badge and evo */
 .tek-iso-vdivider {
-  display: none;
   width: 1px;
   height: 64px;
   background: rgba(71,181,255,0.12);
@@ -283,12 +307,11 @@ const sectionHtml = `<style>
   display: flex;
   align-items: flex-start;
   gap: 0;
-  width: 100%;
-  max-width: 1200px;
+  flex: 1;
   flex-wrap: nowrap;
   overflow-x: auto;
   padding-bottom: 4px;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .tek-evo-node {
@@ -332,10 +355,10 @@ const sectionHtml = `<style>
 
 .tek-evo-code {
   font-family: 'Inter Tight', 'Inter', sans-serif;
-  font-size: clamp(13px,1.1vw,16px);
+  font-size: 13px;
   font-weight: 900;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.55);
   letter-spacing: 0.04em;
   line-height: 1.15;
   transition: color 0.2s;
@@ -346,12 +369,12 @@ const sectionHtml = `<style>
 
 .tek-evo-desc {
   font-family: var(--mono);
-  font-size: 8px;
+  font-size: 7px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.28);
-  line-height: 1.55;
-  max-width: 110px;
+  color: rgba(255,255,255,0.2);
+  line-height: 1.5;
+  max-width: 90px;
   transition: color 0.2s;
 }
 .tek-evo-node:hover .tek-evo-desc { color: rgba(255,255,255,0.45); }
@@ -393,9 +416,9 @@ const sectionHtml = `<style>
 }
 </style>
 
-<section class="tek" aria-label="Technology ecosystem" id="tekRoot">
+<section class="tek" aria-label="Technology ecosystem">
 
-  <canvas class="tek-mesh" id="tekMesh"></canvas>
+  <div class="tek-fade-top"></div>
 
   <!-- Header -->
   <div class="tek-header">
@@ -591,104 +614,87 @@ const sectionHtml = `<style>
 
   </div>
 
+  <!-- ISO 19650 evolution bar -->
+  <div class="tek-iso">
+
+    <!-- Left: ISO badge -->
+    <div class="tek-iso-label">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <rect x="1" y="1" width="30" height="30" rx="2" fill="none" stroke="rgba(71,181,255,0.5)" stroke-width="1.5"/>
+        <line x1="1" y1="11" x2="31" y2="11" stroke="rgba(71,181,255,0.2)" stroke-width="1"/>
+        <text x="4" y="9" font-family="Arial" font-weight="900" font-size="7" fill="#47B5FF">ISO</text>
+        <text x="3" y="25" font-family="Arial" font-weight="900" font-size="9.5" fill="rgba(255,255,255,0.75)">19650</text>
+      </svg>
+      <div>
+        <div class="tek-iso-title">ISO 19650 Aligned</div>
+        <div class="tek-iso-sub">Information Management Framework</div>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="tek-iso-vdivider"></div>
+
+    <!-- Right: Evolution diagram -->
+    <div class="tek-evo">
+
+      <div class="tek-evo-node tek-evo-node--start">
+        <div class="tek-evo-dot"></div>
+        <div class="tek-evo-code">Static<br/>Model</div>
+        <div class="tek-evo-desc">Disconnected drawings &amp; files. No structured data.</div>
+      </div>
+
+      <div class="tek-evo-arrow">
+        <svg viewBox="0 0 48 12" fill="none"><line x1="0" y1="6" x2="40" y2="6" stroke="rgba(71,181,255,0.3)" stroke-width="1" stroke-dasharray="3 3"/><polyline points="36,2 42,6 36,10" stroke="rgba(71,181,255,0.5)" stroke-width="1.5" fill="none"/></svg>
+        <span>EIR</span>
+      </div>
+
+      <div class="tek-evo-node">
+        <div class="tek-evo-dot"></div>
+        <div class="tek-evo-code">Defined<br/>Requirements</div>
+        <div class="tek-evo-desc">Employer's Information Requirements set. Structured asks established.</div>
+      </div>
+
+      <div class="tek-evo-arrow">
+        <svg viewBox="0 0 48 12" fill="none"><line x1="0" y1="6" x2="40" y2="6" stroke="rgba(71,181,255,0.3)" stroke-width="1" stroke-dasharray="3 3"/><polyline points="36,2 42,6 36,10" stroke="rgba(71,181,255,0.5)" stroke-width="1.5" fill="none"/></svg>
+        <span>AIR</span>
+      </div>
+
+      <div class="tek-evo-node">
+        <div class="tek-evo-dot"></div>
+        <div class="tek-evo-code">Asset<br/>Requirements</div>
+        <div class="tek-evo-desc">Asset Information Requirements defined for operations &amp; FM.</div>
+      </div>
+
+      <div class="tek-evo-arrow">
+        <svg viewBox="0 0 48 12" fill="none"><line x1="0" y1="6" x2="40" y2="6" stroke="rgba(71,181,255,0.4)" stroke-width="1.5"/><polyline points="36,2 42,6 36,10" stroke="rgba(71,181,255,0.8)" stroke-width="1.5" fill="none"/></svg>
+        <span>PIM</span>
+      </div>
+
+      <div class="tek-evo-node">
+        <div class="tek-evo-dot tek-evo-dot--active"></div>
+        <div class="tek-evo-code tek-evo-code--active">Project Info<br/>Model</div>
+        <div class="tek-evo-desc">Live, federated model during design &amp; construction.</div>
+      </div>
+
+      <div class="tek-evo-arrow tek-evo-arrow--final">
+        <svg viewBox="0 0 48 12" fill="none"><line x1="0" y1="6" x2="40" y2="6" stroke="rgba(71,181,255,0.6)" stroke-width="1.5"/><polyline points="36,2 42,6 36,10" stroke="#47B5FF" stroke-width="2" fill="none"/></svg>
+        <span>Handover</span>
+      </div>
+
+      <div class="tek-evo-node tek-evo-node--end">
+        <div class="tek-evo-dot tek-evo-dot--end"></div>
+        <div class="tek-evo-code tek-evo-code--end">Asset Info<br/>Model</div>
+        <div class="tek-evo-desc">Verified AIM delivered to owner. Data lives beyond construction.</div>
+      </div>
+
+    </div>
+  </div>
 
   <!-- Bottom blend to footer -->
   <div class="tek-fade-bottom"></div>
 
 </section>`
-const sectionScripts = ["\n// Duplicate each marquee row so the loop is seamless\n(function(){\n  ['tekRow1','tekRow2'].forEach(function(id){\n    var el = document.getElementById(id);\n    if(!el) return;\n    var clone = el.innerHTML;\n    el.innerHTML = clone + clone;\n  });\n}());\n", "(function(){\n  var root = document.querySelector('.tek');\n  if (!root) return;\n  new IntersectionObserver(function(entries){\n    entries.forEach(function(e){\n      if (e.isIntersecting) { e.target.classList.add('tek-visible'); }\n    });\n  }, { threshold: 0.05 }).observe(root);\n}());", `
-(function(){
-  var canvas = document.getElementById('tekMesh');
-  var root = document.getElementById('tekRoot');
-  if (!canvas || !root) return;
-  var ctx = canvas.getContext('2d');
-  var dpr = Math.min(window.devicePixelRatio || 1, 2);
-  var W, H, paused = false, raf;
-  var particles = [];
-  var COUNT = 80;
-  var DIST = 160;
-  var time = 0;
-
-  function resize(){
-    var r = root.getBoundingClientRect();
-    W = r.width; H = r.height;
-    canvas.width = W * dpr; canvas.height = H * dpr;
-    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-  }
-
-  function init(){
-    particles = [];
-    for (var i = 0; i < COUNT; i++){
-      particles.push({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.2,
-        phase: Math.random() * Math.PI * 2
-      });
-    }
-  }
-
-  function draw(){
-    if (paused) return;
-    time += 0.008;
-    ctx.clearRect(0, 0, W, H);
-
-    for (var i = 0; i < COUNT; i++){
-      var p = particles[i];
-      p.x += p.vx; p.y += p.vy;
-      if (p.x < -20) p.x = W + 20;
-      if (p.x > W + 20) p.x = -20;
-      if (p.y < -20) p.y = H + 20;
-      if (p.y > H + 20) p.y = -20;
-    }
-
-    for (var i = 0; i < COUNT; i++){
-      var a = particles[i];
-      for (var j = i + 1; j < COUNT; j++){
-        var b = particles[j];
-        var dx = a.x - b.x, dy = a.y - b.y;
-        var dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist < DIST){
-          var alpha = (1 - dist / DIST) * 0.08;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = 'rgba(71,181,255,' + alpha.toFixed(4) + ')';
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-        }
-      }
-    }
-
-    for (var i = 0; i < COUNT; i++){
-      var p = particles[i];
-      var pulse = 0.6 + 0.4 * Math.sin(time * 2 + p.phase);
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, 1.2, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(71,181,255,' + (0.1 * pulse).toFixed(4) + ')';
-      ctx.fill();
-    }
-
-    raf = requestAnimationFrame(draw);
-  }
-
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if (e.isIntersecting){ paused = false; raf = requestAnimationFrame(draw); }
-      else { paused = true; if (raf) cancelAnimationFrame(raf); }
-    });
-  }, { threshold: 0 });
-  io.observe(root);
-
-  var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-  if (mq.matches) return;
-
-  resize(); init();
-  window.addEventListener('resize', function(){ resize(); init(); });
-  draw();
-}());
-`]
+const sectionScripts = ["\n// Duplicate each marquee row so the loop is seamless\n(function(){\n  ['tekRow1','tekRow2'].forEach(function(id){\n    var el = document.getElementById(id);\n    if(!el) return;\n    var clone = el.innerHTML;\n    el.innerHTML = clone + clone; // duplicate for seamless loop\n  });\n}());\n", "(function(){\n  var root = document.querySelector('.tek');\n  if (!root) return;\n  new IntersectionObserver(function(entries){\n    entries.forEach(function(e){\n      if (e.isIntersecting) { e.target.classList.add('tek-visible'); }\n    });\n  }, { threshold: 0.05 }).observe(root);\n}());"]
 
 export default function Section8() {
   useEffect(() => {
