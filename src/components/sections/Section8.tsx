@@ -54,7 +54,7 @@ const sectionHtml = `<style>
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  opacity: 0.07;
+  opacity: 0.14;
   pointer-events: none;
   z-index: 0;
 }
