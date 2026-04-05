@@ -142,7 +142,7 @@ const sectionHtml = `<style>
   display: flex;
   flex-direction: column;
   gap: 0;
-  padding: 0 0 clamp(80px,8vw,140px);
+  padding: 0 0 0;
 }
 
 /* Edge fade masks */
@@ -170,6 +170,61 @@ const sectionHtml = `<style>
   padding: 14px 0;
 }
 .tek-marquee + .tek-marquee { margin-top: 14px; }
+
+/* ── Bottom content ── */
+.tek-bottom {
+  position: relative; z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(56px,6vw,96px) clamp(32px,5%,96px) clamp(80px,8vw,140px);
+  text-align: center;
+}
+.tek-bottom-title {
+  font-family: 'Inter Tight', 'Inter', sans-serif;
+  font-size: clamp(22px,2.4vw,36px);
+  font-weight: 900; text-transform: uppercase;
+  color: #fff; line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+.tek-bottom-title span { color: var(--accent); }
+.tek-bottom-desc {
+  font-size: clamp(14px,1.05vw,16px);
+  color: rgba(255,255,255,0.45);
+  line-height: 1.8;
+  max-width: 580px;
+  margin: 0 auto 32px;
+}
+
+/* Feature pills */
+.tek-features {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.tek-feat {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  padding: 10px 20px;
+  border: 1px solid rgba(71,181,255,0.1);
+  border-radius: 6px;
+  background: rgba(71,181,255,0.03);
+  transition: border-color 0.25s, color 0.25s, background 0.25s;
+}
+.tek-feat:hover {
+  border-color: rgba(71,181,255,0.25);
+  color: rgba(255,255,255,0.85);
+  background: rgba(71,181,255,0.06);
+}
+.tek-feat-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.5;
+}
 
 .tek-marquee-inner {
   display: flex;
@@ -619,6 +674,19 @@ const sectionHtml = `<style>
 
   </div>
 
+
+  <!-- Bottom content -->
+  <div class="tek-bottom">
+    <h3 class="tek-bottom-title">Platform-Agnostic. <span>Standards-Driven.</span></h3>
+    <p class="tek-bottom-desc">We do not sell software. We structure the information layer that makes your existing tools work harder, together, and in compliance with ISO 19650.</p>
+    <div class="tek-features">
+      <div class="tek-feat"><span class="tek-feat-dot"></span>ISO 19650 Aligned</div>
+      <div class="tek-feat"><span class="tek-feat-dot"></span>OpenBIM / IFC</div>
+      <div class="tek-feat"><span class="tek-feat-dot"></span>CDE Governance</div>
+      <div class="tek-feat"><span class="tek-feat-dot"></span>Multi-Platform</div>
+      <div class="tek-feat"><span class="tek-feat-dot"></span>Interoperability</div>
+    </div>
+  </div>
 
 </section>`
 const sectionScripts = ["\n// Duplicate each marquee row so the loop is seamless\n(function(){\n  ['tekRow1','tekRow2'].forEach(function(id){\n    var el = document.getElementById(id);\n    if(!el) return;\n    var clone = el.innerHTML;\n    el.innerHTML = clone + clone; // duplicate for seamless loop\n  });\n}());\n", "(function(){\n  var root = document.querySelector('.tek');\n  if (!root) return;\n  new IntersectionObserver(function(entries){\n    entries.forEach(function(e){\n      if (e.isIntersecting) { e.target.classList.add('tek-visible'); }\n    });\n  }, { threshold: 0.05 }).observe(root);\n}());"]

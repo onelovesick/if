@@ -29,8 +29,34 @@ const sectionHtml = `<style>
   margin: 0 auto;
 }
 
-/* Header — hidden for banner mode */
-.prf-header { display: none; }
+/* ── Header ── */
+.prf-header {
+  text-align: center;
+  margin-bottom: clamp(32px,3vw,48px);
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 1.2s ease, transform 1.4s cubic-bezier(0.16,1,0.3,1);
+}
+.prf-header.prf-in { opacity: 1; transform: translateY(0); }
+
+.prf-eyebrow {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 16px;
+}
+.prf-eyebrow::before, .prf-eyebrow::after {
+  content: ''; width: 28px; height: 1px;
+  background: var(--accent); opacity: 0.5;
+}
+
+.prf-title {
+  font-family: 'Inter Tight', 'Inter', sans-serif;
+  font-size: clamp(28px,3vw,44px);
+  font-weight: 900; text-transform: uppercase;
+  color: var(--text); line-height: 1;
+  letter-spacing: -0.03em;
+}
+.prf-title-accent { color: var(--accent); }
 
 /* ── Stats grid ── */
 .prf-stats {
