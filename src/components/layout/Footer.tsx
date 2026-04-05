@@ -9,10 +9,9 @@ const footerHtml = `<style>
   --accent: #47B5FF;
   --navy: #0B3C5D;
   --bg: #050c14;
-  --surface: #0a1420;
   --text: #F0F4F7;
-  --muted: rgba(244,246,248,0.4);
-  --muted-h: rgba(244,246,248,0.7);
+  --muted: rgba(244,246,248,0.35);
+  --muted-h: rgba(244,246,248,0.65);
   --border: rgba(71,181,255,0.06);
   --mono: 'DM Mono', monospace;
 
@@ -29,48 +28,62 @@ const footerHtml = `<style>
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent 5%, rgba(71,181,255,0.2) 30%, var(--accent) 50%, rgba(71,181,255,0.2) 70%, transparent 95%);
+  background: linear-gradient(90deg, transparent 5%, rgba(71,181,255,0.15) 30%, var(--accent) 50%, rgba(71,181,255,0.15) 70%, transparent 95%);
   z-index: 2;
 }
 
-/* ══ CTA Banner ══ */
-.ftr-cta {
+/* ══ Giant brand statement ══ */
+.ftr-hero {
   position: relative; z-index: 1;
   max-width: 1400px;
   margin: 0 auto;
-  padding: clamp(64px,7vw,100px) clamp(24px,5%,64px);
+  padding: clamp(80px,9vw,140px) clamp(24px,5%,64px) clamp(64px,7vw,100px);
   text-align: center;
 }
 
-.ftr-cta-eyebrow {
-  font-family: var(--mono); font-size: 11px;
-  letter-spacing: 0.28em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 20px;
-  display: inline-flex; align-items: center; gap: 12px;
-}
-.ftr-cta-eyebrow::before, .ftr-cta-eyebrow::after {
-  content: ''; width: 28px; height: 1px;
-  background: var(--accent); opacity: 0.4;
-}
-
-.ftr-cta-title {
+.ftr-hero-title {
   font-family: 'Inter Tight', 'Inter', sans-serif;
-  font-size: clamp(32px,4vw,64px);
-  font-weight: 900; text-transform: uppercase;
-  color: var(--text); line-height: 1.05;
-  letter-spacing: -0.03em; margin-bottom: 16px;
-  max-width: 800px; margin-left: auto; margin-right: auto;
+  font-size: clamp(48px,7vw,120px);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: rgba(255,255,255,0.04);
+  -webkit-text-stroke: 1px rgba(71,181,255,0.08);
+  margin-bottom: 24px;
+  user-select: none;
 }
-.ftr-cta-title span { color: var(--accent); }
+.ftr-hero-title span {
+  -webkit-text-stroke: 1px rgba(71,181,255,0.2);
+  color: rgba(71,181,255,0.06);
+}
 
-.ftr-cta-desc {
+.ftr-hero-sub {
+  font-family: 'Inter Tight', 'Inter', sans-serif;
+  font-size: clamp(20px,2.4vw,36px);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+.ftr-hero-sub em {
+  color: var(--accent);
+  font-style: normal;
+}
+
+.ftr-hero-desc {
   font-size: clamp(14px,1.1vw,17px);
-  color: var(--muted); line-height: 1.75;
-  max-width: 540px; margin: 0 auto 32px;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 480px;
+  margin: 0 auto 36px;
 }
 
-.ftr-cta-btns {
-  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+.ftr-hero-btns {
+  display: flex; gap: 12px;
+  justify-content: center; flex-wrap: wrap;
 }
 
 .ftr-btn-p {
@@ -79,61 +92,59 @@ const footerHtml = `<style>
   letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--bg); background: var(--accent);
   border: none; border-radius: 2px;
-  padding: 16px 32px; text-decoration: none;
+  padding: 16px 36px; text-decoration: none;
   transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
 }
 .ftr-btn-p:hover {
   background: #6bc5ff; transform: translateY(-2px);
   box-shadow: 0 8px 28px rgba(71,181,255,0.3);
 }
-.ftr-btn-p-arr { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
-.ftr-btn-p:hover .ftr-btn-p-arr { transform: translateX(4px); }
+.ftr-btn-arr { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+.ftr-btn-p:hover .ftr-btn-arr { transform: translateX(4px); }
 
 .ftr-btn-g {
   display: inline-flex; align-items: center;
   font-family: var(--mono); font-size: 10px; font-weight: 500;
   letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--muted-h); background: transparent;
-  border: 1px solid rgba(244,246,248,0.12);
-  border-radius: 2px; padding: 15px 28px;
+  border: 1px solid rgba(244,246,248,0.1);
+  border-radius: 2px; padding: 15px 32px;
   text-decoration: none;
   transition: border-color 0.25s, color 0.25s, background 0.25s;
 }
 .ftr-btn-g:hover {
-  border-color: rgba(71,181,255,0.35); color: var(--text);
+  border-color: rgba(71,181,255,0.3); color: var(--text);
   background: rgba(71,181,255,0.04);
 }
 
 /* ══ Divider ══ */
-.ftr-divider {
+.ftr-div {
   max-width: 1400px; margin: 0 auto;
   padding: 0 clamp(24px,5%,64px);
 }
-.ftr-divider-line {
+.ftr-div-line {
   height: 1px;
-  background: var(--border);
+  background: linear-gradient(90deg, transparent, rgba(71,181,255,0.08) 20%, rgba(71,181,255,0.08) 80%, transparent);
 }
 
 /* ══ Nav grid ══ */
 .ftr-body {
   position: relative; z-index: 1;
   max-width: 1400px; margin: 0 auto;
-  padding: clamp(40px,4vw,60px) clamp(24px,5%,64px) clamp(36px,3vw,48px);
+  padding: clamp(48px,5vw,72px) clamp(24px,5%,64px);
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
-  gap: 36px 28px;
+  grid-template-columns: 1.8fr 1fr 1fr 1fr 1fr;
+  gap: 40px 28px;
 }
 
-/* ── Brand ── */
+/* Brand */
 .ftr-brand {}
 
 .ftr-logo {
   display: flex; align-items: center; gap: 10px;
   margin-bottom: 18px; text-decoration: none;
 }
-.ftr-logo-mark {
-  width: 28px; height: 28px; flex-shrink: 0;
-}
+.ftr-logo-mark { width: 28px; height: 28px; flex-shrink: 0; }
 .ftr-logo-name {
   font-family: 'Inter Tight', sans-serif;
   font-size: 15px; font-weight: 900;
@@ -141,45 +152,54 @@ const footerHtml = `<style>
   color: var(--text);
 }
 
+.ftr-brand-tagline {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: clamp(16px,1.4vw,22px);
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 14px;
+  max-width: 260px;
+}
+.ftr-brand-tagline span { color: var(--accent); }
+
 .ftr-brand-desc {
   font-size: 12px; color: var(--muted);
-  line-height: 1.8; max-width: 240px;
-  margin-bottom: 20px;
+  line-height: 1.8; max-width: 260px;
+  margin-bottom: 24px;
 }
 
 .ftr-socials { display: flex; gap: 6px; }
 .ftr-social {
-  width: 30px; height: 30px;
-  border-radius: 5px;
+  width: 32px; height: 32px;
+  border-radius: 6px;
   border: 1px solid rgba(71,181,255,0.08);
   display: flex; align-items: center; justify-content: center;
   text-decoration: none; color: var(--muted);
-  transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.25s;
+  transition: background 0.3s, border-color 0.3s, color 0.3s, transform 0.3s;
 }
 .ftr-social:hover {
   background: rgba(71,181,255,0.08);
   border-color: rgba(71,181,255,0.25); color: var(--accent);
   transform: translateY(-2px);
 }
-.ftr-social svg { width: 12px; height: 12px; }
+.ftr-social svg { width: 13px; height: 13px; }
 
-/* ── Nav cols ── */
+/* Nav cols */
 .ftr-nav {}
-
 .ftr-nav-title {
   font-family: var(--mono); font-size: 9px;
   letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--accent); opacity: 0.6;
-  margin-bottom: 14px;
+  color: var(--accent); opacity: 0.55;
+  margin-bottom: 16px;
 }
-
 .ftr-nav-list {
   list-style: none; display: flex;
   flex-direction: column; gap: 0;
 }
 .ftr-nav-list a {
-  display: block; padding: 5px 0;
-  font-size: 12.5px; color: var(--muted);
+  display: block; padding: 6px 0;
+  font-size: 13px; color: var(--muted);
   text-decoration: none;
   transition: color 0.2s, padding-left 0.2s;
 }
@@ -187,12 +207,19 @@ const footerHtml = `<style>
   color: var(--text); padding-left: 4px;
 }
 
+/* Sub-section in nav */
+.ftr-nav-sub {
+  margin-top: 20px;
+}
+
 /* ══ Bottom ══ */
-.ftr-bottom {
-  position: relative; z-index: 1;
-  border-top: 1px solid var(--border);
+.ftr-bottom-wrap {
   max-width: 1400px; margin: 0 auto;
-  padding: 18px clamp(24px,5%,64px) 24px;
+  padding: 0 clamp(24px,5%,64px);
+}
+.ftr-bottom {
+  border-top: 1px solid var(--border);
+  padding: 20px 0 28px;
   display: flex; align-items: center;
   justify-content: space-between;
   flex-wrap: wrap; gap: 12px;
@@ -200,64 +227,62 @@ const footerHtml = `<style>
 
 .ftr-copy {
   font-family: var(--mono); font-size: 10px;
-  color: rgba(244,246,248,0.2); letter-spacing: 0.04em;
+  color: rgba(244,246,248,0.15); letter-spacing: 0.04em;
 }
 
-.ftr-bottom-mid {
-  display: flex; gap: 6px;
-}
+.ftr-bottom-mid { display: flex; gap: 6px; }
 .ftr-cert {
   font-family: var(--mono); font-size: 7px;
   letter-spacing: 0.1em; text-transform: uppercase;
-  color: rgba(71,181,255,0.3);
+  color: rgba(71,181,255,0.25);
   border: 1px solid rgba(71,181,255,0.06);
-  border-radius: 2px; padding: 3px 7px;
+  border-radius: 2px; padding: 3px 8px;
 }
 
-.ftr-bottom-right {
-  display: flex; align-items: center; gap: 16px;
-}
+.ftr-bottom-right { display: flex; gap: 16px; }
 .ftr-bottom-right a {
   font-family: var(--mono); font-size: 10px;
-  color: rgba(244,246,248,0.2); text-decoration: none;
+  color: rgba(244,246,248,0.15); text-decoration: none;
   letter-spacing: 0.04em; transition: color 0.2s;
 }
 .ftr-bottom-right a:hover { color: var(--accent); }
 
 /* ══ Responsive ══ */
 @media (max-width: 1024px) {
-  .ftr-body { grid-template-columns: 1fr 1fr 1fr; gap: 32px 24px; }
+  .ftr-body { grid-template-columns: 1fr 1fr 1fr; gap: 36px 24px; }
   .ftr-brand { grid-column: 1 / -1; }
 }
 @media (max-width: 640px) {
   .ftr-body { grid-template-columns: 1fr 1fr; }
   .ftr-brand { grid-column: 1 / -1; }
   .ftr-bottom { flex-direction: column; align-items: flex-start; }
-  .ftr-cta-btns { flex-direction: column; width: 100%; max-width: 320px; margin: 0 auto; }
+  .ftr-hero-btns { flex-direction: column; width: 100%; max-width: 320px; margin: 0 auto; }
   .ftr-btn-p, .ftr-btn-g { width: 100%; justify-content: center; }
+  .ftr-hero-title { font-size: clamp(36px, 10vw, 64px); }
 }
 @media (max-width: 420px) {
   .ftr-body { grid-template-columns: 1fr; }
 }
 @media (min-width: 1800px) {
-  .ftr-body, .ftr-cta, .ftr-bottom, .ftr-divider { max-width: 1600px; }
+  .ftr-body, .ftr-hero, .ftr-bottom-wrap, .ftr-div { max-width: 1600px; }
+  .ftr-hero-title { font-size: 130px; }
 }
 </style>
 
 <footer class="ftr">
 
-  <!-- CTA -->
-  <div class="ftr-cta">
-    <div class="ftr-cta-eyebrow">Start a Conversation</div>
-    <h2 class="ftr-cta-title">Ready to Bring <span>Structure</span> to Your Next Programme?</h2>
-    <p class="ftr-cta-desc">Whether you need a strategic review, full BIM governance, or digital delivery support, we are here to help you move with clarity.</p>
-    <div class="ftr-cta-btns">
-      <a href="/contact" class="ftr-btn-p">Schedule a Call <span class="ftr-btn-p-arr">&rarr;</span></a>
-      <a href="/solutions" class="ftr-btn-g">View Solutions</a>
+  <!-- Giant brand statement -->
+  <div class="ftr-hero">
+    <div class="ftr-hero-title">INFRA<span>FORMA</span></div>
+    <h2 class="ftr-hero-sub">Where Data Meets <em>Delivery</em></h2>
+    <p class="ftr-hero-desc">Structured information management for the teams that build, govern, and operate complex infrastructure.</p>
+    <div class="ftr-hero-btns">
+      <a href="/contact" class="ftr-btn-p">Schedule a Call <span class="ftr-btn-arr">&rarr;</span></a>
+      <a href="/solutions" class="ftr-btn-g">Explore Solutions</a>
     </div>
   </div>
 
-  <div class="ftr-divider"><div class="ftr-divider-line"></div></div>
+  <div class="ftr-div"><div class="ftr-div-line"></div></div>
 
   <!-- Nav -->
   <div class="ftr-body">
@@ -271,7 +296,8 @@ const footerHtml = `<style>
         </svg>
         <span class="ftr-logo-name">Infraforma</span>
       </a>
-      <p class="ftr-brand-desc">Information management, digital delivery, and BIM governance for complex infrastructure programmes.</p>
+      <h3 class="ftr-brand-tagline">Infrastructure, <span>Thought Through.</span></h3>
+      <p class="ftr-brand-desc">Quebec-based specialists in BIM, digital twin, and information management. Delivering across Canada and internationally.</p>
       <div class="ftr-socials">
         <a href="#" class="ftr-social" aria-label="LinkedIn">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
@@ -282,7 +308,6 @@ const footerHtml = `<style>
       </div>
     </div>
 
-    <!-- Solutions -->
     <nav class="ftr-nav">
       <p class="ftr-nav-title">Solutions</p>
       <ul class="ftr-nav-list">
@@ -293,7 +318,6 @@ const footerHtml = `<style>
       </ul>
     </nav>
 
-    <!-- Industries -->
     <nav class="ftr-nav">
       <p class="ftr-nav-title">Industries</p>
       <ul class="ftr-nav-list">
@@ -306,7 +330,6 @@ const footerHtml = `<style>
       </ul>
     </nav>
 
-    <!-- Company -->
     <nav class="ftr-nav">
       <p class="ftr-nav-title">Company</p>
       <ul class="ftr-nav-list">
@@ -318,32 +341,36 @@ const footerHtml = `<style>
       </ul>
     </nav>
 
-    <!-- Contact -->
     <nav class="ftr-nav">
       <p class="ftr-nav-title">Get in Touch</p>
       <ul class="ftr-nav-list">
         <li><a href="mailto:info@infraforma.ca">info@infraforma.ca</a></li>
         <li><a href="/contact">Schedule a Call</a></li>
       </ul>
-      <p class="ftr-nav-title" style="margin-top:20px;">Location</p>
-      <ul class="ftr-nav-list">
-        <li><a href="#">Quebec, Canada</a></li>
-        <li><a href="#">National Delivery</a></li>
-      </ul>
+      <div class="ftr-nav-sub">
+        <p class="ftr-nav-title">Location</p>
+        <ul class="ftr-nav-list">
+          <li><a href="#">Quebec City, Canada</a></li>
+          <li><a href="#">National &amp; Remote</a></li>
+        </ul>
+      </div>
     </nav>
 
   </div>
 
   <!-- Bottom -->
-  <div class="ftr-bottom">
-    <p class="ftr-copy">&copy; 2025 Infraforma Inc. All rights reserved.</p>
-    <div class="ftr-bottom-mid">
-      <span class="ftr-cert">ISO 19650</span>
-      <span class="ftr-cert">Quebec Based</span>
-    </div>
-    <div class="ftr-bottom-right">
-      <a href="/privacy">Privacy</a>
-      <a href="/terms">Terms</a>
+  <div class="ftr-bottom-wrap">
+    <div class="ftr-bottom">
+      <p class="ftr-copy">&copy; 2025 Infraforma Inc. All rights reserved.</p>
+      <div class="ftr-bottom-mid">
+        <span class="ftr-cert">ISO 19650</span>
+        <span class="ftr-cert">Quebec Based</span>
+        <span class="ftr-cert">Platform Agnostic</span>
+      </div>
+      <div class="ftr-bottom-right">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+      </div>
     </div>
   </div>
 
