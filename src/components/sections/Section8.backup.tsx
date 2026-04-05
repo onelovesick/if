@@ -39,8 +39,18 @@ const sectionHtml = `<style>
   padding: 0 0 0;
 }
 
-/* Grid — disabled */
-.tek::before { display: none; }
+/* ── Scan-line grid overlay ── */
+.tek::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(71,181,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(71,181,255,0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
 
 /* Radial glow in center */
 .tek::after {
@@ -72,7 +82,7 @@ const sectionHtml = `<style>
   position: relative;
   z-index: 2;
   text-align: center;
-  padding: clamp(56px,6vw,96px) clamp(32px,5%,96px) clamp(48px,5vw,72px);
+  padding: 48px clamp(32px,5%,96px) 52px;
 }
 
 .tek-eyebrow {
@@ -98,13 +108,13 @@ const sectionHtml = `<style>
 
 .tek-title {
   font-family: 'Inter Tight', 'Inter', sans-serif;
-  font-size: clamp(36px,4.8vw,76px);
+  font-size: clamp(36px, 4vw, 62px);
   font-weight: 900;
   text-transform: uppercase;
   color: #ffffff;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  margin-bottom: 18px;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  margin-bottom: 14px;
 }
 .tek-title em {
   color: var(--accent);
@@ -113,12 +123,12 @@ const sectionHtml = `<style>
 
 .tek-sub {
   font-family: 'Inter', sans-serif;
-  font-size: clamp(14px,1.1vw,17px);
-  color: rgba(255,255,255,0.5);
-  letter-spacing: 0.01em;
-  max-width: 540px;
+  font-size: 13.5px;
+  color: rgba(255,255,255,0.38);
+  letter-spacing: 0.02em;
+  max-width: 480px;
   margin: 0 auto;
-  line-height: 1.75;
+  line-height: 1.7;
 }
 
 /* ── Marquee wrapper ── */
@@ -128,7 +138,7 @@ const sectionHtml = `<style>
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: 0 0 clamp(56px,6vw,96px);
+  padding: 0 0 72px;
 }
 
 /* Edge fade masks */
@@ -157,7 +167,7 @@ const sectionHtml = `<style>
   border-top: 1px solid rgba(71,181,255,0.06);
   border-bottom: 1px solid rgba(71,181,255,0.06);
 }
-.tek-marquee + .tek-marquee { border-top: none; margin-top: 20px; }
+.tek-marquee + .tek-marquee { border-top: none; margin-top: 16px; }
 
 .tek-marquee-inner {
   display: flex;
@@ -183,7 +193,7 @@ const sectionHtml = `<style>
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 14px 32px;
+  padding: 12px 28px;
   margin: 0 8px;
   border: 1px solid rgba(71,181,255,0.08);
   background: rgba(255,255,255,0.03);
@@ -221,11 +231,11 @@ const sectionHtml = `<style>
 
 .tek-logo-name {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.65);
   transition: color 0.3s;
 }
 .tek-logo:hover .tek-logo-name { color: rgba(255,255,255,0.95); }
@@ -247,44 +257,44 @@ const sectionHtml = `<style>
   position: relative;
   z-index: 2;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 32px;
-  padding: clamp(48px,5vw,80px) clamp(32px,5%,96px) clamp(56px,6vw,96px);
-  border-top: 1px solid rgba(71,181,255,0.1);
-  max-width: 1400px;
+  gap: 0;
+  padding: 32px clamp(32px,5%,96px) 56px;
+  border-top: 1px solid rgba(71,181,255,0.08);
+  flex-wrap: wrap;
+  max-width: 1600px;
   margin: 0 auto;
   width: 100%;
-  text-align: center;
 }
 
-/* Title block */
+/* Left badge */
 .tek-iso-label {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
+  flex-shrink: 0;
+  padding-right: 40px;
 }
 .tek-iso-title {
   font-family: 'Inter Tight', 'Inter', sans-serif;
-  font-size: clamp(28px,3vw,48px);
+  font-size: 17px;
   font-weight: 900;
   text-transform: uppercase;
   color: white;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.03em;
   line-height: 1;
 }
 .tek-iso-sub {
   font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 0.22em;
+  font-size: 7.5px;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(71,181,255,0.6);
+  color: rgba(71,181,255,0.55);
+  margin-top: 5px;
 }
 
-/* Vertical divider — hidden in new layout */
+/* Vertical divider between badge and evo */
 .tek-iso-vdivider {
-  display: none;
   width: 1px;
   height: 64px;
   background: rgba(71,181,255,0.12);
@@ -297,12 +307,11 @@ const sectionHtml = `<style>
   display: flex;
   align-items: flex-start;
   gap: 0;
-  width: 100%;
-  max-width: 1200px;
+  flex: 1;
   flex-wrap: nowrap;
   overflow-x: auto;
   padding-bottom: 4px;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .tek-evo-node {
@@ -346,10 +355,10 @@ const sectionHtml = `<style>
 
 .tek-evo-code {
   font-family: 'Inter Tight', 'Inter', sans-serif;
-  font-size: clamp(13px,1.1vw,16px);
+  font-size: 13px;
   font-weight: 900;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.55);
   letter-spacing: 0.04em;
   line-height: 1.15;
   transition: color 0.2s;
@@ -360,12 +369,12 @@ const sectionHtml = `<style>
 
 .tek-evo-desc {
   font-family: var(--mono);
-  font-size: 8px;
+  font-size: 7px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.28);
-  line-height: 1.55;
-  max-width: 110px;
+  color: rgba(255,255,255,0.2);
+  line-height: 1.5;
+  max-width: 90px;
   transition: color 0.2s;
 }
 .tek-evo-node:hover .tek-evo-desc { color: rgba(255,255,255,0.45); }
