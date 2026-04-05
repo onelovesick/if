@@ -35,13 +35,122 @@ const footerHtml = `<style>
   z-index: 0;
 }
 
+/* ══ Brand statement ══ */
+.ftr-brand-section {
+  position: relative;
+  z-index: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: clamp(64px,7vw,100px) clamp(24px,5%,64px) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.ftr-brand-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.ftr-brand-logo {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+}
+
+.ftr-brand-text {}
+.ftr-brand-wordmark {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text);
+  line-height: 1.1;
+}
+.ftr-brand-slogan {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  margin-top: 4px;
+}
+
+.ftr-brand-right {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.ftr-brand-contact-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+.ftr-brand-contact-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0.6;
+}
+.ftr-brand-contact-val {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.ftr-brand-contact-val:hover { color: #7DD4FF; }
+
+.ftr-brand-process {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  padding: 10px 24px;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  background: var(--card-bg);
+  transition: border-color 0.3s, background 0.3s, transform 0.3s;
+}
+.ftr-brand-process:hover {
+  border-color: rgba(71,181,255,0.25);
+  background: rgba(71,181,255,0.06);
+  transform: translateY(-1px);
+}
+.ftr-brand-process svg {
+  width: 14px; height: 14px;
+  color: var(--accent);
+}
+
+.ftr-brand-divider {
+  max-width: 1400px;
+  margin: clamp(32px,3vw,48px) auto 0;
+  padding: 0 clamp(24px,5%,64px);
+}
+.ftr-brand-divider-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(71,181,255,0.1) 20%, rgba(71,181,255,0.1) 80%, transparent 100%);
+}
+
 /* ══ Cards grid ══ */
 .ftr-cards {
   position: relative;
   z-index: 1;
   max-width: 1400px;
   margin: 0 auto;
-  padding: clamp(64px,7vw,100px) clamp(24px,5%,64px) 0;
+  padding: clamp(32px,3vw,48px) clamp(24px,5%,64px) 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
@@ -223,19 +332,56 @@ const footerHtml = `<style>
 /* ══ Responsive ══ */
 @media (max-width: 1100px) {
   .ftr-cards { grid-template-columns: repeat(2, 1fr); }
+  .ftr-brand-section { flex-direction: column; align-items: flex-start; }
+  .ftr-brand-right { align-self: flex-start; }
+  .ftr-brand-contact-item { align-items: flex-start; }
 }
 @media (max-width: 640px) {
   .ftr-cards { grid-template-columns: 1fr; }
   .ftr-bottom { flex-direction: column; align-items: flex-start; }
+  .ftr-brand-right { flex-direction: column; align-items: flex-start; gap: 16px; }
 }
 @media (min-width: 1800px) {
-  .ftr-cards, .ftr-bottom-outer { max-width: 1600px; }
+  .ftr-cards, .ftr-bottom-outer, .ftr-brand-section, .ftr-brand-divider { max-width: 1600px; }
 }
 </style>
 
 <footer class="ftr">
 
   <div class="ftr-glow"></div>
+
+  <!-- Brand statement -->
+  <div class="ftr-brand-section">
+    <div class="ftr-brand-left">
+      <svg class="ftr-brand-logo" viewBox="0 0 52 52" fill="none">
+        <circle cx="26" cy="26" r="23" stroke="#47B5FF" stroke-width="0.8"/>
+        <circle cx="26" cy="26" r="14" stroke="#47B5FF" stroke-width="0.5" opacity="0.4"/>
+        <circle cx="26" cy="26" r="5" fill="#47B5FF" opacity="0.5"/>
+        <line x1="26" y1="2" x2="26" y2="50" stroke="#47B5FF" stroke-width="0.4" opacity="0.2"/>
+        <line x1="2" y1="26" x2="50" y2="26" stroke="#47B5FF" stroke-width="0.4" opacity="0.2"/>
+      </svg>
+      <div class="ftr-brand-text">
+        <div class="ftr-brand-wordmark">Infraforma</div>
+        <div class="ftr-brand-slogan">Human-Led, Digitally Enabled.</div>
+      </div>
+    </div>
+    <div class="ftr-brand-right">
+      <div class="ftr-brand-contact-item">
+        <span class="ftr-brand-contact-label">Email</span>
+        <a href="mailto:info@infraforma.ca" class="ftr-brand-contact-val">info@infraforma.ca</a>
+      </div>
+      <div class="ftr-brand-contact-item">
+        <span class="ftr-brand-contact-label">Location</span>
+        <span class="ftr-brand-contact-val">Quebec City, Canada</span>
+      </div>
+      <a href="/process" class="ftr-brand-process">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Our Process
+      </a>
+    </div>
+  </div>
+
+  <div class="ftr-brand-divider"><div class="ftr-brand-divider-line"></div></div>
 
   <!-- Cards -->
   <div class="ftr-cards">
