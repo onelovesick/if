@@ -415,21 +415,6 @@ const sectionHtml = `<style>
         Most teams invest in tools, technology, and software. The real advantage is in the people and processes behind them. We design controlled digital ecosystems that align with enterprise culture and deliver measurable results from day one.
       </p>
 
-      <div class="cta-stats" id="ctaStats">
-        <div class="cta-stat">
-          <span class="cta-stat-n"><span class="cta-count" data-t="55">0</span><span>+</span></span>
-          <span class="cta-stat-l">Years Combined<br/>Experience</span>
-        </div>
-        <div class="cta-stat">
-          <span class="cta-stat-n">$<span class="cta-count" data-t="50">0</span><span>B+</span></span>
-          <span class="cta-stat-l">Assets Delivered<br/>&amp; Modelled</span>
-        </div>
-        <div class="cta-stat">
-          <span class="cta-stat-n"><span class="cta-count" data-t="3">0</span></span>
-          <span class="cta-stat-l">Countries of<br/>Delivery</span>
-        </div>
-      </div>
-
       <div class="cta-btns" id="ctaBtns">
         <a href="/services" class="cta-btn-p">What We Do <span class="arr">&rarr;</span></a>
         <a href="/contact"  class="cta-btn-g">Contact Us</a>

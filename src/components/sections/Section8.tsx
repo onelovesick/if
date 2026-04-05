@@ -211,8 +211,9 @@ const sectionHtml = `<style>
 .tek-bottom-title span { color: var(--accent); }
 
 .tek-bottom-desc {
-  font-size: clamp(13px,1vw,15px);
-  color: rgba(255,255,255,0.45);
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(14px,1.1vw,17px);
+  color: rgba(255,255,255,0.5);
   line-height: 1.8;
   max-width: 480px;
 }
