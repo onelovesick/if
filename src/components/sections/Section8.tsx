@@ -28,19 +28,29 @@ const sectionHtml = `<style>
   padding: 0 0 0;
 }
 
-/* Grid — disabled */
-.tek::before { display: none; }
+/* Dot grid bg */
+.tek::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(71,181,255,0.06) 1px, transparent 1px);
+  background-size: 36px 36px;
+  pointer-events: none; z-index: 0;
+}
 
-/* Radial glow in center */
+/* Deep bloom top-right */
 .tek::after {
   content: '';
-  position: absolute;
-  top: 55%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 70vw; height: 40vh;
-  background: radial-gradient(ellipse, rgba(71,181,255,0.07) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
+  position: absolute; top: -20%; right: -10%;
+  width: 60%; height: 80%;
+  background: radial-gradient(ellipse, rgba(11,60,93,0.45) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+
+/* Particle mesh canvas */
+.tek-mesh {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none; z-index: 0;
 }
 
 /* Top spacer — removed */
@@ -394,9 +404,9 @@ const sectionHtml = `<style>
 }
 </style>
 
-<section class="tek" aria-label="Technology ecosystem">
+<section class="tek" aria-label="Technology ecosystem" id="tekRoot">
 
-  <div class="tek-fade-top"></div>
+  <canvas class="tek-mesh" id="tekMesh"></canvas>
 
   <!-- Header -->
   <div class="tek-header">
@@ -597,7 +607,99 @@ const sectionHtml = `<style>
   <div class="tek-fade-bottom"></div>
 
 </section>`
-const sectionScripts = ["\n// Duplicate each marquee row so the loop is seamless\n(function(){\n  ['tekRow1','tekRow2'].forEach(function(id){\n    var el = document.getElementById(id);\n    if(!el) return;\n    var clone = el.innerHTML;\n    el.innerHTML = clone + clone; // duplicate for seamless loop\n  });\n}());\n", "(function(){\n  var root = document.querySelector('.tek');\n  if (!root) return;\n  new IntersectionObserver(function(entries){\n    entries.forEach(function(e){\n      if (e.isIntersecting) { e.target.classList.add('tek-visible'); }\n    });\n  }, { threshold: 0.05 }).observe(root);\n}());"]
+const sectionScripts = ["\n// Duplicate each marquee row so the loop is seamless\n(function(){\n  ['tekRow1','tekRow2'].forEach(function(id){\n    var el = document.getElementById(id);\n    if(!el) return;\n    var clone = el.innerHTML;\n    el.innerHTML = clone + clone;\n  });\n}());\n", "(function(){\n  var root = document.querySelector('.tek');\n  if (!root) return;\n  new IntersectionObserver(function(entries){\n    entries.forEach(function(e){\n      if (e.isIntersecting) { e.target.classList.add('tek-visible'); }\n    });\n  }, { threshold: 0.05 }).observe(root);\n}());", `
+(function(){
+  var canvas = document.getElementById('tekMesh');
+  var root = document.getElementById('tekRoot');
+  if (!canvas || !root) return;
+  var ctx = canvas.getContext('2d');
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var W, H, paused = false, raf;
+  var particles = [];
+  var COUNT = 80;
+  var DIST = 160;
+  var time = 0;
+
+  function resize(){
+    var r = root.getBoundingClientRect();
+    W = r.width; H = r.height;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+
+  function init(){
+    particles = [];
+    for (var i = 0; i < COUNT; i++){
+      particles.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.2,
+        phase: Math.random() * Math.PI * 2
+      });
+    }
+  }
+
+  function draw(){
+    if (paused) return;
+    time += 0.008;
+    ctx.clearRect(0, 0, W, H);
+
+    for (var i = 0; i < COUNT; i++){
+      var p = particles[i];
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < -20) p.x = W + 20;
+      if (p.x > W + 20) p.x = -20;
+      if (p.y < -20) p.y = H + 20;
+      if (p.y > H + 20) p.y = -20;
+    }
+
+    for (var i = 0; i < COUNT; i++){
+      var a = particles[i];
+      for (var j = i + 1; j < COUNT; j++){
+        var b = particles[j];
+        var dx = a.x - b.x, dy = a.y - b.y;
+        var dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < DIST){
+          var alpha = (1 - dist / DIST) * 0.08;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = 'rgba(71,181,255,' + alpha.toFixed(4) + ')';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+
+    for (var i = 0; i < COUNT; i++){
+      var p = particles[i];
+      var pulse = 0.6 + 0.4 * Math.sin(time * 2 + p.phase);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 1.2, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(71,181,255,' + (0.1 * pulse).toFixed(4) + ')';
+      ctx.fill();
+    }
+
+    raf = requestAnimationFrame(draw);
+  }
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){ paused = false; raf = requestAnimationFrame(draw); }
+      else { paused = true; if (raf) cancelAnimationFrame(raf); }
+    });
+  }, { threshold: 0 });
+  io.observe(root);
+
+  var mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (mq.matches) return;
+
+  resize(); init();
+  window.addEventListener('resize', function(){ resize(); init(); });
+  draw();
+}());
+`]
 
 export default function Section8() {
   useEffect(() => {
