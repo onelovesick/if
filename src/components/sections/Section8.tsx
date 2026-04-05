@@ -46,20 +46,8 @@ const sectionHtml = `<style>
   user-select: none;
 }
 
-/* Scan line */
-.tek-scan {
-  position: absolute;
-  left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 5%, rgba(71,181,255,0.15) 30%, rgba(71,181,255,0.3) 50%, rgba(71,181,255,0.15) 70%, transparent 95%);
-  z-index: 1;
-  animation: tekScan 8s linear infinite;
-  pointer-events: none;
-}
-@keyframes tekScan {
-  from { top: -1px; }
-  to { top: 100%; }
-}
+/* Scan line — disabled */
+.tek-scan { display: none; }
 
 /* Ambient orbs — parallax responsive */
 .tek-orb {
@@ -362,13 +350,14 @@ const sectionHtml = `<style>
 
 /* Logo icon */
 .tek-logo-icon {
-  width: 22px; height: 22px;
+  width: 20px; height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  line-height: 0;
 }
-.tek-logo-icon svg { width: 100%; height: 100%; }
+.tek-logo-icon svg { width: 20px; height: 20px; display: block; }
 
 .tek-logo-name {
   font-family: var(--mono);
@@ -378,6 +367,7 @@ const sectionHtml = `<style>
   text-transform: uppercase;
   color: rgba(255,255,255,0.75);
   transition: color 0.3s;
+  line-height: 1;
 }
 .tek-logo:hover .tek-logo-name { color: #fff; }
 
@@ -390,6 +380,7 @@ const sectionHtml = `<style>
   padding-left: 12px;
   border-left: 1px solid rgba(71,181,255,0.1);
   transition: color 0.3s;
+  line-height: 1;
 }
 .tek-logo:hover .tek-logo-cat { color: rgba(71,181,255,0.75); }
 
@@ -850,25 +841,6 @@ new IntersectionObserver(function(entries){
   window.addEventListener('scroll', onScroll, { passive: true });
 })();
 
-/* Scroll-reactive marquee speed */
-(function(){
-  var rows = root.querySelectorAll('.tek-marquee-inner');
-  var lastScroll = 0;
-  var baseDurations = [38, 42];
-  function update(){
-    var scrollY = window.pageYOffset;
-    var velocity = Math.abs(scrollY - lastScroll);
-    lastScroll = scrollY;
-    var mult = 1 + Math.min(velocity * 0.015, 2.5);
-    rows.forEach(function(row, i){
-      row.style.animationDuration = ((baseDurations[i % 2]) / mult) + 's';
-    });
-    requestAnimationFrame(update);
-  }
-  new IntersectionObserver(function(entries){
-    if (entries[0].isIntersecting) requestAnimationFrame(update);
-  }, { threshold: 0 }).observe(root);
-})();
 
 /* Reduced motion */
 if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
