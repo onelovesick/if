@@ -18,51 +18,39 @@ const sectionHtml = `<style>
 
 .tek {
   --accent: #47B5FF;
-  --navy:   #0B3C5D;
-  --dark:   #060d14;
-  --mono:   'DM Mono', monospace;
+  --navy: #0B3C5D;
+  --mono: 'DM Mono', monospace;
 
   position: relative;
-  background: #0E1418;
+  background: linear-gradient(135deg, #1a8cd8 0%, #47B5FF 35%, #3da6f0 65%, #2990d8 100%);
   overflow: hidden;
-  padding: 0 0 0;
+  padding: 0;
 }
 
-/* Dot grid bg */
+/* Subtle texture overlay */
 .tek::before {
   content: '';
   position: absolute; inset: 0;
-  background-image: radial-gradient(circle, rgba(71,181,255,0.06) 1px, transparent 1px);
-  background-size: 36px 36px;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
   pointer-events: none; z-index: 0;
 }
 
-/* Deep bloom top-right */
+/* Light bloom */
 .tek::after {
   content: '';
-  position: absolute; top: -20%; right: -10%;
+  position: absolute; top: -30%; left: 20%;
   width: 60%; height: 80%;
-  background: radial-gradient(ellipse, rgba(11,60,93,0.45) 0%, transparent 65%);
+  background: radial-gradient(ellipse, rgba(255,255,255,0.08) 0%, transparent 60%);
   pointer-events: none; z-index: 0;
 }
 
-/* Particle mesh canvas */
-.tek-mesh {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  pointer-events: none; z-index: 0;
-}
+/* Canvas hidden — not needed on bright bg */
+.tek-mesh { display: none; }
 
-/* Top spacer — removed */
+/* Bottom fade removed */
+.tek-fade-bottom { display: none; }
 .tek-fade-top { display: none; }
-
-/* ── Bottom — hard match to footer ── */
-.tek-fade-bottom {
-  height: 2px;
-  background: #060d14;
-  position: relative;
-  z-index: 2;
-}
 
 /* ── Header ── */
 .tek-header {
@@ -74,23 +62,20 @@ const sectionHtml = `<style>
 
 .tek-eyebrow {
   font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.32em;
+  font-size: 10px;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(71,181,255,0.95);
+  color: rgba(255,255,255,0.7);
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 .tek-eyebrow::before,
 .tek-eyebrow::after {
   content: '';
   width: 28px; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(71,181,255,0.4));
-}
-.tek-eyebrow::after {
-  background: linear-gradient(90deg, rgba(71,181,255,0.4), transparent);
+  background: rgba(255,255,255,0.3);
 }
 
 .tek-title {
@@ -102,16 +87,17 @@ const sectionHtml = `<style>
   line-height: 1;
   letter-spacing: -0.03em;
   margin-bottom: 18px;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.08);
 }
 .tek-title em {
-  color: var(--accent);
+  color: var(--navy);
   font-style: italic;
 }
 
 .tek-sub {
   font-family: 'Inter', sans-serif;
   font-size: clamp(14px,1.1vw,17px);
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.75);
   letter-spacing: 0.01em;
   max-width: 540px;
   margin: 0 auto;
@@ -140,19 +126,19 @@ const sectionHtml = `<style>
 }
 .tek-marquees::before {
   left: 0;
-  background: linear-gradient(90deg, #0E1418, transparent);
+  background: linear-gradient(90deg, #3098d8, transparent);
 }
 .tek-marquees::after {
   right: 0;
-  background: linear-gradient(270deg, #0E1418, transparent);
+  background: linear-gradient(270deg, #3098d8, transparent);
 }
 
 /* ── Single marquee track ── */
 .tek-marquee {
   overflow: hidden;
-  padding: 12px 0;
-  border-top: 1px solid rgba(71,181,255,0.06);
-  border-bottom: 1px solid rgba(71,181,255,0.06);
+  padding: 14px 0;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 .tek-marquee + .tek-marquee { border-top: none; margin-top: 20px; }
 
@@ -182,9 +168,11 @@ const sectionHtml = `<style>
   gap: 10px;
   padding: 14px 32px;
   margin: 0 8px;
-  border: 1px solid rgba(71,181,255,0.08);
-  background: rgba(255,255,255,0.03);
-  border-radius: 3px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.08);
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   white-space: nowrap;
   cursor: default;
   transition: background 0.3s, border-color 0.3s, transform 0.3s;
@@ -195,14 +183,15 @@ const sectionHtml = `<style>
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(71,181,255,0.06), transparent);
+  background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent);
   opacity: 0;
   transition: opacity 0.3s;
 }
 .tek-logo:hover {
-  background: rgba(71,181,255,0.07);
-  border-color: rgba(71,181,255,0.25);
-  transform: translateY(-2px);
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.35);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
 }
 .tek-logo:hover::before { opacity: 1; }
 
@@ -222,22 +211,22 @@ const sectionHtml = `<style>
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.85);
   transition: color 0.3s;
 }
-.tek-logo:hover .tek-logo-name { color: rgba(255,255,255,0.95); }
+.tek-logo:hover .tek-logo-name { color: #fff; }
 
 .tek-logo-cat {
   font-family: var(--mono);
   font-size: 7.5px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(71,181,255,0.35);
+  color: rgba(255,255,255,0.4);
   padding-left: 10px;
-  border-left: 1px solid rgba(71,181,255,0.12);
+  border-left: 1px solid rgba(255,255,255,0.15);
   transition: color 0.3s;
 }
-.tek-logo:hover .tek-logo-cat { color: rgba(71,181,255,0.7); }
+.tek-logo:hover .tek-logo-cat { color: rgba(255,255,255,0.7); }
 
 /* ── ISO 19650 bar ── */
 .tek-iso {
