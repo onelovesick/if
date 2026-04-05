@@ -706,22 +706,6 @@ const sectionHtml = `<style>
   </div>
 
 
-  <!-- Bottom content -->
-  <div class="tek-bottom">
-    <div class="tek-bottom-left">
-      <div class="tek-bottom-eyebrow">Our Approach</div>
-      <h3 class="tek-bottom-title">We Structure the <span>Information Layer</span></h3>
-      <p class="tek-bottom-desc">We do not sell software. We govern the data, standards, and workflows that connect your platforms into one controlled delivery system.</p>
-    </div>
-    <div class="tek-features">
-      <div class="tek-feat"><span class="tek-feat-dot"></span>ISO 19650 Aligned</div>
-      <div class="tek-feat"><span class="tek-feat-dot"></span>OpenBIM / IFC Native</div>
-      <div class="tek-feat"><span class="tek-feat-dot"></span>CDE Governance</div>
-      <div class="tek-feat"><span class="tek-feat-dot"></span>Multi-Platform</div>
-      <div class="tek-feat"><span class="tek-feat-dot"></span>Interoperability</div>
-      <div class="tek-feat"><span class="tek-feat-dot"></span>Vendor Neutral</div>
-    </div>
-  </div>
 
 </section>`
 const sectionScripts = ["\n// Duplicate each marquee row so the loop is seamless\n(function(){\n  ['tekRow1','tekRow2'].forEach(function(id){\n    var el = document.getElementById(id);\n    if(!el) return;\n    var clone = el.innerHTML;\n    el.innerHTML = clone + clone; // duplicate for seamless loop\n  });\n}());\n", "(function(){\n  var root = document.querySelector('.tek');\n  if (!root) return;\n  new IntersectionObserver(function(entries){\n    entries.forEach(function(e){\n      if (e.isIntersecting) { e.target.classList.add('tek-visible'); }\n    });\n  }, { threshold: 0.05 }).observe(root);\n}());"]
