@@ -180,7 +180,7 @@ const sectionHtml = `<style>
 .tek-sub {
   font-family: 'Inter', sans-serif;
   font-size: clamp(15px,1.15vw,18px);
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.7);
   letter-spacing: 0.01em;
   max-width: 560px;
   margin: 0 auto;
@@ -381,7 +381,7 @@ const sectionHtml = `<style>
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.75);
+  color: rgba(255,255,255,0.9);
   transition: color 0.3s;
   line-height: 1;
 }
@@ -392,7 +392,7 @@ const sectionHtml = `<style>
   font-size: 8px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(71,181,255,0.35);
+  color: rgba(71,181,255,0.55);
   padding-left: 12px;
   border-left: 1px solid rgba(71,181,255,0.1);
   transition: color 0.3s;
