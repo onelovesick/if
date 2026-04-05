@@ -49,6 +49,22 @@ const sectionHtml = `<style>
 /* Scan line — disabled */
 .tek-scan { display: none; }
 
+/* Background video */
+.tek-bgvid {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: 0;
+}
+.tek-bgdim {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(14,20,24,0.6) 0%, rgba(14,20,24,0.3) 50%, rgba(14,20,24,0.7) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
 /* Ambient orbs — parallax responsive */
 .tek-orb {
   position: absolute;
@@ -182,7 +198,7 @@ const sectionHtml = `<style>
   display: flex;
   flex-direction: column;
   gap: 0;
-  padding: 0 0 0;
+  padding: 0 0 clamp(80px,8vw,140px);
 }
 
 /* Edge fade masks */
@@ -550,9 +566,14 @@ const sectionHtml = `<style>
 
 <section class="tek" aria-label="Technology ecosystem" id="tekRoot">
 
+  <!-- Background video -->
+  <video class="tek-bgvid" autoplay muted loop playsinline aria-hidden="true">
+    <source src="/videos/tools-bg.mp4" type="video/mp4" />
+  </video>
+  <div class="tek-bgdim"></div>
+
   <!-- Depth 0: atmospheric layers -->
   <div class="tek-ghost" aria-hidden="true">ECOSYSTEM</div>
-  <div class="tek-scan" aria-hidden="true"></div>
   <div class="tek-orb tek-orb--1" data-depth="0"></div>
   <div class="tek-orb tek-orb--2" data-depth="0"></div>
   <div class="tek-orb tek-orb--3" data-depth="0"></div>
