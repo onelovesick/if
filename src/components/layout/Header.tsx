@@ -539,8 +539,7 @@ const headerHtml = `<!-- =======================================================
     <!-- ── CENTER LOGO ── -->
     <div class="hdr-center">
       <a href="/" class="hdr-logo">
-        <img src="YOUR_LOGO_URL" alt="Infraforma"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+        <img src="/images/logotest.png" alt="Infraforma"/>
         <span class="hdr-logo-text" style="display:none">INFRAFORMA</span>
       </a>
     </div>
