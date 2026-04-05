@@ -28,7 +28,40 @@ const sectionHtml = `<style>
   padding: 0;
 }
 
-/* Ambient orbs */
+/* Ghost background text */
+.tek-ghost {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Inter Tight', 'Inter', sans-serif;
+  font-size: clamp(120px, 14vw, 240px);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(71,181,255,0.04);
+  pointer-events: none;
+  z-index: 0;
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* Scan line */
+.tek-scan {
+  position: absolute;
+  left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 5%, rgba(71,181,255,0.15) 30%, rgba(71,181,255,0.3) 50%, rgba(71,181,255,0.15) 70%, transparent 95%);
+  z-index: 1;
+  animation: tekScan 8s linear infinite;
+  pointer-events: none;
+}
+@keyframes tekScan {
+  from { top: -1px; }
+  to { top: 100%; }
+}
+
+/* Ambient orbs — parallax responsive */
 .tek-orb {
   position: absolute;
   border-radius: 50%;
@@ -102,7 +135,11 @@ const sectionHtml = `<style>
   align-items: center;
   gap: 12px;
   margin-bottom: 22px;
+  opacity: 0;
+  transform: translateY(20px) skewY(2deg);
+  transition: opacity 1s ease, transform 1.2s cubic-bezier(0.16,1,0.3,1);
 }
+.tek-eyebrow.tek-in { opacity: 1; transform: translateY(0) skewY(0); }
 .tek-eyebrow::before,
 .tek-eyebrow::after {
   content: '';
@@ -115,15 +152,26 @@ const sectionHtml = `<style>
   font-size: clamp(40px,5.5vw,88px);
   font-weight: 900;
   text-transform: uppercase;
-  color: #ffffff;
   line-height: 1;
   letter-spacing: -0.03em;
   margin-bottom: 20px;
 }
-.tek-title em {
-  color: var(--accent);
-  font-style: italic;
+/* Word-by-word scroll lighting */
+.tek-word {
+  display: inline-block;
+  color: rgba(255,255,255,0.12);
+  transition: color 0.6s cubic-bezier(0.22,1,0.36,1), text-shadow 0.6s ease;
+  padding: 0 0.06em;
 }
+.tek-word.tek-lit {
+  color: #ffffff;
+  text-shadow: 0 0 40px rgba(71,181,255,0.15);
+}
+.tek-word.tek-lit-accent {
+  color: var(--accent);
+  text-shadow: 0 0 40px rgba(71,181,255,0.25);
+}
+.tek-word-br { display: block; }
 
 .tek-sub {
   font-family: 'Inter', sans-serif;
@@ -133,7 +181,11 @@ const sectionHtml = `<style>
   max-width: 560px;
   margin: 0 auto;
   line-height: 1.8;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 1s ease 0.3s, transform 1.2s cubic-bezier(0.16,1,0.3,1) 0.3s;
 }
+.tek-sub.tek-in { opacity: 1; transform: translateY(0); }
 
 /* ── Marquee wrapper ── */
 .tek-marquees {
@@ -507,15 +559,18 @@ const sectionHtml = `<style>
 
 <section class="tek" aria-label="Technology ecosystem" id="tekRoot">
 
-  <div class="tek-orb tek-orb--1"></div>
-  <div class="tek-orb tek-orb--2"></div>
-  <div class="tek-orb tek-orb--3"></div>
+  <!-- Depth 0: atmospheric layers -->
+  <div class="tek-ghost" aria-hidden="true">ECOSYSTEM</div>
+  <div class="tek-scan" aria-hidden="true"></div>
+  <div class="tek-orb tek-orb--1" data-depth="0"></div>
+  <div class="tek-orb tek-orb--2" data-depth="0"></div>
+  <div class="tek-orb tek-orb--3" data-depth="0"></div>
 
-  <!-- Header -->
-  <div class="tek-header">
-    <div class="tek-eyebrow">Technology Ecosystem</div>
-    <h2 class="tek-title">We Make Your <em>Tools</em><br/>Work Together</h2>
-    <p class="tek-sub">Platform-agnostic by design. We structure the information layer that connects your existing stack into one governed, interoperable system.</p>
+  <!-- Header — Depth 4: text content -->
+  <div class="tek-header" data-depth="4">
+    <div class="tek-eyebrow" id="tekEyebrow">Technology Ecosystem</div>
+    <h2 class="tek-title" id="tekTitle" data-words="We,Make,Your,Tools*,||,Work,Together"></h2>
+    <p class="tek-sub" id="tekSub">Platform-agnostic by design. We structure the information layer that connects your existing stack into one governed, interoperable system.</p>
   </div>
 
   <!-- Marquees -->
@@ -708,14 +763,129 @@ const sectionHtml = `<style>
 
 
 </section>`
-const sectionScripts = ["\n// Duplicate each marquee row so the loop is seamless\n(function(){\n  ['tekRow1','tekRow2'].forEach(function(id){\n    var el = document.getElementById(id);\n    if(!el) return;\n    var clone = el.innerHTML;\n    el.innerHTML = clone + clone; // duplicate for seamless loop\n  });\n}());\n", "(function(){\n  var root = document.querySelector('.tek');\n  if (!root) return;\n  new IntersectionObserver(function(entries){\n    entries.forEach(function(e){\n      if (e.isIntersecting) { e.target.classList.add('tek-visible'); }\n    });\n  }, { threshold: 0.05 }).observe(root);\n}());"]
+const sectionScript = `
+(function(){
+'use strict';
+var root = document.getElementById('tekRoot');
+if (!root) return;
+
+/* Duplicate marquee rows */
+['tekRow1','tekRow2'].forEach(function(id){
+  var el = document.getElementById(id);
+  if(!el) return;
+  el.innerHTML = el.innerHTML + el.innerHTML;
+});
+
+/* Section reveal */
+new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if (e.isIntersecting) e.target.classList.add('tek-visible');
+  });
+}, { threshold: 0.05 }).observe(root);
+
+/* Word-by-word scroll lighting */
+(function(){
+  var titleEl = document.getElementById('tekTitle');
+  if (!titleEl) return;
+  var data = titleEl.getAttribute('data-words') || '';
+  var html = '';
+  data.split(',').forEach(function(w){
+    if (w === '||'){
+      html += '<span class="tek-word-br"></span>';
+    } else if (w.endsWith('*')){
+      html += '<span class="tek-word" data-accent="1">' + w.slice(0,-1) + '</span>';
+    } else {
+      html += '<span class="tek-word">' + w + '</span>';
+    }
+  });
+  titleEl.innerHTML = html;
+
+  var words = Array.from(titleEl.querySelectorAll('.tek-word'));
+  var total = words.length;
+  var ticking = false;
+
+  function update(){
+    var rect = root.getBoundingClientRect();
+    var winH = window.innerHeight;
+    var raw = (winH - rect.top) / (winH * 0.7);
+    var progress = Math.max(0, Math.min(1, raw));
+    var lit = Math.floor(progress * (total + 1));
+    for (var i = 0; i < total; i++){
+      var w = words[i];
+      var isAccent = w.getAttribute('data-accent');
+      w.classList.remove('tek-lit', 'tek-lit-accent');
+      if (i < lit) w.classList.add(isAccent ? 'tek-lit-accent' : 'tek-lit');
+    }
+    ticking = false;
+  }
+  function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  update();
+})();
+
+/* Entrance animations */
+(function(){
+  var targets = [document.getElementById('tekEyebrow'), document.getElementById('tekSub')].filter(Boolean);
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){ e.target.classList.add('tek-in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.2 });
+  targets.forEach(function(t){ io.observe(t); });
+})();
+
+/* Parallax on orbs */
+(function(){
+  var orbs = root.querySelectorAll('.tek-orb');
+  var speeds = [0.1, 0.15, 0.08];
+  var ticking = false;
+  function update(){
+    var offset = -root.getBoundingClientRect().top;
+    orbs.forEach(function(orb, i){
+      orb.style.transform = 'translateY(' + (offset * (speeds[i]||0.1)) + 'px)';
+    });
+    ticking = false;
+  }
+  function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+})();
+
+/* Scroll-reactive marquee speed */
+(function(){
+  var rows = root.querySelectorAll('.tek-marquee-inner');
+  var lastScroll = 0;
+  var baseDurations = [38, 42];
+  function update(){
+    var scrollY = window.pageYOffset;
+    var velocity = Math.abs(scrollY - lastScroll);
+    lastScroll = scrollY;
+    var mult = 1 + Math.min(velocity * 0.015, 2.5);
+    rows.forEach(function(row, i){
+      row.style.animationDuration = ((baseDurations[i % 2]) / mult) + 's';
+    });
+    requestAnimationFrame(update);
+  }
+  new IntersectionObserver(function(entries){
+    if (entries[0].isIntersecting) requestAnimationFrame(update);
+  }, { threshold: 0 }).observe(root);
+})();
+
+/* Reduced motion */
+if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  root.querySelectorAll('.tek-word').forEach(function(w){
+    w.classList.add(w.getAttribute('data-accent') ? 'tek-lit-accent' : 'tek-lit');
+  });
+  var scan = root.querySelector('.tek-scan');
+  if (scan) scan.style.display = 'none';
+}
+
+}());
+`
 
 export default function Section8() {
   useEffect(() => {
     setTimeout(() => {
-      sectionScripts.forEach((script) => {
-        try { new Function(script)() } catch(e) { console.error('Section8 script error:', e) }
-      })
+      try { new Function(sectionScript)() } catch(e) { console.error('Section8 script error:', e) }
     }, 300)
   }, [])
   return <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: sectionHtml }} />
