@@ -21,7 +21,7 @@ const sectionHtml = `<style>
   font-family: 'Inter', sans-serif;
   position: relative;
   overflow: hidden;
-  padding: clamp(64px,7vw,110px) clamp(24px,5%,64px);
+  padding: clamp(36px,3.5vw,56px) clamp(24px,5%,64px);
 }
 
 .prf-wrap {
@@ -29,51 +29,20 @@ const sectionHtml = `<style>
   margin: 0 auto;
 }
 
-/* ── Header ── */
-.prf-header {
-  text-align: center;
-  margin-bottom: clamp(48px,5vw,72px);
-  opacity: 0; transform: translateY(20px);
-  transition: opacity 1.2s ease, transform 1.4s cubic-bezier(0.16,1,0.3,1);
-}
-.prf-header.prf-in { opacity: 1; transform: translateY(0); }
-
-.prf-eyebrow {
-  display: inline-flex; align-items: center; gap: 12px;
-  font-family: var(--mono); font-size: 11px;
-  letter-spacing: 0.28em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 20px;
-}
-.prf-eyebrow::before, .prf-eyebrow::after {
-  content: ''; width: 28px; height: 1px;
-  background: var(--accent); opacity: 0.5;
-}
-
-.prf-title {
-  font-family: 'Inter Tight', 'Inter', sans-serif;
-  font-size: clamp(32px,3.8vw,56px);
-  font-weight: 900; text-transform: uppercase;
-  color: var(--text); line-height: 1;
-  letter-spacing: -0.03em; margin-bottom: 16px;
-}
-.prf-title-accent { color: var(--accent); }
-
-.prf-sub {
-  font-size: clamp(14px,1.05vw,16px); color: var(--muted);
-  line-height: 1.75; max-width: 520px; margin: 0 auto;
-}
+/* Header — hidden for banner mode */
+.prf-header { display: none; }
 
 /* ── Stats grid ── */
 .prf-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0;
-  margin-bottom: clamp(32px,3vw,48px);
+  margin-bottom: clamp(20px,2vw,28px);
 }
 
 .prf-stat {
   text-align: center;
-  padding: clamp(28px,3vw,44px) 20px;
+  padding: clamp(20px,2vw,32px) 20px;
   position: relative;
   opacity: 0; transform: translateY(24px);
   transition: opacity 1.2s ease, transform 1.4s cubic-bezier(0.16,1,0.3,1);
@@ -94,7 +63,7 @@ const sectionHtml = `<style>
 
 .prf-stat-number {
   font-family: 'Inter', sans-serif;
-  font-size: clamp(48px,5vw,84px);
+  font-size: clamp(36px,4vw,60px);
   font-weight: 900;
   line-height: 1;
   letter-spacing: -0.04em;

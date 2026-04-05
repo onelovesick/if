@@ -23,18 +23,7 @@ const sectionHtml = `<style>
   --mono:   'DM Mono', monospace;
 
   position: relative;
-  /* Gradient: white → navy → near-black */
-  background: linear-gradient(
-    to bottom,
-    #F2F5F8    0%,
-    #c8d8e8    6%,
-    #4a7a9b   12%,
-    #1a3a52   20%,
-    #0d2d45   32%,
-    #0B3C5D   55%,
-    #071e30   78%,
-    #060d14  100%
-  );
+  background: #0E1418;
   overflow: hidden;
   padding: 0 0 0;
 }
@@ -54,10 +43,8 @@ const sectionHtml = `<style>
   z-index: 0;
 }
 
-/* ── Top spacer ── */
-.tek-fade-top {
-  height: 60px;
-}
+/* Top spacer — removed */
+.tek-fade-top { display: none; }
 
 /* ── Bottom — hard match to footer ── */
 .tek-fade-bottom {
@@ -143,11 +130,11 @@ const sectionHtml = `<style>
 }
 .tek-marquees::before {
   left: 0;
-  background: linear-gradient(90deg, #0B3C5D, transparent);
+  background: linear-gradient(90deg, #0E1418, transparent);
 }
 .tek-marquees::after {
   right: 0;
-  background: linear-gradient(270deg, #071e30, transparent);
+  background: linear-gradient(270deg, #0E1418, transparent);
 }
 
 /* ── Single marquee track ── */
