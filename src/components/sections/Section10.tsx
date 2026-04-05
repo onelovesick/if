@@ -2,29 +2,18 @@
 import { useEffect } from 'react'
 
 const sectionHtml = `<style>
-.prf-root {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.85s cubic-bezier(0.22,1,0.36,1), transform 0.85s cubic-bezier(0.22,1,0.36,1);
-}
-.prf-root.prf-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@700;900&family=Inter:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&amp;display=swap');
+.prf *, .prf *::before, .prf *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-.prf-root *, .prf-root *::before, .prf-root *::after {
-  box-sizing: border-box; margin: 0; padding: 0;
-}
-
-.prf-root {
-  --bg:      #1C1F23;
-  --accent:  #47B5FF;
-  --text:    #F4F6F8;
-  --muted:   #7a9bb5;
-  --border:  rgba(71,181,255,0.12);
-  --border2: rgba(71,181,255,0.22);
+.prf {
+  --accent: #47B5FF;
+  --navy: #0B3C5D;
+  --bg: #060e18;
+  --text: #F0F4F7;
+  --muted: #7a9bb5;
+  --border: rgba(71,181,255,0.08);
+  --mono: 'DM Mono', monospace;
 
   width: 100%;
   background: var(--bg);
@@ -32,413 +21,273 @@ const sectionHtml = `<style>
   font-family: 'Inter', sans-serif;
   position: relative;
   overflow: hidden;
+  padding: clamp(64px,7vw,110px) clamp(24px,5%,64px);
 }
 
-.prf-root::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(71,181,255,0.022) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(71,181,255,0.022) 1px, transparent 1px);
-  background-size: 52px 52px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ══ ZONE 1 — STATS ══ */
-.prf-stats {
-  position: relative;
-  z-index: 1;
-  border-bottom: 1px solid var(--border);
-  padding: 64px 5%;
-}
-.prf-stats::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 5%; right: 5%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  opacity: 0.35;
-}
-
-.prf-stats-inner {
+.prf-wrap {
   max-width: 1400px;
   margin: 0 auto;
+}
+
+/* ── Header ── */
+.prf-header {
+  text-align: center;
+  margin-bottom: clamp(48px,5vw,72px);
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 1.2s ease, transform 1.4s cubic-bezier(0.16,1,0.3,1);
+}
+.prf-header.prf-in { opacity: 1; transform: translateY(0); }
+
+.prf-eyebrow {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 20px;
+}
+.prf-eyebrow::before, .prf-eyebrow::after {
+  content: ''; width: 28px; height: 1px;
+  background: var(--accent); opacity: 0.5;
+}
+
+.prf-title {
+  font-family: 'Inter Tight', 'Inter', sans-serif;
+  font-size: clamp(32px,3.8vw,56px);
+  font-weight: 900; text-transform: uppercase;
+  color: var(--text); line-height: 1;
+  letter-spacing: -0.03em; margin-bottom: 16px;
+}
+.prf-title-accent { color: var(--accent); }
+
+.prf-sub {
+  font-size: clamp(14px,1.05vw,16px); color: var(--muted);
+  line-height: 1.75; max-width: 520px; margin: 0 auto;
+}
+
+/* ── Stats grid ── */
+.prf-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-bottom: clamp(32px,3vw,48px);
 }
 
 .prf-stat {
-  padding: 0 40px 0 0;
-  border-right: 1px solid var(--border);
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1);
+  text-align: center;
+  padding: clamp(28px,3vw,44px) 20px;
+  position: relative;
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 1.2s ease, transform 1.4s cubic-bezier(0.16,1,0.3,1);
 }
-.prf-stat:last-child { border-right: none; padding-right: 0; }
-.prf-stat:not(:first-child) { padding-left: 40px; }
-.prf-stat.prf-vis { opacity: 1; transform: translateY(0); }
+.prf-stat.prf-in { opacity: 1; transform: translateY(0); }
+.prf-stat:nth-child(1) { transition-delay: 0s; }
+.prf-stat:nth-child(2) { transition-delay: 0.1s; }
+.prf-stat:nth-child(3) { transition-delay: 0.2s; }
+.prf-stat:nth-child(4) { transition-delay: 0.3s; }
 
-.prf-stat-mark {
-  width: 36px; height: 3px;
-  background: linear-gradient(90deg, var(--accent), transparent);
-  border-radius: 3px;
-  margin-bottom: 20px;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+/* Vertical dividers */
+.prf-stat + .prf-stat::before {
+  content: '';
+  position: absolute; left: 0; top: 20%; bottom: 20%;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(71,181,255,0.12) 30%, rgba(71,181,255,0.12) 70%, transparent);
 }
-.prf-stat.prf-vis .prf-stat-mark { transform: scaleX(1); }
 
 .prf-stat-number {
   font-family: 'Inter', sans-serif;
-  font-size: clamp(52px, 5.2vw, 88px);
+  font-size: clamp(48px,5vw,84px);
   font-weight: 900;
   line-height: 1;
   letter-spacing: -0.04em;
-  background: linear-gradient(135deg, #ffffff 0%, #47B5FF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin: 0 0 12px;
+  color: var(--text);
+  margin-bottom: 12px;
   display: flex;
   align-items: baseline;
+  justify-content: center;
 }
-.prf-suffix {
-  font-size: 0.38em;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  background: linear-gradient(135deg, #ffffff 0%, #47B5FF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-left: 3px;
-}
+
 .prf-count { display: inline-block; }
 
-.prf-stat-label {
-  font-size: clamp(13px, 1.1vw, 16px);
-  font-weight: 700;
-  color: var(--text);
-  margin: 0 0 5px;
+.prf-suffix {
+  font-size: 0.32em;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin-left: 4px;
 }
-.prf-stat-sub {
-  font-family: 'DM Mono', monospace;
-  font-size: 10.5px;
-  color: var(--muted);
-  letter-spacing: 0.05em;
+
+.prf-stat-label {
+  font-family: 'Inter Tight', 'Inter', sans-serif;
+  font-size: clamp(13px,1vw,15px);
+  font-weight: 700; text-transform: uppercase;
+  color: var(--text); letter-spacing: 0.02em;
+  margin-bottom: 6px;
+}
+
+.prf-stat-desc {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--muted); opacity: 0.6;
   line-height: 1.6;
 }
 
-.prf-contract-bar {
-  max-width: 1400px;
-  margin: 44px auto 0;
-  padding-top: 28px;
-  border-top: 1px solid var(--border);
+/* ── Contract bar ── */
+.prf-contracts {
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: 12px;
   flex-wrap: wrap;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.6s ease 0.9s, transform 0.6s ease 0.9s;
+  padding-top: clamp(24px,2.5vw,36px);
+  border-top: 1px solid var(--border);
+  opacity: 0; transform: translateY(14px);
+  transition: opacity 1.2s ease 0.4s, transform 1.4s cubic-bezier(0.16,1,0.3,1) 0.4s;
 }
-.prf-contract-bar.prf-vis { opacity: 1; transform: translateY(0); }
+.prf-contracts.prf-in { opacity: 1; transform: translateY(0); }
 
-.prf-contract-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  color: var(--muted);
-  text-transform: uppercase;
-  margin-right: 24px;
-  flex-shrink: 0;
+.prf-contracts-label {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--muted); margin-right: 8px;
 }
-.prf-contract-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
 .prf-tag {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  color: var(--accent);
-  border: 1px solid rgba(71,181,255,0.25);
-  border-radius: 2px;
-  padding: 5px 12px;
-  background: rgba(71,181,255,0.05);
-  text-transform: uppercase;
-  transition: background 0.22s, border-color 0.22s, color 0.22s;
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(71,181,255,0.6);
+  border: 1px solid rgba(71,181,255,0.15);
+  border-radius: 3px;
+  padding: 6px 14px;
+  background: rgba(71,181,255,0.03);
+  transition: background 0.25s, border-color 0.25s, color 0.25s;
   cursor: default;
 }
-.prf-tag:hover { background: rgba(71,181,255,0.12); border-color: rgba(71,181,255,0.5); color: #fff; }
-
-/* ══ ZONE 2 — WHO WE WORK WITH ══ */
-.prf-who {
-  position: relative;
-  z-index: 1;
-  padding: 48px 5% 52px;
-}
-.prf-who-inner { max-width: 1400px; margin: 0 auto; }
-
-.prf-who-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 28px;
-  gap: 24px;
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.prf-who-header.prf-vis { opacity: 1; transform: translateY(0); }
-
-.prf-who-left { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
-
-.prf-who-eyebrow {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.28em;
-  color: var(--accent);
-  text-transform: uppercase;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.prf-who-eyebrow::before {
-  content: '';
-  width: 18px; height: 1px;
-  background: var(--accent);
-  flex-shrink: 0;
-  display: block;
-}
-
-.prf-who-title {
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(18px, 1.8vw, 28px);
-  font-weight: 800;
-  letter-spacing: -0.025em;
+.prf-tag:hover {
+  background: rgba(71,181,255,0.08);
+  border-color: rgba(71,181,255,0.35);
   color: var(--text);
-  white-space: nowrap;
 }
-.prf-who-title span {
-  background: linear-gradient(135deg, #fff 0%, #47B5FF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.prf-who-desc {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.7;
-  max-width: 320px;
-  text-align: right;
-}
-
-/* ── 6-item horizontal strip ── */
-.prf-strip {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  overflow: hidden;
-  background: var(--border);
-  gap: 1px;
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.55s ease 0.2s, transform 0.55s ease 0.2s;
-}
-.prf-strip.prf-vis { opacity: 1; transform: translateY(0); }
-
-.prf-sitem {
-  background: var(--bg);
-  padding: 22px 18px 44px;
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  position: relative;
-  overflow: hidden;
-  transition: background 0.28s ease;
-  min-height: 160px;
-}
-
-/* Top accent sweep */
-.prf-sitem::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 0; height: 2px;
-  background: var(--accent);
-  transition: width 0.38s cubic-bezier(0.22,1,0.36,1);
-  z-index: 2;
-}
-.prf-sitem:hover::before { width: 100%; }
-
-/* Blue wash */
-.prf-sitem::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(160deg, rgba(11,60,93,0.5) 0%, rgba(71,181,255,0.04) 100%);
-  opacity: 0;
-  transition: opacity 0.32s ease;
-}
-.prf-sitem:hover::after { opacity: 1; }
-.prf-sitem:hover { background: #1a2028; }
-
-.prf-sitem-num {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  color: var(--accent);
-  opacity: 0.5;
-  margin-bottom: 10px;
-  position: relative;
-  z-index: 1;
-}
-.prf-sitem-icon {
-  font-size: 19px;
-  margin-bottom: 10px;
-  position: relative;
-  z-index: 1;
-  line-height: 1;
-  transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
-}
-.prf-sitem:hover .prf-sitem-icon { transform: translateY(-3px) scale(1.1); }
-
-.prf-sitem-title {
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(11px, 0.9vw, 13px);
-  font-weight: 700;
-  color: var(--text);
-  line-height: 1.3;
-  margin-bottom: 0;
-  position: relative;
-  z-index: 1;
-  transition: color 0.22s ease;
-}
-.prf-sitem:hover .prf-sitem-title { color: #fff; }
-
-/* Desc slides down on hover */
-.prf-sitem-desc {
-  font-size: 10.5px;
-  color: var(--muted);
-  line-height: 1.6;
-  position: relative;
-  z-index: 1;
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  margin-top: 0;
-  transition: max-height 0.36s ease, opacity 0.28s ease 0.05s, margin-top 0.3s ease;
-}
-.prf-sitem:hover .prf-sitem-desc {
-  max-height: 80px;
-  opacity: 1;
-  margin-top: 8px;
-}
-
-.prf-sitem-arr {
-  position: absolute;
-  bottom: 14px; right: 14px;
-  font-size: 13px;
-  color: var(--accent);
-  opacity: 0;
-  transform: translate(-4px, 4px);
-  transition: opacity 0.22s ease, transform 0.28s cubic-bezier(0.34,1.56,0.64,1);
-  z-index: 1;
-}
-.prf-sitem:hover .prf-sitem-arr { opacity: 1; transform: translate(0,0); }
 
 /* ── Responsive ── */
-@media (max-width: 1200px) {
-  .prf-stats-inner { grid-template-columns: repeat(2,1fr); gap: 44px 0; }
-  .prf-stat:nth-child(2) { border-right: none; }
-  .prf-stat:nth-child(3) { padding-left: 0; border-right: 1px solid var(--border); }
-  .prf-stat:nth-child(4) { border-right: none; }
-  .prf-strip { grid-template-columns: repeat(3,1fr); }
+@media (max-width: 768px) {
+  .prf-stats { grid-template-columns: repeat(2, 1fr); }
+  .prf-stat:nth-child(3)::before { display: none; }
+  .prf-contracts { justify-content: flex-start; }
 }
-@media (max-width: 760px) {
-  .prf-stats { padding: 52px 6%; }
-  .prf-stats-inner { grid-template-columns: 1fr 1fr; gap: 32px 0; }
-  .prf-stat { padding: 0 16px 0 0 !important; }
-  .prf-stat:not(:first-child) { padding-left: 16px !important; }
-  .prf-stat:nth-child(2) { border-right: none; }
-  .prf-stat:nth-child(3) { border-right: 1px solid var(--border); }
-  .prf-stat-number { font-size: clamp(36px, 9vw, 56px); }
-  .prf-who { padding: 40px 6% 44px; }
-  .prf-who-header { flex-direction: column; align-items: flex-start; }
-  .prf-who-left { flex-direction: column; align-items: flex-start; gap: 6px; }
-  .prf-who-title { white-space: normal; }
-  .prf-who-desc { text-align: left; max-width: 100%; }
-  .prf-strip { grid-template-columns: repeat(2,1fr); }
-  .prf-contract-label { width: 100%; margin-bottom: 12px; }
+@media (max-width: 480px) {
+  .prf-stats { grid-template-columns: 1fr; }
+  .prf-stat + .prf-stat::before { display: none; }
 }
 @media (min-width: 1800px) {
-  .prf-stats { padding: 80px 5%; }
-  .prf-stat-number { font-size: clamp(64px, 4.5vw, 104px); }
-  .prf-sitem { padding: 26px 22px 48px; }
-  .prf-sitem-title { font-size: clamp(12px, 0.9vw, 15px); }
-}
-@media (min-width: 2400px) {
-  .prf-stat-number { font-size: clamp(80px, 4.2vw, 120px); }
-  .prf-sitem-title { font-size: clamp(13px, 0.85vw, 17px); }
-  .prf-sitem-desc { font-size: 12px; }
+  .prf-wrap { max-width: 1600px; }
+  .prf-stat-number { font-size: clamp(72px,5vw,100px); }
 }
 </style>
 
-<div class="prf-root">
+<section class="prf" id="prfRoot">
+  <div class="prf-wrap">
 
-  <!-- STATS -->
-  <div class="prf-stats" id="prfStats">
-    <div class="prf-stats-inner">
+    <!-- Header -->
+    <header class="prf-header" id="prfHeader">
+      <div class="prf-eyebrow">Track Record</div>
+      <h2 class="prf-title">Proven Across <span class="prf-title-accent">Complex Programmes</span></h2>
+      <p class="prf-sub">Decades of combined expertise delivering structured digital workflows for capital infrastructure across North America.</p>
+    </header>
+
+    <!-- Stats -->
+    <div class="prf-stats">
       <div class="prf-stat" id="prfStat0">
-        <div class="prf-stat-mark"></div>
-        <div class="prf-stat-number"><span class="prf-count" data-target="55" data-suffix="+">55</span><span class="prf-suffix">YRS</span></div>
+        <div class="prf-stat-number"><span class="prf-count" data-target="55" data-suffix="">55</span><span class="prf-suffix">+ YRS</span></div>
         <p class="prf-stat-label">Combined Experience</p>
-        <p class="prf-stat-sub">Canada · United States · International</p>
+        <p class="prf-stat-desc">Canada, United States, International</p>
       </div>
       <div class="prf-stat" id="prfStat1">
-        <div class="prf-stat-mark"></div>
-        <div class="prf-stat-number"><span class="prf-count" data-target="50" data-suffix="+">50</span><span class="prf-suffix">B$</span></div>
+        <div class="prf-stat-number">$<span class="prf-count" data-target="50" data-suffix="">50</span><span class="prf-suffix">B+</span></div>
         <p class="prf-stat-label">Assets Delivered</p>
-        <p class="prf-stat-sub">Estimated, modelled &amp; coordinated</p>
+        <p class="prf-stat-desc">Modelled, coordinated, verified</p>
       </div>
       <div class="prf-stat" id="prfStat2">
-        <div class="prf-stat-mark"></div>
         <div class="prf-stat-number"><span class="prf-count" data-target="3" data-suffix="">3</span><span class="prf-suffix">CTRY</span></div>
         <p class="prf-stat-label">Countries of Delivery</p>
-        <p class="prf-stat-sub">Québec-based · National · Global reach</p>
+        <p class="prf-stat-desc">Quebec-based, national reach</p>
       </div>
       <div class="prf-stat" id="prfStat3">
-        <div class="prf-stat-mark"></div>
-        <div class="prf-stat-number"><span class="prf-count" data-target="100" data-suffix="%">100</span></div>
-        <p class="prf-stat-label">Major Sectors Covered</p>
-        <p class="prf-stat-sub">Civil · Institutional · Commercial · Industrial</p>
+        <div class="prf-stat-number"><span class="prf-count" data-target="100" data-suffix="">100</span><span class="prf-suffix">%</span></div>
+        <p class="prf-stat-label">Sectors Covered</p>
+        <p class="prf-stat-desc">Civil, institutional, commercial, industrial</p>
       </div>
     </div>
-    <div class="prf-contract-bar" id="prfContractBar">
-      <span class="prf-contract-label">Contract types</span>
-      <div class="prf-contract-tags">
-        <span class="prf-tag">Design-Bid-Build</span>
-        <span class="prf-tag">Design-Build</span>
-        <span class="prf-tag">PPP / P3</span>
-        <span class="prf-tag">Construction Management</span>
-        <span class="prf-tag">Integrated Project Delivery</span>
-      </div>
+
+    <!-- Contract types -->
+    <div class="prf-contracts" id="prfContracts">
+      <span class="prf-contracts-label">Contract Types</span>
+      <span class="prf-tag">Design-Bid-Build</span>
+      <span class="prf-tag">Design-Build</span>
+      <span class="prf-tag">PPP / P3</span>
+      <span class="prf-tag">Construction Management</span>
+      <span class="prf-tag">Integrated Project Delivery</span>
     </div>
+
   </div>
+</section>`
 
+const sectionScript = `
+(function(){
+'use strict';
+var root = document.getElementById('prfRoot');
+if (!root) return;
 
-</div>`
-const sectionScripts = ["\n(function(){\n'use strict';\nvar triggered = false;\n\nfunction animateCount(el){\n  var target = parseInt(el.getAttribute('data-target'));\n  var suffix = el.getAttribute('data-suffix') || '';\n  var t0 = null, dur = 1800;\n  function ease(t){ return 1 - Math.pow(1-t,3); }\n  function step(ts){\n    if(!t0) t0 = ts;\n    var p = Math.min((ts-t0)/dur, 1);\n    el.textContent = Math.round(ease(p)*target) + suffix;\n    if(p < 1) requestAnimationFrame(step);\n  }\n  requestAnimationFrame(step);\n}\n\nfunction onVisible(){\n  if(triggered) return;\n  triggered = true;\n  [0,1,2,3].forEach(function(i){\n    setTimeout(function(){\n      var el = document.getElementById('prfStat'+i);\n      if(!el) return;\n      el.classList.add('prf-vis');\n      setTimeout(function(){ var c = el.querySelector('.prf-count'); if(c) animateCount(c); }, 200);\n    }, i * 120);\n  });\n  setTimeout(function(){ var cb = document.getElementById('prfContractBar'); if(cb) cb.classList.add('prf-vis'); }, 650);\n  setTimeout(function(){ var wh = document.getElementById('prfWhoHeader'); if(wh) wh.classList.add('prf-vis'); }, 450);\n  setTimeout(function(){ var s = document.getElementById('prfStrip'); if(s) s.classList.add('prf-vis'); }, 580);\n}\n\nnew IntersectionObserver(function(e){ if(e[0].isIntersecting){ onVisible(); } },{ threshold: 0.08 })\n  .observe(document.querySelector('.prf-root'));\n}());\n", "(function(){\n  var root = document.querySelector('.prf-root');\n  if (!root) return;\n  new IntersectionObserver(function(entries){\n    entries.forEach(function(e){\n      if (e.isIntersecting) { e.target.classList.add('prf-visible'); }\n    });\n  }, { threshold: 0.05 }).observe(root);\n}());"]
+var triggered = false;
+
+function animateCount(el){
+  var target = parseInt(el.getAttribute('data-target'));
+  var suffix = el.getAttribute('data-suffix') || '';
+  var t0 = null, dur = 1800;
+  function ease(t){ return 1 - Math.pow(1-t,3); }
+  function step(ts){
+    if(!t0) t0 = ts;
+    var p = Math.min((ts-t0)/dur, 1);
+    el.textContent = Math.round(ease(p)*target) + suffix;
+    if(p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function onVisible(){
+  if(triggered) return;
+  triggered = true;
+
+  var header = document.getElementById('prfHeader');
+  if (header) header.classList.add('prf-in');
+
+  [0,1,2,3].forEach(function(i){
+    setTimeout(function(){
+      var el = document.getElementById('prfStat'+i);
+      if(!el) return;
+      el.classList.add('prf-in');
+      setTimeout(function(){
+        var c = el.querySelector('.prf-count');
+        if(c) animateCount(c);
+      }, 200);
+    }, i * 120);
+  });
+
+  setTimeout(function(){
+    var cb = document.getElementById('prfContracts');
+    if(cb) cb.classList.add('prf-in');
+  }, 650);
+}
+
+new IntersectionObserver(function(e){
+  if(e[0].isIntersecting) onVisible();
+}, { threshold: 0.1 }).observe(root);
+}());
+`
 
 export default function Section10() {
   useEffect(() => {
     setTimeout(() => {
-      sectionScripts.forEach((script) => {
-        try { new Function(script)() } catch(e) { console.error('Section10 script error:', e) }
-      })
+      try { new Function(sectionScript)() }
+      catch(e) { console.error('Section10 script error:', e) }
     }, 300)
   }, [])
   return <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: sectionHtml }} />
