@@ -1,6 +1,7 @@
-import HtmlSection from '@/components/ui/HtmlSection'
+"use client"
+import { useEffect } from 'react'
 
-const html = `<style>
+const footerHtml = `<style>
 @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@700;900&family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap');
 
 .ftr *, .ftr *::before, .ftr *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -525,12 +526,11 @@ const html = `<style>
     </div>
   </div>
 
-</footer>
+</footer>`
 
-<script>
+const footerScript = `
 (function() {
-
-  /* ── F: Live clock ── */
+  /* Live clock */
   function updateClock() {
     var el = document.getElementById('ftr-clock');
     if (!el) return;
@@ -544,7 +544,7 @@ const html = `<style>
   updateClock();
   setInterval(updateClock, 1000);
 
-  /* ── E: Scroll-triggered nav column border draw ── */
+  /* Scroll-triggered nav column border draw */
   var navCols = document.querySelectorAll('.ftr-nav');
   if ('IntersectionObserver' in window) {
     var navObs = new IntersectionObserver(function(entries) {
@@ -560,7 +560,7 @@ const html = `<style>
     navCols.forEach(function(col) { col.classList.add('ftr-nav-in'); });
   }
 
-  /* ── Canvas: layered BIM planes ── */
+  /* Canvas: layered BIM planes */
   var canvas = document.getElementById('ftr-canvas');
   if (!canvas) return;
 
@@ -638,10 +638,15 @@ const html = `<style>
   } else {
     (function frame() { t += 0.005; render(t); requestAnimationFrame(frame); })();
   }
-
 })();
-</script>`
+`
 
 export default function Footer() {
-  return <HtmlSection html={html} />
+  useEffect(() => {
+    setTimeout(() => {
+      try { new Function(footerScript)() }
+      catch(e) { console.error('Footer script error:', e) }
+    }, 300)
+  }, [])
+  return <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: footerHtml }} />
 }
