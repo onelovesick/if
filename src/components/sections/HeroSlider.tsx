@@ -34,7 +34,7 @@ const heroHtml = `<style>
 .h3-video {
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 65%;
   width: 100%;
   height: 100%;
   transform: translate(-50%, -50%);
