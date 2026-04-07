@@ -52,10 +52,10 @@ const heroHtml = `<style>
   position: absolute;
   inset: 0;
   background: linear-gradient(90deg,
-    rgba(3,10,18,0.95) 0%,
-    rgba(3,10,18,0.8) 20%,
-    rgba(3,10,18,0.4) 40%,
-    transparent 60%
+    rgba(3,10,18,1) 0%,
+    rgba(3,10,18,0.92) 22%,
+    rgba(3,10,18,0.6) 42%,
+    transparent 62%
   );
   pointer-events: none;
 }
