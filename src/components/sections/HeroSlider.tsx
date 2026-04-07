@@ -416,6 +416,7 @@ const heroHtml = `<style>
 
 /* ══ RESPONSIVE ══ */
 @media (max-width: 480px) {
+  .h3-video { left: 50%; top: 30%; width: 180%; height: 180%; object-fit: cover; }
   .h3-content { width: 90vw; max-width: 90vw; }
   .h3-word-inner { font-size: clamp(28px, 9vw, 44px) !important; }
   .h3-btns { flex-direction: column; align-items: flex-start; }
@@ -425,6 +426,7 @@ const heroHtml = `<style>
   .h3-bottom-sep { display: none; }
 }
 @media (min-width: 481px) and (max-width: 767px) {
+  .h3-video { left: 55%; top: 35%; width: 150%; height: 150%; object-fit: cover; }
   .h3-content { width: 85vw; max-width: 85vw; }
   .h3-word-inner { font-size: clamp(28px, 7vw, 52px) !important; }
   .h3-corner.bl, .h3-corner.br { bottom: 80px; }
