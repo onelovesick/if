@@ -222,14 +222,11 @@ const heroHtml = `<style>
 @keyframes h3wordUp { to { transform: translateY(0); } }
 
 .h3-word.h3-accent .h3-word-inner {
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 40%, var(--accent) 80%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  background-size: 200% 200%;
-  animation: h3wordUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.25s, h3grad 5s ease-in-out infinite 1.2s;
+  color: var(--accent);
+  -webkit-text-fill-color: var(--accent);
+  text-shadow: 0 0 40px rgba(71,181,255,0.25);
+  animation: h3wordUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.25s;
   font-weight: 800;
-  filter: drop-shadow(0 0 30px rgba(71,181,255,0.15));
 }
 @keyframes h3grad {
   0%,100% { background-position: 0% 50%; }
@@ -257,7 +254,7 @@ const heroHtml = `<style>
   font-weight: 400;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(71,181,255,0.55);
+  color: rgba(244,246,248,0.5);
   margin-bottom: 36px;
   opacity: 0;
   animation: h3fadeIn 0.5s ease forwards 0.72s;
