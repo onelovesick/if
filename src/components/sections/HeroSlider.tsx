@@ -45,7 +45,7 @@ const heroHtml = `<style>
 .h3-vid-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(3,10,18,0.35);
+  background: rgba(3,10,18,0.45);
   pointer-events: none;
 }
 .h3-vid-left {
