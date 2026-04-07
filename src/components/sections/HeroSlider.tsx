@@ -12,7 +12,7 @@ const heroHtml = `<style>
   --bg-deep: #030a12;
   --bg: #060e18;
   --text: #F4F6F8;
-  --muted: rgba(244,246,248,0.45);
+  --muted: rgba(244,246,248,0.7);
 
   position: relative;
   width: 100%;
@@ -45,7 +45,7 @@ const heroHtml = `<style>
 .h3-vid-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(3,10,18,0.45);
+  background: rgba(3,10,18,0.35);
   pointer-events: none;
 }
 .h3-vid-left {
@@ -212,6 +212,7 @@ const heroHtml = `<style>
   text-transform: uppercase;
   letter-spacing: -0.03em;
   color: #fff;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
   transform: translateY(120%);
   animation: h3wordUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards;
 }
@@ -511,8 +512,8 @@ const heroHtml = `<style>
         <span class="h3-word h3-accent"><span class="h3-word-inner">One Standard.</span></span>
         <span class="h3-word"><span class="h3-word-inner">Built Right.</span></span>
       </h1>
-      <p class="h3-body">We bring structured information management to the world's most complex infrastructure programmes. From strategy to handover, every asset governed, every decision informed.</p>
-      <p class="h3-tag">BIM Governance &middot; Digital Delivery &middot; Asset Intelligence</p>
+      <p class="h3-body">We bring structured information management to the world's most complex infrastructure projects. Every asset governed, every decision informed.</p>
+      <p class="h3-tag">Information Management &middot; Digital Delivery &middot; Asset Intelligence</p>
       <div class="h3-btns">
         <a href="/solutions" class="h3-btn-p">Explore Our Solutions <span class="h3-btn-arr">&rarr;</span></a>
         <a href="/contact" class="h3-btn-g">Start a Conversation</a>
