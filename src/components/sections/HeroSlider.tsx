@@ -9,8 +9,6 @@ const heroHtml = `<style>
 .h3 {
   --accent: #47B5FF;
   --accent-light: #7DD4FF;
-  --accent-dim: rgba(71,181,255,0.08);
-  --navy: #0B3C5D;
   --bg-deep: #030a12;
   --bg: #060e18;
   --text: #F4F6F8;
@@ -26,285 +24,95 @@ const heroHtml = `<style>
   background: var(--bg-deep);
 }
 
-/* ══ GRADIENT MESH + ENERGY NODES BACKGROUND ══ */
-.h3-mesh {
+/* ══ VIDEO BACKGROUND ══ */
+.h3-video-wrap {
   position: absolute;
   inset: 0;
+  z-index: 1;
   overflow: hidden;
-  z-index: 0;
-  background: radial-gradient(ellipse 120% 80% at 50% 50%, #060e1a 0%, var(--bg-deep) 100%);
+}
+.h3-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
 }
 
-/* Base atmosphere layers — deep, dark, high contrast */
-.h3-mesh-layer {
+/* Multi-layer video blending */
+.h3-vid-overlay {
   position: absolute;
-  inset: -60%;
-  width: 220%;
-  height: 220%;
-  will-change: transform;
-}
-.h3-mesh-1 {
-  background: radial-gradient(ellipse 60% 50% at 30% 50%, rgba(71,181,255,0.1), transparent 65%);
-  animation: h3m1 30s ease-in-out infinite alternate;
-}
-.h3-mesh-2 {
-  background: radial-gradient(ellipse 50% 60% at 75% 30%, rgba(11,60,93,0.25), transparent 60%);
-  animation: h3m2 36s ease-in-out infinite alternate-reverse;
-}
-.h3-mesh-3 {
-  background: radial-gradient(ellipse 40% 45% at 60% 75%, rgba(20,70,130,0.08), transparent 55%);
-  animation: h3m3 26s ease-in-out infinite alternate;
-}
-.h3-mesh-4 {
-  background: radial-gradient(ellipse 35% 35% at 85% 55%, rgba(71,181,255,0.05), transparent 50%);
-  animation: h3m4 22s ease-in-out infinite alternate-reverse;
-}
-
-/* ── Energy Nodes — bright focal points that breathe ── */
-.h3-node {
-  position: absolute;
-  border-radius: 50%;
+  inset: 0;
+  background: rgba(3,10,18,0.35);
   pointer-events: none;
-  will-change: transform, opacity;
+}
+.h3-vid-left {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,
+    rgba(3,10,18,0.95) 0%,
+    rgba(3,10,18,0.8) 20%,
+    rgba(3,10,18,0.4) 40%,
+    transparent 60%
+  );
+  pointer-events: none;
+}
+.h3-vid-bottom {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 40%;
+  background: linear-gradient(to top, rgba(3,10,18,0.95) 0%, transparent 100%);
+  pointer-events: none;
+}
+.h3-vid-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 25%;
+  background: linear-gradient(to bottom, rgba(3,10,18,0.5) 0%, transparent 100%);
+  pointer-events: none;
+}
+.h3-vid-right {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 15%;
+  background: linear-gradient(270deg, rgba(3,10,18,0.6) 0%, transparent 100%);
+  pointer-events: none;
+}
+.h3-vid-radial {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 70% at 65% 45%, transparent 30%, rgba(3,10,18,0.7) 100%);
+  pointer-events: none;
 }
 
-/* Node 1 — primary, upper right, largest glow */
-.h3-node-1 {
-  width: 500px; height: 500px;
-  top: 8%; right: 12%;
-  background: radial-gradient(circle, rgba(71,181,255,0.18) 0%, rgba(71,181,255,0.06) 30%, transparent 65%);
-  animation: h3pulse1 6s ease-in-out infinite, h3drift1 20s ease-in-out infinite alternate;
-}
-.h3-node-1::after { display: none; }
-
-/* Node 2 — secondary, lower left */
-.h3-node-2 {
-  width: 350px; height: 350px;
-  bottom: 20%; left: 25%;
-  background: radial-gradient(circle, rgba(40,140,220,0.12) 0%, rgba(40,140,220,0.03) 35%, transparent 60%);
-  animation: h3pulse2 8s ease-in-out infinite 2s, h3drift2 25s ease-in-out infinite alternate;
-}
-.h3-node-2::after { display: none; }
-
-/* Node 3 — tertiary, center-right, subtle */
-.h3-node-3 {
-  width: 250px; height: 250px;
-  top: 45%; right: 30%;
-  background: radial-gradient(circle, rgba(71,181,255,0.08) 0%, transparent 55%);
-  animation: h3pulse3 7s ease-in-out infinite 4s, h3drift3 18s ease-in-out infinite alternate-reverse;
-}
-.h3-node-3::after { display: none; }
-
-/* Node 4 — small accent, top center-left */
-.h3-node-4 {
-  width: 180px; height: 180px;
-  top: 15%; left: 40%;
-  background: radial-gradient(circle, rgba(71,181,255,0.06) 0%, transparent 50%);
-  animation: h3pulse2 9s ease-in-out infinite 3s, h3drift4 22s ease-in-out infinite alternate;
-}
-.h3-node-4::after { display: none; }
-
-/* Node 5 — faint deep node, bottom right */
-.h3-node-5 {
-  width: 400px; height: 400px;
-  bottom: 5%; right: 5%;
-  background: radial-gradient(circle, rgba(20,80,140,0.07) 0%, transparent 55%);
-  animation: h3pulse3 10s ease-in-out infinite 1s, h3drift5 28s ease-in-out infinite alternate;
-}
-
-/* ── Pulse keyframes — breathing intensity ── */
-@keyframes h3pulse1 {
-  0%, 100% { transform: scale(1); opacity: 0.7; }
-  50% { transform: scale(1.15); opacity: 1; }
-}
-@keyframes h3pulse1core {
-  0%, 100% { transform: scale(1); opacity: 0.6; }
-  50% { transform: scale(1.3); opacity: 1; }
-}
-@keyframes h3pulse2 {
-  0%, 100% { transform: scale(1); opacity: 0.5; }
-  50% { transform: scale(1.1); opacity: 0.9; }
-}
-@keyframes h3pulse2core {
-  0%, 100% { transform: scale(1); opacity: 0.5; }
-  50% { transform: scale(1.25); opacity: 1; }
-}
-@keyframes h3pulse3 {
-  0%, 100% { transform: scale(0.95); opacity: 0.4; }
-  50% { transform: scale(1.08); opacity: 0.85; }
-}
-@keyframes h3pulse3core {
-  0%, 100% { transform: scale(1); opacity: 0.4; }
-  50% { transform: scale(1.2); opacity: 0.9; }
-}
-
-/* ── Drift keyframes — slow spatial movement ── */
-@keyframes h3drift1 { 0%{translate: 0 0} 50%{translate: -30px 20px} 100%{translate: 25px -15px} }
-@keyframes h3drift2 { 0%{translate: 0 0} 50%{translate: 20px -25px} 100%{translate: -20px 30px} }
-@keyframes h3drift3 { 0%{translate: 0 0} 50%{translate: -15px -20px} 100%{translate: 20px 10px} }
-@keyframes h3drift4 { 0%{translate: 0 0} 50%{translate: 25px 15px} 100%{translate: -18px -22px} }
-@keyframes h3drift5 { 0%{translate: 0 0} 50%{translate: -20px 18px} 100%{translate: 15px -12px} }
-
-/* ── Base mesh drift ── */
-@keyframes h3m1 { 0%{transform:translate(0,0)} 50%{transform:translate(-4%,3%)} 100%{transform:translate(3%,-2%)} }
-@keyframes h3m2 { 0%{transform:translate(0,0)} 50%{transform:translate(3%,-4%)} 100%{transform:translate(-5%,2%)} }
-@keyframes h3m3 { 0%{transform:translate(0,0)} 50%{transform:translate(-3%,-3%)} 100%{transform:translate(4%,3%)} }
-@keyframes h3m4 { 0%{transform:translate(0,0) rotate(0deg)} 50%{transform:translate(2%,4%) rotate(1deg)} 100%{transform:translate(-3%,-2%) rotate(-1deg)} }
-
-/* ══ GRID OVERLAY — disabled ══ */
-.h3-grid {
-  display: none;
-}
-
-/* ══ GRAIN OVERLAY ══ */
+/* ══ GRAIN ══ */
 .h3-grain {
   position: absolute;
   inset: 0;
   z-index: 2;
-  opacity: 0.035;
+  opacity: 0.03;
   pointer-events: none;
   mix-blend-mode: overlay;
 }
-.h3-grain-svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
+.h3-grain-svg { width: 100%; height: 100%; display: block; }
 
-/* ══ FLOATING GEOMETRIC SHAPES ══ */
-.h3-shapes {
+/* ══ CORNER MARKS ══ */
+.h3-corner {
   position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-  transition: transform 0.15s ease-out;
-}
-.h3-shape {
-  position: absolute;
-  border: 1px solid rgba(71,181,255,0.06);
+  width: 32px; height: 32px;
+  z-index: 8;
   pointer-events: none;
   opacity: 0;
-  animation: h3fadeIn 2s ease forwards;
+  animation: h3fadeIn 0.8s ease forwards 2.2s;
 }
-.h3-shape-1 {
-  width: 180px; height: 180px;
-  top: 12%; right: 18%;
-  transform: rotate(12deg);
-  animation-delay: 1s;
-  border-radius: 2px;
-}
-.h3-shape-1::after {
-  content: '';
-  position: absolute;
-  inset: 12px;
-  border: 1px solid rgba(71,181,255,0.04);
-  border-radius: 2px;
-}
-.h3-shape-2 {
-  width: 120px; height: 120px;
-  top: 55%; right: 12%;
-  border-radius: 50%;
-  animation-delay: 1.3s;
-}
-.h3-shape-3 {
-  width: 240px; height: 1px;
-  top: 35%; right: 8%;
-  background: linear-gradient(90deg, transparent, rgba(71,181,255,0.08), transparent);
-  border: none;
-  transform: rotate(-8deg);
-  animation-delay: 1.6s;
-}
-.h3-shape-4 {
-  width: 80px; height: 80px;
-  bottom: 28%; right: 32%;
-  transform: rotate(45deg);
-  animation-delay: 1.8s;
-  border-color: rgba(71,181,255,0.04);
-}
-.h3-shape-5 {
-  width: 160px; height: 160px;
-  top: 20%; right: 40%;
-  border-radius: 50%;
-  border-style: dashed;
-  border-color: rgba(71,181,255,0.03);
-  animation: h3fadeIn 2s ease forwards 2s, h3spinSlow 60s linear infinite;
-}
-.h3-shape-6 {
-  width: 300px; height: 300px;
-  bottom: 15%; right: 5%;
-  border-radius: 50%;
-  border-color: rgba(71,181,255,0.03);
-  animation-delay: 1.5s;
-}
-.h3-shape-6::before {
-  content: '';
-  position: absolute;
-  inset: 30px;
-  border: 1px solid rgba(71,181,255,0.025);
-  border-radius: 50%;
-}
-.h3-shape-6::after {
-  content: '';
-  position: absolute;
-  inset: 60px;
-  border: 1px solid rgba(71,181,255,0.02);
-  border-radius: 50%;
-}
-
-/* ══ GIANT SLIDE NUMBER ══ */
-.h3-bignum {
-  position: absolute;
-  right: 2%;
-  top: 50%;
-  transform: translateY(-55%);
-  z-index: 4;
-  pointer-events: none;
-  user-select: none;
-  overflow: hidden;
-  height: clamp(220px, 48vh, 550px);
-  transition: transform 0.15s ease-out;
-}
-.h3-bignum-text {
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(220px, 48vh, 550px);
-  font-weight: 800;
-  line-height: 0.85;
-  letter-spacing: -0.04em;
-  background: linear-gradient(180deg, rgba(71,181,255,0.07) 0%, rgba(71,181,255,0.02) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  display: block;
-  transition: transform 0.6s cubic-bezier(0.16,1,0.3,1), opacity 0.4s ease;
-  opacity: 0;
-  animation: h3fadeIn 1.5s ease forwards 0.8s;
-}
-.h3-bignum-text.h3-num-exit {
-  transform: translateY(-100%);
-  opacity: 0;
-}
-.h3-bignum-text.h3-num-enter {
-  transform: translateY(60%);
-  opacity: 0;
-}
-
-/* ══ CURSOR GLOW ══ */
-.h3-glow {
-  position: absolute;
-  width: 500px;
-  height: 500px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(71,181,255,0.05) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 5;
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  will-change: left, top;
-}
-.h3.h3-mouse-active .h3-glow {
-  opacity: 1;
-}
+.h3-corner.tl { top: 24px; left: 24px; border-top: 1px solid rgba(71,181,255,0.25); border-left: 1px solid rgba(71,181,255,0.25); }
+.h3-corner.tr { top: 24px; right: 24px; border-top: 1px solid rgba(71,181,255,0.25); border-right: 1px solid rgba(71,181,255,0.25); }
+.h3-corner.bl { bottom: 90px; left: 24px; border-bottom: 1px solid rgba(71,181,255,0.15); border-left: 1px solid rgba(71,181,255,0.15); }
+.h3-corner.br { bottom: 90px; right: 24px; border-bottom: 1px solid rgba(71,181,255,0.15); border-right: 1px solid rgba(71,181,255,0.15); }
 
 /* ══ SCAN LINE ══ */
 .h3-scanline {
@@ -326,37 +134,32 @@ const heroHtml = `<style>
   100% { top: 100%; opacity: 0; }
 }
 
-/* ══ CORNER MARKS ══ */
-.h3-corner {
+/* ══ CURSOR GLOW ══ */
+.h3-glow {
   position: absolute;
-  width: 32px; height: 32px;
-  z-index: 8;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(71,181,255,0.05) 0%, transparent 70%);
   pointer-events: none;
+  z-index: 5;
+  transform: translate(-50%, -50%);
   opacity: 0;
-  animation: h3fadeIn 0.8s ease forwards 2.2s;
+  transition: opacity 0.5s ease;
+  will-change: left, top;
 }
-.h3-corner.tl { top: 24px; left: 24px; border-top: 1px solid rgba(71,181,255,0.25); border-left: 1px solid rgba(71,181,255,0.25); }
-.h3-corner.tr { top: 24px; right: 24px; border-top: 1px solid rgba(71,181,255,0.25); border-right: 1px solid rgba(71,181,255,0.25); }
-.h3-corner.bl { bottom: 90px; left: 24px; border-bottom: 1px solid rgba(71,181,255,0.15); border-left: 1px solid rgba(71,181,255,0.15); }
-.h3-corner.br { bottom: 90px; right: 24px; border-bottom: 1px solid rgba(71,181,255,0.15); border-right: 1px solid rgba(71,181,255,0.15); }
+.h3.h3-mouse-active .h3-glow { opacity: 1; }
 
-/* ══ SLIDES ══ */
-.h3-slides {
+/* ══ CONTENT ══ */
+.h3-content-wrap {
   position: absolute;
   inset: 0;
   z-index: 10;
-}
-.h3-slide {
-  position: absolute;
-  inset: 0;
   display: flex;
   align-items: center;
   padding: 0 clamp(5%, 6vw, 8%);
-  pointer-events: none;
 }
-.h3-slide.active { pointer-events: auto; }
 
-/* Slide content */
 .h3-content {
   width: 50vw;
   max-width: 720px;
@@ -377,9 +180,9 @@ const heroHtml = `<style>
   background: var(--accent);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.6s cubic-bezier(0.16,1,0.3,1) 0.3s;
+  animation: h3lineGrow 0.6s cubic-bezier(0.16,1,0.3,1) forwards 0.3s;
 }
-.h3-slide.active .h3-eyebrow-line { transform: scaleX(1); }
+@keyframes h3lineGrow { to { transform: scaleX(1); } }
 
 .h3-eyebrow-text {
   font-family: 'DM Mono', monospace;
@@ -390,9 +193,9 @@ const heroHtml = `<style>
   color: var(--accent);
   opacity: 0;
   transform: translateX(-12px);
-  transition: opacity 0.5s ease 0.5s, transform 0.5s ease 0.5s;
+  animation: h3fadeSlide 0.5s ease forwards 0.5s;
 }
-.h3-slide.active .h3-eyebrow-text { opacity: 1; transform: translateX(0); }
+@keyframes h3fadeSlide { to { opacity: 1; transform: translateX(0); } }
 
 /* ══ HEADLINE ══ */
 .h3-title {
@@ -412,30 +215,20 @@ const heroHtml = `<style>
   letter-spacing: -0.03em;
   color: #fff;
   transform: translateY(120%);
-  transition: transform 0.9s cubic-bezier(0.16,1,0.3,1);
+  animation: h3wordUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards;
 }
-.h3-word:nth-child(1) .h3-word-inner { transition-delay: 0.15s; }
-.h3-word:nth-child(2) .h3-word-inner { transition-delay: 0.25s; }
-.h3-word:nth-child(3) .h3-word-inner { transition-delay: 0.35s; }
-.h3-slide.active .h3-word-inner { transform: translateY(0); }
+.h3-word:nth-child(1) .h3-word-inner { animation-delay: 0.15s; }
+.h3-word:nth-child(2) .h3-word-inner { animation-delay: 0.25s; }
+.h3-word:nth-child(3) .h3-word-inner { animation-delay: 0.35s; }
+@keyframes h3wordUp { to { transform: translateY(0); } }
 
-/* Exit state */
-.h3-slide.h3-exiting .h3-word-inner {
-  transform: translateY(-120%);
-  transition: transform 0.5s cubic-bezier(0.7,0,0.3,1);
-}
-.h3-slide.h3-exiting .h3-word:nth-child(1) .h3-word-inner { transition-delay: 0s; }
-.h3-slide.h3-exiting .h3-word:nth-child(2) .h3-word-inner { transition-delay: 0.04s; }
-.h3-slide.h3-exiting .h3-word:nth-child(3) .h3-word-inner { transition-delay: 0.08s; }
-
-/* Accent word — gradient fill */
 .h3-word.h3-accent .h3-word-inner {
   background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 40%, var(--accent) 80%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   background-size: 200% 200%;
-  animation: h3grad 5s ease-in-out infinite;
+  animation: h3wordUp 0.9s cubic-bezier(0.16,1,0.3,1) forwards 0.25s, h3grad 5s ease-in-out infinite 1.2s;
   font-weight: 800;
   filter: drop-shadow(0 0 30px rgba(71,181,255,0.15));
 }
@@ -454,10 +247,9 @@ const heroHtml = `<style>
   margin-bottom: 20px;
   opacity: 0;
   transform: translateY(16px);
-  transition: opacity 0.6s ease 0.6s, transform 0.6s ease 0.6s;
+  animation: h3fadeUp 0.6s ease forwards 0.6s;
 }
-.h3-slide.active .h3-body { opacity: 1; transform: translateY(0); }
-.h3-slide.h3-exiting .h3-body { opacity: 0; transform: translateY(-10px); transition: opacity 0.3s ease, transform 0.3s ease; }
+@keyframes h3fadeUp { to { opacity: 1; transform: translateY(0); } }
 
 /* ══ TAG ══ */
 .h3-tag {
@@ -469,10 +261,8 @@ const heroHtml = `<style>
   color: rgba(71,181,255,0.55);
   margin-bottom: 36px;
   opacity: 0;
-  transition: opacity 0.5s ease 0.72s;
+  animation: h3fadeIn 0.5s ease forwards 0.72s;
 }
-.h3-slide.active .h3-tag { opacity: 1; }
-.h3-slide.h3-exiting .h3-tag { opacity: 0; transition: opacity 0.2s ease; }
 
 /* ══ BUTTONS ══ */
 .h3-btns {
@@ -481,10 +271,8 @@ const heroHtml = `<style>
   gap: 14px;
   opacity: 0;
   transform: translateY(12px);
-  transition: opacity 0.5s ease 0.82s, transform 0.5s ease 0.82s;
+  animation: h3fadeUp 0.5s ease forwards 0.82s;
 }
-.h3-slide.active .h3-btns { opacity: 1; transform: translateY(0); }
-.h3-slide.h3-exiting .h3-btns { opacity: 0; transform: translateY(-8px); transition: opacity 0.25s ease, transform 0.25s ease; }
 
 .h3-btn-p {
   display: inline-flex;
@@ -546,120 +334,62 @@ const heroHtml = `<style>
   box-shadow: 0 4px 20px rgba(71,181,255,0.08);
 }
 
-/* ══ DOT NAV ══ */
-.h3-nav {
-  position: absolute;
-  right: 5%;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 12;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  opacity: 0;
-  animation: h3fadeIn 0.8s ease forwards 2.5s;
-}
-.h3-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: 1px solid rgba(71,181,255,0.3);
-  cursor: pointer;
-  transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
-  position: relative;
-}
-.h3-dot.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  transform: scale(1.4);
-  box-shadow: 0 0 12px rgba(71,181,255,0.4);
-}
-.h3-dot:hover:not(.active) {
-  border-color: rgba(71,181,255,0.6);
-  background: rgba(71,181,255,0.15);
-}
-
-/* ══ PHASE TABS ══ */
-.h3-phases {
+/* ══ BOTTOM BAR ══ */
+.h3-bottom {
   position: absolute;
   bottom: 0; left: 0; right: 0;
   z-index: 11;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
   border-top: 1px solid rgba(71,181,255,0.1);
+  background: rgba(3,10,18,0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 4vw, 64px);
+  padding: 20px clamp(24px, 5%, 64px);
   opacity: 0;
   transform: translateY(100%);
   animation: h3slideUp 0.8s cubic-bezier(0.16,1,0.3,1) forwards 2.2s;
 }
-@keyframes h3slideUp {
-  to { opacity: 1; transform: translateY(0); }
-}
+@keyframes h3slideUp { to { opacity: 1; transform: translateY(0); } }
 
-.h3-phase {
-  padding: 20px 24px;
-  border-right: 1px solid rgba(71,181,255,0.06);
-  cursor: pointer;
-  position: relative;
-  background: rgba(3,10,18,0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: background 0.3s ease;
-  overflow: hidden;
+.h3-bottom-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-.h3-phase:last-child { border-right: none; }
-.h3-phase:hover { background: rgba(71,181,255,0.04); }
-.h3-phase.active { background: rgba(71,181,255,0.06); }
-
-/* Progress bar — glowing */
-.h3-phase-prog {
-  position: absolute;
-  top: 0; left: 0;
-  height: 2px;
-  width: 0%;
-  background: var(--accent);
-  box-shadow: 0 0 8px rgba(71,181,255,0.5), 0 0 20px rgba(71,181,255,0.2);
-  transition: width 0.08s linear;
+.h3-bottom-icon {
+  width: 32px; height: 32px;
+  border-radius: 6px;
+  border: 1px solid rgba(71,181,255,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
-
-/* Active tab glow underneath progress */
-.h3-phase.active::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 40px;
-  background: linear-gradient(180deg, rgba(71,181,255,0.06) 0%, transparent 100%);
-  pointer-events: none;
-}
-
-.h3-phase-num {
-  display: block;
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  font-weight: 400;
-  letter-spacing: 0.22em;
+.h3-bottom-icon svg {
+  width: 14px; height: 14px;
   color: var(--accent);
-  opacity: 0.4;
-  margin-bottom: 6px;
-  transition: opacity 0.3s;
+  opacity: 0.7;
 }
-.h3-phase.active .h3-phase-num { opacity: 0.8; }
-
-.h3-phase-name {
-  font-family: 'Outfit', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
+.h3-bottom-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: rgba(244,246,248,0.35);
-  transition: color 0.3s;
 }
-.h3-phase.active .h3-phase-name,
-.h3-phase:hover .h3-phase-name { color: var(--text); }
+.h3-bottom-sep {
+  width: 1px;
+  height: 20px;
+  background: rgba(71,181,255,0.1);
+}
 
 /* ══ SCROLL INDICATOR ══ */
 .h3-scroll {
   position: absolute;
-  bottom: 90px;
+  bottom: 80px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 12;
@@ -685,105 +415,28 @@ const heroHtml = `<style>
 }
 @keyframes h3scrollPulse { 0%,100%{transform:scaleY(1);opacity:1} 50%{transform:scaleY(0.35);opacity:0.35} }
 
-/* ══ VIDEO BACKGROUND ══ */
-.h3-video-wrap {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  overflow: hidden;
-  opacity: 0;
-  transition: opacity 1.2s ease;
-}
-.h3-video-wrap.h3-vid-active {
-  opacity: 1;
-}
-.h3-video {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  transform: translate(-50%, -50%);
-  object-fit: cover;
-}
-.h3-video-mask {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg,
-    rgba(3,10,18,1) 0%,
-    rgba(3,10,18,0.95) 25%,
-    rgba(3,10,18,0.6) 45%,
-    rgba(3,10,18,0.15) 65%,
-    rgba(3,10,18,0.05) 80%,
-    transparent 100%
-  );
-  pointer-events: none;
-}
-.h3-video-dim {
-  position: absolute;
-  inset: 0;
-  background: rgba(3,10,18,0.25);
-  pointer-events: none;
-}
-
-/* ══ VIGNETTES ══ */
-.h3-vig-left {
-  position: absolute;
-  inset: 0;
-  z-index: 6;
-  background: linear-gradient(90deg, rgba(3,10,18,0.88) 0%, rgba(3,10,18,0.5) 35%, transparent 65%);
-  pointer-events: none;
-}
-.h3-vig-bottom {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 35%;
-  z-index: 6;
-  background: linear-gradient(to top, rgba(3,10,18,0.9) 0%, transparent 100%);
-  pointer-events: none;
-}
-.h3-vig-top {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 20%;
-  z-index: 6;
-  background: linear-gradient(to bottom, rgba(3,10,18,0.4) 0%, transparent 100%);
-  pointer-events: none;
-}
-
 /* ══ KEYFRAMES ══ */
 @keyframes h3fadeIn { to { opacity: 1; } }
-@keyframes h3spinSlow { to { transform: rotate(360deg); } }
 
 /* ══ RESPONSIVE ══ */
 @media (max-width: 480px) {
   .h3-content { width: 90vw; max-width: 90vw; }
   .h3-word-inner { font-size: clamp(28px, 9vw, 44px) !important; }
-  .h3-bignum { display: none; }
-  .h3-nav { display: none; }
-  .h3-shapes { display: none; }
-  .h3-phases { grid-template-columns: repeat(2, 1fr); }
   .h3-btns { flex-direction: column; align-items: flex-start; }
-  .h3-corner.bl, .h3-corner.br { bottom: 180px; }
-  .h3-scroll { bottom: 185px; }
+  .h3-corner.bl, .h3-corner.br { bottom: 80px; }
+  .h3-scroll { bottom: 75px; }
+  .h3-bottom { gap: 16px; flex-wrap: wrap; justify-content: flex-start; }
+  .h3-bottom-sep { display: none; }
 }
 @media (min-width: 481px) and (max-width: 767px) {
   .h3-content { width: 85vw; max-width: 85vw; }
   .h3-word-inner { font-size: clamp(28px, 7vw, 52px) !important; }
-  .h3-bignum { display: none; }
-  .h3-nav { display: none; }
-  .h3-shapes { opacity: 0.4; }
-  .h3-phases { grid-template-columns: repeat(2, 1fr); }
-  .h3-corner.bl, .h3-corner.br { bottom: 180px; }
-  .h3-scroll { bottom: 185px; }
+  .h3-corner.bl, .h3-corner.br { bottom: 80px; }
+  .h3-scroll { bottom: 75px; }
 }
 @media (min-width: 768px) and (max-width: 1023px) {
   .h3-content { width: 62vw; max-width: 62vw; }
   .h3-word-inner { font-size: clamp(28px, 5.5vw, 60px) !important; }
-  .h3-bignum { opacity: 0.5; }
-  .h3-nav { display: none; }
 }
 @media (min-width: 1024px) and (max-width: 1439px) {
   .h3-content { width: 48vw; }
@@ -796,15 +449,6 @@ const heroHtml = `<style>
   .h3-eyebrow-text { font-size: 11px; letter-spacing: 0.35em; }
   .h3-tag { font-size: 11px; }
   .h3-btn-p, .h3-btn-g { font-size: 12px; padding: 17px 34px; }
-  .h3-phase { padding: 24px 28px; }
-  .h3-phase-name { font-size: 13px; }
-  .h3-phase-num { font-size: 10px; }
-  .h3-bignum-text { font-size: clamp(280px, 52vh, 620px) !important; }
-  .h3-bignum { height: clamp(280px, 52vh, 620px); }
-  .h3-node-1 { width: 650px; height: 650px; }
-  .h3-node-2 { width: 450px; height: 450px; }
-  .h3-shape-1 { width: 240px; height: 240px; }
-  .h3-shape-6 { width: 400px; height: 400px; }
 }
 @media (min-width: 2560px) {
   .h3 { padding: 0 2%; }
@@ -817,45 +461,23 @@ const heroHtml = `<style>
   .h3-title { margin-bottom: 36px; }
   .h3-tag { font-size: 12px; margin-bottom: 44px; }
   .h3-btn-p, .h3-btn-g { font-size: 13px; padding: 18px 38px; }
-  .h3-phase { padding: 28px 32px; }
-  .h3-phase-name { font-size: 14px; }
-  .h3-phase-num { font-size: 10px; }
-  .h3-bignum-text { font-size: clamp(320px, 55vh, 700px) !important; }
-  .h3-bignum { height: clamp(320px, 55vh, 700px); }
-  .h3-node-1 { width: 800px; height: 800px; }
-  .h3-node-2 { width: 550px; height: 550px; }
-  .h3-node-5 { width: 600px; height: 600px; }
-  .h3-shape-1 { width: 280px; height: 280px; }
-  .h3-shape-6 { width: 480px; height: 480px; }
-  .h3-corner { width: 44px; height: 44px; }
 }
 </style>
 
 <section class="h3" id="h3Root">
-  <!-- Gradient mesh + energy nodes -->
-  <div class="h3-mesh" id="h3Mesh">
-    <div class="h3-mesh-layer h3-mesh-1"></div>
-    <div class="h3-mesh-layer h3-mesh-2"></div>
-    <div class="h3-mesh-layer h3-mesh-3"></div>
-    <div class="h3-mesh-layer h3-mesh-4"></div>
-    <div class="h3-node h3-node-1"></div>
-    <div class="h3-node h3-node-2"></div>
-    <div class="h3-node h3-node-3"></div>
-    <div class="h3-node h3-node-4"></div>
-    <div class="h3-node h3-node-5"></div>
-  </div>
 
-  <!-- Video background (slide 0) -->
-  <div class="h3-video-wrap h3-vid-active" id="h3Video">
+  <!-- Video background -->
+  <div class="h3-video-wrap">
     <video class="h3-video" autoplay muted loop playsinline>
-      <source src="/videos/hero-bg.mp4" type="video/mp4" />
+      <source src="/videos/bg_IF.mp4" type="video/mp4" />
     </video>
-    <div class="h3-video-dim"></div>
-    <div class="h3-video-mask"></div>
+    <div class="h3-vid-overlay"></div>
+    <div class="h3-vid-radial"></div>
+    <div class="h3-vid-left"></div>
+    <div class="h3-vid-right"></div>
+    <div class="h3-vid-bottom"></div>
+    <div class="h3-vid-top"></div>
   </div>
-
-  <!-- Grid -->
-  <div class="h3-grid"></div>
 
   <!-- Grain -->
   <div class="h3-grain">
@@ -867,29 +489,6 @@ const heroHtml = `<style>
     </svg>
   </div>
 
-  <!-- Floating shapes -->
-  <div class="h3-shapes" id="h3Shapes">
-    <div class="h3-shape h3-shape-1"></div>
-    <div class="h3-shape h3-shape-2"></div>
-    <div class="h3-shape h3-shape-3"></div>
-    <div class="h3-shape h3-shape-4"></div>
-    <div class="h3-shape h3-shape-5"></div>
-    <div class="h3-shape h3-shape-6"></div>
-  </div>
-
-  <!-- Vignettes -->
-  <div class="h3-vig-left"></div>
-  <div class="h3-vig-bottom"></div>
-  <div class="h3-vig-top"></div>
-
-  <!-- Giant number -->
-  <div class="h3-bignum" id="h3Bignum">
-    <span class="h3-bignum-text" id="h3BignumText">01</span>
-  </div>
-
-  <!-- Cursor glow -->
-  <div class="h3-glow" id="h3Glow"></div>
-
   <!-- Scan line -->
   <div class="h3-scanline"></div>
 
@@ -899,120 +498,58 @@ const heroHtml = `<style>
   <div class="h3-corner bl"></div>
   <div class="h3-corner br"></div>
 
-  <!-- SLIDES -->
-  <div class="h3-slides">
+  <!-- Cursor glow -->
+  <div class="h3-glow" id="h3Glow"></div>
 
-    <div class="h3-slide active" data-slide="0">
-      <div class="h3-content">
-        <div class="h3-eyebrow">
-          <span class="h3-eyebrow-line"></span>
-          <span class="h3-eyebrow-text">Human-Led, Digitally Enabled</span>
-        </div>
-        <h1 class="h3-title">
-          <span class="h3-word"><span class="h3-word-inner">Infrastructure,</span></span>
-          <span class="h3-word h3-accent"><span class="h3-word-inner">Thought</span></span>
-          <span class="h3-word"><span class="h3-word-inner">Through.</span></span>
-        </h1>
-        <p class="h3-body">We help owners and delivery teams structure information and systems so projects move from design to operations with clarity and control.</p>
-        <p class="h3-tag">Strategic digital engineering & information management</p>
-        <div class="h3-btns">
-          <a href="/solutions" class="h3-btn-p">Discover Our Solutions <span class="h3-btn-arr">&rarr;</span></a>
-          <a href="/contact" class="h3-btn-g">Contact Us</a>
-        </div>
+  <!-- Content -->
+  <div class="h3-content-wrap">
+    <div class="h3-content">
+      <div class="h3-eyebrow">
+        <span class="h3-eyebrow-line"></span>
+        <span class="h3-eyebrow-text">Human-Led, Digitally Enabled</span>
+      </div>
+      <h1 class="h3-title">
+        <span class="h3-word"><span class="h3-word-inner">One World.</span></span>
+        <span class="h3-word h3-accent"><span class="h3-word-inner">One Standard.</span></span>
+        <span class="h3-word"><span class="h3-word-inner">Built Right.</span></span>
+      </h1>
+      <p class="h3-body">We bring structured information management to the world's most complex infrastructure programmes. From strategy to handover, every asset governed, every decision informed.</p>
+      <p class="h3-tag">BIM Governance &middot; Digital Delivery &middot; Asset Intelligence</p>
+      <div class="h3-btns">
+        <a href="/solutions" class="h3-btn-p">Explore Our Solutions <span class="h3-btn-arr">&rarr;</span></a>
+        <a href="/contact" class="h3-btn-g">Start a Conversation</a>
       </div>
     </div>
-
-    <div class="h3-slide" data-slide="1">
-      <div class="h3-content">
-        <div class="h3-eyebrow">
-          <span class="h3-eyebrow-line"></span>
-          <span class="h3-eyebrow-text">BIM & Digital Delivery</span>
-        </div>
-        <h1 class="h3-title">
-          <span class="h3-word"><span class="h3-word-inner">Data That</span></span>
-          <span class="h3-word h3-accent"><span class="h3-word-inner">Builds</span></span>
-          <span class="h3-word"><span class="h3-word-inner">Certainty.</span></span>
-        </h1>
-        <p class="h3-body">55+ years of combined expertise across Canada, the United States, and international markets — delivering $50B+ in assets with precision-engineered digital workflows.</p>
-        <p class="h3-tag">ISO 19650 &middot; BIM Standards &middot; Digital Twin</p>
-        <div class="h3-btns">
-          <a href="/solutions" class="h3-btn-p">Our Solutions <span class="h3-btn-arr">&rarr;</span></a>
-          <a href="/about" class="h3-btn-g">About Us</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="h3-slide" data-slide="2">
-      <div class="h3-content">
-        <div class="h3-eyebrow">
-          <span class="h3-eyebrow-line"></span>
-          <span class="h3-eyebrow-text">From Field to Boardroom</span>
-        </div>
-        <h1 class="h3-title">
-          <span class="h3-word"><span class="h3-word-inner">Every</span></span>
-          <span class="h3-word"><span class="h3-word-inner">Decision</span></span>
-          <span class="h3-word h3-accent"><span class="h3-word-inner">Informed.</span></span>
-        </h1>
-        <p class="h3-body">We design controlled digital ecosystems that align with enterprise culture — transforming complex construction data into decisive intelligence at every project phase.</p>
-        <p class="h3-tag">Strategy &middot; Structure &middot; Intelligence &middot; Execution</p>
-        <div class="h3-btns">
-          <a href="/industries" class="h3-btn-p">Who We Support <span class="h3-btn-arr">&rarr;</span></a>
-          <a href="/contact" class="h3-btn-g">Get In Touch</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="h3-slide" data-slide="3">
-      <div class="h3-content">
-        <div class="h3-eyebrow">
-          <span class="h3-eyebrow-line"></span>
-          <span class="h3-eyebrow-text">Qu&eacute;bec-Based &middot; Canada &middot; International</span>
-        </div>
-        <h1 class="h3-title">
-          <span class="h3-word"><span class="h3-word-inner">Built For</span></span>
-          <span class="h3-word h3-accent"><span class="h3-word-inner">Complex</span></span>
-          <span class="h3-word"><span class="h3-word-inner">Programmes.</span></span>
-        </h1>
-        <p class="h3-body">From P3 infrastructure to institutional campuses — we deliver the BIM governance, data architecture, and real-time intelligence your programme demands.</p>
-        <p class="h3-tag">DBB &middot; DB &middot; PPP/P3 &middot; CM &middot; IPD</p>
-        <div class="h3-btns">
-          <a href="/industries" class="h3-btn-p">Industries We Serve <span class="h3-btn-arr">&rarr;</span></a>
-          <a href="/contact" class="h3-btn-g">Start A Conversation</a>
-        </div>
-      </div>
-    </div>
-
   </div>
 
-  <!-- Dot nav -->
-  <div class="h3-nav" id="h3Nav">
-    <div class="h3-dot active" data-i="0"></div>
-    <div class="h3-dot" data-i="1"></div>
-    <div class="h3-dot" data-i="2"></div>
-    <div class="h3-dot" data-i="3"></div>
-  </div>
-
-  <!-- Phase tabs -->
-  <div class="h3-phases">
-    <div class="h3-phase active" data-i="0">
-      <div class="h3-phase-prog"></div>
-      <span class="h3-phase-num">01</span>
-      <span class="h3-phase-name">Strategy</span>
+  <!-- Bottom bar -->
+  <div class="h3-bottom">
+    <div class="h3-bottom-item">
+      <div class="h3-bottom-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </div>
+      <span class="h3-bottom-label">3 Countries of Delivery</span>
     </div>
-    <div class="h3-phase" data-i="1">
-      <div class="h3-phase-prog"></div>
-      <span class="h3-phase-num">02</span>
-      <span class="h3-phase-name">Design</span>
+    <div class="h3-bottom-sep"></div>
+    <div class="h3-bottom-item">
+      <div class="h3-bottom-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      <span class="h3-bottom-label">$50B+ in Assets Delivered</span>
     </div>
-    <div class="h3-phase" data-i="2">
-      <div class="h3-phase-prog"></div>
-      <span class="h3-phase-num">03</span>
-      <span class="h3-phase-name">Construction</span>
+    <div class="h3-bottom-sep"></div>
+    <div class="h3-bottom-item">
+      <div class="h3-bottom-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+      </div>
+      <span class="h3-bottom-label">ISO 19650 Aligned</span>
     </div>
-    <div class="h3-phase" data-i="3">
-      <div class="h3-phase-prog"></div>
-      <span class="h3-phase-num">04</span>
-      <span class="h3-phase-name">Operations & Maintenance</span>
+    <div class="h3-bottom-sep"></div>
+    <div class="h3-bottom-item">
+      <div class="h3-bottom-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <span class="h3-bottom-label">55+ Years Combined</span>
     </div>
   </div>
 
@@ -1030,10 +567,6 @@ const heroScript = `(function(){
 var root = document.getElementById('h3Root');
 if(!root) return;
 
-/* ══ MOUSE PARALLAX + CURSOR GLOW ══ */
-var mesh = document.getElementById('h3Mesh');
-var shapes = document.getElementById('h3Shapes');
-var bignum = document.getElementById('h3Bignum');
 var glow = document.getElementById('h3Glow');
 
 root.addEventListener('mouseenter', function(){ root.classList.add('h3-mouse-active'); });
@@ -1041,109 +574,11 @@ root.addEventListener('mouseleave', function(){ root.classList.remove('h3-mouse-
 
 root.addEventListener('mousemove', function(e){
   var rect = root.getBoundingClientRect();
-  var x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-  var y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-
-  if(mesh) mesh.style.transform = 'translate(' + (x * 8) + 'px,' + (y * 6) + 'px)';
-  if(shapes) shapes.style.transform = 'translate(' + (x * 18) + 'px,' + (y * 14) + 'px)';
-  if(bignum) bignum.style.transform = 'translateY(-55%) translate(' + (x * 12) + 'px,' + (y * 8) + 'px)';
-
   if(glow){
     glow.style.left = (e.clientX - rect.left) + 'px';
     glow.style.top = (e.clientY - rect.top) + 'px';
   }
 });
-
-/* ══ SLIDER LOGIC ══ */
-var DURATION = 12000;
-var current = 0;
-var slides = document.querySelectorAll('.h3-slide');
-var dots = document.querySelectorAll('.h3-dot');
-var phases = document.querySelectorAll('.h3-phase');
-var progs = document.querySelectorAll('.h3-phase-prog');
-var bignumText = document.getElementById('h3BignumText');
-var total = slides.length;
-var progStart = null;
-var animId = null;
-var transitioning = false;
-
-function goTo(i){
-  if(transitioning) return;
-  var next = (i + total) % total;
-  if(next === current) return;
-  transitioning = true;
-
-  /* Exit current slide */
-  slides[current].classList.add('h3-exiting');
-  dots[current].classList.remove('active');
-  phases[current].classList.remove('active');
-  progs[current].style.width = '0%';
-
-  /* Animate number out then in */
-  if(bignumText){
-    bignumText.classList.add('h3-num-exit');
-    setTimeout(function(){
-      bignumText.textContent = String(next + 1).padStart(2, '0');
-      bignumText.classList.remove('h3-num-exit');
-      bignumText.classList.add('h3-num-enter');
-      setTimeout(function(){
-        bignumText.classList.remove('h3-num-enter');
-      }, 50);
-    }, 350);
-  }
-
-  /* After exit animation, swap */
-  setTimeout(function(){
-    slides[current].classList.remove('active', 'h3-exiting');
-    current = next;
-    slides[current].classList.add('active');
-    dots[current].classList.add('active');
-    phases[current].classList.add('active');
-    /* Show video only on slide 0 */
-    var vid = document.getElementById('h3Video');
-    if(vid){ if(current === 0) vid.classList.add('h3-vid-active'); else vid.classList.remove('h3-vid-active'); }
-    transitioning = false;
-
-    progStart = null;
-    cancelAnimationFrame(animId);
-    animProgress();
-  }, 500);
-}
-
-function animProgress(){
-  animId = requestAnimationFrame(function(ts){
-    if(!progStart) progStart = ts;
-    var pct = Math.min((ts - progStart) / DURATION, 1) * 100;
-    progs[current].style.width = pct + '%';
-    if(pct < 100) animProgress();
-    else goTo(current + 1);
-  });
-}
-
-/* Dot clicks */
-dots.forEach(function(d){
-  d.addEventListener('click', function(){
-    var idx = parseInt(d.getAttribute('data-i'));
-    if(idx !== current) goTo(idx);
-  });
-});
-
-/* Phase clicks */
-phases.forEach(function(p){
-  p.addEventListener('click', function(){
-    var idx = parseInt(p.getAttribute('data-i'));
-    if(idx !== current) goTo(idx);
-  });
-});
-
-/* Keyboard nav */
-document.addEventListener('keydown', function(e){
-  if(e.key === 'ArrowRight') goTo(current + 1);
-  if(e.key === 'ArrowLeft') goTo(current - 1);
-});
-
-/* Start progress */
-animProgress();
 
 }());`
 
