@@ -466,7 +466,7 @@ const heroHtml = `<style>
 
   <!-- Video background -->
   <div class="h3-video-wrap">
-    <video class="h3-video" autoplay muted loop playsinline>
+    <video class="h3-video" autoplay muted loop playsinline id="h3Vid">
       <source src="/videos/bg_IF.mp4" type="video/mp4" />
     </video>
     <div class="h3-vid-overlay"></div>
@@ -564,6 +564,9 @@ const heroScript = `(function(){
 
 var root = document.getElementById('h3Root');
 if(!root) return;
+
+var vid = document.getElementById('h3Vid');
+if(vid) vid.playbackRate = 0.5;
 
 var glow = document.getElementById('h3Glow');
 
