@@ -13,7 +13,8 @@
       "Read(//c/Program Files/**)",
       "Read(//c/Users/yousi/**)",
       "Bash(npm list:*)",
-      "Bash(npx ffmpeg-static:*)"
+      "Bash(npx ffmpeg-static:*)",
+      "WebFetch(domain:omma.build)"
     ]
   }
 }

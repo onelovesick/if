@@ -1,4 +1,5 @@
 import HeroSlider from '@/components/sections/HeroSlider'
+import HeroIntro from '@/components/sections/HeroIntro'
 import SectionStatement from '@/components/sections/SectionStatement'
 import Section1   from '@/components/sections/Section1'
 import Section2   from '@/components/sections/Section2'
@@ -9,13 +10,12 @@ import Section6   from '@/components/sections/Section6'
 import Section7   from '@/components/sections/Section7'
 import Section8   from '@/components/sections/Section8'
 import Section10  from '@/components/sections/Section10'
-import PageLoader  from '@/components/layout/PageLoader'
 
 export default function HomePage() {
   return (
     <>
-      <PageLoader />
       <main style={{ margin: 0, padding: 0 }}>
+        <HeroIntro />
         <HeroSlider />
         <SectionStatement />
         <Section1 />
