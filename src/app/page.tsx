@@ -21,6 +21,7 @@ export default function HomePage() {
         <div style={{
           position: 'relative',
           zIndex: 10,
+          background: '#F4F7FA',
           borderRadius: '20px 20px 0 0',
           boxShadow: '0 -20px 60px rgba(0,0,0,0.3)',
           overflow: 'hidden',

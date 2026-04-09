@@ -464,8 +464,11 @@ function sizeCanvas(){
 sizeCanvas();
 window.addEventListener('resize', sizeCanvas);
 
-/* ── Preload all frames ── */
+/* ── Preload all frames (deferred until near viewport) ── */
+var preloadStarted = false;
 function preload(){
+  if (preloadStarted) return;
+  preloadStarted = true;
   for (var i = 0; i < TOTAL; i++){
     (function(idx){
       var img = new Image();
@@ -480,7 +483,11 @@ function preload(){
     })(i);
   }
 }
-preload();
+/* Start preloading when section is within 1 viewport of being visible */
+var preloadIO = new IntersectionObserver(function(entries){
+  if (entries[0].isIntersecting){ preload(); preloadIO.disconnect(); }
+}, { rootMargin: '100% 0px 100% 0px' });
+preloadIO.observe(root);
 
 /* ── Paint frame with cover fit ── */
 function paintFrame(idx){

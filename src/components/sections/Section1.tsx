@@ -136,7 +136,7 @@ var X=C.getContext('2d'),dpr=Math.min(devicePixelRatio||1,2),W,H;
 var SC=[{b:[14,32,105],r:[30,62,160],txt:[10,36,112]},{b:[16,118,78],r:[30,175,115],txt:[6,92,60]},{b:[0,138,195],r:[0,195,245],txt:[0,98,148]}];
 var LABELS=['Cost & estimating','Scheduling & planning','Risk management'];
 var RW=[['Budget confidence','Forecast precision','Cash flow clarity'],['Estimate accuracy','Quantity assurance','Bid optimization'],['Cost transparency','Procurement insight','Value engineering'],['Variance control','Change order control','Cost benchmarking'],['Milestone clarity','Sequence alignment','Look-ahead planning'],['Resource optimization','Float management','Earned value analysis'],['Critical path insight','Baseline integrity','Schedule compression'],['Delivery predictability','Progress tracking','Delay mitigation'],['Threat visibility','Probability assessment','Early warning systems'],['Mitigation planning','Response strategy','Scenario modeling'],['Exposure reduction','Residual risk tracking','Tolerance mapping'],['Contingency precision','Impact analysis','Risk register depth']];
-var SX=0.14,FE=0.42,PX=0.56,NP=2200,NO=12;var pR=false;
+var SX=0.14,FE=0.42,PX=0.56,NP=900,NO=12;var pR=false;
 function lerp(a,b,t){return a+(b-a)*t;}function clamp(v,l,h){return v<l?l:v>h?h:v;}
 function sY(si){return H*(0.13+si*0.37);}function oY(i){return H*(0.04+i*(0.92/11));}
 function cF(si,v){var s=SC[si];return[Math.round(lerp(s.b[0],s.r[0],v)),Math.round(lerp(s.b[1],s.r[1],v)),Math.round(lerp(s.b[2],s.r[2],v))];}

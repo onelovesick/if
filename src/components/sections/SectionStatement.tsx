@@ -172,11 +172,9 @@ const statementScript = `(function(){
       if (isHighlight[i] && charProgress >= 1) {
         allChars[i].style.opacity = '1';
         allChars[i].style.color = '#47B5FF';
-        allChars[i].style.filter = 'drop-shadow(0 0 18px rgba(71,181,255,0.35))';
       } else {
         allChars[i].style.opacity = opacity;
         allChars[i].style.color = '';
-        allChars[i].style.filter = '';
       }
     }
   }

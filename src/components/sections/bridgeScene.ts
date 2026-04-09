@@ -702,6 +702,17 @@ export function initBridgeScene(
     composer.render()
   }
 
+  /* ── Pause when hero is scrolled out of view ── */
+  let heroVisible = true
+  const onScroll = () => {
+    const nowVisible = window.scrollY < window.innerHeight
+    if (nowVisible !== heroVisible) {
+      heroVisible = nowVisible
+      renderer.setAnimationLoop(heroVisible && !disposed ? animate : null)
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true })
+
   renderer.setAnimationLoop(animate)
 
   /* ── Resize ── */
@@ -721,6 +732,7 @@ export function initBridgeScene(
     renderer.setAnimationLoop(null)
     window.removeEventListener('mousemove', onMouseMove)
     window.removeEventListener('resize', onResize)
+    window.removeEventListener('scroll', onScroll)
     scene.traverse((obj) => {
       if ((obj as THREE.Mesh).geometry) (obj as THREE.Mesh).geometry.dispose()
       const m = (obj as THREE.Mesh).material
