@@ -14,7 +14,8 @@
       "Read(//c/Users/yousi/**)",
       "Bash(npm list:*)",
       "Bash(npx ffmpeg-static:*)",
-      "WebFetch(domain:omma.build)"
+      "WebFetch(domain:omma.build)",
+      "Bash(curl -s \"https://omma.build/p/bridge-construction-scroll-experience-hx14qv\")"
     ]
   }
 }

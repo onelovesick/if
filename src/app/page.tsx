@@ -17,16 +17,25 @@ export default function HomePage() {
       <main style={{ margin: 0, padding: 0 }}>
         <HeroIntro />
         <HeroSlider />
-        <SectionStatement />
-        <Section1 />
-        <Section2 />
-        <Section3 />
-        <Section4 />
-        <Section5 />
-        <Section6 />
-        <Section10 />
-        <Section8 />
-        <Section7 />
+        {/* Content scrolls OVER the fixed hero */}
+        <div style={{
+          position: 'relative',
+          zIndex: 10,
+          borderRadius: '20px 20px 0 0',
+          boxShadow: '0 -20px 60px rgba(0,0,0,0.3)',
+          overflow: 'hidden',
+        }}>
+          <SectionStatement />
+          <Section1 />
+          <Section2 />
+          <Section3 />
+          <Section4 />
+          <Section5 />
+          <Section6 />
+          <Section10 />
+          <Section8 />
+          <Section7 />
+        </div>
       </main>
     </>
   )
